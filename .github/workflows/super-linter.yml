@@ -15,7 +15,6 @@ jobs:
   run-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
         with:

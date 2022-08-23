@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "81099064274",
+    "project_id": "pdg-otcare-72f5c",
+    "storage_bucket": "pdg-otcare-72f5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81099064274:android:81022f0ecd3593e4623e0b",
+        "android_client_info": {
+          "package_name": "ch.crepes.otcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81099064274-jpfe10n49g6nms9eo40p1s212spfk9jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkOyStyaNcNa6CvRSvWwY1BHfrdh6LvjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81099064274-jpfe10n49g6nms9eo40p1s212spfk9jf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

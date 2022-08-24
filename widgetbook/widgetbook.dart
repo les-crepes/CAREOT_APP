@@ -68,6 +68,7 @@ class HotReload extends StatelessWidget {
               widgets: [
                 textFieldComponent,
                 gradientButton,
+                rightArrowButton,
               ],
             ),
           ],

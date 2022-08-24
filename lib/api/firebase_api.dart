@@ -8,12 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseApi implements Api {
   CollectionReference aftercares =
       FirebaseFirestore.instance.collection('aftercare');
-  CollectionReference clients =
-      FirebaseFirestore.instance.collection('client');
+  CollectionReference clients = FirebaseFirestore.instance.collection('client');
   CollectionReference documents =
       FirebaseFirestore.instance.collection('document');
-  CollectionReference meals =
-      FirebaseFirestore.instance.collection('meal');
+  CollectionReference meals = FirebaseFirestore.instance.collection('meal');
   CollectionReference messages =
       FirebaseFirestore.instance.collection('message');
   CollectionReference dieticians =
@@ -21,23 +19,22 @@ class FirebaseApi implements Api {
 
   @override
   createAftercare() {
-    this
-        .aftercares
-        .add({
-          'full_name': 'CoCO_Lapin', // John Doe
-          'company': 'company', // Stokes and Sons
-          'age': 34 // 42
-        })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-
+    // TODO: implement createAfterCare
     throw UnimplementedError();
   }
 
   @override
   createClient() {
-    // TODO: implement createClient
-    throw UnimplementedError();
+    clients
+        .add({
+          'firstName': 'a',
+          'lastName': 'b',
+          'birthDate': 'c',
+          'phoneNumber': 'd',
+          'insurance': 'e'
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   @override

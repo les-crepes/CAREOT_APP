@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pdg_app/api/connection.dart';
+import 'api/firebaseConnection.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -7,6 +10,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Connection connection = FirebaseConnection();
+  connection.connect(email: "nelson.jeanrenaud@heig-vd.ch", password: "crepes");
+  //connection.register(email: "thomas.beil@heig-vd.ch", password: "crepes");
   runApp(const MyApp());
 }
 

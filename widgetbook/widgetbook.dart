@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
@@ -56,6 +57,16 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var login = WidgetbookComponent(
+      name: 'Login',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) => const Login(),
+        ),
+      ],
+    );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
@@ -69,6 +80,12 @@ class HotReload extends StatelessWidget {
                 rightArrowButton,
               ],
             ),
+          ],
+        ),
+        WidgetbookCategory(
+          name: 'Screens',
+          widgets: [
+            login,
           ],
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pdg_app/widgets/forms/main-text-field.dart';
+import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -37,12 +37,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    setState(() {});
   }
 
   @override

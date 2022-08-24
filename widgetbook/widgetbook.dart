@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_relative_lib_imports
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 import '../lib/theme.dart';
@@ -10,36 +11,25 @@ class HotReload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textFieldComponent =
+        WidgetbookComponent(name: 'Main text field', useCases: [
+      WidgetbookUseCase(
+          name: 'Email',
+          builder: (context) => MainTextField(
+                name: context.knobs.text(label: 'text', initialValue: 'Email'),
+                icon: const Icon(Icons.email_outlined),
+              ))
+    ]);
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
           name: 'widgets',
-          widgets: [
-            WidgetbookComponent(
-              name: 'un widget',
-              useCases: [
-                WidgetbookUseCase(
-                  name: 'Default',
-                  builder: (context) => const Text("data"),
-                ),
-              ],
-            ),
-          ],
           folders: [
             WidgetbookFolder(
-              name: 'Texts',
+              name: 'Components',
               widgets: [
-                WidgetbookComponent(
-                  name: 'Normal Text',
-                  useCases: [
-                    WidgetbookUseCase(
-                      name: 'Default',
-                      builder: (context) => const Text(
-                        'The brown fox ...',
-                      ),
-                    ),
-                  ],
-                ),
+                textFieldComponent,
               ],
             ),
           ],

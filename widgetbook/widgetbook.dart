@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_relative_lib_imports
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -8,7 +6,7 @@ import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:widgetbook/widgetbook.dart';
 
-import '../lib/theme.dart';
+import 'package:pdg_app/theme.dart';
 
 class HotReload extends StatelessWidget {
   const HotReload({Key? key}) : super(key: key);

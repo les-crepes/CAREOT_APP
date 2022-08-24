@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
-import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 
 import '../router/router.gr.dart';
@@ -14,36 +13,44 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Login(
-        onLoginPress: () =>
-            AutoRouter.of(context).navigate(const RegisterScreenRoute()));
+      onLoginPress: () =>
+          AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+      onRegisterPress: () =>
+          AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+    );
   }
 }
 
 class Login extends StatelessWidget {
   final void Function()? onLoginPress;
+  final void Function()? onRegisterPress;
+  final double screenWidth;
 
   const Login({
     this.onLoginPress,
+    this.onRegisterPress,
+    this.screenWidth = 0,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width =
+        screenWidth == 0 ? MediaQuery.of(context).size.width : screenWidth;
     final background = Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CustomPaint(
           size: Size(
             width,
-            width * 0.15,
+            width * 0.48333333333333334,
           ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
           painter: const TopShape(),
         ),
         CustomPaint(
           size: Size(
             width,
-            width * 0.15,
+            width * 0.5083333333333333,
           ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
           painter: const BottomShape(),
         ),
@@ -54,11 +61,11 @@ class Login extends StatelessWidget {
         background,
         Column(
           children: [
-            SizedBox(height: width * 0.07),
+            SizedBox(height: width * 0.2),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 60.0),
-              height: 150,
-              width: 150,
+              height: 120,
+              width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 color: Colors.orange,
@@ -105,11 +112,38 @@ class Login extends StatelessWidget {
                   const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [RightArrowButton(text: 'Login')],
+                    children: [
+                      RightArrowButton(text: 'Login', onPressed: onLoginPress),
+                    ],
                   ),
                 ],
               ),
             )
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Don't have an account ?",
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                TextButton(
+                  onPressed: onRegisterPress,
+                  child: Text(
+                    'Sign up',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
           ],
         )
       ],

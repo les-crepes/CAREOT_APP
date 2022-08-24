@@ -3,14 +3,16 @@ import 'package:pdg_app/widgets/gradient_button.dart';
 
 class RightArrowButton extends StatelessWidget {
   final String _text;
+  final void Function()? onPressed;
 
-  const RightArrowButton({Key? key, required String text})
+  const RightArrowButton({Key? key, required String text, this.onPressed})
       : _text = text,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GradientButton(
+      onPress: onPressed,
       color1: const Color(0xFFFFBD70),
       color2: const Color(0xFFFF9877),
       child: Row(

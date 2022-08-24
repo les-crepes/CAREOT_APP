@@ -62,7 +62,9 @@ class HotReload extends StatelessWidget {
       useCases: [
         WidgetbookUseCase(
           name: 'Default',
-          builder: (context) => const Login(),
+          builder: (context) {
+            return const Login(screenWidth: 400);
+          },
         ),
       ],
     );
@@ -103,7 +105,6 @@ class HotReload extends StatelessWidget {
         ),
       ],
       devices: [
-        Apple.iPhone11,
         Samsung.s21ultra,
       ],
     );

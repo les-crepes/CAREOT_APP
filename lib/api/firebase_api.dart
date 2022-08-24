@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
-import 'package:pdg_app/model/dietician.dart';
+import 'package:pdg_app/model/dietitian.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -19,8 +19,8 @@ class FirebaseApi implements Api {
   CollectionReference meals = FirebaseFirestore.instance.collection('meal');
   CollectionReference messages =
       FirebaseFirestore.instance.collection('message');
-  CollectionReference dieticians =
-      FirebaseFirestore.instance.collection('dietician');
+  CollectionReference dietitians =
+      FirebaseFirestore.instance.collection('dietitian');
 
   @override
   void createAftercare(Aftercare aftercare) {
@@ -51,12 +51,12 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void createDietician(Dietician dietician) {
-    dieticians
-        .add(dietician.toJson())
-        .then((value) => log("Dietician Added"))
+  void createDietitian(Dietitian dietitian) {
+    dietitians
+        .add(dietitian.toJson())
+        .then((value) => log("Dietitian Added"))
         .catchError((error) {
-      log("Failed to add dietician: $error");
+      log("Failed to add dietitian: $error");
       throw Exception(error);
     });
   }
@@ -99,8 +99,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void deleteDietician(String dieticianId) {
-    dieticians.doc(dieticianId).delete();
+  void deleteDietitian(String dietitianId) {
+    dietitians.doc(dietitianId).delete();
   }
 
   @override
@@ -126,14 +126,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future<Dietician> readDietician(String dieticianId) async {
-    final docRef = dieticians.doc(dieticianId);
+  Future<Dietitian> readDietitian(String dietitianId) async {
+    final docRef = dietitians.doc(dietitianId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
     }
     final data = doc.data() as Map<String, dynamic>;
-    return Dietician.fromJson(data);
+    return Dietitian.fromJson(data);
   }
 
   @override
@@ -197,8 +197,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void updateDietician(Dietician dietician) {
-    dieticians
+  void updateDietitian(Dietitian dietitian) {
+    dietitians
         .doc('FAKE')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))

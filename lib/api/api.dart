@@ -1,4 +1,4 @@
-import 'package:pdg_app/model/dietician.dart';
+import 'package:pdg_app/model/dietitian.dart';
 
 import '../model/client.dart';
 import '../model/aftercare.dart';
@@ -20,11 +20,11 @@ abstract class Api {
   void updateClient(Client client);
   void deleteClient(String clientId);
 
-  // Dietician
-  void createDietician(Dietician dietician);
-  Future<Dietician> readDietician(String dieticianId);
-  void updateDietician(Dietician dietician);
-  void deleteDietician(String dieticianId);
+  // Dietitian
+  void createDietitian(Dietitian dietitian);
+  Future<Dietitian> readDietitian(String dietitianId);
+  void updateDietitian(Dietitian dietitian);
+  void deleteDietitian(String dietitianId);
 
   // Document
   void createDocument();

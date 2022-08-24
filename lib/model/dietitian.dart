@@ -1,4 +1,4 @@
-class Dietician {
+class Dietitian {
   String? id;
   String? firstName;
   String? lastName;
@@ -6,7 +6,7 @@ class Dietician {
   String? birthDate;
   String? avs;
 
-  Dietician(
+  Dietitian(
       {this.id,
       this.firstName,
       this.lastName,
@@ -14,14 +14,14 @@ class Dietician {
       this.avs,
       this.birthDate});
 
-  factory Dietician.fromJson(Map<String, dynamic> dietician) {
-    return Dietician(
-      id: dietician['id'],
-      firstName: dietician['firstName'],
-      lastName: dietician['lastName'],
-      clientList: dietician['clientList'],
-      avs: dietician['avs'],
-      birthDate: dietician['birthDate'],
+  factory Dietitian.fromJson(Map<String, dynamic> dietitian) {
+    return Dietitian(
+      id: dietitian['id'],
+      firstName: dietitian['firstName'],
+      lastName: dietitian['lastName'],
+      clientList: dietitian['clientList'],
+      avs: dietitian['avs'],
+      birthDate: dietitian['birthDate'],
     );
   }
 
@@ -38,7 +38,7 @@ class Dietician {
 
   @override
   String toString() {
-    return 'Dietician{$firstName $lastName $clientList $avs $birthDate}';
+    return 'Dietitian{$firstName $lastName $clientList $avs $birthDate}';
   }
 
 }

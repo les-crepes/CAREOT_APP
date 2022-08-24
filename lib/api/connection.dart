@@ -3,6 +3,9 @@ abstract class Connection {
   /// Returns if the connection is established.
   bool get isConnected;
 
+  /// Returns if the user connected is verified
+  bool get isVerified;
+
   /// Connect to the server.
   Future<bool> connect({required String email, required String password});
 
@@ -11,4 +14,8 @@ abstract class Connection {
 
   /// Disconnect from the server.
   Future<void> disconnect();
+
+  /// Verify the user connected.
+  Future<bool> verify();
+
 }

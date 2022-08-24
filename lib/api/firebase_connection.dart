@@ -10,6 +10,19 @@ class FirebaseConnection implements Connection {
   factory FirebaseConnection() => _instance;
 
   @override
+  bool get isConnected => FirebaseAuth.instance.currentUser != null;
+
+
+  @override
+  bool get isVerified {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.emailVerified;
+    }
+    throw Exception("Not connected");
+  }
+
+  @override
   Future<bool> connect(
       {required String email, required String password}) async {
     try {
@@ -33,8 +46,6 @@ class FirebaseConnection implements Connection {
     return false;
   }
 
-  @override
-  bool get isConnected => FirebaseAuth.instance.currentUser != null;
 
   @override
   Future<bool> register({required String email, required String password}) async {
@@ -57,5 +68,11 @@ class FirebaseConnection implements Connection {
   @override
   Future<void> disconnect() {
     return FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<bool> verify() {
+    // TODO: implement verify
+    throw UnimplementedError();
   }
 }

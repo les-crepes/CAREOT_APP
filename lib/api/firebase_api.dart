@@ -31,7 +31,10 @@ class FirebaseApi implements Api {
     clients
         .add(client.toJson())
         .then((value) => log("User Added"))
-        .catchError((error) => log("Failed to add user: $error"));
+        .catchError((error) {
+      log("Failed to add user: $error");
+      throw Exception(error);
+    });
   }
 
   @override
@@ -154,7 +157,10 @@ class FirebaseApi implements Api {
         .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))
-        .catchError((error) => log("Failed to update user: $error"));
+        .catchError((error) {
+          log("Failed to update user: $error");
+          throw Exception(error);
+        });
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/dietician.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -50,6 +51,17 @@ class FirebaseApi implements Api {
   }
 
   @override
+  void createDietician(Dietician dietician) {
+    dieticians
+        .add(dietician.toJson())
+        .then((value) => log("Dietician Added"))
+        .catchError((error) {
+      log("Failed to add dietician: $error");
+      throw Exception(error);
+    });
+  }
+
+  @override
   void createMeal() {
     // TODO: implement createMeal
     throw UnimplementedError();
@@ -58,12 +70,6 @@ class FirebaseApi implements Api {
   @override
   void createMessage() {
     // TODO: implement createMessage
-    throw UnimplementedError();
-  }
-
-  @override
-  void createDietician() {
-    // TODO: implement createDietician
     throw UnimplementedError();
   }
 
@@ -120,6 +126,17 @@ class FirebaseApi implements Api {
   }
 
   @override
+  Future<Dietician> readDietician(String dieticianId) async {
+    final docRef = dieticians.doc(dieticianId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Dietician.fromJson(data);
+  }
+
+  @override
   readDocument() {
     // TODO: implement readDocument
     throw UnimplementedError();
@@ -138,12 +155,6 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readDietician() {
-    // TODO: implement readDietician
-    throw UnimplementedError();
-  }
-
-  @override
   signIn() {
     // TODO: implement signIn
     throw UnimplementedError();
@@ -158,7 +169,7 @@ class FirebaseApi implements Api {
   @override
   updateAftercare(Aftercare aftercare) {
     aftercares
-        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .doc('FAKE')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))
         .catchError((error) {
@@ -170,7 +181,7 @@ class FirebaseApi implements Api {
   @override
   void updateClient(Client client) {
     clients
-        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .doc('FAKE')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))
         .catchError((error) {
@@ -186,6 +197,18 @@ class FirebaseApi implements Api {
   }
 
   @override
+  void updateDietician(Dietician dietician) {
+    dieticians
+        .doc('FAKE')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => log("User Updated"))
+        .catchError((error) {
+          log("Failed to update user: $error");
+          throw Exception(error);
+        });
+  }
+
+  @override
   updateMeal() {
     // TODO: implement updateMeal
     throw UnimplementedError();
@@ -194,12 +217,6 @@ class FirebaseApi implements Api {
   @override
   updateMessage() {
     // TODO: implement updateMessage
-    throw UnimplementedError();
-  }
-
-  @override
-  updateDietician() {
-    // TODO: implement updateDietician
     throw UnimplementedError();
   }
 }

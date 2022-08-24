@@ -2,13 +2,34 @@ import 'api.dart';
 
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 //import '../firebase_options.dart';
 
 class FirebaseApi implements Api {
+  CollectionReference aftercares =
+      FirebaseFirestore.instance.collection('aftercare');
+  CollectionReference clients =
+      FirebaseFirestore.instance.collection('client');
+  CollectionReference documents =
+      FirebaseFirestore.instance.collection('document');
+  CollectionReference meals =
+      FirebaseFirestore.instance.collection('meal');
+  CollectionReference messages =
+      FirebaseFirestore.instance.collection('message');
+  CollectionReference dieticians =
+      FirebaseFirestore.instance.collection('dietician');
+
   @override
   createAftercare() {
-    // TODO: implement createAftercare
+    this
+        .aftercares
+        .add({
+          'full_name': 'CoCO_Lapin', // John Doe
+          'company': 'company', // Stokes and Sons
+          'age': 34 // 42
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
 
     throw UnimplementedError();
   }
@@ -38,8 +59,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  createNutritionist() {
-    // TODO: implement createNutritionist
+  createDietician() {
+    // TODO: implement createDietician
     throw UnimplementedError();
   }
 
@@ -74,8 +95,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  deleteNutritionist() {
-    // TODO: implement deleteNutritionist
+  deleteDietician() {
+    // TODO: implement deleteDietician
     throw UnimplementedError();
   }
 
@@ -110,8 +131,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readNutritionist() {
-    // TODO: implement readNutritionist
+  readDietician() {
+    // TODO: implement readDietician
     throw UnimplementedError();
   }
 
@@ -158,8 +179,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateNutritionist() {
-    // TODO: implement updateNutritionist
+  updateDietician() {
+    // TODO: implement updateDietician
     throw UnimplementedError();
   }
 }

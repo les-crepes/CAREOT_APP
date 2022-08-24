@@ -33,9 +33,9 @@ abstract class Api {
   updateMessage();
   deleteMessage();
 
-  // Nutritionist
-  createNutritionist();
-  readNutritionist();
-  updateNutritionist();
-  deleteNutritionist();
+  // Dietician
+  createDietician();
+  readDietician();
+  updateDietician();
+  deleteDietician();
 }

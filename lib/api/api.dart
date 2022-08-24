@@ -1,4 +1,5 @@
 import '../model/client.dart';
+import '../model/aftercare.dart';
 
 abstract class Api {
   // Auth
@@ -6,9 +7,9 @@ abstract class Api {
   signOut();
 
   // Aftercare
-  void createAftercare();
-  Future<dynamic> readAftercare();
-  void updateAftercare();
+  void createAftercare(Aftercare aftercare);
+  Future<Aftercare> readAftercare(String aftercareId);
+  void updateAftercare(Aftercare aftercare);
   void deleteAftercare(String aftercareId);
 
   // Client

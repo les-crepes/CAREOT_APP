@@ -1,8 +1,9 @@
 import 'dart:developer';
-
+import 'package:pdg_app/model/aftercare.dart';
+import 'package:pdg_app/model/client.dart';
 import 'api.dart';
-import '../model/client.dart';
 
+// FIREBASE
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,9 +22,14 @@ class FirebaseApi implements Api {
       FirebaseFirestore.instance.collection('dietician');
 
   @override
-  createAftercare() {
-    // TODO: implement createAfterCare
-    throw UnimplementedError();
+  void createAftercare(Aftercare aftercare) {
+    aftercares
+        .add(aftercare.toJson())
+        .then((value) => log("Aftercare Added"))
+        .catchError((error) {
+      log("Failed to add aftercare: $error");
+      throw Exception(error);
+    });
   }
 
   @override
@@ -38,25 +44,25 @@ class FirebaseApi implements Api {
   }
 
   @override
-  createDocument() {
+  void createDocument() {
     // TODO: implement createDocument
     throw UnimplementedError();
   }
 
   @override
-  createMeal() {
+  void createMeal() {
     // TODO: implement createMeal
     throw UnimplementedError();
   }
 
   @override
-  createMessage() {
+  void createMessage() {
     // TODO: implement createMessage
     throw UnimplementedError();
   }
 
   @override
-  createDietician() {
+  void createDietician() {
     // TODO: implement createDietician
     throw UnimplementedError();
   }
@@ -92,9 +98,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readAftercare() {
-    // TODO: implement readAftercare
-    throw UnimplementedError();
+  Future<Aftercare> readAftercare(String aftercareId) async {
+    final docRef = aftercares.doc(aftercareId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Aftercare.fromJson(data);
   }
 
   @override
@@ -104,7 +115,6 @@ class FirebaseApi implements Api {
     if (!doc.exists) {
       throw Error();
     }
-
     final data = doc.data() as Map<String, dynamic>;
     return Client.fromJson(data);
   }
@@ -146,9 +156,15 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateAftercare() {
-    // TODO: implement updateAftercare
-    throw UnimplementedError();
+  updateAftercare(Aftercare aftercare) {
+    aftercares
+        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => log("User Updated"))
+        .catchError((error) {
+          log("Failed to update user: $error");
+          throw Exception(error);
+        });
   }
 
   @override

@@ -16,6 +16,6 @@ abstract class Connection {
   Future<void> disconnect();
 
   /// Verify the user connected.
-  Future<bool> verify();
+  Future<void> verify();
 
 }

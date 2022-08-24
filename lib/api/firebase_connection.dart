@@ -16,10 +16,11 @@ class FirebaseConnection implements Connection {
   @override
   bool get isVerified {
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      return user.emailVerified;
+    if (user == null) {
+      throw Exception("Not connected");
     }
-    throw Exception("Not connected");
+    user.reload();
+    return user.emailVerified;
   }
 
   @override
@@ -71,8 +72,11 @@ class FirebaseConnection implements Connection {
   }
 
   @override
-  Future<bool> verify() {
-    // TODO: implement verify
-    throw UnimplementedError();
+  Future<void> verify() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("Not connected");
+    }
+    user.sendEmailVerification();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdg_app/api/connection.dart';
 
@@ -7,10 +9,10 @@ class FirebaseConnection implements Connection {
       {required String email, required String password}) async {
     try {
       if(isConnected) {
-        print("Already connected");
+        log("Already connected");
       }
       else {
-        UserCredential userCredential = await FirebaseAuth.instance
+        await FirebaseAuth.instance
           .signInWithEmailAndPassword(
           email: email,
           password: password);
@@ -18,9 +20,9 @@ class FirebaseConnection implements Connection {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        log('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        log('Wrong password provided for that user.');
       }
     }
     return false;
@@ -32,17 +34,17 @@ class FirebaseConnection implements Connection {
   @override
   Future<bool> register({required String email, required String password}) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        log('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        log('The account already exists for that email.');
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     return false;
   }

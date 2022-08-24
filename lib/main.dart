@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pdg_app/api/connection.dart';
-import 'api/firebaseConnection.dart';
+import 'api/firebase_connection.dart';
 
 import 'firebase_options.dart';
 

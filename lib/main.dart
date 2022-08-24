@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pdg_app/router/router.gr.dart';
+import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -23,10 +24,9 @@ class MyApp extends StatelessWidget {
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      theme: CustomTheme.lightTheme,
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

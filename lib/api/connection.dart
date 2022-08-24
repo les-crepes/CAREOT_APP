@@ -8,4 +8,7 @@ abstract class Connection {
 
   /// Register a new user.
   Future<bool> register({required String email, required String password});
+
+  /// Disconnect from the server.
+  Future<void> disconnect();
 }

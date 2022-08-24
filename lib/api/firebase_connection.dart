@@ -4,6 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdg_app/api/connection.dart';
 
 class FirebaseConnection implements Connection {
+  FirebaseConnection._();
+  static final FirebaseConnection _instance = FirebaseConnection._();
+
+  factory FirebaseConnection() => _instance;
+
   @override
   Future<bool> connect(
       {required String email, required String password}) async {
@@ -47,5 +52,10 @@ class FirebaseConnection implements Connection {
       log(e.toString());
     }
     return false;
+  }
+
+  @override
+  Future<void> disconnect() {
+    return FirebaseAuth.instance.signOut();
   }
 }

@@ -59,39 +59,33 @@ class FirebaseApi implements Api {
   }
 
   @override
-  deleteAftercare() {
-    // TODO: implement deleteAftercare
-    throw UnimplementedError();
+  void deleteAftercare(String aftercareId) {
+    aftercares.doc(aftercareId).delete();
   }
 
   @override
-  deleteClient() {
-    // TODO: implement deleteClient
-    throw UnimplementedError();
+  void deleteClient(String clientId) {
+    clients.doc(clientId).delete();
   }
 
   @override
-  deleteDocument() {
-    // TODO: implement deleteDocument
-    throw UnimplementedError();
+  void deleteDocument(String documentId) {
+    documents.doc(documentId).delete();
   }
 
   @override
-  deleteMeal() {
-    // TODO: implement deleteMeal
-    throw UnimplementedError();
+  void deleteMeal(String mealId) {
+    meals.doc(mealId).delete();
   }
 
   @override
-  deleteMessage() {
-    // TODO: implement deleteMessage
-    throw UnimplementedError();
+  void deleteMessage(String messageId) {
+    messages.doc(messageId).delete();
   }
 
   @override
-  deleteDietician() {
-    // TODO: implement deleteDietician
-    throw UnimplementedError();
+  void deleteDietician(String dieticianId) {
+    dieticians.doc(dieticianId).delete();
   }
 
   @override
@@ -101,8 +95,15 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future<Client> readClient() async {
-    return Client(firstName:'Olivier', lastName:'DAncona',birthDate: 'df',insurance: 'df',phoneNumber: 'df');
+  Future<Client> readClient(String clientId) async {
+    final docRef = clients.doc(clientId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+
+    final data = doc.data() as Map<String, dynamic>;
+    return Client.fromJson(data);
   }
 
   @override
@@ -148,12 +149,12 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void updateClient() {
-  clients
-    .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
-    .update({'company': 'Stokes and Sons'})
-    .then((value) => print("User Updated"))
-    .catchError((error) => print("Failed to update user: $error"));
+  void updateClient(Client client) {
+    clients
+        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
   }
 
   @override

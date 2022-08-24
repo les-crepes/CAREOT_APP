@@ -1,7 +1,6 @@
-import 'package:pdg_app/model/dietitian.dart';
-
-import '../model/client.dart';
-import '../model/aftercare.dart';
+import 'package:pdg_app/model/document.dart';
+import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/aftercare.dart';
 
 abstract class Api {
   // Auth
@@ -27,9 +26,9 @@ abstract class Api {
   void deleteDietitian(String dietitianId);
 
   // Document
-  void createDocument();
-  Future<dynamic> readDocument();
-  void updateDocument();
+  void createDocument(Document document);
+  Future<Document> readDocument(String documentId);
+  void updateDocument(Document document);
   void deleteDocument(String documentId);
 
   // Meal

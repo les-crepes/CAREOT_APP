@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

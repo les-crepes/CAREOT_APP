@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:pdg_app/screens/login.dart';
-import 'package:pdg_app/router/router.gr.dart';
 
 class AuthGard extends AutoRouteGuard {
   var isAuthenticated = false;

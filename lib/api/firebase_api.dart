@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'api.dart';
+import '../model/client.dart';
 
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
@@ -24,15 +27,9 @@ class FirebaseApi implements Api {
   }
 
   @override
-  createClient() {
+  void createClient(Client client) {
     clients
-        .add({
-          'firstName': 'a',
-          'lastName': 'b',
-          'birthDate': 'c',
-          'phoneNumber': 'd',
-          'insurance': 'e'
-        })
+        .add(client.toJson())
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
@@ -104,8 +101,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readClient() {
-    //clients.get();
+  Future<Client> readClient() async {
+    return Client(firstName:'Olivier', lastName:'DAncona',birthDate: 'df',insurance: 'df',phoneNumber: 'df');
   }
 
   @override
@@ -151,8 +148,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateClient() {
-  return clients
+  void updateClient() {
+  clients
     .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
     .update({'company': 'Stokes and Sons'})
     .then((value) => print("User Updated"))

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
 
@@ -9,20 +10,23 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
@@ -40,12 +41,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    setState(() {});
   }
 
   @override
@@ -55,17 +52,25 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const <Widget>[
+              MainTextField(
+                name: "Email",
+                icon: Icon(Icons.email_outlined),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(height: 10),
+              MainTextField(
+                name: "Password",
+                icon: Icon(Icons.password),
+                obscureText: true,
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

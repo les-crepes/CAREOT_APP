@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:widgetbook/widgetbook.dart';
@@ -14,6 +15,16 @@ class HotReload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textFieldComponent =
+        WidgetbookComponent(name: 'Main text field', useCases: [
+      WidgetbookUseCase(
+          name: 'Email',
+          builder: (context) => MainTextField(
+                name: context.knobs.text(label: 'text', initialValue: 'Email'),
+                icon: const Icon(Icons.email_outlined),
+              ))
+    ]);
+
     var gradientButton = WidgetbookComponent(
       name: 'Gradient Button',
       useCases: [
@@ -46,6 +57,7 @@ class HotReload extends StatelessWidget {
         ),
       ],
     );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
@@ -54,6 +66,7 @@ class HotReload extends StatelessWidget {
             WidgetbookFolder(
               name: 'Components',
               widgets: [
+                textFieldComponent,
                 gradientButton,
                 rightArrowButton,
               ],

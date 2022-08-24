@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/document.dart';
+import 'package:pdg_app/model/dietitian.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -19,8 +20,8 @@ class FirebaseApi implements Api {
   CollectionReference meals = FirebaseFirestore.instance.collection('meal');
   CollectionReference messages =
       FirebaseFirestore.instance.collection('message');
-  CollectionReference dieticians =
-      FirebaseFirestore.instance.collection('dietician');
+  CollectionReference dietitians =
+      FirebaseFirestore.instance.collection('dietitian');
 
   @override
   void createAftercare(Aftercare aftercare) {
@@ -56,6 +57,17 @@ class FirebaseApi implements Api {
   }
 
   @override
+  void createDietitian(Dietitian dietitian) {
+    dietitians
+        .add(dietitian.toJson())
+        .then((value) => log("Dietitian Added"))
+        .catchError((error) {
+      log("Failed to add dietitian: $error");
+      throw Exception(error);
+    });
+  }
+
+  @override
   void createMeal() {
     // TODO: implement createMeal
     throw UnimplementedError();
@@ -64,12 +76,6 @@ class FirebaseApi implements Api {
   @override
   void createMessage() {
     // TODO: implement createMessage
-    throw UnimplementedError();
-  }
-
-  @override
-  void createDietician() {
-    // TODO: implement createDietician
     throw UnimplementedError();
   }
 
@@ -99,8 +105,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void deleteDietician(String dieticianId) {
-    dieticians.doc(dieticianId).delete();
+  void deleteDietitian(String dietitianId) {
+    dietitians.doc(dietitianId).delete();
   }
 
   @override
@@ -126,7 +132,18 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future<Document> readDocument(String documentId) async{
+  Future<Dietitian> readDietitian(String dietitianId) async {
+    final docRef = dietitians.doc(dietitianId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Dietitian.fromJson(data);
+  }
+
+  @override
+  Future<Document> readDocument(String documentId) async {
     final docRef = documents.doc(documentId);
     final doc = await docRef.get();
     if (!doc.exists) {
@@ -149,12 +166,6 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readDietician() {
-    // TODO: implement readDietician
-    throw UnimplementedError();
-  }
-
-  @override
   signIn() {
     // TODO: implement signIn
     throw UnimplementedError();
@@ -169,7 +180,7 @@ class FirebaseApi implements Api {
   @override
   updateAftercare(Aftercare aftercare) {
     aftercares
-        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .doc('FAKE')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))
         .catchError((error) {
@@ -181,7 +192,7 @@ class FirebaseApi implements Api {
   @override
   void updateClient(Client client) {
     clients
-        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .doc('FAKE')
         .update({'company': 'Stokes and Sons'})
         .then((value) => log("User Updated"))
         .catchError((error) {
@@ -197,7 +208,19 @@ class FirebaseApi implements Api {
         .update(document.toJson())
         .then((value) => log("Document Updated"))
         .catchError((error) {
-          log("Failed to update document: $error");
+      log("Failed to update document: $error");
+      throw Exception(error);
+    });
+  }
+
+  @override
+  void updateDietitian(Dietitian dietitian) {
+    dietitians
+        .doc('FAKE')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => log("User Updated"))
+        .catchError((error) {
+          log("Failed to update user: $error");
           throw Exception(error);
         });
   }
@@ -211,12 +234,6 @@ class FirebaseApi implements Api {
   @override
   updateMessage() {
     // TODO: implement updateMessage
-    throw UnimplementedError();
-  }
-
-  @override
-  updateDietician() {
-    // TODO: implement updateDietician
     throw UnimplementedError();
   }
 }

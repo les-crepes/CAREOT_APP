@@ -1,41 +1,44 @@
+import '../model/client.dart';
+import '../model/aftercare.dart';
+
 abstract class Api {
   // Auth
   signIn();
   signOut();
 
   // Aftercare
-  createAftercare();
-  readAftercare();
-  updateAftercare();
-  deleteAftercare();
+  void createAftercare(Aftercare aftercare);
+  Future<Aftercare> readAftercare(String aftercareId);
+  void updateAftercare(Aftercare aftercare);
+  void deleteAftercare(String aftercareId);
 
   // Client
-  createClient();
-  readClient();
-  updateClient();
-  deleteClient();
+  void createClient(Client client);
+  Future<Client> readClient(String clientId);
+  void updateClient(Client client);
+  void deleteClient(String clientId);
 
   // Document
-  createDocument();
-  readDocument();
-  updateDocument();
-  deleteDocument();
+  void createDocument();
+  Future<dynamic> readDocument();
+  void updateDocument();
+  void deleteDocument(String documentId);
 
   // Meal
-  createMeal();
-  readMeal();
-  updateMeal();
-  deleteMeal();
+  void createMeal();
+  Future<dynamic> readMeal();
+  void updateMeal();
+  void deleteMeal(String mealId);
 
   // Message
-  createMessage();
-  readMessage();
-  updateMessage();
-  deleteMessage();
+  void createMessage();
+  Future<dynamic> readMessage();
+  void updateMessage();
+  void deleteMessage(String messageId);
 
-  // Nutritionist
-  createNutritionist();
-  readNutritionist();
-  updateNutritionist();
-  deleteNutritionist();
+  // Dietician
+  void createDietician();
+  Future<dynamic> readDietician();
+  void updateDietician();
+  void deleteDietician(String dieticianId);
 }

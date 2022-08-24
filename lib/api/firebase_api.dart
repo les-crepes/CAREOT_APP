@@ -1,94 +1,122 @@
+import 'dart:developer';
+import 'package:pdg_app/model/aftercare.dart';
+import 'package:pdg_app/model/client.dart';
 import 'api.dart';
 
+// FIREBASE
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 //import '../firebase_options.dart';
 
 class FirebaseApi implements Api {
-  @override
-  createAftercare() {
-    // TODO: implement createAftercare
+  CollectionReference aftercares =
+      FirebaseFirestore.instance.collection('aftercare');
+  CollectionReference clients = FirebaseFirestore.instance.collection('client');
+  CollectionReference documents =
+      FirebaseFirestore.instance.collection('document');
+  CollectionReference meals = FirebaseFirestore.instance.collection('meal');
+  CollectionReference messages =
+      FirebaseFirestore.instance.collection('message');
+  CollectionReference dieticians =
+      FirebaseFirestore.instance.collection('dietician');
 
-    throw UnimplementedError();
+  @override
+  void createAftercare(Aftercare aftercare) {
+    aftercares
+        .add(aftercare.toJson())
+        .then((value) => log("Aftercare Added"))
+        .catchError((error) {
+      log("Failed to add aftercare: $error");
+      throw Exception(error);
+    });
   }
 
   @override
-  createClient() {
-    // TODO: implement createClient
-    throw UnimplementedError();
+  void createClient(Client client) {
+    clients
+        .add(client.toJson())
+        .then((value) => log("User Added"))
+        .catchError((error) {
+      log("Failed to add user: $error");
+      throw Exception(error);
+    });
   }
 
   @override
-  createDocument() {
+  void createDocument() {
     // TODO: implement createDocument
     throw UnimplementedError();
   }
 
   @override
-  createMeal() {
+  void createMeal() {
     // TODO: implement createMeal
     throw UnimplementedError();
   }
 
   @override
-  createMessage() {
+  void createMessage() {
     // TODO: implement createMessage
     throw UnimplementedError();
   }
 
   @override
-  createNutritionist() {
-    // TODO: implement createNutritionist
+  void createDietician() {
+    // TODO: implement createDietician
     throw UnimplementedError();
   }
 
   @override
-  deleteAftercare() {
-    // TODO: implement deleteAftercare
-    throw UnimplementedError();
+  void deleteAftercare(String aftercareId) {
+    aftercares.doc(aftercareId).delete();
   }
 
   @override
-  deleteClient() {
-    // TODO: implement deleteClient
-    throw UnimplementedError();
+  void deleteClient(String clientId) {
+    clients.doc(clientId).delete();
   }
 
   @override
-  deleteDocument() {
-    // TODO: implement deleteDocument
-    throw UnimplementedError();
+  void deleteDocument(String documentId) {
+    documents.doc(documentId).delete();
   }
 
   @override
-  deleteMeal() {
-    // TODO: implement deleteMeal
-    throw UnimplementedError();
+  void deleteMeal(String mealId) {
+    meals.doc(mealId).delete();
   }
 
   @override
-  deleteMessage() {
-    // TODO: implement deleteMessage
-    throw UnimplementedError();
+  void deleteMessage(String messageId) {
+    messages.doc(messageId).delete();
   }
 
   @override
-  deleteNutritionist() {
-    // TODO: implement deleteNutritionist
-    throw UnimplementedError();
+  void deleteDietician(String dieticianId) {
+    dieticians.doc(dieticianId).delete();
   }
 
   @override
-  readAftercare() {
-    // TODO: implement readAftercare
-    throw UnimplementedError();
+  Future<Aftercare> readAftercare(String aftercareId) async {
+    final docRef = aftercares.doc(aftercareId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Aftercare.fromJson(data);
   }
 
   @override
-  readClient() {
-    // TODO: implement readClient
-    throw UnimplementedError();
+  Future<Client> readClient(String clientId) async {
+    final docRef = clients.doc(clientId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Client.fromJson(data);
   }
 
   @override
@@ -110,8 +138,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readNutritionist() {
-    // TODO: implement readNutritionist
+  readDietician() {
+    // TODO: implement readDietician
     throw UnimplementedError();
   }
 
@@ -128,15 +156,27 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateAftercare() {
-    // TODO: implement updateAftercare
-    throw UnimplementedError();
+  updateAftercare(Aftercare aftercare) {
+    aftercares
+        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => log("User Updated"))
+        .catchError((error) {
+          log("Failed to update user: $error");
+          throw Exception(error);
+        });
   }
 
   @override
-  updateClient() {
-    // TODO: implement updateClient
-    throw UnimplementedError();
+  void updateClient(Client client) {
+    clients
+        .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+        .update({'company': 'Stokes and Sons'})
+        .then((value) => log("User Updated"))
+        .catchError((error) {
+          log("Failed to update user: $error");
+          throw Exception(error);
+        });
   }
 
   @override
@@ -158,8 +198,8 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateNutritionist() {
-    // TODO: implement updateNutritionist
+  updateDietician() {
+    // TODO: implement updateDietician
     throw UnimplementedError();
   }
 }

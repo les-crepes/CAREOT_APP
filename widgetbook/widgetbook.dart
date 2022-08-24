@@ -1,5 +1,9 @@
+// ignore_for_file: avoid_relative_lib_imports
+
 import 'package:flutter/material.dart';
 import 'package:widgetbook/widgetbook.dart';
+
+import '../lib/theme.dart';
 
 class HotReload extends StatelessWidget {
   const HotReload({Key? key}) : super(key: key);
@@ -47,11 +51,7 @@ class HotReload extends StatelessWidget {
       themes: [
         WidgetbookTheme(
           name: 'Light',
-          data: ThemeData.light(),
-        ),
-        WidgetbookTheme(
-          name: 'Dark',
-          data: ThemeData.dark(),
+          data: CustomTheme.lightTheme,
         ),
       ],
       devices: [

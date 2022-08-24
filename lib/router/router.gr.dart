@@ -14,8 +14,8 @@
 import 'package:auto_route/auto_route.dart' as _i3;
 import 'package:flutter/material.dart' as _i4;
 
-import 'screens/login.dart' as _i1;
-import 'screens/register.dart' as _i2;
+import '../screens/login.dart' as _i1;
+import '../screens/register.dart' as _i2;
 
 class AppRouter extends _i3.RootStackRouter {
   AppRouter([_i4.GlobalKey<_i4.NavigatorState>? navigatorKey])
@@ -23,35 +23,38 @@ class AppRouter extends _i3.RootStackRouter {
 
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
-    Login.name: (routeData) {
+    LoginScreenRoute.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.Login());
+          routeData: routeData, child: const _i1.LoginScreen());
     },
-    Register.name: (routeData) {
+    RegisterScreenRoute.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.Register());
+          routeData: routeData, child: const _i2.RegisterScreen());
     }
   };
 
   @override
   List<_i3.RouteConfig> get routes => [
-        _i3.RouteConfig(Login.name, path: '/'),
-        _i3.RouteConfig(Register.name, path: '/Register')
+        _i3.RouteConfig(LoginScreenRoute.name, path: '/'),
+        _i3.RouteConfig(RegisterScreenRoute.name, path: '/register'),
+        _i3.RouteConfig('*#redirect',
+            path: '*', redirectTo: '/', fullMatch: true)
       ];
 }
 
 /// generated route for
-/// [_i1.Login]
-class Login extends _i3.PageRouteInfo<void> {
-  const Login() : super(Login.name, path: '/');
+/// [_i1.LoginScreen]
+class LoginScreenRoute extends _i3.PageRouteInfo<void> {
+  const LoginScreenRoute() : super(LoginScreenRoute.name, path: '/');
 
-  static const String name = 'Login';
+  static const String name = 'LoginScreenRoute';
 }
 
 /// generated route for
-/// [_i2.Register]
-class Register extends _i3.PageRouteInfo<void> {
-  const Register() : super(Register.name, path: '/Register');
+/// [_i2.RegisterScreen]
+class RegisterScreenRoute extends _i3.PageRouteInfo<void> {
+  const RegisterScreenRoute()
+      : super(RegisterScreenRoute.name, path: '/register');
 
-  static const String name = 'Register';
+  static const String name = 'RegisterScreenRoute';
 }

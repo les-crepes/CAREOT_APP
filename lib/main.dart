@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pdg_app/api/connection.dart';
-import 'api/firebase_connection.dart';
-
+import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -12,9 +8,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Connection connection = FirebaseConnection();
-
-  //connection.register(email: "thomas.beil@heig-vd.ch", password: "crepes");
   runApp(const MyApp());
 }
 
@@ -26,9 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: CustomTheme.lightTheme,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -48,22 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      Connection connection = FirebaseConnection();
-      if (connection.isConnected) {
-        log("Connected");
-        log(connection.uid);
-        if(connection.isVerified) {
-          log("Verified");
-        }
-        else {
-          log("Not verified");
-          log("Sending email verification");
-          connection.verify();
-        }
-      } else {
-        connection.connect(email: "nelson.jeanrenaud@heig-vd.ch", password: "crepes");
-        log("Logging in...");
-      }
       _counter++;
     });
   }

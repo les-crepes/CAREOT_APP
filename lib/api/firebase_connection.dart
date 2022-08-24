@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pdg_app/api/connection.dart';
+import 'package:pdg_app/api/auth.dart';
 
-class FirebaseConnection implements Connection {
+class FirebaseConnection implements Auth {
   FirebaseConnection._();
   static final FirebaseConnection _instance = FirebaseConnection._();
 
@@ -32,7 +32,7 @@ class FirebaseConnection implements Connection {
   }
 
   @override
-  Future<bool> connect(
+  Future<bool> signIn(
       {required String email, required String password}) async {
     try {
       if(isConnected) {
@@ -75,12 +75,12 @@ class FirebaseConnection implements Connection {
   }
 
   @override
-  Future<void> disconnect() {
+  Future<void> signOut() {
     return FirebaseAuth.instance.signOut();
   }
 
   @override
-  Future<void> verify() async {
+  Future<void> sendVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception("Not connected");

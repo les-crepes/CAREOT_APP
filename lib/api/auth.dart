@@ -1,5 +1,5 @@
 /// Manager for the connection to the server.
-abstract class Connection {
+abstract class Auth {
   /// Returns if the connection is established.
   bool get isConnected;
 
@@ -10,15 +10,15 @@ abstract class Connection {
   String get uid;
 
   /// Connect to the server.
-  Future<bool> connect({required String email, required String password});
+  Future<bool> signIn({required String email, required String password});
 
   /// Register a new user.
   Future<bool> register({required String email, required String password});
 
   /// Disconnect from the server.
-  Future<void> disconnect();
+  Future<void> signOut();
 
-  /// Verify the user connected.
-  Future<void> verify();
+  /// Send a verification to the user connected.
+  Future<void> sendVerification();
 
 }

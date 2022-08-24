@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_relative_lib_imports
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:widgetbook/widgetbook.dart';
 
 import '../lib/theme.dart';
@@ -10,36 +11,30 @@ class HotReload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var widgetbookComponent = WidgetbookComponent(
+      name: 'Gradient Button',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) => GradientButton(
+            color1: const Color(0xFFFFBD70),
+            color2: const Color(0xFFFF9877),
+            child:
+                Text(context.knobs.text(label: 'text', initialValue: 'Login')),
+          ),
+        ),
+      ],
+    );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
           name: 'widgets',
-          widgets: [
-            WidgetbookComponent(
-              name: 'un widget',
-              useCases: [
-                WidgetbookUseCase(
-                  name: 'Default',
-                  builder: (context) => const Text("data"),
-                ),
-              ],
-            ),
-          ],
           folders: [
             WidgetbookFolder(
-              name: 'Texts',
+              name: 'Components',
               widgets: [
-                WidgetbookComponent(
-                  name: 'Normal Text',
-                  useCases: [
-                    WidgetbookUseCase(
-                      name: 'Default',
-                      builder: (context) => const Text(
-                        'The brown fox ...',
-                      ),
-                    ),
-                  ],
-                ),
+                widgetbookComponent,
               ],
             ),
           ],

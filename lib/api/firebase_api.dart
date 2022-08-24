@@ -105,8 +105,7 @@ class FirebaseApi implements Api {
 
   @override
   readClient() {
-    // TODO: implement readClient
-    throw UnimplementedError();
+    //clients.get();
   }
 
   @override
@@ -153,8 +152,11 @@ class FirebaseApi implements Api {
 
   @override
   updateClient() {
-    // TODO: implement updateClient
-    throw UnimplementedError();
+  return clients
+    .doc('FS3RqfWpeuVXcdZrTQJdBPfFbwV2')
+    .update({'company': 'Stokes and Sons'})
+    .then((value) => print("User Updated"))
+    .catchError((error) => print("Failed to update user: $error"));
   }
 
   @override

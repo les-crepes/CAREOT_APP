@@ -1,10 +1,9 @@
 import 'dart:developer';
-
 import 'package:pdg_app/model/aftercare.dart';
-
+import 'package:pdg_app/model/client.dart';
 import 'api.dart';
-import '../model/client.dart';
 
+// FIREBASE
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -100,7 +99,7 @@ class FirebaseApi implements Api {
 
   @override
   Future<Aftercare> readAftercare(String aftercareId) async {
-    final docRef = clients.doc(aftercareId);
+    final docRef = aftercares.doc(aftercareId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/document.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -44,9 +45,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void createDocument() {
-    // TODO: implement createDocument
-    throw UnimplementedError();
+  void createDocument(Document document) {
+    clients
+        .add(document.toJson())
+        .then((value) => log("Document Added"))
+        .catchError((error) {
+      log("Failed to add document: $error");
+      throw Exception(error);
+    });
   }
 
   @override
@@ -120,9 +126,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readDocument() {
-    // TODO: implement readDocument
-    throw UnimplementedError();
+  Future<Document> readDocument(String documentId) async{
+    final docRef = documents.doc(documentId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Document.fromJson(data);
   }
 
   @override
@@ -180,9 +191,15 @@ class FirebaseApi implements Api {
   }
 
   @override
-  updateDocument() {
-    // TODO: implement updateDocument
-    throw UnimplementedError();
+  updateDocument(Document document) {
+    clients
+        .doc('FAKE')
+        .update(document.toJson())
+        .then((value) => log("Document Updated"))
+        .catchError((error) {
+          log("Failed to update document: $error");
+          throw Exception(error);
+        });
   }
 
   @override

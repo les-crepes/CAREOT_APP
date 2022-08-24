@@ -1,5 +1,6 @@
-import '../model/client.dart';
-import '../model/aftercare.dart';
+import 'package:pdg_app/model/document.dart';
+import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/aftercare.dart';
 
 abstract class Api {
   // Auth
@@ -19,9 +20,9 @@ abstract class Api {
   void deleteClient(String clientId);
 
   // Document
-  void createDocument();
-  Future<dynamic> readDocument();
-  void updateDocument();
+  void createDocument(Document document);
+  Future<Document> readDocument(String documentId);
+  void updateDocument(Document document);
   void deleteDocument(String documentId);
 
   // Meal

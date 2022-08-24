@@ -12,6 +12,14 @@ class FirebaseConnection implements Connection {
   @override
   bool get isConnected => FirebaseAuth.instance.currentUser != null;
 
+  @override
+  String get uid {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("Not connected");
+    }
+    return user.uid;
+  }
 
   @override
   bool get isVerified {

@@ -6,6 +6,9 @@ abstract class Connection {
   /// Returns if the user connected is verified
   bool get isVerified;
 
+  /// Get the uid of the connected user.
+  String get uid;
+
   /// Connect to the server.
   Future<bool> connect({required String email, required String password});
 

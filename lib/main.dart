@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Connection connection = FirebaseConnection();
       if (connection.isConnected) {
         log("Connected");
+        log(connection.uid);
         if(connection.isVerified) {
           log("Verified");
         }

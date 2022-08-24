@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/document.dart';
+import 'package:pdg_app/model/dietitian.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -142,7 +143,7 @@ class FirebaseApi implements Api {
   }
 
   @override
-  Future<Document> readDocument(String documentId) async{
+  Future<Document> readDocument(String documentId) async {
     final docRef = documents.doc(documentId);
     final doc = await docRef.get();
     if (!doc.exists) {
@@ -207,9 +208,9 @@ class FirebaseApi implements Api {
         .update(document.toJson())
         .then((value) => log("Document Updated"))
         .catchError((error) {
-          log("Failed to update document: $error");
-          throw Exception(error);
-        });
+      log("Failed to update document: $error");
+      throw Exception(error);
+    });
   }
 
   @override

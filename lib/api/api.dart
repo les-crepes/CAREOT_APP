@@ -1,6 +1,7 @@
 import 'package:pdg_app/model/document.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/aftercare.dart';
+import 'package:pdg_app/model/dietitian.dart';
 
 abstract class Api {
   // Auth

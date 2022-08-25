@@ -35,5 +35,5 @@ jobs:
         with:
           release_name: Release $${{ github.ref }}
           files: | 
-            "build/app/outputs/apk/release/*.apk
+            build/app/outputs/apk/release/*.apk
       

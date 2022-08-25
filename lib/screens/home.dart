@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class Home extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
-        PicCard(
+        ArrowPicCard(
           title: "Petit-déjeuner",
           subtitle: "8h30-9h00",
         ),

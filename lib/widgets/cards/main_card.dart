@@ -23,6 +23,9 @@ class MainCard extends StatelessWidget {
       ),
       child: Card(
         child: child,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
       ),
     );
   }

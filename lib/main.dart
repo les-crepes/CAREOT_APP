@@ -24,9 +24,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
-      title: 'Flutter Demo',
+      title: 'Careot',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
+      builder: (context, child) {
+        return Scaffold(
+          body: child,
+        );
+      },
     );
   }
 }

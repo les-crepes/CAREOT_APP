@@ -1,14 +1,13 @@
-// ignore_for_file: avoid_relative_lib_imports
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:widgetbook/widgetbook.dart';
 
-import '../lib/theme.dart';
+import 'package:pdg_app/theme.dart';
 
 class HotReload extends StatelessWidget {
   const HotReload({Key? key}) : super(key: key);
@@ -58,6 +57,18 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var login = WidgetbookComponent(
+      name: 'Login',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return const Login(screenWidth: 400);
+          },
+        ),
+      ],
+    );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
@@ -71,6 +82,12 @@ class HotReload extends StatelessWidget {
                 rightArrowButton,
               ],
             ),
+          ],
+        ),
+        WidgetbookCategory(
+          name: 'Screens',
+          widgets: [
+            login,
           ],
         ),
       ],
@@ -88,7 +105,6 @@ class HotReload extends StatelessWidget {
         ),
       ],
       devices: [
-        Apple.iPhone11,
         Samsung.s21ultra,
       ],
     );

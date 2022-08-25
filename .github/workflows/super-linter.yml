@@ -1,5 +1,5 @@
 # https://dev-yakuza.posstree.com/en/flutter/github/actions/code-quality/
-name: Check and test the source code
+name: CI - Check code & run tests
 on: push
 jobs:
   test:

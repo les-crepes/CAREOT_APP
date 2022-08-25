@@ -2,6 +2,7 @@ import 'package:pdg_app/model/document.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/dietitian.dart';
+import 'package:pdg_app/model/meal.dart';
 
 abstract class Api {
   // Auth
@@ -33,9 +34,9 @@ abstract class Api {
   void deleteDocument(String documentId);
 
   // Meal
-  void createMeal();
-  Future<dynamic> readMeal();
-  void updateMeal();
+  void createMeal(Meal meal);
+  Future<Meal> readMeal(String mealId);
+  void updateMeal(Meal meal);
   void deleteMeal(String mealId);
 
   // Message

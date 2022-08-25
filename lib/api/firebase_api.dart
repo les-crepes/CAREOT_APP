@@ -3,6 +3,7 @@ import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/document.dart';
 import 'package:pdg_app/model/dietitian.dart';
+import 'package:pdg_app/model/meal.dart';
 import 'api.dart';
 
 // FIREBASE
@@ -38,9 +39,9 @@ class FirebaseApi implements Api {
   void createClient(Client client) {
     clients
         .add(client.toJson())
-        .then((value) => log("User Added"))
+        .then((value) => log("Client Added"))
         .catchError((error) {
-      log("Failed to add user: $error");
+      log("Failed to add client: $error");
       throw Exception(error);
     });
   }
@@ -68,9 +69,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  void createMeal() {
-    // TODO: implement createMeal
-    throw UnimplementedError();
+  void createMeal(Meal meal) {
+    meals
+        .add(meal.toJson())
+        .then((value) => log("Meal Added"))
+        .catchError((error) {
+      log("Failed to add meal: $error");
+      throw Exception(error);
+    });
   }
 
   @override
@@ -154,9 +160,14 @@ class FirebaseApi implements Api {
   }
 
   @override
-  readMeal() {
-    // TODO: implement readMeal
-    throw UnimplementedError();
+  Future<Meal> readMeal(String mealId) async {
+    final docRef = meals.doc(mealId);
+    final doc = await docRef.get();
+    if (!doc.exists) {
+      throw Error();
+    }
+    final data = doc.data() as Map<String, dynamic>;
+    return Meal.fromJson(data);
   }
 
   @override
@@ -181,24 +192,24 @@ class FirebaseApi implements Api {
   updateAftercare(Aftercare aftercare) {
     aftercares
         .doc('FAKE')
-        .update({'company': 'Stokes and Sons'})
-        .then((value) => log("User Updated"))
+        .update(aftercare.toJson())
+        .then((value) => log("Aftercare Updated"))
         .catchError((error) {
-          log("Failed to update user: $error");
-          throw Exception(error);
-        });
+      log("Failed to update aftercare: $error");
+      throw Exception(error);
+    });
   }
 
   @override
   void updateClient(Client client) {
     clients
         .doc('FAKE')
-        .update({'company': 'Stokes and Sons'})
-        .then((value) => log("User Updated"))
+        .update(client.toJson())
+        .then((value) => log("Client Updated"))
         .catchError((error) {
-          log("Failed to update user: $error");
-          throw Exception(error);
-        });
+      log("Failed to update client: $error");
+      throw Exception(error);
+    });
   }
 
   @override
@@ -217,23 +228,29 @@ class FirebaseApi implements Api {
   void updateDietitian(Dietitian dietitian) {
     dietitians
         .doc('FAKE')
-        .update({'company': 'Stokes and Sons'})
-        .then((value) => log("User Updated"))
+        .update(dietitian.toJson())
+        .then((value) => log("Dietitian Updated"))
         .catchError((error) {
-          log("Failed to update user: $error");
-          throw Exception(error);
-        });
+      log("Failed to update dietitian: $error");
+      throw Exception(error);
+    });
   }
 
   @override
-  updateMeal() {
-    // TODO: implement updateMeal
-    throw UnimplementedError();
+  void updateMeal(Meal meal) {
+    meals
+        .doc('FAKE')
+        .update(meal.toJson())
+        .then((value) => log("Meal Updated"))
+        .catchError((error) {
+      log("Failed to update meal: $error");
+      throw Exception(error);
+    });
   }
 
   @override
   updateMessage() {
-    // TODO: implement updateMessage
+    // TODO: implement updateMessage 
     throw UnimplementedError();
   }
 }

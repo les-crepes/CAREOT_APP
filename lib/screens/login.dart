@@ -100,12 +100,12 @@ class Login extends StatelessWidget {
                   ),
                   const SizedBox(height: 40),
                   const MainTextField(
-                    name: 'email',
+                    name: 'Email',
                     icon: Icon(Icons.email_outlined),
                   ),
                   const SizedBox(height: 20),
                   const MainTextField(
-                    name: 'password',
+                    name: 'Password',
                     icon: Icon(Icons.lock_outlined),
                     obscureText: true,
                   ),
@@ -113,7 +113,7 @@ class Login extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      RightArrowButton(text: 'Login', onPressed: onLoginPress),
+                      RightArrowButton(text: 'LOGIN', onPressed: onLoginPress),
                     ],
                   ),
                 ],

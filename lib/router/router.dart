@@ -9,12 +9,12 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       path: '/',
       page: HomeScreen,
+      initial: true,
       children: [],
     ),
     AutoRoute(
       page: LoginScreen,
       path: '/login',
-      initial: true,
     ),
     AutoRoute(
       page: RegisterScreen,

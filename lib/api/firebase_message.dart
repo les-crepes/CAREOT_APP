@@ -2,46 +2,44 @@ import 'dart:developer';
 
 import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/model/message.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class FirebaseMessage implements IMessage {
   FirebaseMessage._();
   static final FirebaseMessage _instance = FirebaseMessage._();
   factory FirebaseMessage() => _instance;
-  CollectionReference messages =
-      FirebaseFirestore.instance.collection('message');
+  FirebaseDatabase database = FirebaseDatabase.instance;
 
   @override
-  void createMessage(Message message) {
-    messages
-        .add(message.toJson())
-        .then((value) => log("Message Added"))
-        .catchError((error) {
-      log("Failed to add message: $error");
-      throw Exception(error);
+  void createMessage(Message message) async {
+    DatabaseReference ref = database.ref("message");
+
+    await ref.set({
+      "name": "John",
+      "age": 18,
+      "address": {"line1": "100 Mountain View"}
     });
   }
 
   @override
   void deleteMessage(String messageId) {
-    messages.doc(messageId).delete();
+    //database.ref(messageId).delete();
   }
 
   @override
   Future<Message> readMessage(String messageId) async {
-    final docRef = messages.doc(messageId);
-    final doc = await docRef.get();
+    final doc = await database.ref('message').get();
     if (!doc.exists) {
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.value as Map<String, dynamic>;
     return Message.fromJson(data);
   }
 
   @override
   updateMessage(Message message) {
-    messages
-        .doc('FAKE')
+    database
+        .ref('FAKE')
         .update(message.toJson())
         .then((value) => log("Message Updated"))
         .catchError((error) {

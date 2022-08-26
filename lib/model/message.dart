@@ -1,9 +1,9 @@
 class Message {
   DateTime? time;
-  DateTime? fromId;
+  String? fromId;
   String? toId;
-  List? content;
-  String? type;
+  String? content;
+  int? type;
 
   Message({
     this.time,

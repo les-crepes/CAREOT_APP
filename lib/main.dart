@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pdg_app/model/message.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
+
+import 'api/imessage.dart';
+import 'api/firebase_message.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  IMessage msg = FirebaseMessage();
+
+  msg.createMessage(Message(fromId: 'alice', toId: 'bob', content: "HELLO"));
   runApp(MyApp());
 }
 

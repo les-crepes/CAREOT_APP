@@ -22,10 +22,10 @@ class MainCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: Card(
-        child: child,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
+        child: child,
       ),
     );
   }

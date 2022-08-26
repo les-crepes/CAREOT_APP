@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
-import 'package:pdg_app/widgets/cards/pic_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

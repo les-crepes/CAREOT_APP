@@ -11,7 +11,6 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
@@ -58,7 +57,14 @@ class AppRouter extends _i5.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.HomeScreen]te extends _i4.PageRouteInfo<void> {
+/// [_i1.HomeScreen]
+class HomeScreenRoute extends _i5.PageRouteInfo<void> {
+  const HomeScreenRoute() : super(HomeScreenRoute.name, path: '/home');
+
+  static const String name = 'HomeScreenRoute';
+}
+
+/// generated route for
 /// [_i2.ChatScreen]
 class ChatScreenRoute extends _i5.PageRouteInfo<void> {
   const ChatScreenRoute() : super(ChatScreenRoute.name, path: '/chat');

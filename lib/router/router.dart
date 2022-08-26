@@ -10,7 +10,6 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       path: '/home',
       page: HomeScreen,
-      initial: true,
       children: [],
     ),
     AutoRoute(

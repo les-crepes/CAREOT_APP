@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/home.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/register.dart';
@@ -7,14 +8,18 @@ import 'package:pdg_app/screens/register.dart';
   // replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
-      path: '/',
+      path: '/home',
       page: HomeScreen,
       children: [],
     ),
     AutoRoute(
+      page: ChatScreen,
+      path: '/chat',
+      initial: true,
+    ),
+    AutoRoute(
       page: LoginScreen,
       path: '/login',
-      initial: true,
     ),
     AutoRoute(
       page: RegisterScreen,
@@ -22,7 +27,7 @@ import 'package:pdg_app/screens/register.dart';
     ),
     RedirectRoute(
       path: '*',
-      redirectTo: '/',
+      redirectTo: '/home',
     ),
   ],
 )

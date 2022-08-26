@@ -34,38 +34,40 @@ class _HomeState extends State<Home> {
         ? MediaQuery.of(context).size.width
         : widget.screenWidth;
 
+    final height = (width * 0.6027777777777777).toDouble();
+
     final background = CustomPaint(
-      size: Size(
-        width,
-        (width * 0.6027777777777777).toDouble(),
-      ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+      size: Size(width,
+          height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
       painter: HomeTopShape(),
     );
 
     return Column(
       children: [
-        // CustomPaint(
-        //   size: Size(
-        //     width,
-        //     (width * 0.6027777777777777).toDouble(),
-        //   ), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-        //   painter: HomeTopShape(),
-        //   isComplex: true,
-        //   child: CircleAvatar(
-        //     backgroundColor: Colors.black,
-        //   ),
-        // ),
         Stack(children: [
           background,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.black,
-              ),
-            ],
-          )
+          Container(
+            // color: Colors.red,
+            alignment: Alignment.center,
+            height: height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 45,
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "Hello Anna",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
+          ),
         ]),
         TableCalendar(
             firstDay: DateTime.utc(2020, 1, 1),

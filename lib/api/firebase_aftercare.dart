@@ -5,6 +5,10 @@ import 'package:pdg_app/model/aftercare.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseAftercare implements IAftercare {
+  FirebaseAftercare._();
+  static final FirebaseAftercare _instance = FirebaseAftercare._();
+  factory FirebaseAftercare() => _instance;
+
   CollectionReference aftercares =
       FirebaseFirestore.instance.collection('aftercare');
 

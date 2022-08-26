@@ -5,6 +5,10 @@ import 'package:pdg_app/model/dietitian.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseDietitian implements IDietitian {
+  FirebaseDietitian._();
+  static final FirebaseDietitian _instance = FirebaseDietitian._();
+  factory FirebaseDietitian() => _instance;
+
   CollectionReference dietitians =
       FirebaseFirestore.instance.collection('dietician');
 

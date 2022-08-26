@@ -5,6 +5,9 @@ import 'package:pdg_app/model/document.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseDocument implements IDocument {
+  FirebaseDocument._();
+  static final FirebaseDocument _instance = FirebaseDocument._();
+  factory FirebaseDocument() => _instance;
   CollectionReference documents =
       FirebaseFirestore.instance.collection('document');
 

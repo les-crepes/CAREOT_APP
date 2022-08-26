@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:pdg_app/screens/login.dart';
+import 'package:pdg_app/screens/register.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
@@ -69,6 +70,18 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var register = WidgetbookComponent(
+      name: 'Register',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return const Register(screenWidth: 400);
+          },
+        ),
+      ],
+    );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
@@ -88,6 +101,7 @@ class HotReload extends StatelessWidget {
           name: 'Screens',
           widgets: [
             login,
+            register,
           ],
         ),
       ],

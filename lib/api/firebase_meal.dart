@@ -5,6 +5,9 @@ import 'package:pdg_app/model/meal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseMeal implements IMeal {
+  FirebaseMeal._();
+  static final FirebaseMeal _instance = FirebaseMeal._();
+  factory FirebaseMeal() => _instance;
   CollectionReference meals = FirebaseFirestore.instance.collection('meal');
 
   @override

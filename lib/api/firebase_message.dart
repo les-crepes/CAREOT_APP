@@ -5,6 +5,9 @@ import 'package:pdg_app/model/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseMessage implements IMessage {
+  FirebaseMessage._();
+  static final FirebaseMessage _instance = FirebaseMessage._();
+  factory FirebaseMessage() => _instance;
   CollectionReference messages =
       FirebaseFirestore.instance.collection('message');
 

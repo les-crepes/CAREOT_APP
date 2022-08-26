@@ -5,6 +5,9 @@ import 'package:pdg_app/model/client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseClient implements IClient {
+  FirebaseClient._();
+  static final FirebaseClient _instance = FirebaseClient._();
+  factory FirebaseClient() => _instance;
   CollectionReference clients = FirebaseFirestore.instance.collection('client');
 
   @override

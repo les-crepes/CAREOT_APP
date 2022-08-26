@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pdg_app/api/auth.dart';
+import 'package:pdg_app/api/iauth.dart';
 
 class FirebaseConnection implements Auth {
   FirebaseConnection._();

@@ -14,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  IMessage msg = new FirebaseMessage();
+  IMessage msg = FirebaseMessage();
 
   msg.createMessage(Message(fromId: 'alice', toId: 'bob', content: "HELLO"));
   runApp(MyApp());

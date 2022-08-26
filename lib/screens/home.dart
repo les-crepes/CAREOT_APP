@@ -3,6 +3,8 @@ import 'package:pdg_app/widgets/home/top_shape.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 
+import '../widgets/home/home_top_bar.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -45,31 +47,7 @@ class _HomeState extends State<Home> {
 
     return Column(
       children: [
-        Stack(children: [
-          background,
-          Container(
-            // color: Colors.red,
-            alignment: Alignment.center,
-            height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 45,
-                ),
-                SizedBox(height: 15),
-                Text(
-                  "Hello Anna",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600),
-                )
-              ],
-            ),
-          ),
-        ]),
+        HomeTopBar(background: background, height: height),
         TableCalendar(
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2050, 12, 31),

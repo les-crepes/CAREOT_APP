@@ -81,32 +81,7 @@ class _ChatInterfaceState extends State<ChatInterface> {
             children: [
               Column(
                 children: [
-                  Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          Color(0xFFFFBD70),
-                          Color(0xFFFF9877),
-                        ],
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.name,
-                          style: theme.textTheme.headline2!
-                              .copyWith(color: theme.colorScheme.onPrimary),
-                        ),
-                        const SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
+                  TopBar(name: widget.name, theme: theme),
                   Expanded(
                     child: Chat(
                       messages: widget.messages,
@@ -124,24 +99,76 @@ class _ChatInterfaceState extends State<ChatInterface> {
                   ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 50),
-                  Row(
-                    children: const [
-                      SizedBox(width: 25),
-                      CircleAvatar(
-                        radius: 50,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              const Avatar(),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  const Avatar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 50),
+        Row(
+          children: const [
+            SizedBox(width: 25),
+            CircleAvatar(
+              radius: 50,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class TopBar extends StatelessWidget {
+  const TopBar({
+    Key? key,
+    required this.name,
+    required this.theme,
+  }) : super(key: key);
+
+  final String name;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFFFFBD70),
+            Color(0xFFFF9877),
+          ],
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            name,
+            style: theme.textTheme.headline2!
+                .copyWith(color: theme.colorScheme.onPrimary),
+          ),
+          const SizedBox(height: 5),
+        ],
+      ),
     );
   }
 }

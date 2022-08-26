@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/main.dart';
 import 'package:pdg_app/screens/login.dart';
+import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
@@ -87,6 +88,25 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var arrowPicCard = WidgetbookComponent(
+      name: 'Arrow picture card',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) => ArrowPicCard(
+            title: context.knobs.text(
+              label: 'title',
+              initialValue: "Déjeuner",
+            ),
+            subtitle: context.knobs.text(
+              label: 'subtitle',
+              initialValue: "8h30-9h00",
+            ),
+          ),
+        )
+      ],
+    );
+
     var login = WidgetbookComponent(
       name: 'Login',
       useCases: [
@@ -111,7 +131,8 @@ class HotReload extends StatelessWidget {
                 gradientButton,
                 rightArrowButton,
                 mainCard,
-                picCard
+                picCard,
+                arrowPicCard,
               ],
             ),
           ],

@@ -73,80 +73,73 @@ class ChatInterface extends StatefulWidget {
 class _ChatInterfaceState extends State<ChatInterface> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
-        ChatTopBar(name: widget.name),
         Expanded(
-          child: Chat(
-            messages: widget.messages,
-            user: widget.currentUser,
-            onSendPressed: widget.onSendPressed,
-            theme: DefaultChatTheme(
-              inputTextColor: Colors.black,
-              inputBackgroundColor: Theme.of(context).colorScheme.secondary,
-              backgroundColor: Colors.white,
-              primaryColor: Theme.of(context).colorScheme.primary,
-              secondaryColor: Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ChatTopBar extends StatelessWidget {
-  final String name;
-
-  const ChatTopBar({
-    required this.name,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Stack(
-      children: [
-        Container(
-          height: 100,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Color(0xFFFFBD70),
-                Color(0xFFFF9877),
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              Text(
-                name,
-                style: theme.textTheme.headline2!
-                    .copyWith(color: theme.colorScheme.onPrimary),
+              Column(
+                children: [
+                  Container(
+                    height: 100,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Color(0xFFFFBD70),
+                          Color(0xFFFF9877),
+                        ],
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.name,
+                          style: theme.textTheme.headline2!
+                              .copyWith(color: theme.colorScheme.onPrimary),
+                        ),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Chat(
+                      messages: widget.messages,
+                      user: widget.currentUser,
+                      onSendPressed: widget.onSendPressed,
+                      theme: DefaultChatTheme(
+                        inputTextColor: Colors.black,
+                        inputBackgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Colors.white,
+                        primaryColor: Theme.of(context).colorScheme.primary,
+                        secondaryColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  Row(
+                    children: const [
+                      SizedBox(width: 25),
+                      CircleAvatar(
+                        radius: 50,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 50),
-            Row(
-              children: const [
-                SizedBox(width: 25),
-                CircleAvatar(
-                  radius: 50,
-                ),
-              ],
-            ),
-          ],
         ),
       ],
     );

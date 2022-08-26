@@ -1,14 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
+import 'package:pdg_app/screens/register.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:widgetbook/widgetbook.dart';
+// ignore: depend_on_referenced_packages
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import 'package:pdg_app/theme.dart';
 
@@ -118,6 +122,36 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var chat = WidgetbookComponent(
+      name: 'Chat',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return ChatInterface(
+              messages: const [],
+              currentUser:
+                  const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3af'),
+              name: "test",
+              onSendPressed: (types.PartialText p) {},
+            );
+          },
+        ),
+      ],
+    );
+
+    var register = WidgetbookComponent(
+      name: 'Register',
+      useCases: [
+        WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return const Register(screenWidth: 400);
+          },
+        ),
+      ],
+    );
+
     return Widgetbook.material(
       categories: [
         WidgetbookCategory(
@@ -140,6 +174,8 @@ class HotReload extends StatelessWidget {
           name: 'Screens',
           widgets: [
             login,
+            register,
+            chat,
           ],
         ),
       ],

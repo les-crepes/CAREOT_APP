@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/widgets/home/top_shape.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 
 import '../widgets/home/home_top_bar.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,9 +29,40 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late final ValueNotifier<List<Meal>> _selectedEvents;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay));
+  }
+
+  List<Meal> _getEventsForDay(DateTime day) {
+    return [
+      Meal(
+          startTime: DateTime(2022, 8, 26, 12),
+          endTime: DateTime(2022, 8, 26, 12, 30),
+          comment: "Déjeuner"),
+      Meal(
+          startTime: DateTime(2022, 8, 26, 19),
+          endTime: DateTime(2022, 8, 26, 19, 30),
+          comment: "Souper"),
+      Meal(
+          startTime: DateTime(2022, 8, 26, 19),
+          endTime: DateTime(2022, 8, 26, 19, 30),
+          comment: "Souper"),
+      Meal(
+          startTime: DateTime(2022, 8, 26, 19),
+          endTime: DateTime(2022, 8, 26, 19, 30),
+          comment: "Souper")
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +77,8 @@ class _HomeState extends State<Home> {
           height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
       painter: HomeTopShape(),
     );
+
+    final DateFormat hourFormatter = DateFormat('HH:mm');
 
     return Column(
       children: [
@@ -71,7 +106,7 @@ class _HomeState extends State<Home> {
               _focusedDay = focusedDay;
             },
             eventLoader: (day) {
-              return [];
+              return _getEventsForDay(day);
             },
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: CalendarStyle(
@@ -83,6 +118,32 @@ class _HomeState extends State<Home> {
                 selectedDecoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
                     shape: BoxShape.circle))),
+        const SizedBox(height: 13),
+        Expanded(
+          child: ValueListenableBuilder<List<Meal>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                      vertical: 4.0,
+                    ),
+                    child: ArrowPicCard(
+                      title: Text(value[index].comment!),
+                      subtitle: Text(
+                        "${hourFormatter.format(value[index].startTime!)} - ${hourFormatter.format(value[index].endTime!)}",
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        )
       ],
     );
   }

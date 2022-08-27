@@ -78,14 +78,14 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => PicCard(
-            title: context.knobs.text(
+            title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
-            ),
-            subtitle: context.knobs.text(
+            )),
+            subtitle: Text(context.knobs.text(
               label: 'subtitle',
               initialValue: "8h30-9h00",
-            ),
+            )),
           ),
         )
       ],
@@ -97,14 +97,14 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => ArrowPicCard(
-            title: context.knobs.text(
+            title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
-            ),
-            subtitle: context.knobs.text(
+            )),
+            subtitle: Text(context.knobs.text(
               label: 'subtitle',
               initialValue: "8h30-9h00",
-            ),
+            )),
           ),
         )
       ],

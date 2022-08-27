@@ -9,7 +9,7 @@ class ArrowPicCard extends StatelessWidget {
   const ArrowPicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = "images/breakfast.jpg",
+    this.imagePath = "assets/images/breakfast.jpg",
     Key? key,
   }) : super(key: key);
 

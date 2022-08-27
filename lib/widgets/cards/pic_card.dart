@@ -10,7 +10,7 @@ class PicCard extends StatelessWidget {
   const PicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = "images/breakfast.jpg",
+    this.imagePath = 'assets/images/breakfast.jpg',
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -25,8 +25,8 @@ class PicCard extends StatelessWidget {
           Expanded(
             child: ListTile(
               contentPadding: const EdgeInsets.only(left: 0),
-              leading: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/breakfast.jpg'),
+              leading: CircleAvatar(
+                backgroundImage: AssetImage(imagePath),
                 radius: 66,
               ),
               title: title,

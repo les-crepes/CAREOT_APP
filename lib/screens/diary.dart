@@ -1,50 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pdg_app/model/meal.dart';
-import 'package:pdg_app/widgets/home/top_shape.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
-
-import '../widgets/home/home_top_bar.dart';
 import 'package:intl/intl.dart';
+import 'package:pdg_app/model/meal.dart';
+import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+import '../widgets/diary/action_button.dart';
+import '../widgets/diary/diary_top_bar.dart';
+import '../widgets/diary/top_shape.dart';
 
 class DiaryScreen extends StatelessWidget {
   const DiaryScreen({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return const Diary();
-  }
-}
-
-class Diary extends StatefulWidget {
-  final double screenWidth;
-  final bool showActionButton;
-
-  const Diary({
-    this.screenWidth = 0,
-    this.showActionButton = true,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<Diary> createState() => _DiaryState();
-}
-
-class _DiaryState extends State<Diary> {
-  late final ValueNotifier<List<Meal>> _selectedEvents;
-  DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
-  CalendarFormat _calendarFormat = CalendarFormat.week;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay));
-  }
-
-  List<Meal> _getEventsForDay(DateTime day) {
+  static List<Meal> _getEventsForDay(DateTime day) {
     return [
       Meal(
           startTime: DateTime(2022, 8, 26, 12),
@@ -67,6 +34,49 @@ class _DiaryState extends State<Diary> {
 
   @override
   Widget build(BuildContext context) {
+    return const Diary(
+      getDiariesForDay: _getEventsForDay,
+      clientName: "Anna",
+    );
+  }
+}
+
+class Diary extends StatefulWidget {
+  final double screenWidth;
+  final bool showActionButton;
+  final List<Meal> Function(DateTime) getDiariesForDay;
+  final String clientName;
+  final String clientPicturePath;
+
+  const Diary({
+    this.screenWidth = 0,
+    this.showActionButton = true,
+    required this.getDiariesForDay,
+    required this.clientName,
+    this.clientPicturePath = "assets/images/default_user_pic.png",
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<Diary> createState() => _DiaryState();
+}
+
+class _DiaryState extends State<Diary> {
+  late final ValueNotifier<List<Meal>> _selectedDiaries;
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.week;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedDay = _focusedDay;
+    _selectedDiaries = ValueNotifier(widget.getDiariesForDay(_selectedDay));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final width = widget.screenWidth == 0
         ? MediaQuery.of(context).size.width
         : widget.screenWidth;
@@ -76,7 +86,7 @@ class _DiaryState extends State<Diary> {
     final background = CustomPaint(
       size: Size(width,
           height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-      painter: HomeTopShape(),
+      painter: DiaryTopShape(),
     );
 
     final DateFormat hourFormatter = DateFormat('HH:mm');
@@ -84,7 +94,12 @@ class _DiaryState extends State<Diary> {
     return Stack(children: [
       Column(
         children: [
-          HomeTopBar(background: background, height: height),
+          DiaryTopBar(
+            background: background,
+            height: height,
+            clientName: widget.clientName,
+            clientPicturePath: widget.clientPicturePath,
+          ),
           TableCalendar(
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2050, 12, 31),
@@ -107,9 +122,7 @@ class _DiaryState extends State<Diary> {
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
-              eventLoader: (day) {
-                return _getEventsForDay(day);
-              },
+              eventLoader: widget.getDiariesForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: CalendarStyle(
                   todayDecoration: BoxDecoration(
@@ -123,7 +136,7 @@ class _DiaryState extends State<Diary> {
           const SizedBox(height: 13),
           Expanded(
             child: ValueListenableBuilder<List<Meal>>(
-              valueListenable: _selectedEvents,
+              valueListenable: _selectedDiaries,
               builder: (context, value, _) {
                 return ListView.builder(
                   itemCount: value.length,
@@ -152,37 +165,7 @@ class _DiaryState extends State<Diary> {
           )
         ],
       ),
-      if (widget.showActionButton)
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  decoration: const BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.black38,
-                      blurRadius: 15,
-                      offset: Offset(0, 5),
-                      spreadRadius: 0,
-                    ),
-                  ], shape: BoxShape.circle),
-                  child: FloatingActionButton(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    onPressed: (() => 1),
-                    elevation: 100,
-                    child: Icon(Icons.add,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        size: 35),
-                  ),
-                ),
-                const SizedBox(width: 20)
-              ],
-            ),
-            const SizedBox(height: 20)
-          ],
-        )
+      if (widget.showActionButton) const ActionButton()
     ]);
   }
 }

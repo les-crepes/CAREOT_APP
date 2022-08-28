@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
 class Message {
-  String id = Uuid().v1();
+  String id = const Uuid().v1();
   DateTime? time;
   String? fromId;
   String? toId;

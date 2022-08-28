@@ -16,7 +16,8 @@ void main() async {
   );
   IMessage msg = FirebaseMessage();
 
-  msg.createMessage(Message(fromId: 'alice', toId: 'bob', content: "HELLO"));
+  final m1 = Message(id: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
+  msg.createMessage(m1);
   runApp(MyApp());
 }
 

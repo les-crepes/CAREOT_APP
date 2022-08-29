@@ -3,16 +3,29 @@ import 'dart:developer';
 import 'package:pdg_app/api/iclient.dart';
 import 'package:pdg_app/model/client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+
 
 class FirebaseClient implements IClient {
-  FirebaseClient._();
-  static final FirebaseClient _instance = FirebaseClient._();
-  factory FirebaseClient() => _instance;
-  CollectionReference clients = FirebaseFirestore.instance.collection('client');
+
+  static final FirebaseClient _instance = FirebaseClient._(false);
+  factory FirebaseClient(bool useFake) {
+    if (useFake) {
+      return FirebaseClient(true);
+    } else {
+      return _instance;
+    }
+  }
+
+  FirebaseClient._(bool useFake) : _db = useFake ? FakeFirebaseFirestore() : FirebaseFirestore.instance,
+        _clients = useFake ? FakeFirebaseFirestore().collection('client') : FirebaseFirestore.instance.collection('client');
+
+  final FirebaseFirestore _db;
+  final CollectionReference _clients;
 
   @override
   void createClient(Client client) {
-    clients
+    _clients
         .add(client.toJson())
         .then((value) => log("Client Added"))
         .catchError((error) {
@@ -23,7 +36,7 @@ class FirebaseClient implements IClient {
 
   @override
   Future<Client> readClient(String clientId) async {
-    final docRef = clients.doc(clientId);
+    final docRef = _clients.doc(clientId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
@@ -34,7 +47,7 @@ class FirebaseClient implements IClient {
 
   @override
   void updateClient(Client client) {
-    clients
+    _clients
         .doc('FAKE')
         .update(client.toJson())
         .then((value) => log("Client Updated"))
@@ -46,6 +59,6 @@ class FirebaseClient implements IClient {
 
   @override
   void deleteClient(String clientId) {
-    clients.doc(clientId).delete();
+    _clients.doc(clientId).delete();
   }
 }

@@ -15,7 +15,7 @@ class FirebaseDocument implements IDocument {
 
   @override
   void createDocument(Document document, String fileName) {
-    final file = storage.ref().child(fileName);
+    //final file = storage.ref().child(fileName);
     documents
         .add(document.toJson())
         .then((value) => log("Document Added"))

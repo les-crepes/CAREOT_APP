@@ -44,6 +44,8 @@ dependencies:
   table_calendar: ^3.0.6
   intl: ^0.17.0
   uuid: ^3.0.6
+  image_picker: ^0.8.5+3
+  cross_file_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:

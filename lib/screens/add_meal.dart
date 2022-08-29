@@ -1,7 +1,9 @@
+import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
@@ -13,6 +15,18 @@ class AddMealScreen extends StatefulWidget {
 class _AddMealScreenState extends State<AddMealScreen> {
   double _hungerBeforeValue = 3;
   double _hungerAfterValue = 3;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  Future<XFile?> _takePicture() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    return image;
+  }
+
+  Future<XFile?> _getPicture() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    return image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +39,15 @@ class _AddMealScreenState extends State<AddMealScreen> {
       onHungerBeforeChanged: (value) => setState(() {
         _hungerBeforeValue = value;
       }),
+      image: _image,
+      onCameraPressed: () async {
+        _image = await _takePicture();
+        setState(() {});
+      },
+      onGalleryPressed: () async {
+        _image = await _getPicture();
+        setState(() {});
+      },
     );
   }
 }
@@ -34,6 +57,9 @@ class AddMeal extends StatelessWidget {
   final double _hungerAfterValue;
   final void Function(double) _onHungerBeforeChanged;
   final void Function(double) _onHungerAfterChanged;
+  final void Function() _onCameraPressed;
+  final void Function() _onGalleryPressed;
+  final XFile? _image;
 
   const AddMeal({
     Key? key,
@@ -41,10 +67,16 @@ class AddMeal extends StatelessWidget {
     required double hungerAfterValue,
     required void Function(double) onHungerBeforeChanged,
     required void Function(double) onHungerAfterChanged,
+    required void Function() onCameraPressed,
+    required void Function() onGalleryPressed,
+    XFile? image,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
+        _onCameraPressed = onCameraPressed,
+        _onGalleryPressed = onGalleryPressed,
+        _image = image,
         super(key: key);
 
   @override
@@ -61,15 +93,21 @@ class AddMeal extends StatelessWidget {
                   Container(
                     height: height,
                     width: double.infinity,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(
-                            "https://www.washingtonian.com/wp-content/uploads/2021/07/2Fiftys-1500x1000.jpg"),
                         fit: BoxFit.cover,
+                        image: _image == null
+                            ? const NetworkImage(
+                                    "https://www.washingtonian.com/wp-content/uploads/2021/07/2Fiftys-1500x1000.jpg")
+                                as ImageProvider
+                            : XFileImage(_image!),
                       ),
                     ),
                   ),
-                  const _PictureSelector(),
+                  _PictureSelector(
+                    onCameraPress: _onCameraPressed,
+                    onImageSelectPress: _onGalleryPressed,
+                  ),
                 ],
               ),
             ),
@@ -160,7 +198,7 @@ class _ListView extends StatelessWidget {
   final void Function(double) _onHungerBeforeChanged;
   final void Function(double) _onHungerAfterChanged;
 
-  _ListView({
+  const _ListView({
     Key? key,
     required double hungerBeforeValue,
     required double hungerAfterValue,

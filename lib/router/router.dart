@@ -4,6 +4,8 @@ import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/register.dart';
 
+import '../screens/home.dart';
+
 @MaterialAutoRouter(
   // replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
@@ -12,11 +14,18 @@ import 'package:pdg_app/screens/register.dart';
       page: HomeScreen,
       initial: true,
       children: [
+        RedirectRoute(
+          path: '',
+          redirectTo: 'diary',
+        ),
         AutoRoute(
           page: ChatScreen,
-          path: '/chat',
-          initial: true,
+          path: 'chat',
         ),
+        AutoRoute(
+          page: DiaryScreen,
+          path: 'diary',
+        )
       ],
     ),
     AutoRoute(
@@ -29,7 +38,7 @@ import 'package:pdg_app/screens/register.dart';
     ),
     RedirectRoute(
       path: '*',
-      redirectTo: '/diary',
+      redirectTo: '/home/diary',
     ),
   ],
 )

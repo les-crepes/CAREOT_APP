@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
@@ -16,7 +17,7 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       page: ChatScreen,
       path: '/chat',
-      initial: true,
+      initial: false,
     ),
     AutoRoute(
       page: LoginScreen,
@@ -25,6 +26,11 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       page: RegisterScreen,
       path: '/register',
+    ),
+    AutoRoute(
+      page: AddMealScreen,
+      path: '/add-meal',
+      initial: true,
     ),
     RedirectRoute(
       path: '*',

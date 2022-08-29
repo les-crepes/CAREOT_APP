@@ -1,4 +1,6 @@
-class Document {
+import 'imodel.dart';
+
+class Document implements IModel {
   String? url;
 
   Document(

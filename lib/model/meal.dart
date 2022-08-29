@@ -1,4 +1,6 @@
-class Meal {
+import 'imodel.dart';
+
+class Meal implements IModel {
   DateTime? startTime;
   DateTime? endTime;
   String? lastName;

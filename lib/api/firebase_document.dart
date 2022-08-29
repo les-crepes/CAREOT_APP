@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
-class FirebaseDocument {
+class FirebaseAPI {
   final FirebaseFirestore firestore;
   final CollectionReference collectionReference;
 
-  FirebaseDocument(bool useFake, String collectionName)
-      : firestore =
-            useFake ? FakeFirebaseFirestore() : FirebaseFirestore.instance,
-        collectionReference = useFake
-            ? FakeFirebaseFirestore().collection(collectionName)
-            : FirebaseFirestore.instance.collection(collectionName);
+  FirebaseAPI(FirebaseFirestore db, String collectionName)
+      : firestore = db,
+        collectionReference = db.collection(collectionName);
 }

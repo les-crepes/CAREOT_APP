@@ -1,4 +1,6 @@
-class Client {
+import 'imodel.dart';
+
+class Client implements IModel{
   String? firstName;
   String? lastName;
   String? birthDate;

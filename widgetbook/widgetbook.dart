@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/screens/chat.dart';
+import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
@@ -152,7 +154,35 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var diary = WidgetbookComponent(name: 'Diary', useCases: [
+      WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return Diary(
+              getDiariesForDay: (datetime) {
+                return [
+                  Meal(
+                    startTime: DateTime(2022, 8, 26, 12),
+                    endTime: DateTime(2022, 8, 26, 12, 30),
+                    comment: context.knobs.text(
+                      label: 'meal name',
+                      initialValue: "Déjeuner",
+                    ),
+                  )
+                ];
+              },
+              clientName: context.knobs.text(
+                label: 'client name',
+                initialValue: "Anna",
+              ),
+            );
+          })
+    ]);
+
     return Widgetbook.material(
+      appBuilder: (context, child) => Scaffold(
+        body: child,
+      ),
       categories: [
         WidgetbookCategory(
           name: 'widgets',
@@ -176,6 +206,7 @@ class HotReload extends StatelessWidget {
             login,
             register,
             chat,
+            diary,
           ],
         ),
       ],

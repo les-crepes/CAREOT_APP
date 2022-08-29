@@ -1,41 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
+import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 
-class AddMealScreen extends StatelessWidget {
+class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
 
   @override
+  State<AddMealScreen> createState() => _AddMealScreenState();
+}
+
+class _AddMealScreenState extends State<AddMealScreen> {
+  double _hungerBeforeValue = 0;
+  double _hungerAfterValue = 0;
+
+  @override
   Widget build(BuildContext context) {
-    return const AddMeal();
+    return AddMeal(
+      hungerBeforeValue: _hungerBeforeValue,
+      hungerAfterValue: _hungerAfterValue,
+      onHungerAfterChanged: (value) => setState(() {
+        _hungerAfterValue = value;
+      }),
+      onHungerBeforeChanged: (value) => setState(() {
+        _hungerBeforeValue = value;
+      }),
+    );
   }
 }
 
 class AddMeal extends StatelessWidget {
-  const AddMeal({Key? key}) : super(key: key);
+  final double _hungerBeforeValue;
+  final double _hungerAfterValue;
+  final void Function(double) _onHungerBeforeChanged;
+  final void Function(double) _onHungerAfterChanged;
 
-  List<Widget> listViewContent(BuildContext context) => const [
-        Text("Add a meal"),
-        MainTextField(
-          name: "name",
-          icon: Icon(Icons.label),
-        ),
-        MainTextField(
-          name: "name",
-          icon: Icon(Icons.label),
-        ),
-        MainTextField(
-          name: "name",
-          icon: Icon(Icons.label),
-        ),
-      ];
+  const AddMeal({
+    Key? key,
+    required double hungerBeforeValue,
+    required double hungerAfterValue,
+    required void Function(double) onHungerBeforeChanged,
+    required void Function(double) onHungerAfterChanged,
+  })  : _hungerBeforeValue = hungerBeforeValue,
+        _hungerAfterValue = hungerAfterValue,
+        _onHungerAfterChanged = onHungerAfterChanged,
+        _onHungerBeforeChanged = onHungerBeforeChanged,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final listContent = listViewContent(context);
-
     return Stack(
       children: [
         Column(
@@ -56,19 +69,128 @@ class AddMeal extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(16.0),
-                physics: const BouncingScrollPhysics(),
-                itemCount: listContent.length,
-                itemBuilder: (context, index) => listContent[index],
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
+              child: _ListView(
+                hungerAfterValue: _hungerAfterValue,
+                hungerBeforeValue: _hungerBeforeValue,
+                onHungerAfterChanged: _onHungerAfterChanged,
+                onHungerBeforeChanged: _onHungerBeforeChanged,
               ),
             ),
           ],
         ),
         const ActionButton(icon: Icons.check),
       ],
+    );
+  }
+}
+
+class _ListView extends StatelessWidget {
+  final double _hungerBeforeValue;
+  final double _hungerAfterValue;
+  final void Function(double) _onHungerBeforeChanged;
+  final void Function(double) _onHungerAfterChanged;
+
+  _ListView({
+    Key? key,
+    required double hungerBeforeValue,
+    required double hungerAfterValue,
+    required void Function(double) onHungerBeforeChanged,
+    required void Function(double) onHungerAfterChanged,
+  })  : _hungerBeforeValue = hungerBeforeValue,
+        _hungerAfterValue = hungerAfterValue,
+        _onHungerAfterChanged = onHungerAfterChanged,
+        _onHungerBeforeChanged = onHungerBeforeChanged,
+        super(key: key);
+
+  List<Widget> listViewContent(BuildContext context) => [
+        const Text("Add a meal"),
+        const MainTextField(
+          name: "Meal name",
+          icon: Icon(
+            Icons.label,
+            color: Colors.black,
+          ),
+        ),
+        const MainTextField(
+          name: "Start time",
+          icon: Icon(
+            Icons.timer,
+            color: Colors.black,
+          ),
+        ),
+        const MainTextField(
+          name: "End time",
+          icon: Icon(
+            Icons.timer,
+            color: Colors.black,
+          ),
+        ),
+        buildSliderWithText(
+          context,
+          "Rate your hunger before eating",
+          _hungerBeforeValue,
+          _onHungerBeforeChanged,
+          ["confort", "léger inconfort", "inconfort", "encore faim"],
+        ),
+        buildSliderWithText(
+          context,
+          "Rate your satiety after eating",
+          _hungerAfterValue,
+          _onHungerAfterChanged,
+          ["confort", "léger inconfort", "inconfort", "encore faim"],
+        ),
+      ];
+
+  MainCard buildSliderWithText(
+    BuildContext context,
+    String text,
+    double value,
+    void Function(double)? onChanged,
+    List<String> labels,
+  ) {
+    return MainCard(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Icon(Icons.local_dining),
+                const SizedBox(width: 10),
+                Text(
+                  text,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: const Color(0xFF5B5B5B), fontSize: 15),
+                ),
+              ],
+            ),
+          ),
+          Slider(
+            value: value,
+            onChanged: onChanged,
+            divisions: labels.length - 1,
+            label: labels[value.floor()],
+            min: 0,
+            max: labels.length.toDouble() - 1,
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final listContent = listViewContent(context);
+
+    return ListView.separated(
+      padding: const EdgeInsets.all(16.0),
+      physics: const BouncingScrollPhysics(),
+      itemCount: listContent.length,
+      itemBuilder: (context, index) => listContent[index],
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
     );
   }
 }

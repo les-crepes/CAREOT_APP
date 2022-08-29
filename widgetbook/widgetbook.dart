@@ -5,6 +5,7 @@ import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
+import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 import 'package:pdg_app/screens/register.dart';
@@ -112,6 +113,12 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var actionButton = WidgetbookComponent(name: 'Action button', useCases: [
+      WidgetbookUseCase(
+          name: 'Add',
+          builder: (context) => const ActionButton(icon: Icons.add))
+    ]);
+
     var login = WidgetbookComponent(
       name: 'Login',
       useCases: [
@@ -196,6 +203,7 @@ class HotReload extends StatelessWidget {
                 mainCard,
                 picCard,
                 arrowPicCard,
+                actionButton,
               ],
             ),
           ],

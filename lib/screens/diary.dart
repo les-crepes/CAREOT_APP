@@ -4,7 +4,7 @@ import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../widgets/diary/action_button.dart';
+import '../widgets/buttons/action_button.dart';
 import '../widgets/diary/diary_top_bar.dart';
 import '../widgets/diary/top_shape.dart';
 
@@ -165,7 +165,7 @@ class _DiaryState extends State<Diary> {
           )
         ],
       ),
-      if (widget.showActionButton) const ActionButton()
+      if (widget.showActionButton) const ActionButton(icon: Icons.add)
     ]);
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
+  final IconData icon;
+
   const ActionButton({
+    required this.icon,
     Key? key,
   }) : super(key: key);
 
@@ -26,7 +29,7 @@ class ActionButton extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 onPressed: (() => 1),
                 elevation: 100,
-                child: Icon(Icons.add,
+                child: Icon(icon,
                     color: Theme.of(context).colorScheme.onPrimary, size: 35),
               ),
             ),

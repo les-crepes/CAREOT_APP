@@ -3,8 +3,8 @@ class Meal {
   DateTime? endTime;
   String? lastName;
   List? photo;
-  String? hunger;
-  String? satiety;
+  int? hunger;
+  int? satiety;
   String? setting;
   String? comment;
 

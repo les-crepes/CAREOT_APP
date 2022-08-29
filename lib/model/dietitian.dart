@@ -1,5 +1,5 @@
 class Dietitian {
-  String? id;
+  String? uid;
   String? firstName;
   String? lastName;
   List? clientList;
@@ -7,7 +7,7 @@ class Dietitian {
   String? avs;
 
   Dietitian(
-      {this.id,
+      {this.uid,
       this.firstName,
       this.lastName,
       this.clientList,
@@ -16,7 +16,7 @@ class Dietitian {
 
   factory Dietitian.fromJson(Map<String, dynamic> dietitian) {
     return Dietitian(
-      id: dietitian['id'],
+      uid: dietitian['id'],
       firstName: dietitian['firstName'],
       lastName: dietitian['lastName'],
       clientList: dietitian['clientList'],
@@ -27,7 +27,7 @@ class Dietitian {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id': uid,
       'firstName': firstName,
       'lastName': lastName,
       'clientList': clientList,

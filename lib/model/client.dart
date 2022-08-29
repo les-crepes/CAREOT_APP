@@ -1,4 +1,5 @@
 class Client {
+  String? uid;
   String? firstName;
   String? lastName;
   String? birthDate;
@@ -6,7 +7,8 @@ class Client {
   String? insurance;
 
   Client(
-      {this.firstName,
+      {this.uid,
+      this.firstName,
       this.lastName,
       this.birthDate,
       this.insurance,
@@ -14,6 +16,7 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> client) {
     return Client(
+      uid: client['uid'],
       firstName: client['firstName'],
       lastName: client['lastName'],
       birthDate: client['birthDate'],
@@ -24,6 +27,7 @@ class Client {
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'birthDate': birthDate,
@@ -34,7 +38,6 @@ class Client {
 
   @override
   String toString() {
-    return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
+    return 'Client{$uid $firstName $lastName $birthDate $insurance $phoneNumber}';
   }
-
 }

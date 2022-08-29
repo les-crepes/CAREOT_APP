@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:pdg_app/api/idocument.dart';
 import 'package:pdg_app/model/document.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FirebaseDocument implements IDocument {
   FirebaseDocument._();
@@ -10,9 +11,11 @@ class FirebaseDocument implements IDocument {
   factory FirebaseDocument() => _instance;
   CollectionReference documents =
       FirebaseFirestore.instance.collection('document');
+  final storage = FirebaseStorage.instance;
 
   @override
-  void createDocument(Document document) {
+  void createDocument(Document document, String fileName) {
+    final file = storage.ref().child(fileName);
     documents
         .add(document.toJson())
         .then((value) => log("Document Added"))

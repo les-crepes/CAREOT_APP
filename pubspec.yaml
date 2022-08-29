@@ -41,6 +41,8 @@ dependencies:
   firebase_database: ^9.1.2
   provider: ^6.0.3
   flutter_chat_ui: ^1.6.4
+  table_calendar: ^3.0.6
+  intl: ^0.17.0
   uuid: ^3.0.6
   google_nav_bar: ^5.0.6
 

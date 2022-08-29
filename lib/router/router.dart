@@ -11,7 +11,7 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       path: '/diary',
       page: DiaryScreen,
-      initial: true,
+      initial: false,
       children: [],
     ),
     AutoRoute(

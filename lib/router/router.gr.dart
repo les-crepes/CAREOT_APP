@@ -51,7 +51,7 @@ class AppRouter extends _i6.RootStackRouter {
   @override
   List<_i6.RouteConfig> get routes => [
         _i6.RouteConfig('/#redirect',
-            path: '/', redirectTo: '/diary', fullMatch: true),
+            path: '/', redirectTo: '/add-meal', fullMatch: true),
         _i6.RouteConfig(DiaryScreenRoute.name, path: '/diary'),
         _i6.RouteConfig(ChatScreenRoute.name, path: '/chat'),
         _i6.RouteConfig(LoginScreenRoute.name, path: '/login'),

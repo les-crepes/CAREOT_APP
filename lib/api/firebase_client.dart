@@ -5,9 +5,11 @@ import 'package:pdg_app/model/client.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
+import 'firebase_document.dart';
 
-class FirebaseClient implements IClient {
+class FirebaseClient extends FirebaseDocument implements IClient {
 
+  FirebaseClient._(bool useFake) : super(useFake, 'client');
   static final FirebaseClient _instance = FirebaseClient._(false);
   factory FirebaseClient(bool useFake) {
     if (useFake) {
@@ -16,12 +18,6 @@ class FirebaseClient implements IClient {
       return _instance;
     }
   }
-
-  FirebaseClient._(bool useFake) : _db = useFake ? FakeFirebaseFirestore() : FirebaseFirestore.instance,
-        _clients = useFake ? FakeFirebaseFirestore().collection('client') : FirebaseFirestore.instance.collection('client');
-
-  final FirebaseFirestore _db;
-  final CollectionReference _clients;
 
   @override
   void createClient(Client client) {

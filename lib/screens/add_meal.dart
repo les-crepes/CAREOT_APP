@@ -11,8 +11,8 @@ class AddMealScreen extends StatefulWidget {
 }
 
 class _AddMealScreenState extends State<AddMealScreen> {
-  double _hungerBeforeValue = 0;
-  double _hungerAfterValue = 0;
+  double _hungerBeforeValue = 3;
+  double _hungerAfterValue = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +49,29 @@ class AddMeal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double height = 250;
     return Stack(
       children: [
         Column(
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: 250,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          "https://www.washingtonian.com/wp-content/uploads/2021/07/2Fiftys-1500x1000.jpg"),
-                      fit: BoxFit.cover,
+            SizedBox(
+              height: height,
+              child: Stack(
+                children: [
+                  Container(
+                    height: height,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            "https://www.washingtonian.com/wp-content/uploads/2021/07/2Fiftys-1500x1000.jpg"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const _PictureSelector(),
+                ],
+              ),
             ),
             Expanded(
               child: _ListView(
@@ -80,6 +85,71 @@ class AddMeal extends StatelessWidget {
         ),
         const ActionButton(icon: Icons.check),
       ],
+    );
+  }
+}
+
+class _PictureSelector extends StatelessWidget {
+  final void Function()? _onCameraPress;
+  final void Function()? _onImageSelectPress;
+
+  const _PictureSelector({
+    Key? key,
+    void Function()? onCameraPress,
+    void Function()? onImageSelectPress,
+  })  : _onCameraPress = onCameraPress,
+        _onImageSelectPress = onImageSelectPress,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              _IconButton(
+                icon: Icons.camera_alt,
+                onTap: _onCameraPress,
+              ),
+              _IconButton(
+                icon: Icons.image,
+                onTap: _onImageSelectPress,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _IconButton extends StatelessWidget {
+  final IconData _icon;
+  final void Function()? _onTap;
+
+  const _IconButton({
+    Key? key,
+    required IconData icon,
+    void Function()? onTap,
+  })  : _icon = icon,
+        _onTap = onTap,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MainCard(
+      child: InkWell(
+        onTap: _onTap,
+        child: SizedBox(
+          height: 40,
+          width: 40,
+          child: Icon(_icon),
+        ),
+      ),
     );
   }
 }
@@ -130,14 +200,14 @@ class _ListView extends StatelessWidget {
           "Rate your hunger before eating",
           _hungerBeforeValue,
           _onHungerBeforeChanged,
-          ["confort", "léger inconfort", "inconfort", "encore faim"],
+          ["encore faim", "inconfort", "léger inconfort", "confort"],
         ),
         buildSliderWithText(
           context,
           "Rate your satiety after eating",
           _hungerAfterValue,
           _onHungerAfterChanged,
-          ["confort", "léger inconfort", "inconfort", "encore faim"],
+          ["encore faim", "inconfort", "léger inconfort", "confort"],
         ),
       ];
 

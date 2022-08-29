@@ -10,12 +10,14 @@ import 'package:pdg_app/screens/register.dart';
     AutoRoute(
       path: '/home',
       page: HomeScreen,
-      children: [],
-    ),
-    AutoRoute(
-      page: ChatScreen,
-      path: '/chat',
       initial: true,
+      children: [
+        AutoRoute(
+          page: ChatScreen,
+          path: '/chat',
+          initial: true,
+        ),
+      ],
     ),
     AutoRoute(
       page: LoginScreen,

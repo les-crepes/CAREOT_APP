@@ -3,13 +3,13 @@ import 'package:pdg_app/widgets/cards/pic_card.dart';
 
 class ArrowPicCard extends StatelessWidget {
   final String imagePath;
-  final String title;
-  final String? subtitle;
+  final Widget title;
+  final Widget? subtitle;
 
   const ArrowPicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = "images/breakfast.jpg",
+    this.imagePath = "assets/images/breakfast.jpg",
     Key? key,
   }) : super(key: key);
 

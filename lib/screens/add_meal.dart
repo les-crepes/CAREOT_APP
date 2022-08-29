@@ -211,7 +211,13 @@ class _ListView extends StatelessWidget {
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) => [
-        const Text("Add a meal"),
+        Text(
+          "Add a meal",
+          style: Theme.of(context)
+              .textTheme
+              .headline1!
+              .copyWith(color: Colors.black),
+        ),
         const MainTextField(
           name: "Meal name",
           icon: Icon(

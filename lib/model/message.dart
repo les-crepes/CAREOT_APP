@@ -1,6 +1,8 @@
 import 'package:uuid/uuid.dart';
 
-class Message {
+import 'imodel.dart';
+
+class Message implements IModel {
   String id = const Uuid().v1();
   DateTime? time;
   String? fromId;
@@ -28,6 +30,7 @@ class Message {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
@@ -34,6 +36,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   Future<TimeOfDay?> _selectDate(BuildContext context) async {
     TimeOfDay? result = (await context.router
         .push(const TimePickerDialogRoute())) as TimeOfDay?;
+    log(result.toString());
     return result;
   }
 

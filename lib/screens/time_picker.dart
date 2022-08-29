@@ -13,6 +13,7 @@ class TimePickerDialog extends StatelessWidget {
         context.router.pop(time);
       },
       onCancel: () => context.router.pop(),
+      is24HrFormat: true,
     );
   }
 }

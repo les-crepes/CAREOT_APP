@@ -25,6 +25,7 @@ import '../screens/time_picker.dart';
     AutoRoute(
       page: LoginScreen,
       path: '/login',
+      initial: false,
     ),
     AutoRoute(
       page: RegisterScreen,

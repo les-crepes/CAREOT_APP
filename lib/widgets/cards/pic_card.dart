@@ -3,14 +3,14 @@ import 'package:pdg_app/widgets/cards/main_card.dart';
 
 class PicCard extends StatelessWidget {
   final String imagePath;
-  final String title;
-  final String? subtitle;
+  final Widget title;
+  final Widget? subtitle;
   final Icon? icon;
 
   const PicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = "images/breakfast.jpg",
+    this.imagePath = 'assets/images/breakfast.jpg',
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -24,17 +24,13 @@ class PicCard extends StatelessWidget {
         children: [
           Expanded(
             child: ListTile(
-              leading: const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/breakfast.jpg'),
+              contentPadding: const EdgeInsets.only(left: 0),
+              leading: CircleAvatar(
+                backgroundImage: AssetImage(imagePath),
                 radius: 66,
               ),
-              title: Text(title),
-              subtitle: subtitle != null
-                  ? Text(
-                      subtitle!,
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    )
-                  : const SizedBox(),
+              title: title,
+              subtitle: subtitle != null ? subtitle! : const SizedBox(),
             ),
           ),
           Container(

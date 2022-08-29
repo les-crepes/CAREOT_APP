@@ -15,7 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:flutter/material.dart' as _i6;
 
 import '../screens/chat.dart' as _i2;
-import '../screens/home.dart' as _i1;
+import '../screens/diary.dart' as _i1;
 import '../screens/login.dart' as _i3;
 import '../screens/register.dart' as _i4;
 
@@ -25,9 +25,9 @@ class AppRouter extends _i5.RootStackRouter {
 
   @override
   final Map<String, _i5.PageFactory> pagesMap = {
-    HomeScreenRoute.name: (routeData) {
+    DiaryScreenRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.HomeScreen());
+          routeData: routeData, child: const _i1.DiaryScreen());
     },
     ChatScreenRoute.name: (routeData) {
       return _i5.MaterialPageX<dynamic>(
@@ -46,22 +46,22 @@ class AppRouter extends _i5.RootStackRouter {
   @override
   List<_i5.RouteConfig> get routes => [
         _i5.RouteConfig('/#redirect',
-            path: '/', redirectTo: '/chat', fullMatch: true),
-        _i5.RouteConfig(HomeScreenRoute.name, path: '/home'),
+            path: '/', redirectTo: '/diary', fullMatch: true),
+        _i5.RouteConfig(DiaryScreenRoute.name, path: '/diary'),
         _i5.RouteConfig(ChatScreenRoute.name, path: '/chat'),
         _i5.RouteConfig(LoginScreenRoute.name, path: '/login'),
         _i5.RouteConfig(RegisterScreenRoute.name, path: '/register'),
         _i5.RouteConfig('*#redirect',
-            path: '*', redirectTo: '/home', fullMatch: true)
+            path: '*', redirectTo: '/diary', fullMatch: true)
       ];
 }
 
 /// generated route for
-/// [_i1.HomeScreen]
-class HomeScreenRoute extends _i5.PageRouteInfo<void> {
-  const HomeScreenRoute() : super(HomeScreenRoute.name, path: '/home');
+/// [_i1.DiaryScreen]
+class DiaryScreenRoute extends _i5.PageRouteInfo<void> {
+  const DiaryScreenRoute() : super(DiaryScreenRoute.name, path: '/diary');
 
-  static const String name = 'HomeScreenRoute';
+  static const String name = 'DiaryScreenRoute';
 }
 
 /// generated route for

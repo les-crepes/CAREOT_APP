@@ -15,8 +15,9 @@ class MainCard extends StatelessWidget {
         boxShadow: const [
           BoxShadow(
             color: Colors.black38,
-            blurRadius: 25,
+            blurRadius: 15,
             offset: Offset(0, 5),
+            spreadRadius: 0,
           )
         ],
         borderRadius: BorderRadius.circular(15.0),

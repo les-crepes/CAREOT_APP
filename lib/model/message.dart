@@ -30,6 +30,7 @@ class Message implements IModel {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

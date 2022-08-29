@@ -36,6 +36,7 @@ class Aftercare implements IModel {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'bmi': bmi,

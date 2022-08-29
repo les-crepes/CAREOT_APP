@@ -12,6 +12,7 @@ class Document implements IModel {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'url': url,

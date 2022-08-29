@@ -33,6 +33,7 @@ class Meal implements IModel {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'startTime': startTime,

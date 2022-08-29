@@ -24,6 +24,7 @@ class Client implements IModel{
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'firstName': firstName,

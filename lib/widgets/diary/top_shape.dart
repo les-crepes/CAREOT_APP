@@ -15,14 +15,14 @@ class DiaryTopShape extends CustomPainter {
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
     paint0Fill.shader = ui.Gradient.linear(
-        Offset(size.width * 0.1166667, size.height * 0.09036129),
-        Offset(size.width * 0.9716639, size.height * 0.5621290), [
-      const Color(0xffFFBD70).withOpacity(1),
-      const Color(0xffFF9877).withOpacity(0.9)
-    ], [
-      0,
-      1
-    ]);
+      Offset(size.width * 0.1166667, size.height * 0.09036129),
+      Offset(size.width * 0.9716639, size.height * 0.5621290),
+      [
+        const Color(0xffFFBD70).withOpacity(1),
+        const Color(0xffFF9877).withOpacity(0.9)
+      ],
+      [0, 1],
+    );
     canvas.drawPath(path_0, paint0Fill);
   }
 

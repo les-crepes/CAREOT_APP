@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/register.dart';
+
+import '../screens/time_picker.dart';
 
 @MaterialAutoRouter(
   // replaceInRouteName: 'Page,Route',
@@ -31,6 +34,10 @@ import 'package:pdg_app/screens/register.dart';
       page: AddMealScreen,
       path: '/add-meal',
       initial: true,
+    ),
+    AutoRoute(
+      page: TimePickerDialog,
+      path: '/time',
     ),
     RedirectRoute(
       path: '*',

@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
@@ -28,6 +31,12 @@ class _AddMealScreenState extends State<AddMealScreen> {
     return image;
   }
 
+  Future<TimeOfDay?> _selectDate(BuildContext context) async {
+    TimeOfDay? result = (await context.router
+        .push(const TimePickerDialogRoute())) as TimeOfDay?;
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AddMeal(
@@ -41,8 +50,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
       }),
       image: _image,
       onCameraPressed: () async {
-        _image = await _takePicture();
-        setState(() {});
+        _selectDate(context);
+        // _image = await _takePicture();
+        // setState(() {});
       },
       onGalleryPressed: () async {
         _image = await _getPicture();

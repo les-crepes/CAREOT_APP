@@ -1,4 +1,6 @@
-class Client {
+import 'imodel.dart';
+
+class Client implements IModel{
   String? uid;
   String? firstName;
   String? lastName;
@@ -25,6 +27,7 @@ class Client {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
@@ -40,4 +43,5 @@ class Client {
   String toString() {
     return 'Client{$uid $firstName $lastName $birthDate $insurance $phoneNumber}';
   }
+
 }

@@ -1,4 +1,6 @@
-class Aftercare {
+import 'imodel.dart';
+
+class Aftercare implements IModel {
   int? bmi;
   double? weight;
   String? diagnostic;
@@ -34,6 +36,7 @@ class Aftercare {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'bmi': bmi,

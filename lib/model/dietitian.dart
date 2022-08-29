@@ -1,4 +1,6 @@
-class Dietitian {
+import 'imodel.dart';
+
+class Dietitian implements IModel {
   String? uid;
   String? firstName;
   String? lastName;
@@ -16,7 +18,7 @@ class Dietitian {
 
   factory Dietitian.fromJson(Map<String, dynamic> dietitian) {
     return Dietitian(
-      uid: dietitian['id'],
+      uid: dietitian['uid'],
       firstName: dietitian['firstName'],
       lastName: dietitian['lastName'],
       clientList: dietitian['clientList'],
@@ -25,9 +27,10 @@ class Dietitian {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
-      'id': uid,
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'clientList': clientList,

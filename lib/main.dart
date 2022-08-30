@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  IMessage msg = FirebaseMessage();
+  IMessage msg = FirebaseMessage(FirebaseFirestore.instance);
 
   final m1 = Message(id: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
   msg.createMessage(m1);

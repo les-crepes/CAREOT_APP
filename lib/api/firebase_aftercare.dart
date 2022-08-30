@@ -4,17 +4,15 @@ import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseAftercare implements IAftercare {
-  FirebaseAftercare._();
-  static final FirebaseAftercare _instance = FirebaseAftercare._();
-  factory FirebaseAftercare() => _instance;
+import 'firebase_api.dart';
 
-  CollectionReference aftercares =
-      FirebaseFirestore.instance.collection('aftercare');
+class FirebaseAftercare extends FirebaseAPI implements IAftercare {
 
+  FirebaseAftercare(FirebaseFirestore db) : super(db, 'aftercare');
+  
   @override
   void createAftercare(Aftercare aftercare) {
-    aftercares
+    collectionReference
         .add(aftercare.toJson())
         .then((value) => log("Aftercare Added"))
         .catchError((error) {
@@ -25,12 +23,12 @@ class FirebaseAftercare implements IAftercare {
 
   @override
   void deleteAftercare(String aftercareId) {
-    aftercares.doc(aftercareId).delete();
+    collectionReference.doc(aftercareId).delete();
   }
 
   @override
   Future<Aftercare> readAftercare(String aftercareId) async {
-    final docRef = aftercares.doc(aftercareId);
+    final docRef = collectionReference.doc(aftercareId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
@@ -41,7 +39,7 @@ class FirebaseAftercare implements IAftercare {
 
   @override
   updateAftercare(Aftercare aftercare) {
-    aftercares
+    collectionReference
         .doc('FAKE')
         .update(aftercare.toJson())
         .then((value) => log("Aftercare Updated"))

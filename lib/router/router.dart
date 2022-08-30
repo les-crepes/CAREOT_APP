@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
+import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
 
 import '../screens/home.dart';
@@ -25,6 +26,10 @@ import '../screens/home.dart';
         AutoRoute(
           page: DiaryScreen,
           path: 'diary',
+        ),
+        AutoRoute(
+          page: ProfileScreen,
+          path: 'my',
         )
       ],
     ),

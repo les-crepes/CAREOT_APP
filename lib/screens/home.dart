@@ -4,15 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:pdg_app/router/router.gr.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        DiaryScreenRoute(),
         ChatScreenRoute(),
+        DiaryScreenRoute(),
+        ProfileScreenRoute(),
       ],
       builder: (context, child, animation) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -30,8 +38,9 @@ class HomeScreen extends StatelessWidget {
             duration: const Duration(milliseconds: 900),
             tabBackgroundColor: Theme.of(context).colorScheme.secondary,
             gap: 8,
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 12),
-            tabMargin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
+            tabMargin: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+            backgroundColor: Theme.of(context).colorScheme.surface,
             tabs: const [
               GButton(
                 icon: Icons.chat_bubble_outline,
@@ -46,6 +55,13 @@ class HomeScreen extends StatelessWidget {
                 text: "Profile",
               )
             ],
+            selectedIndex: _selectedIndex,
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+                tabsRouter.setActiveIndex(index);
+              });
+            },
           ),
         );
       },

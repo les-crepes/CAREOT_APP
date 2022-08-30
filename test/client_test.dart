@@ -16,19 +16,17 @@ Client c3 =
 Client c4 = Client(
     firstName: 'Nelson', lastName: 'Jeanrenaud', phoneNumber: '0786834556');
 
-void populateMockClient(Client c) async {
-  await db.collection('client').add(c.toFirestore());
+Future<void> populateMockClient(Client c) async {
+  await db.collection('client').doc(c.uid).set(c.toFirestore());
 }
 
 void main() {
   late IClient clientApi;
   final clients = db.collection('client');
 
-  setUp(() async {
-    populateMockClient(c1);
+  setUpAll(() async {
     populateMockClient(c2);
     populateMockClient(c3);
-    populateMockClient(c4);
     clientApi = FirebaseClient(db);
   });
 
@@ -41,27 +39,39 @@ void main() {
           toFirestore: (Client city, _) => city.toFirestore(),
         )
         .get();
-    final c2 = docSnapshot.data();
-    log(c2!.uid);
-    log(c1.uid);
-
-    expect(c1.toString(), c2.toString());
+    final client = docSnapshot.data();
+    expect(c1.toString(), client.toString());
   });
 
   test("Read Client", () async {
-    final Client c1Bis = await clientApi.readClient(c1.uid);
-    expect(c1.toString(), c1Bis.toString());
+    final Client c2Bis = await clientApi.readClient(c2.uid);
+    expect(c2.toString(), c2Bis.toString());
   });
 
   test("Update client", () async {
     c1.setFirstName('Filippo');
     clientApi.updateClient(c1);
-    final c2 = await db.doc(c1.uid).get();
-    expect(c1, c2);
+    final docSnapshot = await clients
+        .doc(c1.uid)
+        .withConverter(
+          fromFirestore: Client.fromFirestore,
+          toFirestore: (Client city, _) => city.toFirestore(),
+        )
+        .get();
+    final c2 = docSnapshot.data();
+    expect('Filippo', c2!.firstName);
   });
 
-  test("Delete client", () {
-    clientApi.deleteClient(c1.uid);
-    expect(db.doc(c1.uid), null);
+  test("Delete client", () async {
+    clientApi.deleteClient(c3.uid);
+    final docSnapshot = await clients
+        .doc(c3.uid)
+        .withConverter(
+          fromFirestore: Client.fromFirestore,
+          toFirestore: (Client city, _) => city.toFirestore(),
+        )
+        .get();
+    final client = docSnapshot.data();
+    expect(client, null);
   });
 }

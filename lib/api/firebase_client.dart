@@ -29,14 +29,13 @@ class FirebaseClient extends FirebaseAPI implements IClient {
           fromFirestore: Client.fromFirestore,
           toFirestore: (Client city, _) => city.toFirestore(),
         );
-
     final docSnapshot = await docRef.get();
     final client = docSnapshot.data();
-    if (client == null) {
+    if (client != null) {
+      return client;
+    } else {
       log("Doc does not exist");
       throw Error();
-    } else {
-      return client;
     }
   }
 

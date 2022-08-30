@@ -17,7 +17,7 @@ void main() {
 
   setUp(() async {
     populateMockMessage(msg1);
-    messageApi = FirebaseMessage();
+    messageApi = FirebaseMessage(db);
   });
 
   test("Create Message", () {

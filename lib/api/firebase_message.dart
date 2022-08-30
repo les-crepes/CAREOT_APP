@@ -12,7 +12,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
 
   @override
   void createMessage(Message message) {
-    messages
+    collectionReference
         .add(message.toFirestore())
         .then((value) => log("Message Added"))
         .catchError((error) {

@@ -17,7 +17,7 @@ void main() {
 
   setUp(() async {
     populateMockMeal(m1);
-    mealApi = FirebaseMeal();
+    mealApi = FirebaseMeal(db);
   });
 
   test("Create Meal", () {

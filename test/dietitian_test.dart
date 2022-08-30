@@ -17,7 +17,7 @@ void main() {
 
   setUp(() async {
     populateMockDietitian(d1);
-    dietitianApi = FirebaseDietitian();
+    dietitianApi = FirebaseDietitian(db);
   });
 
   test("Create Dietitian", () {

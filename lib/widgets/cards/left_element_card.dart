@@ -28,12 +28,18 @@ class LeftElementCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: ListTile(
-              contentPadding: const EdgeInsets.only(left: 0),
-              leading: _element,
-              title: _title,
-              subtitle: _subtitle != null ? _subtitle! : const SizedBox(),
-            ),
+            child: _subtitle != null
+                ? ListTile(
+                    contentPadding: const EdgeInsets.only(left: 0),
+                    leading: _element,
+                    title: _title,
+                    subtitle: _subtitle,
+                  )
+                : ListTile(
+                    contentPadding: const EdgeInsets.only(left: 0),
+                    leading: _element,
+                    title: _title,
+                  ),
           ),
           Container(
             child: _icon,

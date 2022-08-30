@@ -4,17 +4,20 @@ import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/model/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseMessage implements IMessage {
-  FirebaseMessage._();
-  static final FirebaseMessage _instance = FirebaseMessage._();
-  factory FirebaseMessage() => _instance;
-  CollectionReference messages =
-      FirebaseFirestore.instance.collection('message');
+import 'firebase_api.dart';
+
+class FirebaseMessage extends FirebaseAPI implements IMessage {
+
+  FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
 
   @override
   void createMessage(Message message) {
-    messages
-        .add(message.toJson())
+    collectionReference
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message message, options) => message.toFirestore())
+        .doc(message.uid)
+        .set(message)
         .then((value) => log("Message Added"))
         .catchError((error) {
       log("Failed to add message: $error");
@@ -23,30 +26,35 @@ class FirebaseMessage implements IMessage {
   }
 
   @override
-  void deleteMessage(String messageId) {
-    messages.doc(messageId).delete();
-  }
-
-  @override
   Future<Message> readMessage(String messageId) async {
-    final docRef = messages.doc(messageId);
-    final doc = await docRef.get();
-    if (!doc.exists) {
+    final docRef = collectionReference.doc(messageId).withConverter(
+          fromFirestore: Message.fromFirestore,
+          toFirestore: (Message city, _) => city.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final message = docSnapshot.data();
+    if (message != null) {
+      return message;
+    } else {
+      log("Doc does not exist");
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
-    return Message.fromJson(data);
   }
 
   @override
-  updateMessage(Message message) {
-    messages
-        .doc('FAKE')
-        .update(message.toJson())
+  void updateMessage(Message message) {
+    collectionReference
+        .doc(message.uid)
+        .update(message.toFirestore())
         .then((value) => log("Message Updated"))
         .catchError((error) {
       log("Failed to update message: $error");
       throw Exception(error);
     });
+  }
+
+  @override
+  void deleteMessage(String messageId) {
+    collectionReference.doc(messageId).delete();
   }
 }

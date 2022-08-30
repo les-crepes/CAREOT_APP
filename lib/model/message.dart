@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
 class Message implements IModel {
-  String id = const Uuid().v1();
+  String uid = const Uuid().v1();
   DateTime? time;
   String? fromId;
   String? toId;
@@ -11,29 +12,33 @@ class Message implements IModel {
   int? type;
 
   Message({
-    required this.id,
+    String? uid,
     this.time,
     this.fromId,
     this.toId,
     this.content,
     this.type,
-  });
+  }) : uid = uid ?? const Uuid().v1();
 
-  factory Message.fromJson(Map<String, dynamic> message) {
+  factory Message.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Message(
-      id: message['id'],
-      time: message['time'],
-      fromId: message['fromId'],
-      toId: message['toId'],
-      content: message['content'],
-      type: message['type'],
+      uid: data?['uid'],
+      time: data?['time'],
+      fromId: data?['fromId'],
+      toId: data?['toId'],
+      content: data?['content'],
+      type: data?['type'],
     );
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
-      'id': id,
+      'uid': uid,
       'time': time,
       'fromId': fromId,
       'toId': toId,
@@ -45,5 +50,9 @@ class Message implements IModel {
   @override
   String toString() {
     return 'Message{$fromId $toId $content $type}';
+  }
+
+  void setContent(String newContent) {
+    content = newContent;
   }
 }

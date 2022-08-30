@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
+import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -34,9 +36,12 @@ class DiaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Diary(
+    return Diary(
       getDiariesForDay: _getEventsForDay,
       clientName: "Marie",
+      onAddPressed: () {
+        AutoRouter.of(context).navigate(const AddMealScreenRoute());
+      },
     );
   }
 }
@@ -47,6 +52,7 @@ class Diary extends StatefulWidget {
   final List<Meal> Function(DateTime) getDiariesForDay;
   final String clientName;
   final String clientPicturePath;
+  final void Function()? _onAddPressed;
 
   const Diary({
     this.screenWidth = 0,
@@ -54,8 +60,10 @@ class Diary extends StatefulWidget {
     required this.getDiariesForDay,
     required this.clientName,
     this.clientPicturePath = "assets/images/default_user_pic.png",
+    void Function()? onAddPressed,
     Key? key,
-  }) : super(key: key);
+  })  : _onAddPressed = onAddPressed,
+        super(key: key);
 
   @override
   State<Diary> createState() => _DiaryState();
@@ -149,7 +157,11 @@ class _DiaryState extends State<Diary> {
           )
         ],
       ),
-      if (widget.showActionButton) const ActionButton(icon: Icons.add)
+      if (widget.showActionButton)
+        ActionButton(
+          icon: Icons.add,
+          onPressed: widget._onAddPressed,
+        )
     ]);
   }
 }

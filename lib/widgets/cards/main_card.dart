@@ -12,6 +12,7 @@ class MainCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        color: Colors.white,
         boxShadow: const [
           BoxShadow(
             color: Colors.black38,
@@ -22,12 +23,7 @@ class MainCard extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: child,
-      ),
+      child: child,
     );
   }
 }

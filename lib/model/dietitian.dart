@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
 import 'imodel.dart';
 
 class Dietitian implements IModel {
-  String? id;
+  String uid;
   String? firstName;
   String? lastName;
   List? clientList;
@@ -9,28 +12,33 @@ class Dietitian implements IModel {
   String? avs;
 
   Dietitian(
-      {this.id,
+      {String? uid,
       this.firstName,
       this.lastName,
       this.clientList,
       this.avs,
-      this.birthDate});
+      this.birthDate})
+      : uid = uid ?? const Uuid().v1();
 
-  factory Dietitian.fromJson(Map<String, dynamic> dietitian) {
+  factory Dietitian.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Dietitian(
-      id: dietitian['id'],
-      firstName: dietitian['firstName'],
-      lastName: dietitian['lastName'],
-      clientList: dietitian['clientList'],
-      avs: dietitian['avs'],
-      birthDate: dietitian['birthDate'],
+      uid: data?['uid'],
+      firstName: data?['firstName'],
+      lastName: data?['lastName'],
+      clientList: data?['clientList'],
+      avs: data?['avs'],
+      birthDate: data?['birthDate'],
     );
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
-      'id': id,
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'clientList': clientList,
@@ -44,4 +52,7 @@ class Dietitian implements IModel {
     return 'Dietitian{$firstName $lastName $clientList $avs $birthDate}';
   }
 
+  void setFirstName(String name) {
+    firstName = name;
+  }
 }

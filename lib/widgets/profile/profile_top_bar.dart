@@ -4,36 +4,44 @@ import 'package:pdg_app/widgets/profile/top_shape.dart';
 import '../ProfileAvatar.dart';
 
 class ProfileTopBar extends StatelessWidget {
+  final double _width;
+  final double _height;
+  final String _clientPicturePath;
+  final String _clientFirstName;
+  final String _clientLastName;
+
   const ProfileTopBar({
     Key? key,
-    required this.width,
-    required this.height,
+    required width,
+    required height,
     required String clientPicturePath,
-  })  : _clientPicturePath = clientPicturePath,
+    required String clientFirstName,
+    required String clientLastName,
+  })  : _width = width,
+        _height = height,
+        _clientPicturePath = clientPicturePath,
+        _clientFirstName = clientFirstName,
+        _clientLastName = clientLastName,
         super(key: key);
-
-  final double width;
-  final double height;
-  final String _clientPicturePath;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         CustomPaint(
-          size: Size(width, height),
+          size: Size(_width, _height),
           painter: ProfileTopShape(),
         ),
         Container(
           alignment: Alignment.center,
-          height: height + 35,
+          height: _height + 35,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ProfileAvatar(image: AssetImage(_clientPicturePath)),
               const SizedBox(height: 8),
               Text(
-                "Luca Coduri",
+                "$_clientFirstName $_clientLastName",
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 19,

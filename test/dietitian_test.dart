@@ -5,38 +5,66 @@ import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
 
 final db = FakeFirebaseFirestore();
-  Dietitian d1 = Dietitian(firstName: 'Claire', lastName: 'Emery', uid: '1');
+  Dietitian d1 = Dietitian(firstName: 'Claire', lastName: 'Emery');
+  Dietitian d2 = Dietitian(firstName: 'Alice', lastName: 'Emery');
 
 
-void populateMockDietitian(Dietitian c) async {
-  await db.collection('dietitian').add(c.toFirestore());
+
+Future<void> populateMockDietitian(Dietitian d) async {
+  await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
 }
 
 void main() {
-  late final IDietitian dietitianApi;
+  late IDietitian dietitianApi;
+  final dietitians = db.collection('dietitian');
 
-  setUp(() async {
-    populateMockDietitian(d1);
+  setUpAll(() async {
+    populateMockDietitian(d2);
     dietitianApi = FirebaseDietitian(db);
   });
 
-  test("Create Dietitian", () {
+  test("Create Dietitian", () async {
     dietitianApi.createDietitian(d1);
-    expect(d1, d1);
+    final docSnapshot = await dietitians
+        .doc(d1.uid)
+        .withConverter(
+          fromFirestore: Dietitian.fromFirestore,
+          toFirestore: (Dietitian city, _) => city.toFirestore(),
+        )
+        .get();
+    final dietitian = docSnapshot.data();
+    expect(d1.toString(), dietitian.toString());
   });
 
-  test("Read Dietitian", () {
-    dietitianApi.readDietitian(d1.uid!);
-    expect(d1, d1);
+  test("Read Dietitian", () async {
+    final Dietitian c2Bis = await dietitianApi.readDietitian(d2.uid);
+    expect(d2.toString(), c2Bis.toString());
   });
 
-  test("Update dietitian", () {
+  test("Update dietitian", () async {
+    d1.setFirstName('Filippo');
     dietitianApi.updateDietitian(d1);
-    expect(d1, d1);
+    final docSnapshot = await dietitians
+        .doc(d1.uid)
+        .withConverter(
+          fromFirestore: Dietitian.fromFirestore,
+          toFirestore: (Dietitian city, _) => city.toFirestore(),
+        )
+        .get();
+    final c2 = docSnapshot.data();
+    expect('Filippo', c2!.firstName);
   });
 
-  test("Delete dietitian", () {
-    dietitianApi.deleteDietitian(d1.uid!);
-    expect(d1, d1);
+  test("Delete dietitian", () async {
+    dietitianApi.deleteDietitian(d2.uid);
+    final docSnapshot = await dietitians
+        .doc(d2.uid)
+        .withConverter(
+          fromFirestore: Dietitian.fromFirestore,
+          toFirestore: (Dietitian city, _) => city.toFirestore(),
+        )
+        .get();
+    final dietitian = docSnapshot.data();
+    expect(dietitian, null);
   });
 }

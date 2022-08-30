@@ -13,7 +13,11 @@ class FirebaseDietitian extends FirebaseAPI implements IDietitian {
   @override
   void createDietitian(Dietitian dietitian) {
     collectionReference
-        .add(dietitian.toJson())
+        .withConverter(
+            fromFirestore: Dietitian.fromFirestore,
+            toFirestore: (Dietitian dietitian, options) => dietitian.toFirestore())
+        .doc(dietitian.uid)
+        .set(dietitian)
         .then((value) => log("Dietitian Added"))
         .catchError((error) {
       log("Failed to add dietitian: $error");
@@ -23,19 +27,24 @@ class FirebaseDietitian extends FirebaseAPI implements IDietitian {
 
   @override
   Future<Dietitian> readDietitian(String dietitianId) async {
-    final docRef = collectionReference.doc(dietitianId);
-    final doc = await docRef.get();
-    if (!doc.exists) {
+    final docRef = collectionReference.doc(dietitianId).withConverter(
+          fromFirestore: Dietitian.fromFirestore,
+          toFirestore: (Dietitian city, _) => city.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final dietitian = docSnapshot.data();
+    if (dietitian != null) {
+      return dietitian;
+    } else {
+      log("Doc does not exist");
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
-    return Dietitian.fromJson(data);
   }
 
   @override
   void updateDietitian(Dietitian dietitian) {
     collectionReference
-        .doc('FAKE')
+        .doc(dietitian.uid)
         .update(dietitian.toFirestore())
         .then((value) => log("Dietitian Updated"))
         .catchError((error) {

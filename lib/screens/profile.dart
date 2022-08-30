@@ -78,9 +78,9 @@ class Profile extends StatelessWidget {
           clientLastName: _clientLastName,
         ),
         const SizedBox(height: 15),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.all(20),
             children: [
               LeftElementCard(
                 title: Text(

@@ -13,7 +13,7 @@ class Document implements IModel {
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
       'url': url,
     };

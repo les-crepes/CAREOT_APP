@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
 import 'imodel.dart';
 
-class Client implements IModel{
+class Client implements IModel {
+  String uid;
   String? firstName;
   String? lastName;
   String? birthDate;
@@ -8,30 +12,38 @@ class Client implements IModel{
   String? insurance;
 
   Client(
-      {this.firstName,
+      {String? uid,
+      this.firstName,
       this.lastName,
       this.birthDate,
       this.insurance,
-      this.phoneNumber});
+      this.phoneNumber})
+      : uid = uid ?? const Uuid().v1();
 
-  factory Client.fromJson(Map<String, dynamic> client) {
+  factory Client.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Client(
-      firstName: client['firstName'],
-      lastName: client['lastName'],
-      birthDate: client['birthDate'],
-      insurance: client['insurance'],
-      phoneNumber: client['phoneNumber'],
+      uid: data?['uid'],
+      firstName: data?['firstName'],
+      lastName: data?['lastName'],
+      birthDate: data?['birthDate'],
+      insurance: data?['insurance'],
+      phoneNumber: data?['phoneNumber'],
     );
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'birthDate': birthDate,
-      'phoneNumber': phoneNumber,
-      'insurance': insurance,
+      'uid': firstName,
+      if (firstName != null) 'firstName': firstName,
+      if (lastName != null) 'lastName': lastName,
+      if (birthDate != null) 'birthDate': birthDate,
+      if (phoneNumber != null) 'phoneNumber': phoneNumber,
+      if (insurance != null) 'insurance': insurance,
     };
   }
 
@@ -40,4 +52,7 @@ class Client implements IModel{
     return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
   }
 
+  void setFirstName(String name) {
+    firstName = name;
+  }
 }

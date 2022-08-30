@@ -1,3 +1,3 @@
 abstract class IModel {
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toFirestore();
 }

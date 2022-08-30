@@ -4,18 +4,20 @@ import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseDietitian implements IDietitian {
-  FirebaseDietitian._();
-  static final FirebaseDietitian _instance = FirebaseDietitian._();
-  factory FirebaseDietitian() => _instance;
+import 'firebase_api.dart';
 
-  CollectionReference dietitians =
-      FirebaseFirestore.instance.collection('dietician');
-
+class FirebaseDietitian extends FirebaseAPI implements IDietitian {
+  
+  FirebaseDietitian(FirebaseFirestore db) : super(db, 'dietitian');
+  
   @override
   void createDietitian(Dietitian dietitian) {
-    dietitians
-        .add(dietitian.toJson())
+    collectionReference
+        .withConverter(
+            fromFirestore: Dietitian.fromFirestore,
+            toFirestore: (Dietitian dietitian, options) => dietitian.toFirestore())
+        .doc(dietitian.uid)
+        .set(dietitian)
         .then((value) => log("Dietitian Added"))
         .catchError((error) {
       log("Failed to add dietitian: $error");
@@ -25,20 +27,25 @@ class FirebaseDietitian implements IDietitian {
 
   @override
   Future<Dietitian> readDietitian(String dietitianId) async {
-    final docRef = dietitians.doc(dietitianId);
-    final doc = await docRef.get();
-    if (!doc.exists) {
+    final docRef = collectionReference.doc(dietitianId).withConverter(
+          fromFirestore: Dietitian.fromFirestore,
+          toFirestore: (Dietitian city, _) => city.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final dietitian = docSnapshot.data();
+    if (dietitian != null) {
+      return dietitian;
+    } else {
+      log("Doc does not exist");
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
-    return Dietitian.fromJson(data);
   }
 
   @override
   void updateDietitian(Dietitian dietitian) {
-    dietitians
-        .doc('FAKE')
-        .update(dietitian.toJson())
+    collectionReference
+        .doc(dietitian.uid)
+        .update(dietitian.toFirestore())
         .then((value) => log("Dietitian Updated"))
         .catchError((error) {
       log("Failed to update dietitian: $error");
@@ -48,6 +55,6 @@ class FirebaseDietitian implements IDietitian {
 
   @override
   void deleteDietitian(String dietitianId) {
-    dietitians.doc(dietitianId).delete();
+    collectionReference.doc(dietitianId).delete();
   }
 }

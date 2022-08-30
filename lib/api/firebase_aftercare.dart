@@ -4,18 +4,20 @@ import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseAftercare implements IAftercare {
-  FirebaseAftercare._();
-  static final FirebaseAftercare _instance = FirebaseAftercare._();
-  factory FirebaseAftercare() => _instance;
+import 'firebase_api.dart';
 
-  CollectionReference aftercares =
-      FirebaseFirestore.instance.collection('aftercare');
+class FirebaseAftercare extends FirebaseAPI implements IAftercare {
+  FirebaseAftercare(FirebaseFirestore db) : super(db, 'aftercare');
 
   @override
   void createAftercare(Aftercare aftercare) {
-    aftercares
-        .add(aftercare.toJson())
+    collectionReference
+        .withConverter(
+            fromFirestore: Aftercare.fromFirestore,
+            toFirestore: (Aftercare aftercare, options) =>
+                aftercare.toFirestore())
+        .doc(aftercare.uid)
+        .set(aftercare)
         .then((value) => log("Aftercare Added"))
         .catchError((error) {
       log("Failed to add aftercare: $error");
@@ -24,30 +26,35 @@ class FirebaseAftercare implements IAftercare {
   }
 
   @override
-  void deleteAftercare(String aftercareId) {
-    aftercares.doc(aftercareId).delete();
-  }
-
-  @override
   Future<Aftercare> readAftercare(String aftercareId) async {
-    final docRef = aftercares.doc(aftercareId);
-    final doc = await docRef.get();
-    if (!doc.exists) {
+    final docRef = collectionReference.doc(aftercareId).withConverter(
+          fromFirestore: Aftercare.fromFirestore,
+          toFirestore: (Aftercare city, _) => city.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final aftercare = docSnapshot.data();
+    if (aftercare != null) {
+      return aftercare;
+    } else {
+      log("Doc does not exist");
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
-    return Aftercare.fromJson(data);
   }
 
   @override
   updateAftercare(Aftercare aftercare) {
-    aftercares
-        .doc('FAKE')
-        .update(aftercare.toJson())
+    collectionReference
+        .doc(aftercare.uid)
+        .update(aftercare.toFirestore())
         .then((value) => log("Aftercare Updated"))
         .catchError((error) {
       log("Failed to update aftercare: $error");
       throw Exception(error);
     });
+  }
+
+  @override
+  void deleteAftercare(String aftercareId) {
+    collectionReference.doc(aftercareId).delete();
   }
 }

@@ -169,8 +169,8 @@ class AddMeal extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: _image == null
-                            ? const NetworkImage(
-                                    "https://www.washingtonian.com/wp-content/uploads/2021/07/2Fiftys-1500x1000.jpg")
+                            ? const AssetImage(
+                                    "assets/images/placeholderfood.png")
                                 as ImageProvider
                             : XFileImage(_image!),
                       ),
@@ -237,6 +237,7 @@ class _PictureSelector extends StatelessWidget {
                 icon: Icons.camera_alt,
                 onTap: _onCameraPress,
               ),
+              const SizedBox(width: 8),
               _IconButton(
                 icon: Icons.image,
                 onTap: _onImageSelectPress,

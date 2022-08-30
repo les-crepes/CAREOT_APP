@@ -7,4 +7,5 @@ class FirebaseAPI {
   FirebaseAPI(FirebaseFirestore db, String collectionName)
       : firestore = db,
         collectionReference = db.collection(collectionName);
+
 }

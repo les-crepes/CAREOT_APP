@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'imodel.dart';
 
 class Message implements IModel {
+  @override
   String uid = const Uuid().v1();
   DateTime? time;
   String? fromId;

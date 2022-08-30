@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'imodel.dart';
 
 class Dietitian implements IModel {
+  @override
   String uid;
   String? firstName;
   String? lastName;

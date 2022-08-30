@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'imodel.dart';
 
 class Aftercare implements IModel {
+  @override
   String uid;
   int? bmi;
   double? weight;

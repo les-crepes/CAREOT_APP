@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'imodel.dart';
 
 class Meal implements IModel {
+  @override
   String uid;
   DateTime? startTime;
   DateTime? endTime;

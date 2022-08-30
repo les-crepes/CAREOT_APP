@@ -24,4 +24,8 @@ class Document implements IModel {
     return 'Document{$url}';
   }
 
+  @override
+  // TODO: implement uid
+  String get uid => throw UnimplementedError();
+
 }

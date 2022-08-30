@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
+import 'package:pdg_app/widgets/text_information.dart';
 
 import '../widgets/profile/profile_top_bar.dart';
 
@@ -61,16 +62,51 @@ class Profile extends StatelessWidget {
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: LeftElementCard(
-            title:
-                Text("Your nutritionnist is $_nutriFirstName $_nutriLastName."),
-            element: IconTheme(
-              data: IconThemeData(
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
+          child: Column(
+            children: [
+              LeftElementCard(
+                title: Text(
+                    "Your nutritionnist is $_nutriFirstName $_nutriLastName."),
+                element: IconTheme(
+                  data: IconThemeData(
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  child: const Icon(Icons.notification_important_outlined),
+                ),
               ),
-              child: const Icon(Icons.notification_important_outlined),
-            ),
+              Divider(
+                height: 60,
+                thickness: 1,
+                indent: 40,
+                endIndent: 40,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      TextInformation(
+                          label: "Email", text: "luca.coduri@gmail.com"),
+                      SizedBox(height: 15),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Phone",
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "0786543467",
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ]),
+              )
+            ],
           ),
         ),
       ],

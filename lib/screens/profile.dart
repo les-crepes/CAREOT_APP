@@ -65,7 +65,7 @@ class Profile extends StatelessWidget {
 
     final height = (width * 0.46111111111111114).toDouble();
 
-    final DateFormat hourFormatter = DateFormat.yMd();
+    final DateFormat hourFormatter = DateFormat("d/M/y");
 
     return Column(
       children: [

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pdg_app/widgets/ProfileAvatar.dart';
+import 'package:pdg_app/widgets/profile_avatar.dart';
 
 class DiaryTopBar extends StatelessWidget {
   const DiaryTopBar({

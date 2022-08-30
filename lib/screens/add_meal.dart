@@ -4,22 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../router/router.gr.dart';
-
-class RouterTestScreen extends StatelessWidget {
-  const RouterTestScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AutoRouter();
-  }
-}
 
 class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
@@ -44,14 +32,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
     return image;
   }
 
-  Future<TimeOfDay?> _selectDate(BuildContext context) async {
-    TimeOfDay? result = (await context.router
-        .parent<StackRouter>()!
-        .push(const TimePickerDialogRoute())) as TimeOfDay?;
-    log(result.toString());
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return AddMeal(
@@ -69,9 +49,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
         setState(() {});
       },
       onGalleryPressed: () async {
-        _selectDate(context);
-        //_image = await _getPicture();
-        //setState(() {});
+        _image = await _getPicture();
+        setState(() {});
+      },
+      onTimeSelected: (time) {
+        log(time.toString());
       },
     );
   }
@@ -85,6 +67,8 @@ class AddMeal extends StatelessWidget {
   final void Function() _onCameraPressed;
   final void Function() _onGalleryPressed;
   final XFile? _image;
+  final void Function(TimeOfDay) _onTimeSelected;
+  final void Function()? _onTimeSelectCanceled;
 
   const AddMeal({
     Key? key,
@@ -94,6 +78,8 @@ class AddMeal extends StatelessWidget {
     required void Function(double) onHungerAfterChanged,
     required void Function() onCameraPressed,
     required void Function() onGalleryPressed,
+    required void Function(TimeOfDay) onTimeSelected,
+    void Function()? onTimeSelectCanceled,
     XFile? image,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
@@ -102,6 +88,8 @@ class AddMeal extends StatelessWidget {
         _onCameraPressed = onCameraPressed,
         _onGalleryPressed = onGalleryPressed,
         _image = image,
+        _onTimeSelected = onTimeSelected,
+        _onTimeSelectCanceled = onTimeSelectCanceled,
         super(key: key);
 
   @override
@@ -147,6 +135,13 @@ class AddMeal extends StatelessWidget {
           ],
         ),
         const ActionButton(icon: Icons.check),
+        createInlinePicker(
+          value: TimeOfDay.now(),
+          onChange: _onTimeSelected,
+          onCancel: _onTimeSelectCanceled,
+          is24HrFormat: true,
+          blurredBackground: true,
+        ),
       ],
     );
   }

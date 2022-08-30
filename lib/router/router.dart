@@ -5,8 +5,6 @@ import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/register.dart';
 
-import '../screens/time_picker.dart';
-
 @MaterialAutoRouter(
   // replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
@@ -31,21 +29,9 @@ import '../screens/time_picker.dart';
       path: '/register',
     ),
     AutoRoute(
-      page: RouterTestScreen,
+      page: AddMealScreen,
       path: '/add-meal',
       initial: true,
-      children: [
-        AutoRoute(
-          page: AddMealScreen,
-          path: '',
-        ),
-        AutoRoute(
-          page: TimePickerDialog,
-          path: 'time',
-          fullscreenDialog: false,
-          deferredLoading: false,
-        ),
-      ],
     ),
     RedirectRoute(
       path: '*',

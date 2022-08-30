@@ -6,18 +6,11 @@ import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'firebase_options.dart';
 
-import 'api/imessage.dart';
-import 'api/firebase_message.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  IMessage msg = FirebaseMessage();
-
-  final m1 = Message(id: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
-  msg.createMessage(m1);
   runApp(MyApp());
 }
 

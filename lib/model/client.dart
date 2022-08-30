@@ -46,7 +46,7 @@ class Client implements IModel {
 
   @override
   String toString() {
-    return 'Client{$uid $firstName $lastName $birthDate $insurance $phoneNumber}';
+    return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
   }
 
   void setFirstName(String name) {

@@ -45,7 +45,7 @@ void main() {
     log(c2!.uid);
     log(c1.uid);
 
-    expect(c1.firstName, c2!.firstName);
+    expect(c1.toString(), c2.toString());
   });
 
   test("Read Client", () async {

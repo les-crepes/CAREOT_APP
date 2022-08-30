@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:pdg_app/widgets/custom_icon_button.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
@@ -161,31 +164,11 @@ class AddMeal extends StatelessWidget {
       children: [
         Column(
           children: [
-            SizedBox(
-              height: height,
-              child: Stack(
-                children: [
-                  Container(
-                    height: height,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: _image == null
-                            ? const AssetImage(
-                                    "assets/images/placeholderfood.png")
-                                as ImageProvider
-                            : XFileImage(_image!),
-                      ),
-                    ),
-                  ),
-                  _PictureSelector(
-                    onCameraPress: _onCameraPressed,
-                    onImageSelectPress: _onGalleryPressed,
-                  ),
-                ],
-              ),
-            ),
+            _Top(
+                height: height,
+                image: _image,
+                onCameraPressed: _onCameraPressed,
+                onGalleryPressed: _onGalleryPressed),
             Expanded(
               child: _ListView(
                 hungerAfterValue: _hungerAfterValue,
@@ -217,11 +200,57 @@ class AddMeal extends StatelessWidget {
   }
 }
 
-class _PictureSelector extends StatelessWidget {
+class _Top extends StatelessWidget {
+  const _Top({
+    Key? key,
+    required this.height,
+    required XFile? image,
+    required void Function() onCameraPressed,
+    required void Function() onGalleryPressed,
+  })  : _image = image,
+        _onCameraPressed = onCameraPressed,
+        _onGalleryPressed = onGalleryPressed,
+        super(key: key);
+
+  final double height;
+  final XFile? _image;
+  final void Function() _onCameraPressed;
+  final void Function() _onGalleryPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: Stack(
+        children: [
+          Container(
+            height: height,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: _image == null
+                    ? const AssetImage("assets/images/placeholderfood.png")
+                        as ImageProvider
+                    : XFileImage(_image!),
+              ),
+            ),
+          ),
+          _PictureSelectorLayout(
+            onCameraPress: _onCameraPressed,
+            onImageSelectPress: _onGalleryPressed,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PictureSelectorLayout extends StatelessWidget {
   final void Function()? _onCameraPress;
   final void Function()? _onImageSelectPress;
 
-  const _PictureSelector({
+  const _PictureSelectorLayout({
     Key? key,
     void Function()? onCameraPress,
     void Function()? onImageSelectPress,
@@ -239,45 +268,18 @@ class _PictureSelector extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _IconButton(
+              CustomIconButton(
                 icon: Icons.camera_alt,
                 onTap: _onCameraPress,
               ),
               const SizedBox(width: 8),
-              _IconButton(
+              CustomIconButton(
                 icon: Icons.image,
                 onTap: _onImageSelectPress,
               ),
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _IconButton extends StatelessWidget {
-  final IconData _icon;
-  final void Function()? _onTap;
-
-  const _IconButton({
-    Key? key,
-    required IconData icon,
-    void Function()? onTap,
-  })  : _icon = icon,
-        _onTap = onTap,
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MainCard(
-      child: InkWell(
-        onTap: _onTap,
-        child: SizedBox(
-          height: 40,
-          width: 40,
-          child: Icon(_icon),
-        ),
       ),
     );
   }
@@ -336,61 +338,29 @@ class _ListView extends StatelessWidget {
           text: _endTimeText ?? "End Time",
           onTap: _onEndTimePress,
         ),
-        buildSliderWithText(
-          context,
-          "Rate your hunger before eating",
-          _hungerBeforeValue,
-          _onHungerBeforeChanged,
-          ["encore faim", "inconfort", "léger inconfort", "confort"],
-        ),
-        buildSliderWithText(
-          context,
-          "Rate your satiety after eating",
-          _hungerAfterValue,
-          _onHungerAfterChanged,
-          ["encore faim", "inconfort", "léger inconfort", "confort"],
-        ),
+        SliderWithText(
+            context: context,
+            text: "Rate your hunger before eating",
+            value: _hungerBeforeValue,
+            onChanged: _onHungerBeforeChanged,
+            labels: const [
+              "encore faim",
+              "inconfort",
+              "léger inconfort",
+              "confort"
+            ]),
+        SliderWithText(
+            context: context,
+            text: "Rate your satiety after eating",
+            value: _hungerAfterValue,
+            onChanged: _onHungerAfterChanged,
+            labels: const [
+              "encore faim",
+              "inconfort",
+              "léger inconfort",
+              "confort"
+            ]),
       ];
-
-  MainCard buildSliderWithText(
-    BuildContext context,
-    String text,
-    double value,
-    void Function(double)? onChanged,
-    List<String> labels,
-  ) {
-    return MainCard(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Icon(Icons.local_dining),
-                const SizedBox(width: 10),
-                Text(
-                  text,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: const Color(0xFF5B5B5B), fontSize: 15),
-                ),
-              ],
-            ),
-          ),
-          Slider(
-            value: value,
-            onChanged: onChanged,
-            divisions: labels.length - 1,
-            label: labels[value.floor()],
-            min: 0,
-            max: labels.length.toDouble() - 1,
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

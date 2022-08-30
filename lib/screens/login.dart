@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Login(
       onLoginPress: () =>
-          AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+          AutoRouter.of(context).navigate(const AddMealScreenRoute()),
       onRegisterPress: () =>
           AutoRouter.of(context).navigate(const RegisterScreenRoute()),
     );

@@ -15,7 +15,7 @@ class FirebaseAftercare implements IAftercare {
   @override
   void createAftercare(Aftercare aftercare) {
     aftercares
-        .add(aftercare.toJson())
+        .add(aftercare.toFirestore())
         .then((value) => log("Aftercare Added"))
         .catchError((error) {
       log("Failed to add aftercare: $error");
@@ -43,7 +43,7 @@ class FirebaseAftercare implements IAftercare {
   updateAftercare(Aftercare aftercare) {
     aftercares
         .doc('FAKE')
-        .update(aftercare.toJson())
+        .update(aftercare.toFirestore())
         .then((value) => log("Aftercare Updated"))
         .catchError((error) {
       log("Failed to update aftercare: $error");

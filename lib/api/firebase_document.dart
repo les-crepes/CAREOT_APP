@@ -17,7 +17,7 @@ class FirebaseDocument implements IDocument {
   void createDocument(Document document, String fileName) {
     //final file = storage.ref().child(fileName);
     documents
-        .add(document.toJson())
+        .add(document.toFirestore())
         .then((value) => log("Document Added"))
         .catchError((error) {
       log("Failed to add document: $error");
@@ -45,7 +45,7 @@ class FirebaseDocument implements IDocument {
   updateDocument(Document document) {
     documents
         .doc('FAKE')
-        .update(document.toJson())
+        .update(document.toFirestore())
         .then((value) => log("Document Updated"))
         .catchError((error) {
       log("Failed to update document: $error");

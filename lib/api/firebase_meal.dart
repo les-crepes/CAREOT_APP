@@ -13,7 +13,7 @@ class FirebaseMeal implements IMeal {
   @override
   void createMeal(Meal meal) {
     meals
-        .add(meal.toJson())
+        .add(meal.toFirestore())
         .then((value) => log("Meal Added"))
         .catchError((error) {
       log("Failed to add meal: $error");
@@ -41,7 +41,7 @@ class FirebaseMeal implements IMeal {
   updateMeal(Meal meal) {
     meals
         .doc('FAKE')
-        .update(meal.toJson())
+        .update(meal.toFirestore())
         .then((value) => log("Meal Updated"))
         .catchError((error) {
       log("Failed to update meal: $error");

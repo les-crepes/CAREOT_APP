@@ -37,7 +37,7 @@ class Aftercare implements IModel {
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
       'bmi': bmi,
       'weight': weight,

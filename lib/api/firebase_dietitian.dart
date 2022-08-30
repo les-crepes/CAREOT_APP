@@ -15,7 +15,7 @@ class FirebaseDietitian implements IDietitian {
   @override
   void createDietitian(Dietitian dietitian) {
     dietitians
-        .add(dietitian.toJson())
+        .add(dietitian.toFirestore())
         .then((value) => log("Dietitian Added"))
         .catchError((error) {
       log("Failed to add dietitian: $error");
@@ -38,7 +38,7 @@ class FirebaseDietitian implements IDietitian {
   void updateDietitian(Dietitian dietitian) {
     dietitians
         .doc('FAKE')
-        .update(dietitian.toJson())
+        .update(dietitian.toFirestore())
         .then((value) => log("Dietitian Updated"))
         .catchError((error) {
       log("Failed to update dietitian: $error");

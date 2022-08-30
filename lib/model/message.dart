@@ -31,7 +31,7 @@ class Message implements IModel {
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
       'id': id,
       'time': time,

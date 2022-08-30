@@ -14,7 +14,7 @@ class FirebaseMessage implements IMessage {
   @override
   void createMessage(Message message) {
     messages
-        .add(message.toJson())
+        .add(message.toFirestore())
         .then((value) => log("Message Added"))
         .catchError((error) {
       log("Failed to add message: $error");
@@ -42,7 +42,7 @@ class FirebaseMessage implements IMessage {
   updateMessage(Message message) {
     messages
         .doc('FAKE')
-        .update(message.toJson())
+        .update(message.toFirestore())
         .then((value) => log("Message Updated"))
         .catchError((error) {
       log("Failed to update message: $error");

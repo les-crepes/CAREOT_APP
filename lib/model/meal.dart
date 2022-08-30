@@ -34,7 +34,7 @@ class Meal implements IModel {
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
       'startTime': startTime,
       'endTime': endTime,

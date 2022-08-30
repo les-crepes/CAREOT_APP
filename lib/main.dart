@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pdg_app/model/message.dart';
@@ -19,6 +22,7 @@ void main() async {
 
   final m1 = Message(id: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
   msg.createMessage(m1);
+  log("test");
   runApp(MyApp());
 }
 

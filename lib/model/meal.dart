@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
 import 'imodel.dart';
 
 class Meal implements IModel {
+  String uid;
   DateTime? startTime;
   DateTime? endTime;
   String? lastName;
@@ -11,31 +15,39 @@ class Meal implements IModel {
   String? comment;
 
   Meal(
-      {this.startTime,
+      {String? uid,
+      this.startTime,
       this.endTime,
       this.lastName,
       this.photo,
       this.satiety,
       this.hunger,
       this.setting,
-      this.comment});
+      this.comment})
+      : uid = uid ?? const Uuid().v1();
 
-  factory Meal.fromJson(Map<String, dynamic> meal) {
+  factory Meal.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Meal(
-      startTime: meal['startTime'],
-      endTime: meal['endTime'],
-      lastName: meal['lastName'],
-      photo: meal['photo'],
-      satiety: meal['satiety'],
-      hunger: meal['hunger'],
-      setting: meal['setting'],
-      comment: meal['comment'],
+      uid: data?['uid'],
+      startTime: data?['startTime'],
+      endTime: data?['endTime'],
+      lastName: data?['lastName'],
+      photo: data?['photo'],
+      satiety: data?['satiety'],
+      hunger: data?['hunger'],
+      setting: data?['setting'],
+      comment: data?['comment'],
     );
   }
 
   @override
   Map<String, dynamic> toFirestore() {
     return {
+      'uid': uid,
       'startTime': startTime,
       'endTime': endTime,
       'lastName': lastName,
@@ -50,5 +62,9 @@ class Meal implements IModel {
   @override
   String toString() {
     return 'Meal{$endTime $lastName $photo $satiety $hunger}';
+  }
+
+  void setComment(String newComment) {
+    comment = newComment;
   }
 }

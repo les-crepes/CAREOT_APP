@@ -18,7 +18,7 @@ void main() {
   late IDietitian dietitianApi;
   final dietitians = db.collection('dietitian');
 
-  setUpAll(() async {
+  setUp(() async {
     populateMockDietitian(d2);
     dietitianApi = FirebaseDietitian(db);
   });
@@ -29,7 +29,7 @@ void main() {
         .doc(d1.uid)
         .withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         )
         .get();
     final dietitian = docSnapshot.data();

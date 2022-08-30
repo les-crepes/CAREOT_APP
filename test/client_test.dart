@@ -24,7 +24,7 @@ void main() {
   late IClient clientApi;
   final clients = db.collection('client');
 
-  setUpAll(() async {
+  setUp(() async {
     populateMockClient(c2);
     populateMockClient(c3);
     clientApi = FirebaseClient(db);
@@ -68,7 +68,7 @@ void main() {
         .doc(c3.uid)
         .withConverter(
           fromFirestore: Client.fromFirestore,
-          toFirestore: (Client city, _) => city.toFirestore(),
+          toFirestore: (Client client, _) => client.toFirestore(),
         )
         .get();
     final client = docSnapshot.data();

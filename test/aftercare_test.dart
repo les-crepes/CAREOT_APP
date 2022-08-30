@@ -27,7 +27,7 @@ void main() {
         .doc(a1.uid)
         .withConverter(
           fromFirestore: Aftercare.fromFirestore,
-          toFirestore: (Aftercare city, _) => city.toFirestore(),
+          toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
         )
         .get();
     final aftercare = docSnapshot.data();

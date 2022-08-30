@@ -13,7 +13,11 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   @override
   void createMessage(Message message) {
     collectionReference
-        .add(message.toFirestore())
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message message, options) => message.toFirestore())
+        .doc(message.uid)
+        .set(message)
         .then((value) => log("Message Added"))
         .catchError((error) {
       log("Failed to add message: $error");
@@ -22,30 +26,35 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
-  void deleteMessage(String messageId) {
-    collectionReference.doc(messageId).delete();
-  }
-
-  @override
   Future<Message> readMessage(String messageId) async {
-    final docRef = collectionReference.doc(messageId);
-    final doc = await docRef.get();
-    if (!doc.exists) {
+    final docRef = collectionReference.doc(messageId).withConverter(
+          fromFirestore: Message.fromFirestore,
+          toFirestore: (Message city, _) => city.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final message = docSnapshot.data();
+    if (message != null) {
+      return message;
+    } else {
+      log("Doc does not exist");
       throw Error();
     }
-    final data = doc.data() as Map<String, dynamic>;
-    return Message.fromJson(data);
   }
 
   @override
-  updateMessage(Message message) {
+  void updateMessage(Message message) {
     collectionReference
-        .doc('FAKE')
+        .doc(message.uid)
         .update(message.toFirestore())
         .then((value) => log("Message Updated"))
         .catchError((error) {
       log("Failed to update message: $error");
       throw Exception(error);
     });
+  }
+
+  @override
+  void deleteMessage(String messageId) {
+    collectionReference.doc(messageId).delete();
   }
 }

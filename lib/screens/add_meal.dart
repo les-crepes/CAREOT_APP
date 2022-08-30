@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       showTimePicker: _showModal,
       startTimeText: _startTime?.format(context) ?? 'Start Time',
       endTimeText: _endTime?.format(context) ?? 'End Time',
+      onValidatePressed: () => AutoRouter.of(context).pop(),
     );
   }
 }
@@ -118,6 +120,7 @@ class AddMeal extends StatelessWidget {
   final bool _showTimePicker;
   final String? _startTimeText;
   final String? _endTimeText;
+  final void Function()? _onValidatePressed;
 
   const AddMeal({
     Key? key,
@@ -131,6 +134,7 @@ class AddMeal extends StatelessWidget {
     void Function()? onStartTimeSelected,
     void Function()? onEndTimeSelected,
     void Function()? onTimeSelectCanceled,
+    void Function()? onValidatePressed,
     bool showTimePicker = false,
     String? startTimeText,
     String? endTimeText,
@@ -149,6 +153,7 @@ class AddMeal extends StatelessWidget {
         _showTimePicker = showTimePicker,
         _startTimeText = startTimeText,
         _endTimeText = endTimeText,
+        _onValidatePressed = onValidatePressed,
         super(key: key);
 
   @override
@@ -197,7 +202,10 @@ class AddMeal extends StatelessWidget {
             ),
           ],
         ),
-        const ActionButton(icon: Icons.check),
+        ActionButton(
+          icon: Icons.check,
+          onPressed: _onValidatePressed,
+        ),
         if (_showTimePicker)
           createInlinePicker(
             value: TimeOfDay.now(),

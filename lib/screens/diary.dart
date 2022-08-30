@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/router/router.gr.dart';
-import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 

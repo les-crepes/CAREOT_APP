@@ -29,15 +29,10 @@ import '../screens/home.dart';
           path: 'diary',
         ),
         AutoRoute(
-          page: ProfileScreen,
+          page: AddMealScreen,
           path: 'my',
         )
       ],
-    ),
-    AutoRoute(
-      page: ChatScreen,
-      path: '/chat',
-      initial: true,
     ),
     AutoRoute(
       page: LoginScreen,
@@ -47,11 +42,6 @@ import '../screens/home.dart';
     AutoRoute(
       page: RegisterScreen,
       path: '/register',
-    ),
-    AutoRoute(
-      page: AddMealScreen,
-      path: '/add-meal',
-      initial: true,
     ),
     RedirectRoute(
       path: '*',

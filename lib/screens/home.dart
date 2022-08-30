@@ -18,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
       routes: const [
         ChatScreenRoute(),
         DiaryScreenRoute(),
-        ProfileScreenRoute(),
+        AddMealScreenRoute(),
+        //ProfileScreenRoute(),
       ],
       builder: (context, child, animation) {
         return Scaffold(

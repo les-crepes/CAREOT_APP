@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pdg_app/api/iclient.dart';
 import 'package:pdg_app/model/client.dart';
 
-import 'firebase_document.dart';
+import 'firebase_api.dart';
 
 class FirebaseClient extends FirebaseAPI implements IClient {
 

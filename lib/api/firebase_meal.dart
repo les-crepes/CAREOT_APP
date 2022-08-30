@@ -4,15 +4,15 @@ import 'package:pdg_app/api/imeal.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseMeal implements IMeal {
-  FirebaseMeal._();
-  static final FirebaseMeal _instance = FirebaseMeal._();
-  factory FirebaseMeal() => _instance;
-  CollectionReference meals = FirebaseFirestore.instance.collection('meal');
+import 'firebase_api.dart';
+
+class FirebaseMeal extends FirebaseAPI implements IMeal {
+
+  FirebaseMeal(FirebaseFirestore db) : super(db, 'meal');
 
   @override
   void createMeal(Meal meal) {
-    meals
+    collectionReference
         .add(meal.toJson())
         .then((value) => log("Meal Added"))
         .catchError((error) {
@@ -23,12 +23,12 @@ class FirebaseMeal implements IMeal {
 
   @override
   void deleteMeal(String mealId) {
-    meals.doc(mealId).delete();
+    collectionReference.doc(mealId).delete();
   }
 
   @override
   Future<Meal> readMeal(String mealId) async {
-    final docRef = meals.doc(mealId);
+    final docRef = collectionReference.doc(mealId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
@@ -39,7 +39,7 @@ class FirebaseMeal implements IMeal {
 
   @override
   updateMeal(Meal meal) {
-    meals
+    collectionReference
         .doc('FAKE')
         .update(meal.toJson())
         .then((value) => log("Meal Updated"))

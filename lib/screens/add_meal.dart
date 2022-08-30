@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,21 @@ class AddMealScreen extends StatefulWidget {
   State<AddMealScreen> createState() => _AddMealScreenState();
 }
 
+enum _TimeButtonEnum {
+  start,
+  end,
+  none,
+}
+
 class _AddMealScreenState extends State<AddMealScreen> {
   double _hungerBeforeValue = 3;
   double _hungerAfterValue = 3;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
+  _TimeButtonEnum _timeValueToChange = _TimeButtonEnum.none;
+  bool _showModal = false;
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
 
   Future<XFile?> _takePicture() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
@@ -53,8 +62,43 @@ class _AddMealScreenState extends State<AddMealScreen> {
         setState(() {});
       },
       onTimeSelected: (time) {
-        log(time.toString());
+        setState(() {
+          switch (_timeValueToChange) {
+            case _TimeButtonEnum.start:
+              _startTime = time;
+              break;
+            case _TimeButtonEnum.end:
+              _endTime = time;
+              break;
+            default:
+              break;
+          }
+
+          _showModal = false;
+          _timeValueToChange = _TimeButtonEnum.none;
+        });
       },
+      onTimeSelectCanceled: () {
+        setState(() {
+          _showModal = false;
+          _timeValueToChange = _TimeButtonEnum.none;
+        });
+      },
+      onStartTimeSelected: () {
+        setState(() {
+          _timeValueToChange = _TimeButtonEnum.start;
+          _showModal = true;
+        });
+      },
+      onEndTimeSelected: () {
+        setState(() {
+          _timeValueToChange = _TimeButtonEnum.end;
+          _showModal = true;
+        });
+      },
+      showTimePicker: _showModal,
+      startTimeText: _startTime?.format(context) ?? 'Start Time',
+      endTimeText: _endTime?.format(context) ?? 'End Time',
     );
   }
 }
@@ -69,6 +113,11 @@ class AddMeal extends StatelessWidget {
   final XFile? _image;
   final void Function(TimeOfDay) _onTimeSelected;
   final void Function()? _onTimeSelectCanceled;
+  final void Function()? _onStartTimeSelected;
+  final void Function()? _onEndTimeSelected;
+  final bool _showTimePicker;
+  final String? _startTimeText;
+  final String? _endTimeText;
 
   const AddMeal({
     Key? key,
@@ -79,7 +128,12 @@ class AddMeal extends StatelessWidget {
     required void Function() onCameraPressed,
     required void Function() onGalleryPressed,
     required void Function(TimeOfDay) onTimeSelected,
+    void Function()? onStartTimeSelected,
+    void Function()? onEndTimeSelected,
     void Function()? onTimeSelectCanceled,
+    bool showTimePicker = false,
+    String? startTimeText,
+    String? endTimeText,
     XFile? image,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
@@ -90,6 +144,11 @@ class AddMeal extends StatelessWidget {
         _image = image,
         _onTimeSelected = onTimeSelected,
         _onTimeSelectCanceled = onTimeSelectCanceled,
+        _onStartTimeSelected = onStartTimeSelected,
+        _onEndTimeSelected = onEndTimeSelected,
+        _showTimePicker = showTimePicker,
+        _startTimeText = startTimeText,
+        _endTimeText = endTimeText,
         super(key: key);
 
   @override
@@ -130,18 +189,23 @@ class AddMeal extends StatelessWidget {
                 hungerBeforeValue: _hungerBeforeValue,
                 onHungerAfterChanged: _onHungerAfterChanged,
                 onHungerBeforeChanged: _onHungerBeforeChanged,
+                onEndTimePress: _onEndTimeSelected,
+                onStartTimePress: _onStartTimeSelected,
+                endTimeText: _endTimeText,
+                startTimeText: _startTimeText,
               ),
             ),
           ],
         ),
         const ActionButton(icon: Icons.check),
-        createInlinePicker(
-          value: TimeOfDay.now(),
-          onChange: _onTimeSelected,
-          onCancel: _onTimeSelectCanceled,
-          is24HrFormat: true,
-          blurredBackground: true,
-        ),
+        if (_showTimePicker)
+          createInlinePicker(
+            value: TimeOfDay.now(),
+            onChange: _onTimeSelected,
+            onCancel: _onTimeSelectCanceled,
+            is24HrFormat: true,
+            blurredBackground: true,
+          ),
       ],
     );
   }
@@ -217,6 +281,10 @@ class _ListView extends StatelessWidget {
   final double _hungerAfterValue;
   final void Function(double) _onHungerBeforeChanged;
   final void Function(double) _onHungerAfterChanged;
+  final void Function()? _onStartTimePress;
+  final void Function()? _onEndTimePress;
+  final String? _startTimeText;
+  final String? _endTimeText;
 
   const _ListView({
     Key? key,
@@ -224,10 +292,18 @@ class _ListView extends StatelessWidget {
     required double hungerAfterValue,
     required void Function(double) onHungerBeforeChanged,
     required void Function(double) onHungerAfterChanged,
+    void Function()? onStartTimePress,
+    void Function()? onEndTimePress,
+    String? startTimeText,
+    String? endTimeText,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
+        _onStartTimePress = onStartTimePress,
+        _onEndTimePress = onEndTimePress,
+        _startTimeText = startTimeText,
+        _endTimeText = endTimeText,
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) => [
@@ -245,19 +321,13 @@ class _ListView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        const MainTextField(
-          name: "Start time",
-          icon: Icon(
-            Icons.timer,
-            color: Colors.black,
-          ),
+        _TimePickerbutton(
+          text: _startTimeText ?? "Start Time",
+          onTap: _onStartTimePress,
         ),
-        const MainTextField(
-          name: "End time",
-          icon: Icon(
-            Icons.timer,
-            color: Colors.black,
-          ),
+        _TimePickerbutton(
+          text: _endTimeText ?? "End Time",
+          onTap: _onEndTimePress,
         ),
         buildSliderWithText(
           context,
@@ -325,6 +395,38 @@ class _ListView extends StatelessWidget {
       itemCount: listContent.length,
       itemBuilder: (context, index) => listContent[index],
       separatorBuilder: (context, index) => const SizedBox(height: 10),
+    );
+  }
+}
+
+class _TimePickerbutton extends StatelessWidget {
+  final String _text;
+  final void Function()? _onTap;
+
+  const _TimePickerbutton({
+    Key? key,
+    required String text,
+    void Function()? onTap,
+  })  : _text = text,
+        _onTap = onTap,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: _onTap,
+      child: MainCard(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
+          child: Row(
+            children: [
+              const Icon(Icons.timer),
+              const SizedBox(width: 10),
+              Text(_text),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

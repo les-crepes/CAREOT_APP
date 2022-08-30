@@ -43,6 +43,10 @@ class AppRouter extends _i7.RootStackRouter {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.RegisterScreen());
     },
+    RouterTestScreenRoute.name: (routeData) {
+      return _i7.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.RouterTestScreen());
+    },
     AddMealScreenRoute.name: (routeData) {
       return _i7.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i5.AddMealScreen());
@@ -61,8 +65,14 @@ class AppRouter extends _i7.RootStackRouter {
         _i7.RouteConfig(ChatScreenRoute.name, path: '/chat'),
         _i7.RouteConfig(LoginScreenRoute.name, path: '/login'),
         _i7.RouteConfig(RegisterScreenRoute.name, path: '/register'),
-        _i7.RouteConfig(AddMealScreenRoute.name, path: '/add-meal'),
-        _i7.RouteConfig(TimePickerDialogRoute.name, path: '/time'),
+        _i7.RouteConfig(RouterTestScreenRoute.name,
+            path: '/add-meal',
+            children: [
+              _i7.RouteConfig(AddMealScreenRoute.name,
+                  path: '', parent: RouterTestScreenRoute.name),
+              _i7.RouteConfig(TimePickerDialogRoute.name,
+                  path: 'time', parent: RouterTestScreenRoute.name)
+            ]),
         _i7.RouteConfig('*#redirect',
             path: '*', redirectTo: '/diary', fullMatch: true)
       ];
@@ -102,10 +112,19 @@ class RegisterScreenRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [_i5.RouterTestScreen]
+class RouterTestScreenRoute extends _i7.PageRouteInfo<void> {
+  const RouterTestScreenRoute({List<_i7.PageRouteInfo>? children})
+      : super(RouterTestScreenRoute.name,
+            path: '/add-meal', initialChildren: children);
+
+  static const String name = 'RouterTestScreenRoute';
+}
+
+/// generated route for
 /// [_i5.AddMealScreen]
 class AddMealScreenRoute extends _i7.PageRouteInfo<void> {
-  const AddMealScreenRoute()
-      : super(AddMealScreenRoute.name, path: '/add-meal');
+  const AddMealScreenRoute() : super(AddMealScreenRoute.name, path: '');
 
   static const String name = 'AddMealScreenRoute';
 }
@@ -114,7 +133,7 @@ class AddMealScreenRoute extends _i7.PageRouteInfo<void> {
 /// [_i6.TimePickerDialog]
 class TimePickerDialogRoute extends _i7.PageRouteInfo<void> {
   const TimePickerDialogRoute()
-      : super(TimePickerDialogRoute.name, path: '/time');
+      : super(TimePickerDialogRoute.name, path: 'time');
 
   static const String name = 'TimePickerDialogRoute';
 }

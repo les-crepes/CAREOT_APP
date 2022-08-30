@@ -10,6 +10,17 @@ import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../router/router.gr.dart';
+
+class RouterTestScreen extends StatelessWidget {
+  const RouterTestScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoRouter();
+  }
+}
+
 class AddMealScreen extends StatefulWidget {
   const AddMealScreen({Key? key}) : super(key: key);
 
@@ -35,6 +46,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   Future<TimeOfDay?> _selectDate(BuildContext context) async {
     TimeOfDay? result = (await context.router
+        .parent<StackRouter>()!
         .push(const TimePickerDialogRoute())) as TimeOfDay?;
     log(result.toString());
     return result;
@@ -53,13 +65,13 @@ class _AddMealScreenState extends State<AddMealScreen> {
       }),
       image: _image,
       onCameraPressed: () async {
-        _selectDate(context);
-        // _image = await _takePicture();
-        // setState(() {});
+        _image = await _takePicture();
+        setState(() {});
       },
       onGalleryPressed: () async {
-        _image = await _getPicture();
-        setState(() {});
+        _selectDate(context);
+        //_image = await _getPicture();
+        //setState(() {});
       },
     );
   }

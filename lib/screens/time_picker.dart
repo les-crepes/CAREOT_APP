@@ -8,12 +8,12 @@ class TimePickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return createInlinePicker(
-      value: TimeOfDay.now(),
-      onChange: (time) {
-        context.router.pop(time);
-      },
-      onCancel: () => context.router.pop(),
-      is24HrFormat: true,
-    );
+        value: TimeOfDay.now(),
+        onChange: (time) {
+          context.router.pop(time);
+        },
+        onCancel: () => context.router.pop(),
+        is24HrFormat: true,
+        blurredBackground: true);
   }
 }

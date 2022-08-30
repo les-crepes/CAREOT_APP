@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 
+import 'left_element_card.dart';
+
 class PicCard extends StatelessWidget {
   final String imagePath;
   final Widget title;
@@ -17,27 +19,14 @@ class PicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainCard(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      child: Row(
-        children: [
-          Expanded(
-            child: ListTile(
-              contentPadding: const EdgeInsets.only(left: 0),
-              leading: CircleAvatar(
-                backgroundImage: AssetImage(imagePath),
-                radius: 66,
-              ),
-              title: title,
-              subtitle: subtitle != null ? subtitle! : const SizedBox(),
-            ),
-          ),
-          Container(
-            child: icon,
-          )
-        ],
+    return LeftElementCard(
+      element: CircleAvatar(
+        backgroundImage: AssetImage(imagePath),
+        radius: 66,
       ),
-    ));
+      title: title,
+      subtitle: subtitle,
+      icon: icon,
+    );
   }
 }

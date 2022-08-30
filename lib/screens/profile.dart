@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 
 import '../widgets/profile/profile_top_bar.dart';
@@ -60,10 +61,16 @@ class Profile extends StatelessWidget {
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: PicCard(
+          child: LeftElementCard(
             title:
                 Text("Your nutritionnist is $_nutriFirstName $_nutriLastName."),
-            icon: const Icon(Icons.notification_important_outlined),
+            element: IconTheme(
+              data: IconThemeData(
+                color: Theme.of(context).colorScheme.primary,
+                size: 30,
+              ),
+              child: const Icon(Icons.notification_important_outlined),
+            ),
           ),
         ),
       ],

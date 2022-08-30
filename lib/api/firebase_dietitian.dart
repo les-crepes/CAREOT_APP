@@ -4,18 +4,16 @@ import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseDietitian implements IDietitian {
-  FirebaseDietitian._();
-  static final FirebaseDietitian _instance = FirebaseDietitian._();
-  factory FirebaseDietitian() => _instance;
+import 'firebase_api.dart';
 
-  CollectionReference dietitians =
-      FirebaseFirestore.instance.collection('dietician');
-
+class FirebaseDietitian extends FirebaseAPI implements IDietitian {
+  
+  FirebaseDietitian(FirebaseFirestore db) : super(db, 'dietitian');
+  
   @override
   void createDietitian(Dietitian dietitian) {
-    dietitians
-        .add(dietitian.toFirestore())
+    collectionReference
+        .add(dietitian.toJson())
         .then((value) => log("Dietitian Added"))
         .catchError((error) {
       log("Failed to add dietitian: $error");
@@ -25,7 +23,7 @@ class FirebaseDietitian implements IDietitian {
 
   @override
   Future<Dietitian> readDietitian(String dietitianId) async {
-    final docRef = dietitians.doc(dietitianId);
+    final docRef = collectionReference.doc(dietitianId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
@@ -36,7 +34,7 @@ class FirebaseDietitian implements IDietitian {
 
   @override
   void updateDietitian(Dietitian dietitian) {
-    dietitians
+    collectionReference
         .doc('FAKE')
         .update(dietitian.toFirestore())
         .then((value) => log("Dietitian Updated"))
@@ -48,6 +46,6 @@ class FirebaseDietitian implements IDietitian {
 
   @override
   void deleteDietitian(String dietitianId) {
-    dietitians.doc(dietitianId).delete();
+    collectionReference.doc(dietitianId).delete();
   }
 }

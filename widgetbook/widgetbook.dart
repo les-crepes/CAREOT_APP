@@ -113,11 +113,14 @@ class HotReload extends StatelessWidget {
       ],
     );
 
-    var actionButton = WidgetbookComponent(name: 'Action button', useCases: [
-      WidgetbookUseCase(
-          name: 'Add',
-          builder: (context) => const ActionButton(icon: Icons.add))
-    ]);
+    var actionButton = WidgetbookComponent(
+      name: 'Action button',
+      useCases: [
+        WidgetbookUseCase(
+            name: 'Add',
+            builder: (context) => const ActionButton(icon: Icons.add))
+      ],
+    );
 
     var login = WidgetbookComponent(
       name: 'Login',

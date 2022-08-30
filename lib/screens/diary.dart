@@ -36,7 +36,7 @@ class DiaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Diary(
       getDiariesForDay: _getEventsForDay,
-      clientName: "Anna",
+      clientName: "Marie",
     );
   }
 }

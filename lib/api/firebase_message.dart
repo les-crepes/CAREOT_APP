@@ -4,12 +4,11 @@ import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/model/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseMessage implements IMessage {
-  FirebaseMessage._();
-  static final FirebaseMessage _instance = FirebaseMessage._();
-  factory FirebaseMessage() => _instance;
-  CollectionReference messages =
-      FirebaseFirestore.instance.collection('message');
+import 'firebase_api.dart';
+
+class FirebaseMessage extends FirebaseAPI implements IMessage {
+
+  FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
 
   @override
   void createMessage(Message message) {
@@ -24,12 +23,12 @@ class FirebaseMessage implements IMessage {
 
   @override
   void deleteMessage(String messageId) {
-    messages.doc(messageId).delete();
+    collectionReference.doc(messageId).delete();
   }
 
   @override
   Future<Message> readMessage(String messageId) async {
-    final docRef = messages.doc(messageId);
+    final docRef = collectionReference.doc(messageId);
     final doc = await docRef.get();
     if (!doc.exists) {
       throw Error();
@@ -40,7 +39,7 @@ class FirebaseMessage implements IMessage {
 
   @override
   updateMessage(Message message) {
-    messages
+    collectionReference
         .doc('FAKE')
         .update(message.toFirestore())
         .then((value) => log("Message Updated"))

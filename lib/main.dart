@@ -25,11 +25,6 @@ class MyApp extends StatelessWidget {
       title: 'Careot',
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
-      builder: (context, child) {
-        return Scaffold(
-          body: child,
-        );
-      },
     );
   }
 }

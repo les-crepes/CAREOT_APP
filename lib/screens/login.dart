@@ -12,11 +12,13 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Login(
-      onLoginPress: () =>
-          AutoRouter.of(context).navigate(const AddMealScreenRoute()),
-      onRegisterPress: () =>
-          AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+    return Scaffold(
+      body: Login(
+        onLoginPress: () =>
+            AutoRouter.of(context).navigate(const AddMealScreenRoute()),
+        onRegisterPress: () =>
+            AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+      ),
     );
   }
 }

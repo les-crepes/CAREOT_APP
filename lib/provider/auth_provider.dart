@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/api/firebase_connection.dart';
 import 'package:pdg_app/api/iauth.dart';
@@ -36,5 +34,9 @@ class AuthProvider extends ChangeNotifier {
     await _auth.signOut();
     _client = null;
     notifyListeners();
+  }
+
+  Future<void> register(String email, String password) async {
+    await _auth.register(email: email, password: password);
   }
 }

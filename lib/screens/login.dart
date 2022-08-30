@@ -30,10 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
       onLoginPress: () async {
         final auth = GetIt.I.get<AuthProvider>();
         await auth.signIn(_emailController.text, _passwordController.text);
-        log(auth.isConnected().toString());
         if (auth.isConnected()) {
+          // ignore: use_build_context_synchronously
           AutoRouter.of(context).navigate(const HomeScreenRoute());
         } else {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Login failed'),

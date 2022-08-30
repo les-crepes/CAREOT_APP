@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/buttons/custom_icon_button.dart';
 import 'package:pdg_app/widgets/profile/top_shape.dart';
 
 import '../ProfileAvatar.dart';
@@ -49,7 +50,18 @@ class ProfileTopBar extends StatelessWidget {
               )
             ],
           ),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: const [
+                CustomIconButton(icon: Icons.logout_outlined),
+              ],
+            ),
+          ]),
+        ),
       ],
     );
   }

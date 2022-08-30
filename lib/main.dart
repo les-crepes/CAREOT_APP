@@ -20,7 +20,7 @@ void main() async {
   );
   IMessage msg = FirebaseMessage(FirebaseFirestore.instance);
 
-  final m1 = Message(id: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
+  final m1 = Message(uid: '', fromId: 'alice', toId: 'bob', content: "HELLOW");
   msg.createMessage(m1);
   log("test");
   runApp(MyApp());

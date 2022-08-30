@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
+
 import 'imodel.dart';
 
 class Aftercare implements IModel {
+  String uid;
   int? bmi;
   double? weight;
   String? diagnostic;
@@ -12,7 +16,8 @@ class Aftercare implements IModel {
   List? documents;
 
   Aftercare(
-      {this.bmi,
+      {String? uid,
+      this.bmi,
       this.weight,
       this.diagnostic,
       this.comments,
@@ -20,25 +25,32 @@ class Aftercare implements IModel {
       this.foodObjectives,
       this.startDate,
       this.endDate,
-      this.documents});
+      this.documents})
+      : uid = uid ?? const Uuid().v1();
 
-  factory Aftercare.fromJson(Map<String, dynamic> aftercare) {
+  factory Aftercare.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
     return Aftercare(
-      bmi: aftercare['bmi'],
-      weight: aftercare['weight'],
-      diagnostic: aftercare['diagnostic'],
-      comments: aftercare['comments'],
-      motivations: aftercare['motivations'],
-      foodObjectives: aftercare['foodObjectives'],
-      startDate: aftercare['startDate'],
-      endDate: aftercare['endDate'],
-      documents: aftercare['documents'],
+      uid: data?['uid'],
+      bmi: data?['bmi'],
+      weight: data?['weight'],
+      diagnostic: data?['diagnostic'],
+      comments: data?['comments'],
+      motivations: data?['motivations'],
+      foodObjectives: data?['foodObjectives'],
+      startDate: data?['startDate'],
+      endDate: data?['endDate'],
+      documents: data?['documents'],
     );
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     return {
+      'uid': uid,
       'bmi': bmi,
       'weight': weight,
       'diagnostic': diagnostic,
@@ -54,5 +66,9 @@ class Aftercare implements IModel {
   @override
   String toString() {
     return 'Aftercare{$bmi $comments $diagnostic $documents $endDate $foodObjectives $motivations $startDate $weight}';
+  }
+
+  void setBmi(int newBmi) {
+    bmi = newBmi;
   }
 }

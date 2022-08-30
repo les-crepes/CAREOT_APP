@@ -1,4 +1,6 @@
-class Meal {
+import 'imodel.dart';
+
+class Meal implements IModel {
   DateTime? startTime;
   DateTime? endTime;
   String? lastName;
@@ -31,6 +33,7 @@ class Meal {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'startTime': startTime,

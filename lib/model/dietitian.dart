@@ -1,4 +1,6 @@
-class Dietitian {
+import 'imodel.dart';
+
+class Dietitian implements IModel {
   String? id;
   String? firstName;
   String? lastName;
@@ -25,6 +27,7 @@ class Dietitian {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
-import 'package:pdg_app/widgets/cards/pic_card.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import '../widgets/profile/profile_top_bar.dart';

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
   final IconData icon;
+  final void Function()? _onPressed;
 
   const ActionButton({
     required this.icon,
+    void Function()? onPressed,
     Key? key,
-  }) : super(key: key);
+  })  : _onPressed = onPressed,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class ActionButton extends StatelessWidget {
               ], shape: BoxShape.circle),
               child: FloatingActionButton(
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                onPressed: (() => 1),
+                onPressed: _onPressed,
                 elevation: 100,
                 child: Icon(icon,
                     color: Theme.of(context).colorScheme.onPrimary, size: 35),

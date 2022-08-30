@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
@@ -25,11 +26,22 @@ import '../screens/home.dart';
           path: 'chat',
         ),
         AutoRoute(
-          page: DiaryScreen,
+          page: EmptyRouterPage,
+          name: "DiaryRouterPage",
           path: 'diary',
+          children: [
+            AutoRoute(
+              path: '',
+              page: DiaryScreen,
+            ),
+            AutoRoute(
+              path: 'add',
+              page: AddMealScreen,
+            ),
+          ],
         ),
         AutoRoute(
-          page: AddMealScreen,
+          page: ProfileScreen,
           path: 'my',
         )
       ],

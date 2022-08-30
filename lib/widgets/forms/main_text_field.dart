@@ -61,7 +61,7 @@ class _MainTextFieldState extends State<MainTextField> {
         decoration: InputDecoration(
           prefixIcon: IconTheme(
             data: const IconThemeData(
-              color: Colors.black38,
+              color: Color(0xFF5B5B5B),
             ),
             child: widget.icon,
           ),

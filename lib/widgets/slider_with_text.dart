@@ -24,7 +24,7 @@ class SliderWithText extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            padding: const EdgeInsets.fromLTRB(13, 10, 13, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

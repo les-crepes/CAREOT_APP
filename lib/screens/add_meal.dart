@@ -399,7 +399,13 @@ class _TimePickerbutton extends StatelessWidget {
             children: [
               const Icon(Icons.timer),
               const SizedBox(width: 10),
-              Text(_text),
+              Text(
+                _text,
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      color: const Color.fromARGB(255, 112, 112, 112),
+                      fontSize: 15,
+                    ),
+              ),
             ],
           ),
         ),

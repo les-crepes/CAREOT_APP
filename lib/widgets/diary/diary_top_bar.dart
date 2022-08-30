@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/profile_avatar.dart';
 
 class DiaryTopBar extends StatelessWidget {
   const DiaryTopBar({
@@ -24,20 +25,7 @@ class DiaryTopBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black38,
-                  blurRadius: 15,
-                  offset: Offset(0, 5),
-                )
-              ], shape: BoxShape.circle),
-              child: CircleAvatar(
-                backgroundImage: AssetImage(clientPicturePath),
-                backgroundColor: Colors.white,
-                radius: 45,
-              ),
-            ),
+            ProfileAvatar(image: AssetImage(clientPicturePath)),
             const SizedBox(height: 15),
             Text(
               "Hello $clientName",

@@ -12,6 +12,7 @@ import 'package:pdg_app/screens/register.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
+import 'package:pdg_app/widgets/navbar.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:widgetbook/widgetbook.dart';
 // ignore: depend_on_referenced_packages
@@ -113,11 +114,14 @@ class HotReload extends StatelessWidget {
       ],
     );
 
-    var actionButton = WidgetbookComponent(name: 'Action button', useCases: [
-      WidgetbookUseCase(
-          name: 'Add',
-          builder: (context) => const ActionButton(icon: Icons.add))
-    ]);
+    var actionButton = WidgetbookComponent(
+      name: 'Action button',
+      useCases: [
+        WidgetbookUseCase(
+            name: 'Add',
+            builder: (context) => const ActionButton(icon: Icons.add))
+      ],
+    );
 
     var login = WidgetbookComponent(
       name: 'Login',

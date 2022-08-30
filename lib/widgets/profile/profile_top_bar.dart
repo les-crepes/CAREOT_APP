@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/buttons/custom_icon_button.dart';
 import 'package:pdg_app/widgets/profile/top_shape.dart';
 
-import '../ProfileAvatar.dart';
+import '../profile_avatar.dart';
 
 class ProfileTopBar extends StatelessWidget {
   final double _width;

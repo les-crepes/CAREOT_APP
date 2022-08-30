@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pdg_app/widgets/cards/main_card.dart';
 
 import 'left_element_card.dart';
 

@@ -1,15 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pdg_app/api/firebase_connection.dart';
 import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/iclient.dart';
 
-import '../api/firebase_client.dart';
 import '../model/client.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final Auth _auth = FirebaseConnection();
-  final IClient _clientApi = FirebaseClient(FirebaseFirestore.instance);
+  final Auth _auth;
+  final IClient _clientApi;
+
+  AuthProvider({required Auth auth, required IClient clientApi})
+      : _auth = auth,
+        _clientApi = clientApi;
 
   Client? _client;
 
@@ -22,7 +23,9 @@ class AuthProvider extends ChangeNotifier {
   Client? get client => _client;
 
   Future<void> signIn(String email, String password) async {
-    final isConnected = await _auth.signIn(email: email, password: password);
+    //final isConnected = await _auth.signIn(email: email, password: password);
+    final isConnected =
+        await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
 
     if (isConnected) {
       _client = await _clientApi.readClient(_auth.uid);

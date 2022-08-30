@@ -22,10 +22,15 @@ import '../screens/home.dart' as _i1;
 import '../screens/login.dart' as _i2;
 import '../screens/profile.dart' as _i6;
 import '../screens/register.dart' as _i3;
+import 'auth_gard.dart' as _i11;
 
 class AppRouter extends _i9.RootStackRouter {
-  AppRouter([_i10.GlobalKey<_i10.NavigatorState>? navigatorKey])
+  AppRouter(
+      {_i10.GlobalKey<_i10.NavigatorState>? navigatorKey,
+      required this.authGuard})
       : super(navigatorKey);
+
+  final _i11.AuthGuard authGuard;
 
   @override
   final Map<String, _i9.PageFactory> pagesMap = {
@@ -67,7 +72,9 @@ class AppRouter extends _i9.RootStackRouter {
   List<_i9.RouteConfig> get routes => [
         _i9.RouteConfig('/#redirect',
             path: '/', redirectTo: '/home', fullMatch: true),
-        _i9.RouteConfig(HomeScreenRoute.name, path: '/home', children: [
+        _i9.RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
+          authGuard
+        ], children: [
           _i9.RouteConfig('#redirect',
               path: '',
               parent: HomeScreenRoute.name,

@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
 
@@ -7,14 +11,36 @@ import '../router/router.gr.dart';
 import '../widgets/login/bottom_shape.dart';
 import '../widgets/login/top_shape.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Login(
-      onLoginPress: () =>
-          AutoRouter.of(context).navigate(const AddMealScreenRoute()),
+      emailController: _emailController,
+      passwordController: _passwordController,
+      onLoginPress: () async {
+        final auth = GetIt.I.get<AuthProvider>();
+        await auth.signIn(_emailController.text, _passwordController.text);
+        log(auth.isConnected().toString());
+        if (auth.isConnected()) {
+          AutoRouter.of(context).navigate(const HomeScreenRoute());
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login failed'),
+            ),
+          );
+        }
+      },
       onRegisterPress: () =>
           AutoRouter.of(context).navigate(const RegisterScreenRoute()),
     );
@@ -25,13 +51,19 @@ class Login extends StatelessWidget {
   final void Function()? onLoginPress;
   final void Function()? onRegisterPress;
   final double screenWidth;
+  final TextEditingController? _emailController;
+  final TextEditingController? _passwordController;
 
   const Login({
     this.onLoginPress,
     this.onRegisterPress,
     this.screenWidth = 0,
+    TextEditingController? emailController,
+    TextEditingController? passwordController,
     Key? key,
-  }) : super(key: key);
+  })  : _emailController = emailController,
+        _passwordController = passwordController,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +131,16 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 40),
-                  const MainTextField(
+                  MainTextField(
+                    controller: _emailController,
                     name: 'Email',
-                    icon: Icon(Icons.email_outlined),
+                    icon: const Icon(Icons.email_outlined),
                   ),
                   const SizedBox(height: 20),
-                  const MainTextField(
+                  MainTextField(
+                    controller: _passwordController,
                     name: 'Password',
-                    icon: Icon(Icons.lock_outlined),
+                    icon: const Icon(Icons.lock_outlined),
                     obscureText: true,
                   ),
                   const SizedBox(height: 40),

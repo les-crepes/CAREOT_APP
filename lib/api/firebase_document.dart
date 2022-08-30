@@ -46,12 +46,7 @@ class FirebaseFile implements IFile {
 
   @override
   Future<void> downloadFile(String fileUrl) async {
-    final islandRef = storageRef.child(fileUrl);
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final filePath = "${appDocDir.absolute}/images/island.jpg";
-    final file = File(filePath);
-
-    islandRef.writeToFile(file);
+    // TODO: implement updateFile
   }
 
   @override

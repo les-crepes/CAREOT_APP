@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdg_app/model/meal.dart';
 
 abstract class IMeal {

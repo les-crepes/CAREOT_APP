@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'cards/main_card.dart';
+import '../cards/main_card.dart';
 
 class CustomIconButton extends StatelessWidget {
   final IconData _icon;

@@ -18,6 +18,7 @@ class CustomTheme {
   );
 
   static final ThemeData _lightTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.white,
     colorScheme: _lightColorScheme,
     textTheme: const TextTheme(
         headline1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),

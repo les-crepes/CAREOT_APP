@@ -5,19 +5,19 @@ import 'imodel.dart';
 
 class Message implements IModel {
   String uid = const Uuid().v1();
-  DateTime? time;
-  String? fromId;
-  String? toId;
-  String? content;
-  int? type;
+  DateTime time;
+  String fromId;
+  String toId;
+  String content;
+  String? fileUrl;
 
   Message({
     String? uid,
-    this.time,
-    this.fromId,
-    this.toId,
-    this.content,
-    this.type,
+    required this.time,
+    required this.fromId,
+    required this.toId,
+    required this.content,
+    this.fileUrl,
   }) : uid = uid ?? const Uuid().v1();
 
   factory Message.fromFirestore(
@@ -31,7 +31,7 @@ class Message implements IModel {
       fromId: data?['fromId'],
       toId: data?['toId'],
       content: data?['content'],
-      type: data?['type'],
+      fileUrl: data?['fileUrl'],
     );
   }
 
@@ -43,13 +43,13 @@ class Message implements IModel {
       'fromId': fromId,
       'toId': toId,
       'content': content,
-      'type': type,
+      'fileUrl': fileUrl,
     };
   }
 
   @override
   String toString() {
-    return 'Message{$fromId $toId $content $type}';
+    return 'Message{$fromId $toId $content $fileUrl}';
   }
 
   void setContent(String newContent) {

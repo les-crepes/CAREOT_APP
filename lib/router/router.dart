@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
@@ -34,10 +35,10 @@ import './auth_gard.dart';
               path: 'onechat',
             ),
             AutoRoute(
-              page: DiscussionListScreen,
-              path: 'chats',
-              initial: true,
-            ),
+                page: DiscussionListScreen,
+                path: 'chats',
+                initial: true,
+                guards: [ChatGuard]),
           ],
         ),
         AutoRoute(

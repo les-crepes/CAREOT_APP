@@ -24,14 +24,18 @@ import '../screens/login.dart' as _i2;
 import '../screens/profile.dart' as _i5;
 import '../screens/register.dart' as _i3;
 import 'auth_gard.dart' as _i12;
+import 'chat_guard.dart' as _i13;
 
 class AppRouter extends _i10.RootStackRouter {
   AppRouter(
       {_i11.GlobalKey<_i11.NavigatorState>? navigatorKey,
-      required this.authGuard})
+      required this.authGuard,
+      required this.chatGuard})
       : super(navigatorKey);
 
   final _i12.AuthGuard authGuard;
+
+  final _i13.ChatGuard chatGuard;
 
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
@@ -101,7 +105,9 @@ class AppRouter extends _i10.RootStackRouter {
                 _i10.RouteConfig(ChatScreenRoute.name,
                     path: 'onechat', parent: ChatRouterPage.name),
                 _i10.RouteConfig(DiscussionListScreenRoute.name,
-                    path: 'chats', parent: ChatRouterPage.name)
+                    path: 'chats',
+                    parent: ChatRouterPage.name,
+                    guards: [chatGuard])
               ]),
           _i10.RouteConfig(DiaryRouterPage.name,
               path: 'diary',

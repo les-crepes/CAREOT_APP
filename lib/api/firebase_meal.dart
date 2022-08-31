@@ -69,6 +69,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     List<Meal> meals = m.docs
         .map((doc) => Meal(
               comment: doc['comment'],
+              owner: userId,
               endTime: doc['endTime'],
               hunger: doc['hunger'],
               title: doc['title'],

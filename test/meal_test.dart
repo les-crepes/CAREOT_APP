@@ -6,11 +6,29 @@ import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/meal.dart';
 
 final db = FakeFirebaseFirestore();
-DateTime fisherDay = DateTime(2017,9,7,17,30);
-Meal m1 = Meal(startTime: fisherDay, endTime: fisherDay,owner:c1, hunger: 4, satiety: 5, comment: 'no comment');
-Meal m2 = Meal(startTime: fisherDay, endTime: fisherDay,owner:c1,hunger: 32, satiety: 2, comment: 'wow');
+DateTime fisherDay = DateTime(2017, 9, 7, 17, 30);
+Meal m1 = Meal(
+    startTime: fisherDay,
+    endTime: fisherDay,
+    owner: c1.uid,
+    hunger: 4,
+    satiety: 5,
+    comment: 'no comment',
+    title: 'mojo');
+Meal m2 = Meal(
+    startTime: fisherDay,
+    endTime: fisherDay,
+    owner: c1.uid,
+    hunger: 32,
+    satiety: 2,
+    comment: 'wow',
+    title: 'jojo');
 Client c1 = Client(
-    firstName: 'Olivier', lastName: 'D\'Ancona', phoneNumber: '0780001223');
+    firstName: 'Olivier',
+    lastName: 'D\'Ancona',
+    phoneNumber: '0780001223',
+    birthDate: fisherDay,
+    insurance: '');
 
 Future<void> populateMockMeal(Meal c) async {
   await db.collection('meal').doc(c.uid).set(c.toFirestore());

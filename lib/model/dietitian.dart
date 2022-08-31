@@ -1,24 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pdg_app/model/user.dart';
 import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
-class Dietitian implements IModel {
-  String uid;
-  String firstName;
-  String lastName;
+class Dietitian extends User implements IModel {
+
   List? clientList;
-  DateTime birthDate;
-  String avs;
 
   Dietitian(
       {String? uid,
-      required this.firstName,
-      required this.lastName,
       this.clientList,
-      required this.avs,
-      required this.birthDate})
-      : uid = uid ?? const Uuid().v1();
+      required String firstName,
+      required String lastName,
+      required DateTime birthDate,
+      required String avs}
+      ) : super(
+    uid: uid ?? const Uuid().v1(),
+    firstName: firstName,
+    lastName: lastName,
+    birthDate: birthDate,
+    avs: avs,
+  );
 
   factory Dietitian.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -50,9 +53,5 @@ class Dietitian implements IModel {
   @override
   String toString() {
     return 'Dietitian{$firstName $lastName $clientList $avs $birthDate}';
-  }
-
-  void setFirstName(String name) {
-    firstName = name;
   }
 }

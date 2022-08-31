@@ -1,24 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pdg_app/model/user.dart';
 import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
-class Client implements IModel {
-  String uid;
-  String firstName;
-  String lastName;
-  DateTime birthDate;
+class Client extends User implements IModel {
   String phoneNumber;
-  String insurance;
 
   Client(
-      { String? uid,
-        required this.firstName,
-        required this.lastName,
-        required this.birthDate,
-        required this.insurance,
-        required this.phoneNumber})
-      : uid = uid ?? const Uuid().v1();
+      {String? uid,
+      required this.phoneNumber,
+      required String firstName,
+      required String lastName,
+      required DateTime birthDate,
+      required String avs}
+      ) : super(
+    uid: uid ?? const Uuid().v1(),
+    firstName: firstName,
+    lastName: lastName,
+    birthDate: birthDate,
+    avs: avs,
+  );
 
   factory Client.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -30,7 +32,7 @@ class Client implements IModel {
       firstName: data?['firstName'],
       lastName: data?['lastName'],
       birthDate: data?['birthDate'].toDate(),
-      insurance: data?['insurance'],
+      avs: data?['avs'],
       phoneNumber: data?['phoneNumber'],
     );
   }
@@ -43,16 +45,12 @@ class Client implements IModel {
       'lastName': lastName,
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
-      'insurance': insurance,
+      'avs': avs,
     };
   }
 
   @override
   String toString() {
-    return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
-  }
-
-  void setFirstName(String name) {
-    firstName = name;
+    return 'Client{$firstName $lastName $birthDate $avs $phoneNumber}';
   }
 }

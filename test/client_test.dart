@@ -7,16 +7,16 @@ import 'package:pdg_app/model/client.dart';
 final db = FakeFirebaseFirestore();
 Client c1 = Client(
     firstName: 'Olivier', lastName: 'D\'Ancona', phoneNumber: '0780001223', 
-    birthDate: DateTime.now(), insurance: '');
+    birthDate: DateTime.now(), avs: '');
 Client c2 =
     Client(firstName: 'Chloé', lastName: 'Fontaine', phoneNumber: '0780002334',
-        birthDate: DateTime.now(), insurance: '');
+        birthDate: DateTime.now(), avs: '');
 Client c3 =
     Client(firstName: 'Luca', lastName: 'Coduri', phoneNumber: '0780003445',
-        birthDate: DateTime.now(), insurance: '');
+        birthDate: DateTime.now(), avs: '');
 Client c4 = Client(
     firstName: 'Nelson', lastName: 'Jeanrenaud', phoneNumber: '0786834556',
-    birthDate: DateTime.now(), insurance: '');
+    birthDate: DateTime.now(), avs: '');
 
 Future<void> populateMockClient(Client c) async {
   await db.collection('client').doc(c.uid).set(c.toFirestore());

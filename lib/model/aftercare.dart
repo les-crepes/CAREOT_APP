@@ -11,7 +11,7 @@ class Aftercare implements IModel {
   String? comments;
   String? motivations;
   String? foodObjectives;
-  DateTime? startDate;
+  DateTime startDate;
   DateTime? endDate;
   List? documents;
 
@@ -23,7 +23,7 @@ class Aftercare implements IModel {
       this.comments,
       this.motivations,
       this.foodObjectives,
-      this.startDate,
+      required this.startDate,
       this.endDate,
       this.documents})
       : uid = uid ?? const Uuid().v1();
@@ -33,6 +33,10 @@ class Aftercare implements IModel {
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
+    DateTime? stDate;
+    if (data?['endDate'] != null) {
+      stDate = data?['endDate'].toDate();
+    }
     return Aftercare(
       uid: data?['uid'],
       bmi: data?['bmi'],
@@ -41,8 +45,8 @@ class Aftercare implements IModel {
       comments: data?['comments'],
       motivations: data?['motivations'],
       foodObjectives: data?['foodObjectives'],
-      startDate: data?['startDate'],
-      endDate: data?['endDate'],
+      startDate: data?['startDate'].toDate(),
+      endDate: stDate,
       documents: data?['documents'],
     );
   }

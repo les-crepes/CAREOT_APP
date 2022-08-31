@@ -12,26 +12,30 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i10;
-import 'package:auto_route/empty_router_widgets.dart' as _i6;
+import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i11;
 
 import '../screens/add_meal.dart' as _i9;
-import '../screens/chat.dart' as _i4;
-import '../screens/client_list.dart' as _i5;
+import '../screens/chat.dart' as _i6;
 import '../screens/diary.dart' as _i8;
+import '../screens/discussion_list.dart' as _i7;
 import '../screens/home.dart' as _i1;
 import '../screens/login.dart' as _i2;
-import '../screens/profile.dart' as _i7;
+import '../screens/profile.dart' as _i5;
 import '../screens/register.dart' as _i3;
 import 'auth_gard.dart' as _i12;
+import 'chat_guard.dart' as _i13;
 
 class AppRouter extends _i10.RootStackRouter {
   AppRouter(
       {_i11.GlobalKey<_i11.NavigatorState>? navigatorKey,
-      required this.authGuard})
+      required this.authGuard,
+      required this.chatGuard})
       : super(navigatorKey);
 
   final _i12.AuthGuard authGuard;
+
+  final _i13.ChatGuard chatGuard;
 
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
@@ -47,9 +51,9 @@ class AppRouter extends _i10.RootStackRouter {
       return _i10.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.RegisterScreen());
     },
-    ChatScreenRoute.name: (routeData) {
+    ChatRouterPage.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.ChatScreen());
+          routeData: routeData, child: const _i4.EmptyRouterPage());
     },
     ClientListScreenRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
@@ -57,11 +61,19 @@ class AppRouter extends _i10.RootStackRouter {
     },
     DiaryRouterPage.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i6.EmptyRouterPage());
+          routeData: routeData, child: const _i4.EmptyRouterPage());
     },
     ProfileScreenRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.ProfileScreen());
+          routeData: routeData, child: const _i5.ProfileScreen());
+    },
+    ChatScreenRoute.name: (routeData) {
+      return _i10.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i6.ChatScreen());
+    },
+    DiscussionListScreenRoute.name: (routeData) {
+      return _i10.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i7.DiscussionListScreen());
     },
     DiaryScreenRoute.name: (routeData) {
       return _i10.MaterialPageX<dynamic>(
@@ -85,10 +97,22 @@ class AppRouter extends _i10.RootStackRouter {
               parent: HomeScreenRoute.name,
               redirectTo: 'diary',
               fullMatch: true),
-          _i10.RouteConfig(ChatScreenRoute.name,
-              path: 'chat', parent: HomeScreenRoute.name),
-          _i10.RouteConfig(ClientListScreenRoute.name,
-              path: 'client_list', parent: HomeScreenRoute.name),
+          _i10.RouteConfig(ChatRouterPage.name,
+              path: 'chat',
+              parent: HomeScreenRoute.name,
+              children: [
+                _i10.RouteConfig('#redirect',
+                    path: '',
+                    parent: ChatRouterPage.name,
+                    redirectTo: 'chats',
+                    fullMatch: true),
+                _i10.RouteConfig(ChatScreenRoute.name,
+                    path: 'onechat', parent: ChatRouterPage.name),
+                _i10.RouteConfig(DiscussionListScreenRoute.name,
+                    path: 'chats',
+                    parent: ChatRouterPage.name,
+                    guards: [chatGuard])
+              ]),
           _i10.RouteConfig(DiaryRouterPage.name,
               path: 'diary',
               parent: HomeScreenRoute.name,
@@ -135,24 +159,16 @@ class RegisterScreenRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.ChatScreen]
-class ChatScreenRoute extends _i10.PageRouteInfo<void> {
-  const ChatScreenRoute() : super(ChatScreenRoute.name, path: 'chat');
+/// [_i4.EmptyRouterPage]
+class ChatRouterPage extends _i10.PageRouteInfo<void> {
+  const ChatRouterPage({List<_i10.PageRouteInfo>? children})
+      : super(ChatRouterPage.name, path: 'chat', initialChildren: children);
 
-  static const String name = 'ChatScreenRoute';
+  static const String name = 'ChatRouterPage';
 }
 
 /// generated route for
-/// [_i5.ClientListScreen]
-class ClientListScreenRoute extends _i10.PageRouteInfo<void> {
-  const ClientListScreenRoute()
-      : super(ClientListScreenRoute.name, path: 'client_list');
-
-  static const String name = 'ClientListScreenRoute';
-}
-
-/// generated route for
-/// [_i6.EmptyRouterPage]
+/// [_i4.EmptyRouterPage]
 class DiaryRouterPage extends _i10.PageRouteInfo<void> {
   const DiaryRouterPage({List<_i10.PageRouteInfo>? children})
       : super(DiaryRouterPage.name, path: 'diary', initialChildren: children);
@@ -161,11 +177,28 @@ class DiaryRouterPage extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.ProfileScreen]
+/// [_i5.ProfileScreen]
 class ProfileScreenRoute extends _i10.PageRouteInfo<void> {
   const ProfileScreenRoute() : super(ProfileScreenRoute.name, path: 'my');
 
   static const String name = 'ProfileScreenRoute';
+}
+
+/// generated route for
+/// [_i6.ChatScreen]
+class ChatScreenRoute extends _i10.PageRouteInfo<void> {
+  const ChatScreenRoute() : super(ChatScreenRoute.name, path: 'onechat');
+
+  static const String name = 'ChatScreenRoute';
+}
+
+/// generated route for
+/// [_i7.DiscussionListScreen]
+class DiscussionListScreenRoute extends _i10.PageRouteInfo<void> {
+  const DiscussionListScreenRoute()
+      : super(DiscussionListScreenRoute.name, path: 'chats');
+
+  static const String name = 'DiscussionListScreenRoute';
 }
 
 /// generated route for

@@ -17,8 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        ChatScreenRoute(),
-        ClientListScreenRoute(),
+        ChatRouterPage(),
         DiaryRouterPage(),
         ProfileScreenRoute(),
       ],

@@ -7,7 +7,7 @@ class Meal implements IModel {
   String uid;
   DateTime? startTime;
   DateTime? endTime;
-  String? lastName;
+  String? title;
   List? photo;
   int? hunger;
   int? satiety;
@@ -18,7 +18,7 @@ class Meal implements IModel {
       {String? uid,
       this.startTime,
       this.endTime,
-      this.lastName,
+      this.title,
       this.photo,
       this.satiety,
       this.hunger,
@@ -35,7 +35,7 @@ class Meal implements IModel {
       uid: data?['uid'],
       startTime: data?['startTime'],
       endTime: data?['endTime'],
-      lastName: data?['lastName'],
+      title: data?['title'],
       photo: data?['photo'],
       satiety: data?['satiety'],
       hunger: data?['hunger'],
@@ -50,7 +50,7 @@ class Meal implements IModel {
       'uid': uid,
       'startTime': startTime,
       'endTime': endTime,
-      'lastName': lastName,
+      'title': title,
       'photo': photo,
       'hunger': hunger,
       'satiety': satiety,
@@ -61,10 +61,12 @@ class Meal implements IModel {
 
   @override
   String toString() {
-    return 'Meal{$endTime $lastName $photo $satiety $hunger}';
+    return 'Meal{$endTime $title $photo $satiety $hunger}';
   }
 
   void setComment(String newComment) {
     comment = newComment;
   }
+
+  static fromQuery(QueryDocumentSnapshot<Object?> e) {}
 }

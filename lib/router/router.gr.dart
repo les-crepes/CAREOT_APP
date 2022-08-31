@@ -105,7 +105,7 @@ class AppRouter extends _i11.RootStackRouter {
                 _i11.RouteConfig('#redirect',
                     path: '',
                     parent: ChatRouterPage.name,
-                    redirectTo: 'documents',
+                    redirectTo: 'chats',
                     fullMatch: true),
                 _i11.RouteConfig(ChatScreenRoute.name,
                     path: 'onechat', parent: ChatRouterPage.name),

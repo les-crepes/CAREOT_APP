@@ -38,13 +38,12 @@ import './auth_gard.dart';
             AutoRoute(
               page: DiscussionListScreen,
               path: 'chats',
-              initial: false,
+              initial: true,
               guards: [ChatGuard],
             ),
             AutoRoute(
               page: DocumentListScreen,
               path: 'documents',
-              initial: true,
             ),
           ],
         ),

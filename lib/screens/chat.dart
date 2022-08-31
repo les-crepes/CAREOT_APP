@@ -1,13 +1,17 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:math' as math;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:pdg_app/router/router.gr.dart';
+
+import 'document_list.dart';
 
 String randomString() {
-  final random = Random.secure();
+  final random = math.Random.secure();
   final values = List<int>.generate(16, (i) => random.nextInt(255));
   return base64UrlEncode(values);
 }
@@ -48,6 +52,9 @@ class _ChatScreenState extends State<ChatScreen> {
       currentUser: _user,
       messages: _messages,
       onSendPressed: _handleSendPressed,
+      onDocumentPressed: () {
+        AutoRouter.of(context).push(const DocumentListScreenRoute());
+      },
     );
   }
 }
@@ -57,14 +64,17 @@ class ChatInterface extends StatefulWidget {
   final types.User currentUser;
   final List<types.Message> messages;
   final void Function(types.PartialText) onSendPressed;
+  final void Function()? _onDocumentPressed;
 
   const ChatInterface({
     required this.name,
     required this.currentUser,
     required this.messages,
     required this.onSendPressed,
+    void Function()? onDocumentPressed,
     Key? key,
-  }) : super(key: key);
+  })  : _onDocumentPressed = onDocumentPressed,
+        super(key: key);
 
   @override
   State<ChatInterface> createState() => _ChatInterfaceState();
@@ -81,7 +91,11 @@ class _ChatInterfaceState extends State<ChatInterface> {
             children: [
               Column(
                 children: [
-                  TopBar(name: widget.name, theme: theme),
+                  TopBar(
+                    name: widget.name,
+                    theme: theme,
+                    onDocumentPressed: widget._onDocumentPressed,
+                  ),
                   Expanded(
                     child: Chat(
                       messages: widget.messages,
@@ -137,10 +151,13 @@ class TopBar extends StatelessWidget {
     Key? key,
     required this.name,
     required this.theme,
-  }) : super(key: key);
+    void Function()? onDocumentPressed,
+  })  : _onDocumentPressed = onDocumentPressed,
+        super(key: key);
 
   final String name;
   final ThemeData theme;
+  final void Function()? _onDocumentPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -157,16 +174,31 @@ class TopBar extends StatelessWidget {
           ],
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            name,
-            style: theme.textTheme.headline2!
-                .copyWith(color: theme.colorScheme.onPrimary),
+          const SizedBox(width: 48),
+          const Expanded(child: SizedBox()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                name,
+                style: theme.textTheme.headline2!
+                    .copyWith(color: theme.colorScheme.onPrimary),
+              ),
+              const SizedBox(height: 5),
+            ],
           ),
-          const SizedBox(height: 5),
+          const Expanded(child: SizedBox()),
+          IconButton(
+            onPressed: _onDocumentPressed,
+            icon: Icon(
+              Icons.file_open,
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
         ],
       ),
     );

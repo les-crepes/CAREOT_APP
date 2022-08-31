@@ -5,23 +5,23 @@ import 'imodel.dart';
 
 class Meal implements IModel {
   String uid;
-  DateTime? startTime;
-  DateTime? endTime;
-  String? lastName;
+  DateTime startTime;
+  DateTime endTime;
+  String title;
   List? photo;
-  int? hunger;
-  int? satiety;
+  int hunger;
+  int satiety;
   String? setting;
   String? comment;
 
   Meal(
       {String? uid,
-      this.startTime,
-      this.endTime,
-      this.lastName,
+      required this.startTime,
+      required this.endTime,
+      required this.title,
       this.photo,
-      this.satiety,
-      this.hunger,
+      required this.satiety,
+      required this.hunger,
       this.setting,
       this.comment})
       : uid = uid ?? const Uuid().v1();
@@ -35,7 +35,7 @@ class Meal implements IModel {
       uid: data?['uid'],
       startTime: data?['startTime'],
       endTime: data?['endTime'],
-      lastName: data?['lastName'],
+      title: data?['title'],
       photo: data?['photo'],
       satiety: data?['satiety'],
       hunger: data?['hunger'],
@@ -50,7 +50,7 @@ class Meal implements IModel {
       'uid': uid,
       'startTime': startTime,
       'endTime': endTime,
-      'lastName': lastName,
+      'title': title,
       'photo': photo,
       'hunger': hunger,
       'satiety': satiety,
@@ -61,7 +61,7 @@ class Meal implements IModel {
 
   @override
   String toString() {
-    return 'Meal{$endTime $lastName $photo $satiety $hunger}';
+    return 'Meal{$endTime $title $photo $satiety $hunger}';
   }
 
   void setComment(String newComment) {

@@ -21,28 +21,32 @@ class DiaryScreen extends StatelessWidget {
           comment: "Déjeuner",
           title: 'Déjeuner',
           satiety: 5,
-          hunger: 2),
+          hunger: 2,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
           comment: "Souper",
           title: 'Souper',
           satiety: 5,
-          hunger: 2),
+          hunger: 2,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
           comment: "Souper",
           title: 'Souper',
           satiety: 2,
-          hunger: 5),
+          hunger: 5,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
           comment: "Souper",
           title: 'Souper',
           satiety: 2,
-          hunger: 3)
+          hunger: 3,
+          owner: '')
     ];
   }
 

@@ -8,11 +8,11 @@ final db = FakeFirebaseFirestore();
 Meal m1 = Meal(
     hunger: 4, satiety: 5, comment: 'no comment',
     startTime: DateTime.now(), endTime: DateTime.now(),
-    title: "prout");
+    title: "prout", owner: '');
 Meal m2 = Meal(
     hunger: 7, satiety: 2, comment: 'wow',
     startTime: DateTime.now(), endTime: DateTime.now(),
-    title: "doodoo");
+    title: "doodoo", owner: '');
 
 Future<void> populateMockMeal(Meal c) async {
   await db.collection('meal').doc(c.uid).set(c.toFirestore());

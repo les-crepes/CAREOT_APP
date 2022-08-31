@@ -13,6 +13,7 @@ class Meal implements IModel {
   int satiety;
   String? setting;
   String? comment;
+  String owner;
 
   Meal(
       {String? uid,
@@ -23,7 +24,8 @@ class Meal implements IModel {
       required this.satiety,
       required this.hunger,
       this.setting,
-      this.comment})
+      this.comment,
+      required this.owner})
       : uid = uid ?? const Uuid().v1();
 
   factory Meal.fromFirestore(
@@ -41,6 +43,7 @@ class Meal implements IModel {
       hunger: data?['hunger'],
       setting: data?['setting'],
       comment: data?['comment'],
+      owner: data?['owner'],
     );
   }
 
@@ -56,12 +59,13 @@ class Meal implements IModel {
       'satiety': satiety,
       'setting': setting,
       'comment': comment,
+      'owner': owner,
     };
   }
 
   @override
   String toString() {
-    return 'Meal{$endTime $title $photo $satiety $hunger}';
+    return 'Meal{$endTime $title $photo $satiety $hunger $owner}';
   }
 
   void setComment(String newComment) {

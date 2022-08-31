@@ -11,7 +11,7 @@ class Aftercare implements IModel {
   String? comments;
   String? motivations;
   String? foodObjectives;
-  DateTime? startDate;
+  DateTime startDate;
   DateTime? endDate;
   List? documents;
 
@@ -23,7 +23,7 @@ class Aftercare implements IModel {
       this.comments,
       this.motivations,
       this.foodObjectives,
-      this.startDate,
+      required this.startDate,
       this.endDate,
       this.documents})
       : uid = uid ?? const Uuid().v1();

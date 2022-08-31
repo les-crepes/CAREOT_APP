@@ -5,19 +5,19 @@ import 'imodel.dart';
 
 class Client implements IModel {
   String uid;
-  String? firstName;
-  String? lastName;
-  String? birthDate;
-  String? phoneNumber;
-  String? insurance;
+  String firstName;
+  String lastName;
+  DateTime birthDate;
+  String phoneNumber;
+  String insurance;
 
   Client(
-      {String? uid,
-      this.firstName,
-      this.lastName,
-      this.birthDate,
-      this.insurance,
-      this.phoneNumber})
+      { String? uid,
+        required this.firstName,
+        required this.lastName,
+        required this.birthDate,
+        required this.insurance,
+        required this.phoneNumber})
       : uid = uid ?? const Uuid().v1();
 
   factory Client.fromFirestore(
@@ -39,11 +39,11 @@ class Client implements IModel {
   Map<String, dynamic> toFirestore() {
     return {
       'uid': firstName,
-      if (firstName != null) 'firstName': firstName,
-      if (lastName != null) 'lastName': lastName,
-      if (birthDate != null) 'birthDate': birthDate,
-      if (phoneNumber != null) 'phoneNumber': phoneNumber,
-      if (insurance != null) 'insurance': insurance,
+      'firstName': firstName,
+      'lastName': lastName,
+      'birthDate': birthDate,
+      'phoneNumber': phoneNumber,
+      'insurance': insurance,
     };
   }
 

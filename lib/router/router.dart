@@ -12,6 +12,7 @@ import 'package:pdg_app/screens/register.dart';
 
 import '../screens/home.dart';
 import './auth_gard.dart';
+import 'home_guard.dart';
 
 @MaterialAutoRouter(
   // replaceInRouteName: 'Page,Route',
@@ -43,21 +44,29 @@ import './auth_gard.dart';
           ],
         ),
         AutoRoute(
-          page: ClientListScreen,
-          path: 'client_list',
-        ),
-        AutoRoute(
           page: EmptyRouterPage,
-          name: "DiaryRouterPage",
-          path: 'diary',
+          name: "MainRouterPage",
+          path: 'main',
           children: [
             AutoRoute(
-              path: '',
-              page: DiaryScreen,
+              page: ClientListScreen,
+              path: 'clients',
+              guards: [HomeGuard],
+              initial: true,
             ),
             AutoRoute(
-              path: 'add',
-              page: AddMealScreen,
+              page: EmptyRouterPage,
+              path: 'diary',
+              children: [
+                AutoRoute(
+                  path: '',
+                  page: DiaryScreen,
+                ),
+                AutoRoute(
+                  path: 'add',
+                  page: AddMealScreen,
+                ),
+              ],
             ),
           ],
         ),

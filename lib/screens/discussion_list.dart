@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pdg_app/model/conversation_tile_data.dart';
+import 'package:pdg_app/model/custom_list_tile_data.dart';
 
 import '../widgets/badge.dart';
 
@@ -9,23 +9,23 @@ class DiscussionListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DiscussionList(
+    return CustomList(
       conversationsTileData: [
-        ConversationTileData(
+        CustomListTileData(
           title: "test",
-          lastMessage: DateTime.now(),
-          unreadCount: 2,
+          date: DateTime.now(),
+          badgeCount: 2,
         ),
       ],
     );
   }
 }
 
-class DiscussionList extends StatelessWidget {
-  final List<ConversationTileData> _conversationsTileData;
+class CustomList extends StatelessWidget {
+  final List<CustomListTileData> _conversationsTileData;
 
-  const DiscussionList({
-    required List<ConversationTileData> conversationsTileData,
+  const CustomList({
+    required List<CustomListTileData> conversationsTileData,
     Key? key,
   })  : _conversationsTileData = conversationsTileData,
         super(key: key);
@@ -70,15 +70,14 @@ class DiscussionList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemBuilder: (context, index) {
               final conv = _conversationsTileData[index];
-              return _ConversationTile(
-                conversationImage: conv.avatar ??
+              return _CustomListTile(
+                image: conv.avatar ??
                     const AssetImage('assets/images/default_user_pic.png'),
-                conversationTitle: conv.title ?? 'Conversation ${index + 1}',
-                conversationSubtitle: conv.lastMessage != null
-                    ? format.format(conv.lastMessage!)
+                title: conv.title ?? 'Conversation ${index + 1}',
+                subtitle: conv.date != null
+                    ? format.format(conv.date!)
                     : 'No messages yet',
-                conversationUnreadCount:
-                    _conversationsTileData[index].unreadCount ?? 0,
+                badgeCount: _conversationsTileData[index].badgeCount ?? 0,
               );
             },
             separatorBuilder: (context, index) {
@@ -95,24 +94,24 @@ class DiscussionList extends StatelessWidget {
   }
 }
 
-class _ConversationTile extends StatelessWidget {
-  final String _conversationTitle;
-  final String _conversationSubtitle;
-  final int _conversationUnreadCount;
-  final ImageProvider _conversationImage;
+class _CustomListTile extends StatelessWidget {
+  final String _title;
+  final String _subtitle;
+  final int _badgeCount;
+  final ImageProvider _image;
   final void Function()? _onTap;
 
-  const _ConversationTile({
+  const _CustomListTile({
     Key? key,
-    required String conversationTitle,
-    required String conversationSubtitle,
-    required int conversationUnreadCount,
-    required ImageProvider conversationImage,
+    required String title,
+    required String subtitle,
+    required int badgeCount,
+    required ImageProvider image,
     void Function()? onTap,
-  })  : _conversationTitle = conversationTitle,
-        _conversationSubtitle = conversationSubtitle,
-        _conversationUnreadCount = conversationUnreadCount,
-        _conversationImage = conversationImage,
+  })  : _title = title,
+        _subtitle = subtitle,
+        _badgeCount = badgeCount,
+        _image = image,
         _onTap = onTap,
         super(key: key);
 
@@ -123,13 +122,11 @@ class _ConversationTile extends StatelessWidget {
       child: ListTile(
         onTap: _onTap,
         leading: CircleAvatar(
-          backgroundImage: _conversationImage,
+          backgroundImage: _image,
         ),
-        trailing: _conversationUnreadCount == 0
-            ? const SizedBox()
-            : Badge(_conversationUnreadCount),
-        title: Text(_conversationTitle),
-        subtitle: Text(_conversationSubtitle),
+        trailing: _badgeCount == 0 ? const SizedBox() : Badge(_badgeCount),
+        title: Text(_title),
+        subtitle: Text(_subtitle),
       ),
     );
   }

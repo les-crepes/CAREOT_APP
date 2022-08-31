@@ -44,8 +44,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
       builder: (context, child) {
-        return Scaffold(
-          body: child,
+        if (child == null) return Container();
+        return SafeArea(
+          child: child,
         );
       },
     );

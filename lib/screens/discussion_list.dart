@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pdg_app/model/conversation_tile_data.dart';
+
+import '../widgets/badge.dart';
 
 class DiscussionListScreen extends StatelessWidget {
   const DiscussionListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const DiscussionList();
+    return DiscussionList(
+      conversationsTileData: [
+        ConversationTileData(
+          title: "test",
+          lastMessage: DateTime.now(),
+          unreadCount: 2,
+        ),
+      ],
+    );
   }
 }
 
 class DiscussionList extends StatelessWidget {
-  const DiscussionList({Key? key}) : super(key: key);
+  final List<ConversationTileData> _conversationsTileData;
+
+  const DiscussionList({
+    required List<ConversationTileData> conversationsTileData,
+    Key? key,
+  })  : _conversationsTileData = conversationsTileData,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +69,16 @@ class DiscussionList extends StatelessWidget {
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemBuilder: (context, index) {
+              final conv = _conversationsTileData[index];
               return _ConversationTile(
-                conversationImage:
+                conversationImage: conv.avatar ??
                     const AssetImage('assets/images/default_user_pic.png'),
-                conversationTitle: 'Conversation ${index + 1}',
-                conversationSubtitle: format.format(DateTime.now()),
-                conversationUnreadCount: 10,
+                conversationTitle: conv.title ?? 'Conversation ${index + 1}',
+                conversationSubtitle: conv.lastMessage != null
+                    ? format.format(conv.lastMessage!)
+                    : 'No messages yet',
+                conversationUnreadCount:
+                    _conversationsTileData[index].unreadCount ?? 0,
               );
             },
             separatorBuilder: (context, index) {
@@ -66,7 +87,7 @@ class DiscussionList extends StatelessWidget {
                 thickness: 1,
               );
             },
-            itemCount: 10,
+            itemCount: _conversationsTileData.length,
           ),
         ),
       ],
@@ -79,6 +100,7 @@ class _ConversationTile extends StatelessWidget {
   final String _conversationSubtitle;
   final int _conversationUnreadCount;
   final ImageProvider _conversationImage;
+  final void Function()? _onTap;
 
   const _ConversationTile({
     Key? key,
@@ -86,10 +108,12 @@ class _ConversationTile extends StatelessWidget {
     required String conversationSubtitle,
     required int conversationUnreadCount,
     required ImageProvider conversationImage,
+    void Function()? onTap,
   })  : _conversationTitle = conversationTitle,
         _conversationSubtitle = conversationSubtitle,
         _conversationUnreadCount = conversationUnreadCount,
         _conversationImage = conversationImage,
+        _onTap = onTap,
         super(key: key);
 
   @override
@@ -97,41 +121,15 @@ class _ConversationTile extends StatelessWidget {
     return SizedBox(
       height: 70,
       child: ListTile(
+        onTap: _onTap,
         leading: CircleAvatar(
           backgroundImage: _conversationImage,
         ),
         trailing: _conversationUnreadCount == 0
             ? const SizedBox()
-            : _Badge(_conversationUnreadCount),
+            : Badge(_conversationUnreadCount),
         title: Text(_conversationTitle),
         subtitle: Text(_conversationSubtitle),
-      ),
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  final int _count;
-  const _Badge(
-    int count, {
-    Key? key,
-  })  : _count = count,
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 30,
-      width: 30,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      child: Center(
-        child: Text(
-          _count.toString(),
-          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-        ),
       ),
     );
   }

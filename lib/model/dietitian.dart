@@ -5,19 +5,19 @@ import 'imodel.dart';
 
 class Dietitian implements IModel {
   String uid;
-  String? firstName;
-  String? lastName;
+  String firstName;
+  String lastName;
   List? clientList;
-  String? birthDate;
-  String? avs;
+  DateTime birthDate;
+  String avs;
 
   Dietitian(
       {String? uid,
-      this.firstName,
-      this.lastName,
+      required this.firstName,
+      required this.lastName,
       this.clientList,
-      this.avs,
-      this.birthDate})
+      required this.avs,
+      required this.birthDate})
       : uid = uid ?? const Uuid().v1();
 
   factory Dietitian.fromFirestore(
@@ -31,7 +31,7 @@ class Dietitian implements IModel {
       lastName: data?['lastName'],
       clientList: data?['clientList'],
       avs: data?['avs'],
-      birthDate: data?['birthDate'],
+      birthDate: data?['birthDate'].toDate(),
     );
   }
 

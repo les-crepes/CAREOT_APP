@@ -7,8 +7,8 @@ import 'package:pdg_app/model/meal.dart';
 
 final db = FakeFirebaseFirestore();
 DateTime fisherDay = DateTime(2017,9,7,17,30);
-Meal m1 = Meal(startTime: fisherDay, owner:c1, hunger: 4, satiety: 5, comment: 'no comment');
-Meal m2 = Meal(startTime: fisherDay, owner:c1,hunger: 32, satiety: 2, comment: 'wow');
+Meal m1 = Meal(startTime: fisherDay, endTime: fisherDay,owner:c1, hunger: 4, satiety: 5, comment: 'no comment');
+Meal m2 = Meal(startTime: fisherDay, endTime: fisherDay,owner:c1,hunger: 32, satiety: 2, comment: 'wow');
 Client c1 = Client(
     firstName: 'Olivier', lastName: 'D\'Ancona', phoneNumber: '0780001223');
 

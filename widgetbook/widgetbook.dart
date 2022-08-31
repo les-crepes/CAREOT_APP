@@ -196,7 +196,7 @@ class HotReload extends StatelessWidget {
                     comment: context.knobs.text(
                       label: 'meal name',
                       initialValue: "Déjeuner",
-                    ),
+                    ), hunger: 2, satiety: 5, title: 'Poop', owner: ''
                   )
                 ];
               },

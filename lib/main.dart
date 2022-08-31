@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
+import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'api/firebase_client.dart';
@@ -37,7 +38,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = AppRouter(authGuard: AuthGuard());
+  final _appRouter = AppRouter(authGuard: AuthGuard(), chatGuard: ChatGuard());
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme,
       builder: (context, child) {
-        return Scaffold(
-          body: child,
+        if (child == null) return Container();
+        return SafeArea(
+          child: child,
         );
       },
     );

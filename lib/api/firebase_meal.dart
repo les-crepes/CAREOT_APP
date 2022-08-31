@@ -70,12 +70,12 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
         .map((doc) => Meal(
               comment: doc['comment'],
               owner: userId,
-              endTime: doc['endTime'],
+              endTime: doc['endTime'].toDate(),
+              startTime: doc['startTime'].toDate(),
               hunger: doc['hunger'],
               title: doc['title'],
               photo: doc['photo'],
               satiety: doc['satiety'],
-              startTime: doc['startTime'],
               uid: doc['udi'],
               setting: doc['setting'],
             ))

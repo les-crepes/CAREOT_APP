@@ -7,7 +7,7 @@ import 'package:pdg_app/model/meal.dart';
 
 final db = FakeFirebaseFirestore();
 DateTime fisherDay = DateTime(2017, 9, 7, 17, 30);
-Meal m1 = Meal(
+Meal m2 = Meal(
     startTime: fisherDay,
     endTime: fisherDay,
     owner: c1.uid,
@@ -15,11 +15,11 @@ Meal m1 = Meal(
     satiety: 5,
     comment: 'no comment',
     title: 'mojo');
-Meal m2 = Meal(
+Meal m1 = Meal(
     startTime: fisherDay,
     endTime: fisherDay,
     owner: c1.uid,
-    hunger: 32,
+    hunger: 4,
     satiety: 2,
     comment: 'wow',
     title: 'jojo');
@@ -43,6 +43,7 @@ void main() {
   final meals = db.collection('meal');
 
   setUp(() async {
+    populateMockMeal(m1);
     populateMockMeal(m2);
     populateMockClient(c1);
     mealApi = FirebaseMeal(db);
@@ -94,7 +95,8 @@ void main() {
   });
 
   test("getUsersMealForDay", () async {
-    //mealApi.getUsersMealForDay(c1.uid, )
-    expect(true, true);
+    List<Meal> coco = [m1, m2];
+    final meals = await mealApi.getUsersMealForDay(c1.uid, fisherDay);
+    expect(meals.elementAt(0).toString(), coco.elementAt(0).toString());
   });
 }

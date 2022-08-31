@@ -8,8 +8,6 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:pdg_app/router/router.gr.dart';
 
-import 'document_list.dart';
-
 String randomString() {
   final random = math.Random.secure();
   final values = List<int>.generate(16, (i) => random.nextInt(255));

@@ -2,20 +2,40 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/imeal.dart';
 import 'package:pdg_app/api/firebase_meal.dart';
+import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/model/meal.dart';
 
 final db = FakeFirebaseFirestore();
-Meal m1 = Meal(
-    hunger: 4, satiety: 5, comment: 'no comment',
-    startTime: DateTime.now(), endTime: DateTime.now(),
-    title: "prout", owner: '');
+DateTime fisherDay = DateTime(2017, 9, 7, 17, 30);
 Meal m2 = Meal(
-    hunger: 7, satiety: 2, comment: 'wow',
-    startTime: DateTime.now(), endTime: DateTime.now(),
-    title: "doodoo", owner: '');
+    startTime: fisherDay,
+    endTime: fisherDay,
+    owner: c1.uid,
+    hunger: 4,
+    satiety: 5,
+    comment: 'no comment',
+    title: 'mojo');
+Meal m1 = Meal(
+    startTime: fisherDay,
+    endTime: fisherDay,
+    owner: c1.uid,
+    hunger: 4,
+    satiety: 2,
+    comment: 'wow',
+    title: 'jojo');
+Client c1 = Client(
+    firstName: 'Olivier',
+    lastName: 'D\'Ancona',
+    phoneNumber: '0780001223',
+    birthDate: fisherDay,
+    insurance: '');
 
 Future<void> populateMockMeal(Meal c) async {
   await db.collection('meal').doc(c.uid).set(c.toFirestore());
+}
+
+Future<void> populateMockClient(Client c) async {
+  await db.collection('client').doc(c.uid).set(c.toFirestore());
 }
 
 void main() {
@@ -23,7 +43,9 @@ void main() {
   final meals = db.collection('meal');
 
   setUp(() async {
+    populateMockMeal(m1);
     populateMockMeal(m2);
+    populateMockClient(c1);
     mealApi = FirebaseMeal(db);
   });
 
@@ -70,5 +92,11 @@ void main() {
         .get();
     final meal = docSnapshot.data();
     expect(meal, null);
+  });
+
+  test("getUsersMealForDay", () async {
+    List<Meal> coco = [m1, m2];
+    final meals = await mealApi.getUsersMealForDay(c1.uid, fisherDay);
+    expect(meals.elementAt(0).toString(), coco.elementAt(0).toString());
   });
 }

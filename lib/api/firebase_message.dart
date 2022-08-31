@@ -42,6 +42,19 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
+  Future<List<Message>?> readConversation(String senderId, String receiverId) async {
+    final querySnapshot = await collectionReference
+        .where('senderId', isEqualTo: senderId)
+        .where('receiverId', isEqualTo: receiverId)
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message city, _) => city.toFirestore()
+        ).get();
+    final messages = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return messages;
+  }
+
+  @override
   void updateMessage(Message message) {
     collectionReference
         .doc(message.uid)

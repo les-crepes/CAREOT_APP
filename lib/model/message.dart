@@ -6,8 +6,8 @@ import 'imodel.dart';
 class Message implements IModel {
   String uid = const Uuid().v1();
   DateTime? time;
-  String? fromId;
-  String? toId;
+  String fromId;
+  String toId;
   String? content;
   int? type;
 

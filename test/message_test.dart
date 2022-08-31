@@ -39,6 +39,12 @@ void main() {
     expect(msg2.toString(), m2Bis.toString());
   });
 
+  test("Read Conversation", () async {
+    final List? messages = await messageApi.readConversation(msg1.fromId, msg1.toId);
+    expect(messages.length, 1);
+    expect(messages[0].toString(), msg1.toString());
+  });
+
   test("Update message", () async {
     msg1.setContent('Filippo');
     messageApi.updateMessage(msg1);

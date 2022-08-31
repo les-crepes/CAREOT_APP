@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
+import 'package:pdg_app/screens/client_list.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/profile.dart';
@@ -26,6 +27,10 @@ import './auth_gard.dart';
         AutoRoute(
           page: ChatScreen,
           path: 'chat',
+        ),
+        AutoRoute(
+          page: ClientListScreen,
+          path: 'client_list',
         ),
         AutoRoute(
           page: EmptyRouterPage,

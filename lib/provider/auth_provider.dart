@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/iclient.dart';
@@ -24,8 +26,8 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     //final isConnected = await _auth.signIn(email: email, password: password);
-    final isConnected =
-        await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
+    final isConnected = await _auth.signIn(
+        email: "chloe.fontaine@heig-vd.ch", password: 'crepes123');
 
     if (isConnected) {
       _client = await _clientApi.readClient(_auth.uid);

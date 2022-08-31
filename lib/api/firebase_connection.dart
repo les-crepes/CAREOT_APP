@@ -32,35 +32,27 @@ class FirebaseConnection implements Auth {
   }
 
   @override
-  Future<bool> signIn(
-      {required String email, required String password}) async {
+  Future<bool> signIn({required String email, required String password}) async {
     try {
-      if(isConnected) {
+      if (isConnected) {
         log("Already connected");
-      }
-      else {
+      } else {
         await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-          email: email,
-          password: password);
+            .signInWithEmailAndPassword(email: email, password: password);
       }
       return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        log('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        log('Wrong password provided for that user.');
-      }
+    } catch (e) {
+      log(e.toString());
     }
     return false;
   }
 
-
   @override
-  Future<bool> register({required String email, required String password}) async {
+  Future<bool> register(
+      {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

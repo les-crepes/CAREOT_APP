@@ -1,30 +1,50 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pdg_app/model/client.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import '../router/router.gr.dart';
 import '../widgets/profile/profile_top_bar.dart';
+import 'package:pdg_app/api/firebase_dietitian.dart';
+import 'package:pdg_app/api/idietitian.dart';
+import 'package:pdg_app/model/dietitian.dart';
 
 import '../provider/auth_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  // IDietitian dietitianApi = FirebaseDietitian(FirebaseFirestore.instance);
+
+  // Dietitian dietitian = await dietitianApi.readDietitian("bZB6G7LbLSfp8lTPsh00fWxiHb03");
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = GetIt.I.get<AuthProvider>();
+    final Client? user = authProvider.client;
+
+    if (user == null) {
+      return const Center(
+        child: Text("An error has occured."),
+      );
+    }
+
     return Profile(
-      clientFirstName: "Luca",
-      clienLastName: "Coduri",
-      nutriFirstName: "Claire",
-      nutriLastName: "Nutri",
-      clientEmail: "luca.coduri@gmail.com",
-      clientPhone: "0794563418",
-      clientBirthday: DateTime(1996, 12, 18),
-      clientInsurance: "09734789789248943",
+      clientFirstName: user.firstName,
+      clienLastName: user.lastName,
+      nutriFirstName: "Claire", // TODO
+      nutriLastName: "Nutri", // TODO
+      clientEmail: "luca.coduri@gmail.com", //TODO
+      clientPhone: user.phoneNumber,
+      clientBirthday: DateTime(1996, 12, 18), // TODO
+      clientInsurance: user.insurance,
       onLogoutPressed: () {
-        GetIt.I.get<AuthProvider>().signOut();
+        authProvider.signOut();
         AutoRouter.of(context).navigate(const LoginScreenRoute());
       },
     );

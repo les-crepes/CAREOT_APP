@@ -6,11 +6,14 @@ import 'badge.dart';
 
 class CustomList extends StatelessWidget {
   final List<CustomListTileData> _conversationsTileData;
+  final String _title;
 
   const CustomList({
     required List<CustomListTileData> conversationsTileData,
+    required String title,
     Key? key,
   })  : _conversationsTileData = conversationsTileData,
+        _title = title,
         super(key: key);
 
   @override
@@ -38,7 +41,7 @@ class CustomList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Text(
-                  'Discussions',
+                  _title,
                   style: Theme.of(context)
                       .textTheme
                       .headline1!
@@ -54,8 +57,10 @@ class CustomList extends StatelessWidget {
             itemBuilder: (context, index) {
               final conv = _conversationsTileData[index];
               return _CustomListTile(
-                image: conv.avatar ??
-                    const AssetImage('assets/images/default_user_pic.png'),
+                avatar: conv.avatar ??
+                    const Image(
+                        image:
+                            AssetImage('assets/images/default_user_pic.png')),
                 title: conv.title ?? 'Conversation ${index + 1}',
                 subtitle: conv.date != null
                     ? format.format(conv.date!)
@@ -82,7 +87,7 @@ class _CustomListTile extends StatelessWidget {
   final String _title;
   final String _subtitle;
   final int _badgeCount;
-  final ImageProvider _image;
+  final Widget _avatar;
   final void Function()? _onTap;
 
   const _CustomListTile({
@@ -90,12 +95,12 @@ class _CustomListTile extends StatelessWidget {
     required String title,
     required String subtitle,
     required int badgeCount,
-    required ImageProvider image,
+    required Widget avatar,
     void Function()? onTap,
   })  : _title = title,
         _subtitle = subtitle,
         _badgeCount = badgeCount,
-        _image = image,
+        _avatar = avatar,
         _onTap = onTap,
         super(key: key);
 
@@ -105,9 +110,7 @@ class _CustomListTile extends StatelessWidget {
       height: 70,
       child: ListTile(
         onTap: _onTap,
-        leading: CircleAvatar(
-          backgroundImage: _image,
-        ),
+        leading: _avatar,
         trailing: _badgeCount == 0 ? const SizedBox() : Badge(_badgeCount),
         title: Text(_title),
         subtitle: Text(_subtitle),

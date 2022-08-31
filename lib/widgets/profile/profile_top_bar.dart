@@ -10,6 +10,7 @@ class ProfileTopBar extends StatelessWidget {
   final String _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
+  final void Function()? _onLogOutPress;
 
   const ProfileTopBar({
     Key? key,
@@ -18,11 +19,13 @@ class ProfileTopBar extends StatelessWidget {
     required String clientPicturePath,
     required String clientFirstName,
     required String clientLastName,
+    void Function()? onLogOutPress,
   })  : _width = width,
         _height = height,
         _clientPicturePath = clientPicturePath,
         _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
+        _onLogOutPress = onLogOutPress,
         super(key: key);
 
   @override
@@ -56,8 +59,11 @@ class ProfileTopBar extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                CustomIconButton(icon: Icons.logout_outlined),
+              children: [
+                CustomIconButton(
+                  icon: Icons.logout_outlined,
+                  onTap: _onLogOutPress,
+                ),
               ],
             ),
           ]),

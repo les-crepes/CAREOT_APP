@@ -8,6 +8,7 @@ import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
 
 import '../screens/home.dart';
+import './auth_gard.dart';
 
 @MaterialAutoRouter(
   // replaceInRouteName: 'Page,Route',
@@ -15,6 +16,7 @@ import '../screens/home.dart';
     AutoRoute(
       path: '/home',
       page: HomeScreen,
+      guards: [AuthGuard],
       initial: true,
       children: [
         RedirectRoute(

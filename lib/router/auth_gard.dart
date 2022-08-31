@@ -5,8 +5,6 @@ import 'package:pdg_app/router/router.gr.dart';
 import '../provider/auth_provider.dart';
 
 class AuthGuard extends AutoRouteGuard {
-  var isAuthenticated = false;
-
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     if (GetIt.I.get<AuthProvider>().isConnected()) {

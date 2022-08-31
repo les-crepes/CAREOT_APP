@@ -20,7 +20,7 @@ class DiscussionList extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 100,
+          height: 70,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,

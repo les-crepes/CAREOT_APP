@@ -5,8 +5,8 @@ import 'package:pdg_app/api/firebase_message.dart';
 import 'package:pdg_app/model/message.dart';
 
 final db = FakeFirebaseFirestore();
-Message msg1 = Message(content: 'Bonjour', fromId: 'alice', toId: 'bob');
-Message msg2 = Message(content: 'ciao', fromId: 'alice', toId: 'bob');
+Message msg1 = Message(content: 'Bonjour', fromId: 'alice', toId: 'bob', time: DateTime.now());
+Message msg2 = Message(content: 'ciao', fromId: 'alice', toId: 'bob', time:DateTime.now());
 
 Future<void> populateMockMessage(Message c) async {
   await db.collection('message').doc(c.uid).set(c.toFirestore());

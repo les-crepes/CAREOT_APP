@@ -29,7 +29,7 @@ class Client implements IModel {
       uid: data?['uid'],
       firstName: data?['firstName'],
       lastName: data?['lastName'],
-      birthDate: data?['birthDate'],
+      birthDate: data?['birthDate'].toDate(),
       insurance: data?['insurance'],
       phoneNumber: data?['phoneNumber'],
     );

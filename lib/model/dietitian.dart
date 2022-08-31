@@ -31,7 +31,7 @@ class Dietitian implements IModel {
       lastName: data?['lastName'],
       clientList: data?['clientList'],
       avs: data?['avs'],
-      birthDate: data?['birthDate'],
+      birthDate: data?['birthDate'].toDate(),
     );
   }
 

@@ -27,7 +27,7 @@ class Message implements IModel {
     final data = snapshot.data();
     return Message(
       uid: data?['uid'],
-      time: data?['time'],
+      time: data?['time'].toDate(),
       fromId: data?['fromId'],
       toId: data?['toId'],
       content: data?['content'],

@@ -6,6 +6,7 @@ import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/client_list.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/discussion_list.dart';
+import 'package:pdg_app/screens/document_list.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
@@ -37,10 +38,15 @@ import 'home_guard.dart';
               path: 'onechat',
             ),
             AutoRoute(
-                page: DiscussionListScreen,
-                path: 'chats',
-                initial: true,
-                guards: [ChatGuard]),
+              page: DiscussionListScreen,
+              path: 'chats',
+              initial: true,
+              guards: [ChatGuard],
+            ),
+            AutoRoute(
+              page: DocumentListScreen,
+              path: 'documents',
+            ),
           ],
         ),
         AutoRoute(

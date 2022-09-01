@@ -5,4 +5,5 @@ abstract class IClient {
   Future<Client> readClient(String clientId);
   void updateClient(Client client);
   void deleteClient(String clientId);
+  Future<List<Client>> getDietitianClient(String dietitianId);
 }

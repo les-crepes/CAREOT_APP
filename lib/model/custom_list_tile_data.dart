@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomListTileData {
-  final ImageProvider? avatar;
+  final Widget? avatar;
   final String? title;
   final DateTime? date;
   final int? badgeCount;

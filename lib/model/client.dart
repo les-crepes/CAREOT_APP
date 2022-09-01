@@ -12,12 +12,12 @@ class Client implements IModel {
   String insurance;
 
   Client(
-      { String? uid,
-        required this.firstName,
-        required this.lastName,
-        required this.birthDate,
-        required this.insurance,
-        required this.phoneNumber})
+      {String? uid,
+      required this.firstName,
+      required this.lastName,
+      required this.birthDate,
+      required this.insurance,
+      required this.phoneNumber})
       : uid = uid ?? const Uuid().v1();
 
   factory Client.fromFirestore(
@@ -27,18 +27,18 @@ class Client implements IModel {
     final data = snapshot.data();
     return Client(
       uid: data?['uid'],
-      firstName: data?['firstName'],
-      lastName: data?['lastName'],
-      birthDate: data?['birthDate'].toDate(),
-      insurance: data?['insurance'],
-      phoneNumber: data?['phoneNumber'],
+      firstName: data?['firstName'] ?? "",
+      lastName: data?['lastName'] ?? "",
+      birthDate: data?['birthDate']?.toDate() ?? DateTime(1900),
+      insurance: data?['insurance'] ?? "",
+      phoneNumber: data?['phoneNumber'] ?? "",
     );
   }
 
   @override
   Map<String, dynamic> toFirestore() {
     return {
-      'uid': firstName,
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'birthDate': birthDate,

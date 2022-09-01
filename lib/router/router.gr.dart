@@ -20,6 +20,7 @@ import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i8;
 import '../screens/diary.dart' as _i9;
 import '../screens/discussion_list.dart' as _i7;
+import '../screens/document_list.dart' as _i8;
 import '../screens/home.dart' as _i1;
 import '../screens/login.dart' as _i2;
 import '../screens/profile.dart' as _i5;
@@ -120,7 +121,9 @@ class AppRouter extends _i11.RootStackRouter {
                 _i11.RouteConfig(DiscussionListScreenRoute.name,
                     path: 'chats',
                     parent: ChatRouterPage.name,
-                    guards: [chatGuard])
+                    guards: [chatGuard]),
+                _i11.RouteConfig(DocumentListScreenRoute.name,
+                    path: 'documents', parent: ChatRouterPage.name)
               ]),
           _i11.RouteConfig(MainRouterPage.name,
               path: 'main',

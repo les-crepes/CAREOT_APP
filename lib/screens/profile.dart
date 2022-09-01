@@ -4,11 +4,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/user.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import '../router/router.gr.dart';
+import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/profile/profile_top_bar.dart';
 import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/api/idietitian.dart';
@@ -26,11 +27,23 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = GetIt.I.get<AuthProvider>();
-    final Client? user = authProvider.client;
+    final User? user = authProvider.user;
 
     if (user == null) {
-      return const Center(
-        child: Text("An error has occured."),
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("An error has occured."),
+            CustomIconButton(
+              icon: Icons.logout_outlined,
+              onTap: () {
+                authProvider.signOut();
+                AutoRouter.of(context).navigate(const LoginScreenRoute());
+              },
+            )
+          ],
+        ),
       );
     }
 
@@ -41,8 +54,8 @@ class ProfileScreen extends StatelessWidget {
       nutriLastName: "Nutri", // TODO
       clientEmail: "luca.coduri@gmail.com", //TODO
       clientPhone: user.phoneNumber,
-      clientBirthday: DateTime(1996, 12, 18), // TODO
-      clientInsurance: user.insurance,
+      clientBirthday: user.birthDate,
+      clientInsurance: user.avs,
       onLogoutPressed: () {
         authProvider.signOut();
         AutoRouter.of(context).navigate(const LoginScreenRoute());

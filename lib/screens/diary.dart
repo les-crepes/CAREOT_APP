@@ -18,19 +18,35 @@ class DiaryScreen extends StatelessWidget {
       Meal(
           startTime: DateTime(2022, 8, 26, 12),
           endTime: DateTime(2022, 8, 26, 12, 30),
-          comment: "Déjeuner"),
+          comment: "Déjeuner",
+          title: 'Déjeuner',
+          satiety: 5,
+          hunger: 2,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper"),
+          comment: "Souper",
+          title: 'Souper',
+          satiety: 5,
+          hunger: 2,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper"),
+          comment: "Souper",
+          title: 'Souper',
+          satiety: 2,
+          hunger: 5,
+          owner: ''),
       Meal(
           startTime: DateTime(2022, 8, 26, 19),
           endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper")
+          comment: "Souper",
+          title: 'Souper',
+          satiety: 2,
+          hunger: 3,
+          owner: '')
     ];
   }
 
@@ -192,7 +208,7 @@ class _CalendarBody extends StatelessWidget {
             title: Text(meals[index].comment!,
                 style: const TextStyle(fontWeight: FontWeight.w600)),
             subtitle: Text(
-              "${hourFormatter.format(meals[index].startTime!)} - ${hourFormatter.format(meals[index].endTime!)}",
+              "${hourFormatter.format(meals[index].startTime)} - ${hourFormatter.format(meals[index].endTime)}",
               style: TextStyle(color: Colors.black.withOpacity(0.6)),
             ),
           ),

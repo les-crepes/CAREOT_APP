@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
+import 'package:pdg_app/router/home_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'api/firebase_user.dart';
@@ -29,7 +30,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  DateTime a = DateTime(2016,9,17,15,30);
+  DateTime a = DateTime(2016, 9, 17, 15, 30);
   log(a.toString());
   await setup();
   runApp(MyApp());
@@ -38,7 +39,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = AppRouter(authGuard: AuthGuard(), chatGuard: ChatGuard());
+  final _appRouter = AppRouter(
+    authGuard: AuthGuard(),
+    chatGuard: ChatGuard(),
+    homeGuard: HomeGuard(),
+  );
 
   @override
   Widget build(BuildContext context) {

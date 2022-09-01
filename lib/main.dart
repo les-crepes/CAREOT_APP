@@ -9,6 +9,7 @@ import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
+import 'package:provider/provider.dart';
 import 'api/firebase_client.dart';
 import 'api/firebase_connection.dart';
 import 'firebase_options.dart';
@@ -29,8 +30,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  DateTime a = DateTime(2016,9,17,15,30);
-  log(a.toString());
   await setup();
   runApp(MyApp());
 }
@@ -51,7 +50,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         if (child == null) return Container();
         return SafeArea(
-          child: child,
+          child: ChangeNotifierProvider.value(
+            value: GetIt.I.get<AuthProvider>(),
+            child: child,
+          ),
         );
       },
     );

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
@@ -14,7 +12,7 @@ import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
-  final _day;
+  final DateTime _day;
   const AddMealScreen({required DateTime day, Key? key})
       : _day = day,
         super(key: key);

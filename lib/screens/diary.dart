@@ -10,6 +10,7 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../provider/auth_provider.dart';
 import '../widgets/buttons/action_button.dart';
 import '../widgets/diary/diary_top_bar.dart';
 import '../widgets/diary/top_shape.dart';
@@ -36,18 +37,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MealProvider(),
-      builder: (context, child) => Diary(
-        onDaySelected: _onDaySelected,
-        getDiariesForDay: (day) {
-          return _getEventsForDay(context, day);
-        },
-        clientName: "Marie",
-        onAddPressed: () async {
-          final addedMeal = await AutoRouter.of(context)
-              .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
-          log(addedMeal.toString());
-        },
-      ),
+      builder: (context, child) {
+        context
+            .watch<MealProvider>()
+            .fetchMeals(context.read<AuthProvider>().userUid);
+        return Diary(
+          onDaySelected: _onDaySelected,
+          getDiariesForDay: (day) {
+            return _getEventsForDay(context, day);
+          },
+          clientName: "Marie",
+          onAddPressed: () async {
+            final addedMeal = await AutoRouter.of(context)
+                .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
+            log(addedMeal.toString());
+          },
+        );
+      },
     );
   }
 }

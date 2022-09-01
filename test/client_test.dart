@@ -1,25 +1,49 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pdg_app/api/iuser.dart';
 import 'package:pdg_app/api/firebase_user.dart';
+import 'package:pdg_app/api/iuser.dart';
+import 'package:pdg_app/model/dietitian.dart';
 import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
 User c1 = User(
-    firstName: 'Olivier', lastName: 'D\'Ancona', phoneNumber: '0780001223', 
-    birthDate: DateTime.now(), avs: '');
-User c2 =
-    User(firstName: 'Chloé', lastName: 'Fontaine', phoneNumber: '0780002334',
-        birthDate: DateTime.now(), avs: '');
-User c3 =
-    User(firstName: 'Luca', lastName: 'Coduri', phoneNumber: '0780003445',
-        birthDate: DateTime.now(), avs: '');
+    firstName: 'Olivier',
+    lastName: 'D\'Ancona',
+    phoneNumber: '0780001223',
+    birthDate: DateTime.now(),
+    avs: '');
+User c2 = User(
+    firstName: 'Chloé',
+    lastName: 'Fontaine',
+    phoneNumber: '0780002334',
+    birthDate: DateTime.now(),
+    avs: '');
+User c3 = User(
+    firstName: 'Luca',
+    lastName: 'Coduri',
+    phoneNumber: '0780003445',
+    birthDate: DateTime.now(),
+    avs: '');
 User c4 = User(
-    firstName: 'Nelson', lastName: 'Jeanrenaud', phoneNumber: '0786834556',
-    birthDate: DateTime.now(), avs: '');
+    firstName: 'Nelson',
+    lastName: 'Jeanrenaud',
+    phoneNumber: '0786834556',
+    birthDate: DateTime.now(),
+    avs: '');
+Dietitian d1 = Dietitian(
+    firstName: 'Claire',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    clientList: [c2.uid, c3.uid, c4.uid],
+    phoneNumber: '');
 
 Future<void> populateMockClient(User c) async {
   await db.collection('user').doc(c.uid).set(c.toFirestore());
+}
+
+Future<void> populateMockDietitian(Dietitian d) async {
+  await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
 }
 
 void main() {
@@ -29,6 +53,8 @@ void main() {
   setUp(() async {
     populateMockClient(c2);
     populateMockClient(c3);
+    populateMockClient(c4);
+    populateMockDietitian(d1);
     clientApi = FirebaseUser(db);
   });
 
@@ -75,5 +101,11 @@ void main() {
         .get();
     final user = docSnapshot.data();
     expect(user, null);
+  });
+
+  test("getDietitianClients", () async {
+    List<User> coco = [c2, c3, c4];
+    final clients = await clientApi.getDietitianClient(d1.uid);
+    expect(clients.elementAt(0).toString(), coco.elementAt(0).toString());
   });
 }

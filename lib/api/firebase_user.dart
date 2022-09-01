@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pdg_app/api/firebase_api.dart';
+import 'package:pdg_app/api/firebase_dietitian.dart';
+import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/api/iuser.dart';
+import 'package:pdg_app/model/dietitian.dart';
 import 'package:pdg_app/model/user.dart';
 
 class FirebaseUser extends FirebaseAPI implements IUser {
@@ -54,5 +57,23 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   @override
   void deleteUser(String clientId) {
     collectionReference.doc(clientId).delete();
+  }
+
+  @override
+  Future<List<User>> getDietitianClient(String dietitianId) async {
+    IDietitian dietitianApi = FirebaseDietitian(super.getDb());
+    Dietitian d = await dietitianApi.readDietitian(dietitianId);
+    final m =
+        await collectionReference.where("uid", whereIn: d.clientList).get();
+    List<User> clients = m.docs
+        .map((doc) => User(
+            birthDate: doc['birthDate'].toDate(),
+            firstName: doc['firstName'],
+            avs: doc['avs'],
+            lastName: doc['lastName'],
+            phoneNumber: doc['phoneNumber'],
+            uid: doc['uid']))
+        .toList();
+    return clients;
   }
 }

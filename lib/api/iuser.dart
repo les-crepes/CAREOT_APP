@@ -5,4 +5,6 @@ abstract class IUser {
   Future<User> readUser(String userid);
   void updateUser(User user);
   void deleteUser(String userid);
+  Future<List<User>> getDietitianClient(String dietitianId);
+
 }

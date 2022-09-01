@@ -28,7 +28,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   Future<Meal> readMeal(String mealId) async {
     final docRef = collectionReference.doc(mealId).withConverter(
           fromFirestore: Meal.fromFirestore,
-          toFirestore: (Meal city, _) => city.toFirestore(),
+          toFirestore: (Meal meal, _) => meal.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final meal = docSnapshot.data();
@@ -55,5 +55,21 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   @override
   void deleteMeal(String mealId) {
     collectionReference.doc(mealId).delete();
+  }
+
+  @override
+  Future<List<Meal>> getUsersMealForDay(String userId, DateTime day) async {
+    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
+    DateTime endD = newD.add(const Duration(days: 1));
+    final m = await collectionReference
+        .where("owner", isEqualTo: userId)
+        .where("startTime", isGreaterThanOrEqualTo: newD)
+        .where("startTime", isLessThanOrEqualTo: endD)
+        .withConverter(
+            fromFirestore: Meal.fromFirestore,
+            toFirestore: (Meal msg, _) => msg.toFirestore())
+        .get();
+    List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
+    return meals;
   }
 }

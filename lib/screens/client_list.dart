@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/client_provider.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
@@ -140,8 +139,11 @@ class ScrollableClientList extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         itemBuilder: ((context, index) => ArrowPicCard(
-            title: Text(
-                "${_clients[index].firstName} ${_clients[index].lastName}"))),
+              title: Text(
+                  "${_clients[index].firstName} ${_clients[index].lastName}"),
+              imagePath:
+                  'assets/images/default_user_pic.png', //TODO à changer quand on aura  les photos
+            )),
         separatorBuilder: ((context, index) => const SizedBox(height: 15)),
         itemCount: _clients.length,
         physics: const BouncingScrollPhysics(

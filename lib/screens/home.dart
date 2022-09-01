@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/router/router.gr.dart';
-import 'package:pdg_app/screens/client_list.dart';
 
 import '../widgets/navbar.dart';
 

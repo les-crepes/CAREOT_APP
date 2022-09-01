@@ -9,6 +9,7 @@ class HomeGuard extends AutoRouteGuard {
 
     if (!isClient) {
       resolver.next(true);
+      // ignore: dead_code
     } else {
       router.push(const DiaryScreenRoute());
     }

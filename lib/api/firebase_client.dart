@@ -27,7 +27,7 @@ class FirebaseClient extends FirebaseAPI implements IClient {
   Future<Client> readClient(String clientId) async {
     final docRef = collectionReference.doc(clientId).withConverter(
           fromFirestore: Client.fromFirestore,
-          toFirestore: (Client city, _) => city.toFirestore(),
+          toFirestore: (Client client, _) => client.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final client = docSnapshot.data();

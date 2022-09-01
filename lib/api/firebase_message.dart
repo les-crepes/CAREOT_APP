@@ -29,7 +29,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   Future<Message> readMessage(String messageId) async {
     final docRef = collectionReference.doc(messageId).withConverter(
           fromFirestore: Message.fromFirestore,
-          toFirestore: (Message city, _) => city.toFirestore(),
+          toFirestore: (Message msg, _) => msg.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final message = docSnapshot.data();
@@ -42,13 +42,14 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
-  Future<List<Message>?> readConversation(String senderId, String receiverId) async {
+  Future<List<Message>?> readConversation(String firstId, String secondId) async {
+    List<String> planet = [firstId, secondId];
     final querySnapshot = await collectionReference
-        .where('senderId', isEqualTo: senderId)
-        .where('receiverId', isEqualTo: receiverId)
+        .where('fromId', whereIn: planet)
+        .where('toId', whereIn: planet)
         .withConverter(
             fromFirestore: Message.fromFirestore,
-            toFirestore: (Message city, _) => city.toFirestore()
+            toFirestore: (Message msg, _) => msg.toFirestore()
         ).get();
     final messages = querySnapshot.docs.map((doc) => doc.data()).toList();
     return messages;

@@ -5,8 +5,14 @@ import 'package:pdg_app/api/firebase_message.dart';
 import 'package:pdg_app/model/message.dart';
 
 final db = FakeFirebaseFirestore();
-Message msg1 = Message(content: 'Bonjour', fromId: 'alice', toId: 'bob', time: DateTime.now());
-Message msg2 = Message(content: 'ciao', fromId: 'alice', toId: 'bob', time:DateTime.now());
+Message msg1 = Message(
+    content: 'Bonjour', fromId: 'alice', toId: 'bob', time: DateTime.now());
+Message msg2 = Message(
+    content: 'ciao', fromId: 'alice', toId: 'bob', time: DateTime.now());
+Message msg3 = Message(
+    content: 'ciao', fromId: 'alice', toId: 'jean', time: DateTime.now());
+Message msg4 = Message(
+    content: 'ciao', fromId: 'jean', toId: 'alice', time: DateTime.now());
 
 Future<void> populateMockMessage(Message c) async {
   await db.collection('message').doc(c.uid).set(c.toFirestore());
@@ -18,6 +24,9 @@ void main() {
 
   setUp(() async {
     populateMockMessage(msg2);
+    populateMockMessage(msg3);
+    populateMockMessage(msg4);
+
     messageApi = FirebaseMessage(db);
   });
 
@@ -39,12 +48,6 @@ void main() {
     expect(msg2.toString(), m2Bis.toString());
   });
 
-  test("Read Conversation", () async {
-    final List? messages = await messageApi.readConversation(msg1.fromId, msg1.toId);
-    expect(messages.length, 1);
-    expect(messages[0].toString(), msg1.toString());
-  });
-
   test("Update message", () async {
     msg1.setContent('Filippo');
     messageApi.updateMessage(msg1);
@@ -52,7 +55,7 @@ void main() {
         .doc(msg1.uid)
         .withConverter(
           fromFirestore: Message.fromFirestore,
-          toFirestore: (Message city, _) => city.toFirestore(),
+          toFirestore: (Message msg, _) => msg.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
@@ -60,15 +63,22 @@ void main() {
   });
 
   test("Delete message", () async {
-    messageApi.deleteMessage(msg2.uid);
+    messageApi.deleteMessage(msg1.uid);
     final docSnapshot = await messages
-        .doc(msg2.uid)
+        .doc(msg1.uid)
         .withConverter(
           fromFirestore: Message.fromFirestore,
-          toFirestore: (Message city, _) => city.toFirestore(),
+          toFirestore: (Message msg, _) => msg.toFirestore(),
         )
         .get();
     final message = docSnapshot.data();
     expect(message, null);
+  });
+
+  test("Read Conversation", () async {
+    final List? messages =
+        await messageApi.readConversation(msg2.fromId, msg2.toId);
+    expect(messages?.length, 1);
+    expect(messages?.first.toString(), msg2.toString());
   });
 }

@@ -16,7 +16,10 @@ class ProfileTemplate extends StatelessWidget {
   final String _clientPhone;
   final DateTime _clientBirthday;
   final String _clientInsurance;
-  final void Function()? _onLogoutPressed;
+  final void Function()? _onIconButtonPressed;
+  final IconData? _buttonIcon;
+  final Widget? _firstBloc;
+  final Widget? _lastBloc;
 
   const ProfileTemplate(
       {screenWidth = 0.0,
@@ -29,7 +32,10 @@ class ProfileTemplate extends StatelessWidget {
       required clientPhone,
       required clientBirthday,
       required clientInsurance,
-      void Function()? onLogoutPressed,
+      void Function()? onIconButtonPressed,
+      buttonIcon,
+      firstBloc,
+      lastBloc,
       Key? key})
       : _screenWidth = screenWidth,
         _clientPicturePath = clientPicturePath,
@@ -41,7 +47,10 @@ class ProfileTemplate extends StatelessWidget {
         _clientPhone = clientPhone,
         _clientBirthday = clientBirthday,
         _clientInsurance = clientInsurance,
-        _onLogoutPressed = onLogoutPressed,
+        _onIconButtonPressed = onIconButtonPressed,
+        _buttonIcon = buttonIcon,
+        _firstBloc = firstBloc,
+        _lastBloc = lastBloc,
         super(key: key);
 
   @override
@@ -61,34 +70,15 @@ class ProfileTemplate extends StatelessWidget {
           clientPicturePath: _clientPicturePath,
           clientFirstName: _clientFirstName,
           clientLastName: _clientLastName,
-          onLogOutPress: _onLogoutPressed,
+          onIconButtonPress: _onIconButtonPressed,
+          buttonIcon: _buttonIcon,
         ),
         const SizedBox(height: 15),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              LeftElementCard(
-                title: Text(
-                    "Your nutritionnist is $_nutriFirstName $_nutriLastName."),
-                element: IconTheme(
-                  data: IconThemeData(
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 30,
-                  ),
-                  child: const Icon(Icons.notification_important_outlined),
-                ),
-              ),
-              Divider(
-                height: 60,
-                thickness: 1,
-                indent: 40,
-                endIndent: 40,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const Text("Personal datas",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
-              const SizedBox(height: 15),
+              _firstBloc ?? const SizedBox(),
               Container(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -106,7 +96,8 @@ class ProfileTemplate extends StatelessWidget {
                           label: "Insurance", text: _clientInsurance),
                       const SizedBox(height: 15),
                     ]),
-              )
+              ),
+              _lastBloc ?? const SizedBox(),
             ],
           ),
         ),

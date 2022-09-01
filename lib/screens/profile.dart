@@ -74,14 +74,39 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileTemplate(
-      clientFirstName: _clientFirstName,
-      clientLastName: _clientLastName,
-      nutriFirstName: _nutriFirstName,
-      nutriLastName: _nutriLastName,
-      clientEmail: _clientEmail,
-      clientPhone: _clientPhone,
-      clientBirthday: _clientBirthday,
-      clientInsurance: _clientInsurance,
-    );
+        clientFirstName: _clientFirstName,
+        clientLastName: _clientLastName,
+        nutriFirstName: _nutriFirstName,
+        nutriLastName: _nutriLastName,
+        clientEmail: _clientEmail,
+        clientPhone: _clientPhone,
+        clientBirthday: _clientBirthday,
+        clientInsurance: _clientInsurance,
+        onIconButtonPressed: _onLogoutPressed,
+        buttonIcon: Icons.logout_outlined,
+        firstBloc: Column(children: [
+          LeftElementCard(
+            title:
+                Text("Your nutritionnist is $_nutriFirstName $_nutriLastName."),
+            element: IconTheme(
+              data: IconThemeData(
+                color: Theme.of(context).colorScheme.primary,
+                size: 30,
+              ),
+              child: const Icon(Icons.notification_important_outlined),
+            ),
+          ),
+          Divider(
+            height: 60,
+            thickness: 1,
+            indent: 40,
+            endIndent: 40,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          const Text("Personal data",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+          const SizedBox(height: 15),
+        ]));
   }
 }

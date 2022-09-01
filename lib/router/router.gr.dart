@@ -15,6 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i14;
 
+import '../model/user.dart' as _i18;
 import '../screens/add_meal.dart' as _i12;
 import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i9;
@@ -95,8 +96,10 @@ class AppRouter extends _i13.RootStackRouter {
           routeData: routeData, child: const _i9.ClientListScreen());
     },
     ClientRecordScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<ClientRecordScreenRouteArgs>();
       return _i13.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.ClientRecordScreen());
+          routeData: routeData,
+          child: _i10.ClientRecordScreen(user: args.user, key: args.key));
     },
     DiaryScreenRoute.name: (routeData) {
       return _i13.MaterialPageX<dynamic>(
@@ -287,11 +290,27 @@ class ClientListScreenRoute extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.ClientRecordScreen]
-class ClientRecordScreenRoute extends _i13.PageRouteInfo<void> {
-  const ClientRecordScreenRoute()
-      : super(ClientRecordScreenRoute.name, path: 'record');
+class ClientRecordScreenRoute
+    extends _i13.PageRouteInfo<ClientRecordScreenRouteArgs> {
+  ClientRecordScreenRoute({required _i18.User user, _i14.Key? key})
+      : super(ClientRecordScreenRoute.name,
+            path: 'record',
+            args: ClientRecordScreenRouteArgs(user: user, key: key));
 
   static const String name = 'ClientRecordScreenRoute';
+}
+
+class ClientRecordScreenRouteArgs {
+  const ClientRecordScreenRouteArgs({required this.user, this.key});
+
+  final _i18.User user;
+
+  final _i14.Key? key;
+
+  @override
+  String toString() {
+    return 'ClientRecordScreenRouteArgs{user: $user, key: $key}';
+  }
 }
 
 /// generated route for

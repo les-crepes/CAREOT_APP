@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/provider/client_provider.dart';
+import 'package:pdg_app/router/router.gr.dart';
+import 'package:pdg_app/screens/client_record.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';
@@ -138,11 +141,15 @@ class ScrollableClientList extends StatelessWidget {
     return Expanded(
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        itemBuilder: ((context, index) => ArrowPicCard(
-              title: Text(
-                  "${_clients[index].firstName} ${_clients[index].lastName}"),
-              imagePath:
-                  'assets/images/default_user_pic.png', //TODO à changer quand on aura  les photos
+        itemBuilder: ((context, index) => GestureDetector(
+              onTap: (() => AutoRouter.of(context)
+                  .push(ClientRecordScreenRoute(user: _clients[index]))),
+              child: ArrowPicCard(
+                title: Text(
+                    "${_clients[index].firstName} ${_clients[index].lastName}"),
+                imagePath:
+                    'assets/images/default_user_pic.png', //TODO à changer quand on aura  les photos
+              ),
             )),
         separatorBuilder: ((context, index) => const SizedBox(height: 15)),
         itemCount: _clients.length,

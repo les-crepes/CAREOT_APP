@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 
+import '../model/client.dart';
 import '../widgets/client_list.dart/top_shape.dart';
 
 class ClientListScreen extends StatelessWidget {
@@ -12,12 +14,34 @@ class ClientListScreen extends StatelessWidget {
 }
 
 class ClientList extends StatelessWidget {
+  const ClientList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClientList();
+  }
+}
+
+class CLientList extends StatelessWidget {
   final double _screenWidth;
-  const ClientList({
+
+  const CLientList({
     screenWidth = 0.0,
     Key? key,
   })  : _screenWidth = screenWidth,
         super(key: key);
+
+  List<Client> _getClients() {
+    return [
+      Client(
+        firstName: "Nelson",
+        lastName: "Jeanrenaud",
+        birthDate: DateTime(2001, 09, 01),
+        insurance: "8979279728973912",
+        phoneNumber: "0798746756",
+      )
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +59,41 @@ class ClientList extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Clients",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1!
-                      .copyWith(color: Colors.black),
-                ),
-              ),
-            ],
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Clients",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1!
+                  .copyWith(color: Colors.black),
+            ),
           ),
         ),
+        ScrollableClientList(clients: _getClients)
       ],
+    );
+  }
+}
+
+class ScrollableClientList extends StatelessWidget {
+  final List<Client> _clients;
+
+  const ScrollableClientList({
+    required clients,
+    Key? key,
+  })  : _clients = clients,
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.separated(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          itemBuilder: ((context, index) =>
+              const ArrowPicCard(title: Text("Luca"))),
+          separatorBuilder: ((context, index) => const SizedBox(height: 15)),
+          itemCount: 2),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pdg_app/api/firebase_aftercare.dart';
 import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/api/firebase_meal.dart';

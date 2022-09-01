@@ -7,6 +7,7 @@ class HomeGuard extends AutoRouteGuard {
     // Cette variable sera modifié par la valeur qui indique si c'est un client ou non.
     const bool isClient = true;
 
+    // ignore: dead_code
     if (!isClient) {
       resolver.next(true);
       // ignore: dead_code

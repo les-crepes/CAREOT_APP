@@ -15,6 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i12;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i13;
 
+import '../model/meal.dart' as _i17;
 import '../screens/add_meal.dart' as _i11;
 import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i9;
@@ -95,7 +96,7 @@ class AppRouter extends _i12.RootStackRouter {
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
-      return _i12.MaterialPageX<dynamic>(
+      return _i12.MaterialPageX<_i17.Meal?>(
           routeData: routeData,
           child: _i11.AddMealScreen(day: args.day, key: args.key));
     }

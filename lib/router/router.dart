@@ -70,7 +70,7 @@ import 'home_guard.dart';
                   path: '',
                   page: DiaryScreen,
                 ),
-                AutoRoute(
+                AutoRoute<Meal?>(
                   path: 'add',
                   page: AddMealScreen,
                 ),

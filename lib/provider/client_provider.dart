@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pdg_app/api/firebase_client.dart';
-import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/api/firebase_user.dart';
+import 'package:pdg_app/model/user.dart';
 
 class ClientProvider extends ChangeNotifier {
-  late FirebaseClient firebaseClient;
-  List<Client>? _clients;
-  List<Client>? _filteredClients;
+  late FirebaseUser firebaseClient;
+  List<User>? _clients;
+  List<User>? _filteredClients;
   bool _loading = false;
 
   ClientProvider({required dietitianUid})
-      : firebaseClient = FirebaseClient(FirebaseFirestore.instance) {
+      : firebaseClient = FirebaseUser(FirebaseFirestore.instance) {
     fetchAllClients(dietitianUid);
   }
 
-  List<Client>? get clients => _clients;
+  List<User>? get clients => _clients;
 
-  List<Client>? get filteredClients => _filteredClients;
+  List<User>? get filteredClients => _filteredClients;
 
   bool get isLoading => _loading;
 
@@ -26,25 +26,25 @@ class ClientProvider extends ChangeNotifier {
     // _clients = await firebaseClient.getDietitianClient(dietitianUid);
     await Future.delayed(const Duration(seconds: 1));
     _clients = [
-      Client(
+      User(
         firstName: "Nelson",
         lastName: "Jeanrenaud",
         birthDate: DateTime(2001, 09, 01),
-        insurance: "8979279728973912",
+        avs: "8979279728973912",
         phoneNumber: "0798746756",
       ),
-      Client(
+      User(
         firstName: "Luca",
         lastName: "Coduri",
         birthDate: DateTime(2001, 09, 01),
-        insurance: "8979279728973912",
+        avs: "8979279728973912",
         phoneNumber: "0798746756",
       ),
-      Client(
+      User(
         firstName: "Olivier",
         lastName: "D'Ancona",
         birthDate: DateTime(2001, 09, 01),
-        insurance: "8979279728973912",
+        avs: "8979279728973912",
         phoneNumber: "0798746756",
       )
     ];
@@ -58,7 +58,7 @@ class ClientProvider extends ChangeNotifier {
     if (_clients == null || _filteredClients == null) return;
 
     _filteredClients = [];
-    for (Client client in _clients!) {
+    for (User client in _clients!) {
       if ("${client.firstName} ${client.lastName}"
           .trim()
           .toLowerCase()

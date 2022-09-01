@@ -4,7 +4,7 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';
 
-import '../model/client.dart';
+import '../model/user.dart';
 import '../widgets/client_list.dart/top_shape.dart';
 
 class ClientListScreen extends StatefulWidget {
@@ -52,7 +52,7 @@ class ClientList extends StatefulWidget {
 }
 
 class _ClientListState extends State<ClientList> {
-  late List<Client> filteredClients;
+  late List<User> filteredClients;
   late String query;
 
   @override
@@ -125,7 +125,7 @@ class _ClientListState extends State<ClientList> {
 }
 
 class ScrollableClientList extends StatelessWidget {
-  final List<Client> _clients;
+  final List<User> _clients;
 
   const ScrollableClientList({
     required clients,

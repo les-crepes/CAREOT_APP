@@ -41,12 +41,4 @@ class MealProvider extends ChangeNotifier {
     _mealApi.createMeal(meal);
     notifyListeners();
   }
-
-  static List<Meal> _filterMealsByDay(Map<int, dynamic> args) {
-    final meals = args[1];
-    final date = args[2];
-    return meals.where((element) {
-      return element.startTime.day == date.day;
-    }).toList();
-  }
 }

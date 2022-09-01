@@ -9,39 +9,28 @@ class ClientListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ClientList();
-  }
-}
-
-class ClientList extends StatelessWidget {
-  const ClientList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return ClientList();
   }
 }
 
-class CLientList extends StatelessWidget {
+class ClientList extends StatelessWidget {
   final double _screenWidth;
 
-  const CLientList({
+  ClientList({
     screenWidth = 0.0,
     Key? key,
   })  : _screenWidth = screenWidth,
         super(key: key);
 
-  List<Client> _getClients() {
-    return [
-      Client(
-        firstName: "Nelson",
-        lastName: "Jeanrenaud",
-        birthDate: DateTime(2001, 09, 01),
-        insurance: "8979279728973912",
-        phoneNumber: "0798746756",
-      )
-    ];
-  }
+  final List<Client> clients = [
+    Client(
+      firstName: "Nelson",
+      lastName: "Jeanrenaud",
+      birthDate: DateTime(2001, 09, 01),
+      insurance: "8979279728973912",
+      phoneNumber: "0798746756",
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +59,7 @@ class CLientList extends StatelessWidget {
             ),
           ),
         ),
-        ScrollableClientList(clients: _getClients)
+        ScrollableClientList(clients: clients)
       ],
     );
   }

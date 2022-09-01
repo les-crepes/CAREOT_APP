@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
         await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
 
     if (isConnected) {
-      _client = await _clientApi.readClient(_auth.uid);
+      // _client = await _clientApi.readClient(_auth.uid);
       notifyListeners();
     }
   }

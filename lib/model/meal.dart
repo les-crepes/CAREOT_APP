@@ -72,4 +72,6 @@ class Meal implements IModel {
   void setComment(String newComment) {
     comment = newComment;
   }
+
+  static fromQuery(QueryDocumentSnapshot<Object?> e) {}
 }

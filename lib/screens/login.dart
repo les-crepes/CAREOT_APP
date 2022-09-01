@@ -22,26 +22,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Login(
-      emailController: _emailController,
-      passwordController: _passwordController,
-      onLoginPress: () async {
-        final auth = GetIt.I.get<AuthProvider>();
-        await auth.signIn(_emailController.text, _passwordController.text);
-        if (auth.isConnected()) {
-          // ignore: use_build_context_synchronously
-          AutoRouter.of(context).navigate(const HomeScreenRoute());
-        } else {
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login failed'),
-            ),
-          );
-        }
-      },
-      onRegisterPress: () =>
-          AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+    return Scaffold(
+      body: Login(
+        emailController: _emailController,
+        passwordController: _passwordController,
+        onLoginPress: () async {
+          final auth = GetIt.I.get<AuthProvider>();
+          await auth.signIn(_emailController.text, _passwordController.text);
+          if (auth.isConnected()) {
+            // ignore: use_build_context_synchronously
+            AutoRouter.of(context).navigate(const HomeScreenRoute());
+          } else {
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Login failed'),
+              ),
+            );
+          }
+        },
+        onRegisterPress: () =>
+            AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+      ),
     );
   }
 }

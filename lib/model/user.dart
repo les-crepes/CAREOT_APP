@@ -10,6 +10,7 @@ class User implements IModel {
   DateTime birthDate;
   String phoneNumber;
   String avs;
+  String? profilePicture;
 
   User(
       { String? uid,
@@ -17,7 +18,8 @@ class User implements IModel {
         required this.lastName,
         required this.birthDate,
         required this.phoneNumber,
-        required this.avs}
+        required this.avs,
+        this.profilePicture}
       ) : uid = uid ?? const Uuid().v1();
 
   factory User.fromFirestore(
@@ -32,6 +34,7 @@ class User implements IModel {
       birthDate: data?['birthDate'].toDate(),
       phoneNumber: data?['phoneNumber'],
       avs: data?['avs'],
+      profilePicture: data?['profilePicture'],
     );
   }
 
@@ -44,6 +47,7 @@ class User implements IModel {
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
       'avs': avs,
+      'profilePicture': profilePicture,
     };
   }
 

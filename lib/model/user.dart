@@ -10,6 +10,7 @@ class User implements IModel {
   DateTime birthDate;
   String phoneNumber;
   String avs;
+  String email;
 
   User(
       { String? uid,
@@ -17,7 +18,8 @@ class User implements IModel {
         required this.lastName,
         required this.birthDate,
         required this.phoneNumber,
-        required this.avs}
+        required this.avs,
+        required this.email}
       ) : uid = uid ?? const Uuid().v1();
 
   factory User.fromFirestore(
@@ -32,6 +34,7 @@ class User implements IModel {
       birthDate: data?['birthDate'].toDate(),
       phoneNumber: data?['phoneNumber'],
       avs: data?['avs'],
+      email: data?['email'],
     );
   }
 
@@ -44,12 +47,13 @@ class User implements IModel {
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
       'avs': avs,
+      'email': email,
     };
   }
 
   @override
   String toString() {
-    return 'User{$firstName $lastName $birthDate $phoneNumber $avs}';
+    return 'User{$firstName $lastName $birthDate $phoneNumber $avs $email}';
   }
 
   void setFirstName(String name) {

@@ -64,7 +64,7 @@ void main() {
         .doc(c1.uid)
         .withConverter(
           fromFirestore: User.fromFirestore,
-          toFirestore: (User city, _) => city.toFirestore(),
+          toFirestore: (User user, _) => user.toFirestore(),
         )
         .get();
     final user = docSnapshot.data();
@@ -83,7 +83,7 @@ void main() {
         .doc(c1.uid)
         .withConverter(
           fromFirestore: User.fromFirestore,
-          toFirestore: (User city, _) => city.toFirestore(),
+          toFirestore: (User user, _) => user.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();

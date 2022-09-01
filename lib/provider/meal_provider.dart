@@ -7,51 +7,24 @@ import '../model/meal.dart';
 
 class MealProvider extends ChangeNotifier {
   final IMeal _mealApi = FirebaseMeal(FirebaseFirestore.instance);
+  final String _uid;
+  bool _isFetching = false;
 
-  List<Meal> _meals = []; // = [
-  //   Meal(
-  //     endTime: DateTime.now(),
-  //     startTime: DateTime.now(),
-  //     title: 'test',
-  //     hunger: 0,
-  //     satiety: 0,
-  //     owner: "1",
-  //     comment: "Comment",
-  //   ),
-  //   Meal(
-  //     endTime: DateTime.now(),
-  //     startTime: DateTime.now(),
-  //     title: 'test2',
-  //     hunger: 0,
-  //     satiety: 0,
-  //     owner: "2",
-  //     comment: "Comment",
-  //   ),
-  //   Meal(
-  //     endTime: DateTime.now(),
-  //     startTime: DateTime.now(),
-  //     title: 'test3',
-  //     hunger: 0,
-  //     satiety: 0,
-  //     owner: "3",
-  //     comment: "Comment",
-  //   ),
-  //   Meal(
-  //     endTime: DateTime.now().add(const Duration(days: 1)),
-  //     startTime: DateTime.now().add(const Duration(days: 1)),
-  //     title: 'test3',
-  //     hunger: 0,
-  //     satiety: 0,
-  //     owner: "3",
-  //     comment: "Comment",
-  //   ),
-  // ];
+  MealProvider(this._uid) {
+    fetchMeals();
+  }
+
+  List<Meal> _meals = [];
 
   List<Meal> get meals => _meals;
 
-  Future<List<Meal>> fetchMeals(String userId) async {
+  bool get isFetching => _isFetching;
+
+  Future<List<Meal>> fetchMeals() async {
+    _isFetching = true;
     IMeal mealApi = FirebaseMeal(FirebaseFirestore.instance);
-    _meals = await mealApi.getUserMeal(userId);
+    _meals = await mealApi.getUserMeal(_uid);
+    _isFetching = false;
     notifyListeners();
     return _meals;
   }

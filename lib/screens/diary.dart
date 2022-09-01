@@ -30,17 +30,17 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 
   List<Meal> _getEventsForDay(BuildContext context, DateTime day) {
-    return context.watch<MealProvider>().meals;
+    return context.read<MealProvider>().meals;
   }
 
   @override
   Widget build(BuildContext context) {
+    final uid = context.read<AuthProvider>().userUid;
     return ChangeNotifierProvider(
-      create: (context) => MealProvider(),
+      create: (context) => MealProvider(uid),
       builder: (context, child) {
-        context
-            .watch<MealProvider>()
-            .fetchMeals(context.read<AuthProvider>().userUid);
+        context.watch<MealProvider>().meals;
+
         return Diary(
           onDaySelected: _onDaySelected,
           getDiariesForDay: (day) {

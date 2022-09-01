@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pdg_app/provider/client_list_provider.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:provider/provider.dart';
 
 import '../model/client.dart';
 import '../widgets/client_list.dart/top_shape.dart';
@@ -15,35 +18,14 @@ class ClientListScreen extends StatefulWidget {
 class _ClientListScreenState extends State<ClientListScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  final List<Client> _clients = [
-    Client(
-      firstName: "Nelson",
-      lastName: "Jeanrenaud",
-      birthDate: DateTime(2001, 09, 01),
-      insurance: "8979279728973912",
-      phoneNumber: "0798746756",
-    ),
-    Client(
-      firstName: "Luca",
-      lastName: "Coduri",
-      birthDate: DateTime(2001, 09, 01),
-      insurance: "8979279728973912",
-      phoneNumber: "0798746756",
-    ),
-    Client(
-      firstName: "Olivier",
-      lastName: "D'Ancona",
-      birthDate: DateTime(2001, 09, 01),
-      insurance: "8979279728973912",
-      phoneNumber: "0798746756",
-    )
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ClientList(
-      searchController: _searchController,
-      clients: _clients,
+    return ChangeNotifierProvider(
+      create: (context) =>
+          ClientListProvider(dietitianUid: ""), //TODO changer l'id
+      child: ClientList(
+        searchController: _searchController,
+      ),
     );
   }
 }
@@ -51,16 +33,13 @@ class _ClientListScreenState extends State<ClientListScreen> {
 class ClientList extends StatefulWidget {
   final double _screenWidth;
   final TextEditingController _searchController;
-  final List<Client> _clients;
 
   const ClientList({
     screenWidth = 0.0,
     required searchController,
-    required clients,
     Key? key,
   })  : _screenWidth = screenWidth,
         _searchController = searchController,
-        _clients = clients,
         super(key: key);
 
   @override
@@ -73,20 +52,20 @@ class _ClientListState extends State<ClientList> {
 
   @override
   void initState() {
-    filteredClients = widget._clients;
-    query = "";
+    // filteredClients = widget._clients;
+    // query = "";
 
     widget._searchController.addListener(() {
-      filteredClients = [];
-      query = widget._searchController.text;
-      for (Client client in widget._clients) {
-        if ("${client.firstName} ${client.lastName}"
-            .trim()
-            .toLowerCase()
-            .contains(query.toLowerCase().trim())) {
-          filteredClients.add(client);
-        }
-      }
+      // filteredClients = [];
+      // query = widget._searchController.text;
+      // for (Client client in widget._clients) {
+      //   if ("${client.firstName} ${client.lastName}"
+      //       .trim()
+      //       .toLowerCase()
+      //       .contains(query.toLowerCase().trim())) {
+      //     filteredClients.add(client);
+      //   }
+      // }
 
       setState(() {});
     });
@@ -137,7 +116,17 @@ class _ClientListState extends State<ClientList> {
             ],
           ),
         ),
-        ScrollableClientList(clients: filteredClients)
+        context.watch<ClientListProvider>().isLoading == false
+            ? ScrollableClientList(
+                clients: context.watch<ClientListProvider>().clients)
+            : Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
       ],
     );
   }

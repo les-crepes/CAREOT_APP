@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
+import 'package:pdg_app/provider/client_list_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/home_guard.dart';
@@ -17,12 +18,13 @@ import 'firebase_options.dart';
 Future<void> setup() async {
   final getIt = GetIt.instance;
 
-  getIt.registerSingleton<AuthProvider>(
-    AuthProvider(
-      auth: FirebaseConnection(),
-      clientApi: FirebaseClient(FirebaseFirestore.instance),
-    ),
-  );
+  getIt
+    ..registerSingleton<AuthProvider>(
+      AuthProvider(
+        auth: FirebaseConnection(),
+        clientApi: FirebaseClient(FirebaseFirestore.instance),
+      ),
+    );
 }
 
 void main() async {
@@ -30,7 +32,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  DateTime a = DateTime(2016,9,17,15,30);
+  DateTime a = DateTime(2016, 9, 17, 15, 30);
   log(a.toString());
   await setup();
   runApp(MyApp());

@@ -60,5 +60,17 @@ class ClientListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void filterClients(String query) {}
+  void filterClients(String query) {
+    if (_clients == null || _filteredClients == null) return;
+
+    _filteredClients = [];
+    for (Client client in _clients!) {
+      if ("${client.firstName} ${client.lastName}"
+          .trim()
+          .toLowerCase()
+          .contains(query.toLowerCase().trim())) {
+        _filteredClients!.add(client);
+      }
+    }
+  }
 }

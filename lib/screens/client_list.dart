@@ -23,9 +23,18 @@ class _ClientListScreenState extends State<ClientListScreen> {
     return ChangeNotifierProvider(
       create: (context) =>
           ClientListProvider(dietitianUid: ""), //TODO changer l'id
-      child: ClientList(
-        searchController: _searchController,
-      ),
+      builder: ((context, child) => ClientList(
+            searchController: _searchController,
+            onSearchBarUpdate: () {
+              Provider.of<ClientListProvider>(context, listen: false)
+                  .filterClients(_searchController.text);
+
+              // setState(() {});
+            },
+          )),
+      // child: ClientList(
+      //   searchController: _searchController,
+      // ),
     );
   }
 }
@@ -33,13 +42,16 @@ class _ClientListScreenState extends State<ClientListScreen> {
 class ClientList extends StatefulWidget {
   final double _screenWidth;
   final TextEditingController _searchController;
+  final void Function() _onSearchBarUpdate;
 
   const ClientList({
     screenWidth = 0.0,
     required searchController,
+    required onSearchBarUpdate,
     Key? key,
   })  : _screenWidth = screenWidth,
         _searchController = searchController,
+        _onSearchBarUpdate = onSearchBarUpdate,
         super(key: key);
 
   @override
@@ -56,16 +68,10 @@ class _ClientListState extends State<ClientList> {
     // query = "";
 
     widget._searchController.addListener(() {
-      // filteredClients = [];
-      // query = widget._searchController.text;
-      // for (Client client in widget._clients) {
-      //   if ("${client.firstName} ${client.lastName}"
-      //       .trim()
-      //       .toLowerCase()
-      //       .contains(query.toLowerCase().trim())) {
-      //     filteredClients.add(client);
-      //   }
-      // }
+      widget._onSearchBarUpdate();
+      // context
+      //     .watch<ClientListProvider>()
+      //     .filterClients(widget._searchController.text);
 
       setState(() {});
     });
@@ -118,7 +124,7 @@ class _ClientListState extends State<ClientList> {
         ),
         context.watch<ClientListProvider>().isLoading == false
             ? ScrollableClientList(
-                clients: context.watch<ClientListProvider>().clients)
+                clients: context.watch<ClientListProvider>().filteredClients)
             : Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

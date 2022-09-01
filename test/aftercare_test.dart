@@ -5,8 +5,8 @@ import 'package:pdg_app/api/firebase_aftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 
 final db = FakeFirebaseFirestore();
-Aftercare a1 = Aftercare(bmi: 12, weight: 14.0);
-Aftercare a2 = Aftercare(bmi: 13, weight: 14.0);
+Aftercare a1 = Aftercare(bmi: 12, weight: 14.0, startDate: DateTime.now());
+Aftercare a2 = Aftercare(bmi: 13, weight: 14.0, startDate: DateTime.now());
 
 void populateMockAftercare(Aftercare c) async {
   await db.collection('aftercare').doc(c.uid).set(c.toFirestore());

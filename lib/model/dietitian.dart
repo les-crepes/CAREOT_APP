@@ -14,12 +14,14 @@ class Dietitian extends User implements IModel {
       required String firstName,
       required String lastName,
       required DateTime birthDate,
+      required String phoneNumber,
       required String avs}
       ) : super(
     uid: uid ?? const Uuid().v1(),
     firstName: firstName,
     lastName: lastName,
     birthDate: birthDate,
+    phoneNumber: phoneNumber,
     avs: avs,
   );
 
@@ -35,6 +37,7 @@ class Dietitian extends User implements IModel {
       clientList: data?['clientList'],
       avs: data?['avs'],
       birthDate: data?['birthDate'].toDate(),
+      phoneNumber: data?['phoneNumber'],
     );
   }
 
@@ -46,12 +49,13 @@ class Dietitian extends User implements IModel {
       'lastName': lastName,
       'clientList': clientList,
       'birthDate': birthDate,
+      'phoneNumber': phoneNumber,
       'avs': avs,
     };
   }
 
   @override
   String toString() {
-    return 'Dietitian{$firstName $lastName $clientList $avs $birthDate}';
+    return 'Dietitian{$firstName $lastName $clientList $avs $phoneNumber $birthDate}';
   }
 }

@@ -8,6 +8,7 @@ class User implements IModel {
   String firstName;
   String lastName;
   DateTime birthDate;
+  String phoneNumber;
   String avs;
 
   User(
@@ -15,6 +16,7 @@ class User implements IModel {
         required this.firstName,
         required this.lastName,
         required this.birthDate,
+        required this.phoneNumber,
         required this.avs}
       ) : uid = uid ?? const Uuid().v1();
 
@@ -28,6 +30,7 @@ class User implements IModel {
       firstName: data?['firstName'],
       lastName: data?['lastName'],
       birthDate: data?['birthDate'].toDate(),
+      phoneNumber: data?['phoneNumber'],
       avs: data?['avs'],
     );
   }
@@ -39,13 +42,14 @@ class User implements IModel {
       'firstName': firstName,
       'lastName': lastName,
       'birthDate': birthDate,
+      'phoneNumber': phoneNumber,
       'avs': avs,
     };
   }
 
   @override
   String toString() {
-    return 'User{$firstName $lastName $birthDate $avs}';
+    return 'User{$firstName $lastName $birthDate $phoneNumber $avs}';
   }
 
   void setFirstName(String name) {

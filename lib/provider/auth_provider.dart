@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/api/iauth.dart';
-import 'package:pdg_app/api/iclient.dart';
+import 'package:pdg_app/api/iuser.dart';
 
-import '../model/client.dart';
+import '../model/user.dart';
 
 class AuthProvider extends ChangeNotifier {
   final Auth _auth;
-  final IClient _clientApi;
+  final IUser _userApi;
 
-  AuthProvider({required Auth auth, required IClient clientApi})
+  AuthProvider({required Auth auth, required IUser clientApi})
       : _auth = auth,
-        _clientApi = clientApi;
+        _userApi = clientApi;
 
-  Client? _client;
+  User? _client;
 
   bool isConnected() {
     return _auth.isConnected;
@@ -20,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
 
   String get userUid => _auth.uid;
 
-  Client? get client => _client;
+  User? get user => _client;
 
   Future<void> signIn(String email, String password) async {
     //final isConnected = await _auth.signIn(email: email, password: password);
@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
         await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
 
     if (isConnected) {
-      _client = await _clientApi.readClient(_auth.uid);
+      _client = await _userApi.readUser(_auth.uid);
       notifyListeners();
     }
   }

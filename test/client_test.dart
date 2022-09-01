@@ -1,79 +1,79 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pdg_app/api/iclient.dart';
-import 'package:pdg_app/api/firebase_client.dart';
-import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/api/iuser.dart';
+import 'package:pdg_app/api/firebase_user.dart';
+import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
-Client c1 = Client(
+User c1 = User(
     firstName: 'Olivier', lastName: 'D\'Ancona', phoneNumber: '0780001223', 
     birthDate: DateTime.now(), avs: '');
-Client c2 =
-    Client(firstName: 'Chloé', lastName: 'Fontaine', phoneNumber: '0780002334',
+User c2 =
+    User(firstName: 'Chloé', lastName: 'Fontaine', phoneNumber: '0780002334',
         birthDate: DateTime.now(), avs: '');
-Client c3 =
-    Client(firstName: 'Luca', lastName: 'Coduri', phoneNumber: '0780003445',
+User c3 =
+    User(firstName: 'Luca', lastName: 'Coduri', phoneNumber: '0780003445',
         birthDate: DateTime.now(), avs: '');
-Client c4 = Client(
+User c4 = User(
     firstName: 'Nelson', lastName: 'Jeanrenaud', phoneNumber: '0786834556',
     birthDate: DateTime.now(), avs: '');
 
-Future<void> populateMockClient(Client c) async {
-  await db.collection('client').doc(c.uid).set(c.toFirestore());
+Future<void> populateMockClient(User c) async {
+  await db.collection('user').doc(c.uid).set(c.toFirestore());
 }
 
 void main() {
-  late IClient clientApi;
-  final clients = db.collection('client');
+  late IUser clientApi;
+  final clients = db.collection('user');
 
   setUp(() async {
     populateMockClient(c2);
     populateMockClient(c3);
-    clientApi = FirebaseClient(db);
+    clientApi = FirebaseUser(db);
   });
 
-  test("Create Client", () async {
-    clientApi.createClient(c1);
+  test("Create User", () async {
+    clientApi.createUser(c1);
     final docSnapshot = await clients
         .doc(c1.uid)
         .withConverter(
-          fromFirestore: Client.fromFirestore,
-          toFirestore: (Client city, _) => city.toFirestore(),
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User city, _) => city.toFirestore(),
         )
         .get();
-    final client = docSnapshot.data();
-    expect(c1.toString(), client.toString());
+    final user = docSnapshot.data();
+    expect(c1.toString(), user.toString());
   });
 
-  test("Read Client", () async {
-    final Client c2Bis = await clientApi.readClient(c2.uid);
+  test("Read User", () async {
+    final User c2Bis = await clientApi.readUser(c2.uid);
     expect(c2.toString(), c2Bis.toString());
   });
 
-  test("Update client", () async {
+  test("Update user", () async {
     c1.setFirstName('Filippo');
-    clientApi.updateClient(c1);
+    clientApi.updateUser(c1);
     final docSnapshot = await clients
         .doc(c1.uid)
         .withConverter(
-          fromFirestore: Client.fromFirestore,
-          toFirestore: (Client city, _) => city.toFirestore(),
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User city, _) => city.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
     expect('Filippo', c2!.firstName);
   });
 
-  test("Delete client", () async {
-    clientApi.deleteClient(c3.uid);
+  test("Delete user", () async {
+    clientApi.deleteUser(c3.uid);
     final docSnapshot = await clients
         .doc(c3.uid)
         .withConverter(
-          fromFirestore: Client.fromFirestore,
-          toFirestore: (Client client, _) => client.toFirestore(),
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User user, _) => user.toFirestore(),
         )
         .get();
-    final client = docSnapshot.data();
-    expect(client, null);
+    final user = docSnapshot.data();
+    expect(user, null);
   });
 }

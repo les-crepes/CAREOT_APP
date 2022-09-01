@@ -15,6 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i11;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i12;
 
+import '../model/meal.dart' as _i15;
 import '../screens/add_meal.dart' as _i10;
 import '../screens/chat.dart' as _i6;
 import '../screens/diary.dart' as _i9;
@@ -81,8 +82,10 @@ class AppRouter extends _i11.RootStackRouter {
           routeData: routeData, child: const _i9.DiaryScreen());
     },
     AddMealScreenRoute.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i10.AddMealScreen());
+      final args = routeData.argsAs<AddMealScreenRouteArgs>();
+      return _i11.MaterialPageX<_i15.Meal?>(
+          routeData: routeData,
+          child: _i10.AddMealScreen(day: args.day, key: args.key));
     }
   };
 
@@ -223,8 +226,23 @@ class DiaryScreenRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.AddMealScreen]
-class AddMealScreenRoute extends _i11.PageRouteInfo<void> {
-  const AddMealScreenRoute() : super(AddMealScreenRoute.name, path: 'add');
+class AddMealScreenRoute extends _i11.PageRouteInfo<AddMealScreenRouteArgs> {
+  AddMealScreenRoute({required DateTime day, _i12.Key? key})
+      : super(AddMealScreenRoute.name,
+            path: 'add', args: AddMealScreenRouteArgs(day: day, key: key));
 
   static const String name = 'AddMealScreenRoute';
+}
+
+class AddMealScreenRouteArgs {
+  const AddMealScreenRouteArgs({required this.day, this.key});
+
+  final DateTime day;
+
+  final _i12.Key? key;
+
+  @override
+  String toString() {
+    return 'AddMealScreenRouteArgs{day: $day, key: $key}';
+  }
 }

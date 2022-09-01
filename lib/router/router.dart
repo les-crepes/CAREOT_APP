@@ -10,6 +10,7 @@ import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
 
+import '../model/meal.dart';
 import '../screens/home.dart';
 import './auth_gard.dart';
 
@@ -56,7 +57,7 @@ import './auth_gard.dart';
               path: '',
               page: DiaryScreen,
             ),
-            AutoRoute(
+            AutoRoute<Meal?>(
               path: 'add',
               page: AddMealScreen,
             ),

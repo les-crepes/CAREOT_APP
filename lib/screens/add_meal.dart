@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
@@ -7,11 +9,15 @@ import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../model/meal.dart';
 import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
-  const AddMealScreen({Key? key}) : super(key: key);
+  final _day;
+  const AddMealScreen({required DateTime day, Key? key})
+      : _day = day,
+        super(key: key);
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -101,7 +107,31 @@ class _AddMealScreenState extends State<AddMealScreen> {
       showTimePicker: _showModal,
       startTimeText: _startTime?.format(context) ?? 'Start Time',
       endTimeText: _endTime?.format(context) ?? 'End Time',
-      onValidatePressed: () => AutoRouter.of(context).pop(),
+      onValidatePressed: () {
+        final DateTime selectedStartDate = DateTime(
+          widget._day.year,
+          widget._day.month,
+          widget._day.day,
+          _startTime?.hour ?? 0,
+          _startTime?.minute ?? 0,
+        );
+
+        final DateTime selectedEndDate = DateTime(
+          widget._day.year,
+          widget._day.month,
+          widget._day.day,
+          _endTime?.hour ?? 0,
+          _endTime?.minute ?? 0,
+        );
+        AutoRouter.of(context).pop(Meal(
+          title: "MDR",
+          startTime: selectedStartDate,
+          endTime: selectedEndDate,
+          hunger: 0,
+          satiety: 0,
+          owner: 'me',
+        ));
+      },
     );
   }
 }

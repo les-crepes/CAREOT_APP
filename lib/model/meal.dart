@@ -8,7 +8,7 @@ class Meal implements IModel {
   DateTime startTime;
   DateTime endTime;
   String title;
-  List? photo;
+  String? photo;
   int hunger;
   int satiety;
   String? setting;
@@ -32,7 +32,6 @@ class Meal implements IModel {
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
-
     final data = snapshot.data();
     return Meal(
       uid: data?['uid'],

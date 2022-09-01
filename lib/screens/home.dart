@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return AutoTabsRouter(
       routes: const [
         ChatRouterPage(),
-        DiaryRouterPage(),
+        MainRouterPage(),
         ProfileScreenRoute(),
       ],
       builder: (context, child, animation) {

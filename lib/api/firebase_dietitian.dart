@@ -29,7 +29,7 @@ class FirebaseDietitian extends FirebaseAPI implements IDietitian {
   Future<Dietitian> readDietitian(String dietitianId) async {
     final docRef = collectionReference.doc(dietitianId).withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final dietitian = docSnapshot.data();

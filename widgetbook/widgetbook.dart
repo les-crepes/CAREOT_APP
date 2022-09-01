@@ -5,6 +5,7 @@ import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
+import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
@@ -13,6 +14,7 @@ import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/gradient_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/right_arrow_button.dart';
+import 'package:pdg_app/widgets/text_information.dart';
 import 'package:widgetbook/widgetbook.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -122,6 +124,23 @@ class HotReload extends StatelessWidget {
       ],
     );
 
+    var textInformation = WidgetbookComponent(
+      name: 'Text information',
+      useCases: [
+        WidgetbookUseCase(
+            name: 'Default',
+            builder: (context) => TextInformation(
+                label: context.knobs.text(
+                  label: 'label',
+                  initialValue: "name",
+                ),
+                text: context.knobs.text(
+                  label: 'text',
+                  initialValue: "mon nom à moi",
+                )))
+      ],
+    );
+
     var login = WidgetbookComponent(
       name: 'Login',
       useCases: [
@@ -177,7 +196,7 @@ class HotReload extends StatelessWidget {
                     comment: context.knobs.text(
                       label: 'meal name',
                       initialValue: "Déjeuner",
-                    ),
+                    ), hunger: 2, satiety: 5, title: 'Poop', owner: ''
                   )
                 ];
               },
@@ -186,6 +205,43 @@ class HotReload extends StatelessWidget {
                 initialValue: "Anna",
               ),
             );
+          })
+    ]);
+
+    var profile = WidgetbookComponent(name: 'Profile', useCases: [
+      WidgetbookUseCase(
+          name: 'Default',
+          builder: (context) {
+            return Profile(
+                clientFirstName: context.knobs.text(
+                  label: 'First name',
+                  initialValue: "Luca",
+                ),
+                clienLastName: context.knobs.text(
+                  label: 'Last name',
+                  initialValue: "Coduri",
+                ),
+                nutriFirstName: context.knobs.text(
+                  label: 'Nutri first name',
+                  initialValue: "Claire",
+                ),
+                nutriLastName: context.knobs.text(
+                  label: 'Nutri last name',
+                  initialValue: "Nutri",
+                ),
+                clientEmail: context.knobs.text(
+                  label: 'Email',
+                  initialValue: "luca.coduri@gmail.com",
+                ),
+                clientPhone: context.knobs.text(
+                  label: 'Phone number',
+                  initialValue: "0796785434",
+                ),
+                clientBirthday: DateTime(1996, 12, 18),
+                clientInsurance: context.knobs.text(
+                  label: 'Insurance',
+                  initialValue: "987687668760321",
+                ));
           })
     ]);
 
@@ -207,6 +263,7 @@ class HotReload extends StatelessWidget {
                 picCard,
                 arrowPicCard,
                 actionButton,
+                textInformation
               ],
             ),
           ],
@@ -218,6 +275,7 @@ class HotReload extends StatelessWidget {
             register,
             chat,
             diary,
+            profile,
           ],
         ),
       ],

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
-import 'package:pdg_app/widgets/custom_icon_button.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {

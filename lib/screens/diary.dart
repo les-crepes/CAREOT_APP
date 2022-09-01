@@ -46,7 +46,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           },
           clientName: "Marie",
           onAddPressed: () async {
-            var addedMeal = await AutoRouter.of(context)
+            final addedMeal = await AutoRouter.of(context)
                 .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
             if (addedMeal != null) {
               // ignore: use_build_context_synchronously

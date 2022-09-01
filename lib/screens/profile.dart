@@ -6,6 +6,7 @@ import 'package:pdg_app/widgets/profile_template.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import '../router/router.gr.dart';
+import '../widgets/custom_divider.dart';
 import '../widgets/profile/profile_top_bar.dart';
 
 import '../provider/auth_provider.dart';
@@ -74,6 +75,8 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileTemplate(
+        screenWidth: _screenWidth,
+        clientPicturePath: _clientPicturePath,
         clientFirstName: _clientFirstName,
         clientLastName: _clientLastName,
         clientEmail: _clientEmail,
@@ -94,13 +97,7 @@ class Profile extends StatelessWidget {
               child: const Icon(Icons.notification_important_outlined),
             ),
           ),
-          Divider(
-            height: 60,
-            thickness: 1,
-            indent: 40,
-            endIndent: 40,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          const CustomDivider(),
           const Text("Personal data",
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),

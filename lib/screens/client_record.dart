@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/buttons/gradient_button.dart';
+import 'package:pdg_app/widgets/custom_divider.dart';
 import 'package:pdg_app/widgets/profile_template.dart';
+import 'package:pdg_app/widgets/text_information.dart';
+import 'package:intl/intl.dart';
 
 import '../model/user.dart';
 
@@ -22,6 +25,7 @@ class ClientRecordScreen extends StatelessWidget {
       clientBirthday: _user.birthDate,
       clientPhone: _user.phoneNumber,
       clientInsurance: _user.avs,
+      //TODO ajouter infos aftercare
     );
   }
 }
@@ -33,6 +37,14 @@ class ClientRecord extends StatelessWidget {
   final String _clientPhone;
   final DateTime _clientBirthday;
   final String _clientInsurance;
+  final int _bmi;
+  final double _weight;
+  final String _diagnostic;
+  final String _comments;
+  final String _motivations;
+  final String _foodObjectives;
+  final DateTime? _startDate;
+  final DateTime? _endDate;
 
   const ClientRecord(
       {required clientFirstName,
@@ -41,6 +53,14 @@ class ClientRecord extends StatelessWidget {
       required clientPhone,
       required clientBirthday,
       required clientInsurance,
+      clientBmi = 0,
+      clientWeight = 0.0,
+      clientDiagnostic = "-",
+      clientComments = "-",
+      clientMotivations = "-",
+      clientFoodObjectives = "-",
+      clientStartDate,
+      clientEndDate,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -48,10 +68,20 @@ class ClientRecord extends StatelessWidget {
         _clientPhone = clientPhone,
         _clientBirthday = clientBirthday,
         _clientInsurance = clientInsurance,
+        _bmi = clientBmi,
+        _weight = clientWeight,
+        _diagnostic = clientDiagnostic,
+        _comments = clientComments,
+        _motivations = clientMotivations,
+        _foodObjectives = clientFoodObjectives,
+        _startDate = clientStartDate,
+        _endDate = clientEndDate,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat hourFormatter = DateFormat("d/M/y");
+
     return ProfileTemplate(
       clientFirstName: _clientFirstName,
       clientLastName: _clientLastName,
@@ -88,6 +118,43 @@ class ClientRecord extends StatelessWidget {
           const SizedBox(
             height: 30.0,
           )
+        ],
+      ),
+      lastBloc: Column(
+        children: [
+          const CustomDivider(),
+          TextInformation(label: 'BMI', text: _bmi.toString()),
+          const SizedBox(height: 15),
+          TextInformation(label: 'Weight', text: _weight.toString()),
+          const SizedBox(height: 15),
+          TextInformation(label: "Diagnostic", text: _diagnostic),
+          const SizedBox(height: 15),
+          TextInformation(label: 'Comments', text: _comments),
+          const SizedBox(height: 15),
+          TextInformation(label: 'Motivations', text: _motivations),
+          const SizedBox(height: 15),
+          TextInformation(label: 'Food Objectives', text: _foodObjectives),
+          const SizedBox(height: 15),
+          _startDate != null
+              ? Column(
+                  children: [
+                    TextInformation(
+                        label: 'Start date',
+                        text: hourFormatter.format(_startDate!)),
+                    const SizedBox(height: 15),
+                  ],
+                )
+              : const SizedBox(),
+          _endDate != null
+              ? Column(
+                  children: [
+                    TextInformation(
+                        label: 'End date',
+                        text: hourFormatter.format(_endDate!)),
+                    const SizedBox(height: 15),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );

@@ -8,7 +8,7 @@ class Meal implements IModel {
   DateTime startTime;
   DateTime endTime;
   String title;
-  List? photo;
+  String? photo;
   int hunger;
   int satiety;
   String? setting;

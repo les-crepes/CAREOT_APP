@@ -3,53 +3,57 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
-class Client implements IModel {
+class User implements IModel {
   String uid;
   String firstName;
   String lastName;
   DateTime birthDate;
   String phoneNumber;
-  String insurance;
+  String avs;
+  String? photoUrl;
 
-  Client(
+  User(
       {String? uid,
       required this.firstName,
       required this.lastName,
       required this.birthDate,
-      required this.insurance,
-      required this.phoneNumber})
+      required this.phoneNumber,
+      required this.avs,
+      this.photoUrl})
       : uid = uid ?? const Uuid().v1();
 
-  factory Client.fromFirestore(
+  factory User.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
-    return Client(
+    return User(
       uid: data?['uid'],
-      firstName: data?['firstName'] ?? "",
-      lastName: data?['lastName'] ?? "",
-      birthDate: data?['birthDate']?.toDate() ?? DateTime(1900),
-      insurance: data?['insurance'] ?? "",
-      phoneNumber: data?['phoneNumber'] ?? "",
+      firstName: data?['firstName'],
+      lastName: data?['lastName'],
+      birthDate: data?['birthDate'].toDate(),
+      phoneNumber: data?['phoneNumber'],
+      avs: data?['avs'],
+      photoUrl: data?['photoUrl'],
     );
   }
 
   @override
   Map<String, dynamic> toFirestore() {
     return {
-      'uid': firstName,
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
-      'insurance': insurance,
+      'avs': avs,
+      'photoUrl': photoUrl,
     };
   }
 
   @override
   String toString() {
-    return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
+    return 'User{$firstName $lastName $birthDate $phoneNumber $avs}';
   }
 
   void setFirstName(String name) {

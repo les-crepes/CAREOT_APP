@@ -83,4 +83,13 @@ class FirebaseConnection implements Auth {
     }
     user.sendEmailVerification();
   }
+
+  @override
+  String getUserEmail() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("Not connected");
+    }
+    return user.email!;
+  }
 }

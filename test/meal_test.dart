@@ -2,7 +2,7 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/imeal.dart';
 import 'package:pdg_app/api/firebase_meal.dart';
-import 'package:pdg_app/model/client.dart';
+import 'package:pdg_app/model/user.dart';
 import 'package:pdg_app/model/meal.dart';
 
 final db = FakeFirebaseFirestore();
@@ -23,18 +23,18 @@ Meal m1 = Meal(
     satiety: 2,
     comment: 'wow',
     title: 'jojo');
-Client c1 = Client(
+User c1 = User(
     firstName: 'Olivier',
     lastName: 'D\'Ancona',
     phoneNumber: '0780001223',
     birthDate: fisherDay,
-    insurance: '');
+    avs: '');
 
 Future<void> populateMockMeal(Meal c) async {
   await db.collection('meal').doc(c.uid).set(c.toFirestore());
 }
 
-Future<void> populateMockClient(Client c) async {
+Future<void> populateMockClient(User c) async {
   await db.collection('client').doc(c.uid).set(c.toFirestore());
 }
 
@@ -74,7 +74,7 @@ void main() {
         .doc(m1.uid)
         .withConverter(
           fromFirestore: Meal.fromFirestore,
-          toFirestore: (Meal city, _) => city.toFirestore(),
+          toFirestore: (Meal meal, _) => meal.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
@@ -87,7 +87,7 @@ void main() {
         .doc(m2.uid)
         .withConverter(
           fromFirestore: Meal.fromFirestore,
-          toFirestore: (Meal city, _) => city.toFirestore(),
+          toFirestore: (Meal meal, _) => meal.toFirestore(),
         )
         .get();
     final meal = docSnapshot.data();

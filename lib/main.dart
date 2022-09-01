@@ -5,11 +5,12 @@ import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
+import 'package:pdg_app/router/home_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
 import 'package:provider/provider.dart';
-import 'api/firebase_client.dart';
 import 'api/firebase_connection.dart';
+import 'api/firebase_user.dart';
 import 'firebase_options.dart';
 
 Future<void> setup() async {
@@ -18,7 +19,7 @@ Future<void> setup() async {
   getIt.registerSingleton<AuthProvider>(
     AuthProvider(
       auth: FirebaseConnection(),
-      clientApi: FirebaseClient(FirebaseFirestore.instance),
+      clientApi: FirebaseUser(FirebaseFirestore.instance),
     ),
   );
 }
@@ -35,7 +36,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _appRouter = AppRouter(authGuard: AuthGuard(), chatGuard: ChatGuard());
+  final _appRouter = AppRouter(
+    authGuard: AuthGuard(),
+    chatGuard: ChatGuard(),
+    homeGuard: HomeGuard(),
+  );
 
   @override
   Widget build(BuildContext context) {

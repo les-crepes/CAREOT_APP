@@ -21,4 +21,5 @@ abstract class Auth {
   /// Send a verification to the user connected.
   Future<void> sendVerification();
 
+  String getUserEmail();
 }

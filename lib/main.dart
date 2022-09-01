@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
-import 'package:pdg_app/provider/client_list_provider.dart';
+import 'package:pdg_app/provider/client_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/home_guard.dart';
@@ -18,13 +18,12 @@ import 'firebase_options.dart';
 Future<void> setup() async {
   final getIt = GetIt.instance;
 
-  getIt
-    ..registerSingleton<AuthProvider>(
-      AuthProvider(
-        auth: FirebaseConnection(),
-        clientApi: FirebaseClient(FirebaseFirestore.instance),
-      ),
-    );
+  getIt.registerSingleton<AuthProvider>(
+    AuthProvider(
+      auth: FirebaseConnection(),
+      clientApi: FirebaseClient(FirebaseFirestore.instance),
+    ),
+  );
 }
 
 void main() async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pdg_app/provider/client_list_provider.dart';
+import 'package:pdg_app/provider/client_provider.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';
@@ -21,20 +21,14 @@ class _ClientListScreenState extends State<ClientListScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          ClientListProvider(dietitianUid: ""), //TODO changer l'id
+      create: (context) => ClientProvider(dietitianUid: ""), //TODO changer l'id
       builder: ((context, child) => ClientList(
             searchController: _searchController,
             onSearchBarUpdate: () {
-              Provider.of<ClientListProvider>(context, listen: false)
+              Provider.of<ClientProvider>(context, listen: false)
                   .filterClients(_searchController.text);
-
-              // setState(() {});
             },
           )),
-      // child: ClientList(
-      //   searchController: _searchController,
-      // ),
     );
   }
 }
@@ -64,14 +58,8 @@ class _ClientListState extends State<ClientList> {
 
   @override
   void initState() {
-    // filteredClients = widget._clients;
-    // query = "";
-
     widget._searchController.addListener(() {
       widget._onSearchBarUpdate();
-      // context
-      //     .watch<ClientListProvider>()
-      //     .filterClients(widget._searchController.text);
 
       setState(() {});
     });
@@ -95,8 +83,7 @@ class _ClientListState extends State<ClientList> {
     return Column(
       children: [
         CustomPaint(
-          size: Size(width,
-              height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+          size: Size(width, height),
           painter: ClientListTopShape(),
         ),
         Padding(
@@ -122,9 +109,9 @@ class _ClientListState extends State<ClientList> {
             ],
           ),
         ),
-        context.watch<ClientListProvider>().isLoading == false
+        context.watch<ClientProvider>().isLoading == false
             ? ScrollableClientList(
-                clients: context.watch<ClientListProvider>().filteredClients)
+                clients: context.watch<ClientProvider>().filteredClients)
             : Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -151,12 +138,15 @@ class ScrollableClientList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-          itemBuilder: ((context, index) => ArrowPicCard(
-              title: Text(
-                  "${_clients[index].firstName} ${_clients[index].lastName}"))),
-          separatorBuilder: ((context, index) => const SizedBox(height: 15)),
-          itemCount: _clients.length),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        itemBuilder: ((context, index) => ArrowPicCard(
+            title: Text(
+                "${_clients[index].firstName} ${_clients[index].lastName}"))),
+        separatorBuilder: ((context, index) => const SizedBox(height: 15)),
+        itemCount: _clients.length,
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+      ),
     );
   }
 }

@@ -1,21 +1,15 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pdg_app/api/firebase_api.dart';
 import 'package:pdg_app/api/firebase_client.dart';
-import 'package:pdg_app/api/iauth.dart';
-import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/model/client.dart';
-import 'package:pdg_app/model/dietitian.dart';
 
-class ClientListProvider extends ChangeNotifier {
+class ClientProvider extends ChangeNotifier {
   late FirebaseClient firebaseClient;
   List<Client>? _clients;
   List<Client>? _filteredClients;
   bool _loading = false;
 
-  ClientListProvider({required dietitianUid})
+  ClientProvider({required dietitianUid})
       : firebaseClient = FirebaseClient(FirebaseFirestore.instance) {
     fetchAllClients(dietitianUid);
   }

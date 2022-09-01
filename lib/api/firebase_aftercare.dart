@@ -29,7 +29,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
   Future<Aftercare> readAftercare(String aftercareId) async {
     final docRef = collectionReference.doc(aftercareId).withConverter(
           fromFirestore: Aftercare.fromFirestore,
-          toFirestore: (Aftercare city, _) => city.toFirestore(),
+          toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final aftercare = docSnapshot.data();

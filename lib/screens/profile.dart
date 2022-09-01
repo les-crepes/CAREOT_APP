@@ -76,8 +76,6 @@ class Profile extends StatelessWidget {
     return ProfileTemplate(
         clientFirstName: _clientFirstName,
         clientLastName: _clientLastName,
-        nutriFirstName: _nutriFirstName,
-        nutriLastName: _nutriLastName,
         clientEmail: _clientEmail,
         clientPhone: _clientPhone,
         clientBirthday: _clientBirthday,

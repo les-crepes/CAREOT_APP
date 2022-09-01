@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 
-import 'cards/left_element_card.dart';
 import 'profile/profile_top_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -10,8 +9,6 @@ class ProfileTemplate extends StatelessWidget {
   final String _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
-  final String _nutriFirstName;
-  final String _nutriLastName;
   final String _clientEmail;
   final String _clientPhone;
   final DateTime _clientBirthday;
@@ -26,8 +23,6 @@ class ProfileTemplate extends StatelessWidget {
       clientPicturePath = 'assets/images/default_user_pic.png',
       required clientFirstName,
       required clientLastName,
-      required nutriFirstName,
-      required nutriLastName,
       required clientEmail,
       required clientPhone,
       required clientBirthday,
@@ -41,8 +36,6 @@ class ProfileTemplate extends StatelessWidget {
         _clientPicturePath = clientPicturePath,
         _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
-        _nutriFirstName = nutriFirstName,
-        _nutriLastName = nutriLastName,
         _clientEmail = clientEmail,
         _clientPhone = clientPhone,
         _clientBirthday = clientBirthday,

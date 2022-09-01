@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
-import 'package:pdg_app/widgets/right_arrow_button.dart';
 
 import '../router/router.gr.dart';
+import '../widgets/buttons/right_arrow_button.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);

@@ -3,35 +3,35 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
-class Client implements IModel {
+class User implements IModel {
   String uid;
   String firstName;
   String lastName;
   DateTime birthDate;
   String phoneNumber;
-  String insurance;
+  String avs;
 
-  Client(
-      {String? uid,
-      required this.firstName,
-      required this.lastName,
-      required this.birthDate,
-      required this.insurance,
-      required this.phoneNumber})
-      : uid = uid ?? const Uuid().v1();
+  User(
+      { String? uid,
+        required this.firstName,
+        required this.lastName,
+        required this.birthDate,
+        required this.phoneNumber,
+        required this.avs}
+      ) : uid = uid ?? const Uuid().v1();
 
-  factory Client.fromFirestore(
+  factory User.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
-    return Client(
+    return User(
       uid: data?['uid'],
-      firstName: data?['firstName'] ?? "",
-      lastName: data?['lastName'] ?? "",
-      birthDate: data?['birthDate']?.toDate() ?? DateTime(1900),
-      insurance: data?['insurance'] ?? "",
-      phoneNumber: data?['phoneNumber'] ?? "",
+      firstName: data?['firstName'],
+      lastName: data?['lastName'],
+      birthDate: data?['birthDate'].toDate(),
+      phoneNumber: data?['phoneNumber'],
+      avs: data?['avs'],
     );
   }
 
@@ -43,16 +43,17 @@ class Client implements IModel {
       'lastName': lastName,
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
-      'insurance': insurance,
+      'avs': avs,
     };
   }
 
   @override
   String toString() {
-    return 'Client{$firstName $lastName $birthDate $insurance $phoneNumber}';
+    return 'User{$firstName $lastName $birthDate $phoneNumber $avs}';
   }
 
   void setFirstName(String name) {
     firstName = name;
   }
+
 }

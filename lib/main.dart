@@ -9,7 +9,7 @@ import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
-import 'api/firebase_client.dart';
+import 'api/firebase_user.dart';
 import 'api/firebase_connection.dart';
 import 'firebase_options.dart';
 
@@ -19,7 +19,7 @@ Future<void> setup() async {
   getIt.registerSingleton<AuthProvider>(
     AuthProvider(
       auth: FirebaseConnection(),
-      clientApi: FirebaseClient(FirebaseFirestore.instance),
+      clientApi: FirebaseUser(FirebaseFirestore.instance),
     ),
   );
 }

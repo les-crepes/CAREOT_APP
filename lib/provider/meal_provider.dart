@@ -38,8 +38,7 @@ class MealProvider extends ChangeNotifier {
   }
 
   Future<void> addMeal(Meal meal) async {
-    _meals.add(meal);
-    await Future.delayed(const Duration(seconds: 1));
+    _mealApi.createMeal(meal);
     notifyListeners();
   }
 

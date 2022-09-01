@@ -50,7 +50,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
           onAddPressed: () async {
             final addedMeal = await AutoRouter.of(context)
                 .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
-            log(addedMeal.toString());
+            if (addedMeal != null) {
+              // ignore: use_build_context_synchronously
+              await context.read<MealProvider>().addMeal(addedMeal);
+              // ignore: use_build_context_synchronously
+              context.read<MealProvider>().fetchMeals();
+            }
           },
         );
       },

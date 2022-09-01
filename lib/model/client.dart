@@ -38,7 +38,7 @@ class Client implements IModel {
   @override
   Map<String, dynamic> toFirestore() {
     return {
-      'uid': firstName,
+      'uid': uid,
       'firstName': firstName,
       'lastName': lastName,
       'birthDate': birthDate,

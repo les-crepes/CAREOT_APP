@@ -32,17 +32,13 @@ class FirebaseConnection implements Auth {
   }
 
   @override
-  Future<bool> signIn(
-      {required String email, required String password}) async {
+  Future<bool> signIn({required String email, required String password}) async {
     try {
-      if(isConnected) {
+      if (isConnected) {
         log("Already connected");
-      }
-      else {
+      } else {
         await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-          email: email,
-          password: password);
+            .signInWithEmailAndPassword(email: email, password: password);
       }
       return true;
     } on FirebaseAuthException catch (e) {
@@ -55,12 +51,12 @@ class FirebaseConnection implements Auth {
     return false;
   }
 
-
   @override
-  Future<bool> register({required String email, required String password}) async {
+  Future<bool> register(
+      {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -86,5 +82,14 @@ class FirebaseConnection implements Auth {
       throw Exception("Not connected");
     }
     user.sendEmailVerification();
+  }
+
+  @override
+  String getUserEmail() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("Not connected");
+    }
+    return user.email!;
   }
 }

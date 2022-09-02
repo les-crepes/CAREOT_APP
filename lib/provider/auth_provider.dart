@@ -23,24 +23,8 @@ class AuthProvider extends ChangeNotifier {
 
   String get userUid => _auth.uid;
 
-  Future<User?> fetchClient() async {
-    try {
-      _client = await _userApi.readUser(_auth.uid);
-      notifyListeners();
-    } catch (e) {
-      log("Error fetching client: $e");
-    }
-
-    return _client;
-  }
-
   bool isConnected() {
     return _auth.isConnected;
-  }
-
-  Future<void> register(String email, String password) async {
-    await _auth.register(email: email, password: password);
-    notifyListeners();
   }
 
   Future<void> signIn(String email, String password) async {
@@ -60,5 +44,24 @@ class AuthProvider extends ChangeNotifier {
     _client = null;
     _isAdmin = false;
     notifyListeners();
+  }
+
+  Future<void> register(String email, String password, User user) async {
+    await _auth.register(email: email, password: password);
+    user.uid = _auth.uid;
+    await _userApi.createUser(user);
+    _client = user;
+    notifyListeners();
+  }
+
+  Future<User?> fetchClient() async {
+    try {
+      _client = await _userApi.readUser(_auth.uid);
+      notifyListeners();
+    } catch (e) {
+      log("Error fetching client: $e");
+    }
+
+    return _client;
   }
 }

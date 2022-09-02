@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_api.dart';
 
 class FirebaseMessage extends FirebaseAPI implements IMessage {
-
   FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
 
   @override
@@ -42,17 +41,35 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
-  Future<List<Message>?> readConversation(String firstId, String secondId) async {
-    List<String> planet = [firstId, secondId];
+  Future<List<Message>?> readConversation(
+      String firstId, String secondId) async {
+    List<String> userIds = [firstId, secondId];
     final querySnapshot = await collectionReference
-        .where('fromId', whereIn: planet)
-        .where('toId', whereIn: planet)
+        .where('fromId', whereIn: userIds)
+        .where('toId', whereIn: userIds)
         .withConverter(
             fromFirestore: Message.fromFirestore,
-            toFirestore: (Message msg, _) => msg.toFirestore()
-        ).get();
+            toFirestore: (Message msg, _) => msg.toFirestore())
+        .get();
     final messages = querySnapshot.docs.map((doc) => doc.data()).toList();
     return messages;
+  }
+
+  Stream<Message> followConversation(
+      String firstId, String secondId) {
+    List<String> userIds = [firstId, secondId];
+    final Stream<QuerySnapshot> msgStream = collectionReference
+        .where('fromId', whereIn: userIds)
+        .where('toId', whereIn: userIds)
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message msg, _) => msg.toFirestore())
+        .snapshots();
+
+    return msgStream
+        .map((querySnapshot) =>
+            querySnapshot.docs.map((doc) => doc.data()))
+        .cast();
   }
 
   @override

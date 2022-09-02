@@ -51,13 +51,20 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
   Widget build(BuildContext context) {
     final content = buildInputs(context);
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      separatorBuilder: (context, index) => const SizedBox(height: 30),
-      itemCount: content.length,
-      itemBuilder: (context, index) {
-        return content[index];
-      },
+    return Container(
+      color: Colors.white,
+      child: Form(
+        key: context.read<RegisterProvider>().formPage3,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          separatorBuilder: (context, index) => const SizedBox(height: 30),
+          itemCount: content.length,
+          itemBuilder: (context, index) {
+            return content[index];
+          },
+        ),
+      ),
     );
   }
 }

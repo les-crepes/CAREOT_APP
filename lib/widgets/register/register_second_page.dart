@@ -37,19 +37,27 @@ class RegisterSecondPage extends StatelessWidget {
                     height: 120,
                     width: 120,
                   )
-                : const Icon(Icons.add_a_photo),
+                : const Icon(
+                    Icons.add_a_photo,
+                    color: Colors.white,
+                    size: 40,
+                  ),
           ),
         ),
       ),
-      const MainTextField(
+      MainTextField(
         name: 'Firstname',
-        icon: Icon(Icons.person),
+        icon: const Icon(Icons.person),
         keyboardType: TextInputType.name,
+        validator: validateString,
+        controller: registerProvider.firstnameController,
       ),
-      const MainTextField(
+      MainTextField(
         name: 'Lastname',
-        icon: Icon(Icons.person),
+        icon: const Icon(Icons.person),
         keyboardType: TextInputType.name,
+        controller: registerProvider.lastnameController,
+        validator: validateString,
       ),
       const MainTextField(
         name: 'Birthdate',
@@ -63,8 +71,11 @@ class RegisterSecondPage extends StatelessWidget {
             width: 200,
             child: RightArrowButton(
               text: 'Next',
-              onPressed: () =>
-                  AutoRouter.of(context).push(const RegisterThirdPageRoute()),
+              onPressed: () {
+                if (registerProvider.formPage2.currentState!.validate()) {
+                  AutoRouter.of(context).push(RegisterThirdPageRoute());
+                }
+              },
             ),
           ),
         ],
@@ -72,16 +83,28 @@ class RegisterSecondPage extends StatelessWidget {
     ];
   }
 
+  String? validateString(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final content = buildInputs(context);
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      separatorBuilder: (context, index) => const SizedBox(height: 30),
-      itemCount: content.length,
-      itemBuilder: (context, index) {
-        return content[index];
-      },
+
+    return Form(
+      key: context.read<RegisterProvider>().formPage2,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        separatorBuilder: (context, index) => const SizedBox(height: 30),
+        itemCount: content.length,
+        itemBuilder: (context, index) {
+          return content[index];
+        },
+      ),
     );
   }
 }

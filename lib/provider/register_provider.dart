@@ -24,6 +24,14 @@ class RegisterProvider extends ChangeNotifier {
   TextEditingController get insuranceController => _insuranceController;
   DateTime get birthDay => _birthDay;
 
+  final _formPage1 = GlobalKey<FormState>();
+  final _formPage2 = GlobalKey<FormState>();
+  final _formPage3 = GlobalKey<FormState>();
+
+  GlobalKey<FormState> get formPage1 => _formPage1;
+  GlobalKey<FormState> get formPage2 => _formPage2;
+  GlobalKey<FormState> get formPage3 => _formPage3;
+
   set birthday(DateTime birthday) {
     _birthDay = birthday;
     notifyListeners();
@@ -36,5 +44,9 @@ class RegisterProvider extends ChangeNotifier {
   set profilePicture(XFile? profilePicture) {
     _profilePicture = profilePicture;
     notifyListeners();
+  }
+
+  bool verifyPassword() {
+    return _passwordController.text == _confirmPasswordController.text;
   }
 }

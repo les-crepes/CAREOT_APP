@@ -32,7 +32,6 @@ class Meal implements IModel {
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
-
     final data = snapshot.data();
     return Meal(
       uid: data?['uid'],

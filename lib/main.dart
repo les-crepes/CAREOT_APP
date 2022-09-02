@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,8 +8,9 @@ import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/router/home_guard.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/theme.dart';
-import 'api/firebase_user.dart';
+import 'package:provider/provider.dart';
 import 'api/firebase_connection.dart';
+import 'api/firebase_user.dart';
 import 'firebase_options.dart';
 
 Future<void> setup() async {
@@ -30,8 +29,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  DateTime a = DateTime(2016, 9, 17, 15, 30);
-  log(a.toString());
   await setup();
   runApp(MyApp());
 }
@@ -56,7 +53,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         if (child == null) return Container();
         return SafeArea(
-          child: child,
+          child: ChangeNotifierProvider.value(
+            value: GetIt.I.get<AuthProvider>(),
+            child: child,
+          ),
         );
       },
     );

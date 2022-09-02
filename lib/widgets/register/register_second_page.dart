@@ -73,7 +73,7 @@ class RegisterSecondPage extends StatelessWidget {
               text: 'Next',
               onPressed: () {
                 if (registerProvider.formPage2.currentState!.validate()) {
-                  AutoRouter.of(context).push(RegisterThirdPageRoute());
+                  AutoRouter.of(context).push(const RegisterThirdPageRoute());
                 }
               },
             ),

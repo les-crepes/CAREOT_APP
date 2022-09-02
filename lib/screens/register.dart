@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/provider/register_provider.dart';
-import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
-import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:provider/provider.dart';
 
 import '../router/router.gr.dart';
@@ -39,13 +37,6 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     final width =
         screenWidth == 0 ? MediaQuery.of(context).size.width : screenWidth;
-    final items = [
-      const MainTextField(name: 'Email', icon: Icon(Icons.email_outlined)),
-      const MainTextField(name: 'Password', icon: Icon(Icons.lock_outline)),
-      const MainTextField(
-          name: 'Confirm password', icon: Icon(Icons.lock_outline)),
-      RightArrowButton(text: 'REGISTER', onPressed: onRegisterPress),
-    ];
 
     return Stack(
       children: [

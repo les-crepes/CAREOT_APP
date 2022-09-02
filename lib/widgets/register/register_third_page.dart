@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +19,7 @@ class RegisterThirdPage extends StatefulWidget {
 class _RegisterThirdPageState extends State<RegisterThirdPage> {
   List<Widget> buildInputs(BuildContext context) {
     final registerProvider = context.watch<RegisterProvider>();
-
+    final router = AutoRouter.of(context);
     return [
       MainTextField(
         name: 'Phone',
@@ -37,10 +39,16 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
           SizedBox(
             width: 200,
             child: RightArrowButton(
-              text: 'Register',
-              onPressed: () =>
-                  AutoRouter.of(context).push(const RegisterThirdPageRoute()),
-            ),
+                text: 'Register',
+                onPressed: () async {
+                  await GetIt.I.get<AuthProvider>().register(
+                        registerProvider.emailController.text,
+                        registerProvider.passwordController.text,
+                        registerProvider.createUser(),
+                      );
+
+                  router.push(const HomeScreenRoute());
+                }),
           ),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../model/user.dart';
+
 class RegisterProvider extends ChangeNotifier {
   XFile? _profilePicture;
   final TextEditingController _firstnameController = TextEditingController();
@@ -31,6 +33,16 @@ class RegisterProvider extends ChangeNotifier {
   GlobalKey<FormState> get formPage1 => _formPage1;
   GlobalKey<FormState> get formPage2 => _formPage2;
   GlobalKey<FormState> get formPage3 => _formPage3;
+
+  User createUser() {
+    return User(
+      firstName: _firstnameController.text,
+      lastName: _lastnameController.text,
+      phoneNumber: _phoneController.text,
+      avs: _insuranceController.text,
+      birthDate: _birthDay,
+    );
+  }
 
   set birthday(DateTime birthday) {
     _birthDay = birthday;

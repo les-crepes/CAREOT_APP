@@ -12,18 +12,13 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   FirebaseUser(FirebaseFirestore db) : super(db, 'user');
 
   @override
-  void createUser(User user) {
-    collectionReference
+  Future<void> createUser(User user) async {
+    await collectionReference
         .withConverter(
             fromFirestore: User.fromFirestore,
             toFirestore: (User user, options) => user.toFirestore())
         .doc(user.uid)
-        .set(user)
-        .then((value) => log("User Added"))
-        .catchError((error) {
-      log("Failed to add user: $error");
-      throw Exception(error);
-    });
+        .set(user);
   }
 
   @override

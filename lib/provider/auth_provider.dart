@@ -25,9 +25,7 @@ class AuthProvider extends ChangeNotifier {
   User? get user => _client;
 
   Future<void> signIn(String email, String password) async {
-    //final isConnected = await _auth.signIn(email: email, password: password);
-    final isConnected =
-        await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
+    final isConnected = await _auth.signIn(email: email, password: password);
 
     if (isConnected) {
       fetchClient();
@@ -42,8 +40,11 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(String email, String password, User user) async {
     await _auth.register(email: email, password: password);
+    user.uid = _auth.uid;
+    await _userApi.createUser(user);
+    _client = user;
     notifyListeners();
   }
 

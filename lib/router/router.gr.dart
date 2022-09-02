@@ -15,8 +15,9 @@ import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i14;
 
-import '../model/meal.dart' as _i17;
-import '../screens/add_meal.dart' as _i11;
+import '../model/meal.dart' as _i18;
+import '../model/user.dart' as _i19;
+import '../screens/add_meal.dart' as _i12;
 import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i9;
 import '../screens/client_record.dart' as _i10;
@@ -88,7 +89,7 @@ class AppRouter extends _i13.RootStackRouter {
           routeData: routeData, child: const _i4.EmptyRouterPage());
     },
     DiaryRouterPage.name: (routeData) {
-      return _i12.MaterialPageX<dynamic>(
+      return _i13.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.EmptyRouterPage());
     },
     ClientListScreenRoute.name: (routeData) {
@@ -107,9 +108,9 @@ class AppRouter extends _i13.RootStackRouter {
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
-      return _i12.MaterialPageX<_i17.Meal?>(
+      return _i13.MaterialPageX<_i18.Meal?>(
           routeData: routeData,
-          child: _i11.AddMealScreen(day: args.day, key: args.key));
+          child: _i12.AddMealScreen(day: args.day, key: args.key));
     }
   };
 
@@ -155,14 +156,22 @@ class AppRouter extends _i13.RootStackRouter {
                 _i13.RouteConfig(ClientListRouter.name,
                     path: 'clients',
                     parent: MainRouterPage.name,
-                    guards: [homeGuard]),
-                _i12.RouteConfig(DiaryRouterPage.name,
+                    guards: [
+                      homeGuard
+                    ],
+                    children: [
+                      _i13.RouteConfig(ClientListScreenRoute.name,
+                          path: '', parent: ClientListRouter.name),
+                      _i13.RouteConfig(ClientRecordScreenRoute.name,
+                          path: 'record', parent: ClientListRouter.name)
+                    ]),
+                _i13.RouteConfig(DiaryRouterPage.name,
                     path: 'diary',
                     parent: MainRouterPage.name,
                     children: [
-                      _i12.RouteConfig(DiaryScreenRoute.name,
+                      _i13.RouteConfig(DiaryScreenRoute.name,
                           path: '', parent: DiaryRouterPage.name),
-                      _i12.RouteConfig(AddMealScreenRoute.name,
+                      _i13.RouteConfig(AddMealScreenRoute.name,
                           path: 'add', parent: DiaryRouterPage.name)
                     ])
               ]),
@@ -266,8 +275,8 @@ class ClientListRouter extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.EmptyRouterPage]
-class DiaryRouterPage extends _i12.PageRouteInfo<void> {
-  const DiaryRouterPage({List<_i12.PageRouteInfo>? children})
+class DiaryRouterPage extends _i13.PageRouteInfo<void> {
+  const DiaryRouterPage({List<_i13.PageRouteInfo>? children})
       : super(DiaryRouterPage.name, path: 'diary', initialChildren: children);
 
   static const String name = 'DiaryRouterPage';
@@ -285,7 +294,7 @@ class ClientListScreenRoute extends _i13.PageRouteInfo<void> {
 /// [_i10.ClientRecordScreen]
 class ClientRecordScreenRoute
     extends _i13.PageRouteInfo<ClientRecordScreenRouteArgs> {
-  ClientRecordScreenRoute({required _i18.User user, _i14.Key? key})
+  ClientRecordScreenRoute({required _i19.User user, _i14.Key? key})
       : super(ClientRecordScreenRoute.name,
             path: 'record',
             args: ClientRecordScreenRouteArgs(user: user, key: key));
@@ -296,7 +305,7 @@ class ClientRecordScreenRoute
 class ClientRecordScreenRouteArgs {
   const ClientRecordScreenRouteArgs({required this.user, this.key});
 
-  final _i18.User user;
+  final _i19.User user;
 
   final _i14.Key? key;
 
@@ -315,9 +324,9 @@ class DiaryScreenRoute extends _i13.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.AddMealScreen]
-class AddMealScreenRoute extends _i12.PageRouteInfo<AddMealScreenRouteArgs> {
-  AddMealScreenRoute({required DateTime day, _i13.Key? key})
+/// [_i12.AddMealScreen]
+class AddMealScreenRoute extends _i13.PageRouteInfo<AddMealScreenRouteArgs> {
+  AddMealScreenRoute({required DateTime day, _i14.Key? key})
       : super(AddMealScreenRoute.name,
             path: 'add', args: AddMealScreenRouteArgs(day: day, key: key));
 
@@ -329,7 +338,7 @@ class AddMealScreenRouteArgs {
 
   final DateTime day;
 
-  final _i13.Key? key;
+  final _i14.Key? key;
 
   @override
   String toString() {

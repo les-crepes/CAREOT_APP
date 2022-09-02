@@ -23,6 +23,7 @@ class AftercareProvider extends ChangeNotifier {
     //TODO récupérer db
     await Future.delayed(const Duration(seconds: 1));
     _aftercare = Aftercare(
+      clientId: "",
       bmi: 20,
       weight: 60,
       comments: "Super",

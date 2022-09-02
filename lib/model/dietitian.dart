@@ -15,7 +15,8 @@ class Dietitian extends User implements IModel {
       required String lastName,
       required DateTime birthDate,
       required String phoneNumber,
-      required String avs}
+      required String avs,
+      required String email}
       ) : super(
     uid: uid ?? const Uuid().v1(),
     firstName: firstName,
@@ -23,6 +24,7 @@ class Dietitian extends User implements IModel {
     birthDate: birthDate,
     phoneNumber: phoneNumber,
     avs: avs,
+    email: email,
   );
 
   factory Dietitian.fromFirestore(
@@ -38,6 +40,7 @@ class Dietitian extends User implements IModel {
       avs: data?['avs'],
       birthDate: data?['birthDate'].toDate(),
       phoneNumber: data?['phoneNumber'],
+      email: data?['email'],
     );
   }
 
@@ -51,6 +54,7 @@ class Dietitian extends User implements IModel {
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
       'avs': avs,
+      'email': email,
     };
   }
 

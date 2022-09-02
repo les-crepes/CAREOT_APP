@@ -6,9 +6,9 @@ import 'package:pdg_app/model/dietitian.dart';
 
 final db = FakeFirebaseFirestore();
   Dietitian d1 = Dietitian(firstName: 'Claire', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '12904710');
+      birthDate: DateTime.now(), avs: '', phoneNumber: '12904710', email: 'thomas.beil@heig-vd.ch');
   Dietitian d2 = Dietitian(firstName: 'Alice', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '9175097');
+      birthDate: DateTime.now(), avs: '', phoneNumber: '9175097', email: 'thomas.beil@heig-vd.ch');
 
 Future<void> populateMockDietitian(Dietitian d) async {
   await db.collection('dietitian').doc(d.uid).set(d.toFirestore());

@@ -11,32 +11,37 @@ User c1 = User(
     lastName: 'D\'Ancona',
     phoneNumber: '0780001223',
     birthDate: DateTime.now(),
-    avs: '');
+    avs: '',
+  email: 'olivier.dancona@gmail.com');
 User c2 = User(
     firstName: 'Chloé',
     lastName: 'Fontaine',
     phoneNumber: '0780002334',
     birthDate: DateTime.now(),
-    avs: '');
+    avs: '',
+  email: 'chloe.fontaine@heig-vd.ch');
 User c3 = User(
     firstName: 'Luca',
     lastName: 'Coduri',
     phoneNumber: '0780003445',
     birthDate: DateTime.now(),
-    avs: '');
+    avs: '',
+    email: 'luca.coduri@heig-vd.ch');
 User c4 = User(
     firstName: 'Nelson',
     lastName: 'Jeanrenaud',
     phoneNumber: '0786834556',
     birthDate: DateTime.now(),
-    avs: '');
+    avs: '',
+    email: 'nelson.jeanrenaud@heig-vd.ch');
 Dietitian d1 = Dietitian(
     firstName: 'Claire',
     lastName: 'Emery',
     birthDate: DateTime.now(),
     avs: '',
     clientList: [c2.uid, c3.uid, c4.uid],
-    phoneNumber: '');
+    phoneNumber: '',
+    email: 'thomas.beil@heig-vd.ch');
 
 Future<void> populateMockClient(User c) async {
   await db.collection('user').doc(c.uid).set(c.toFirestore());

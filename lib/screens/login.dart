@@ -21,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _emailController.text = "luca.coduri@heig-vd.ch";
+    _passwordController.text = "crepes";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Login(

@@ -129,9 +129,7 @@ class _DiaryState extends State<Diary> {
             lastDay: DateTime.utc(2050, 12, 31),
             focusedDay: _focusedDay,
             selectedDayPredicate: (day) {
-              return _selectedDay.day == day.day &&
-                  _selectedDay.month == day.month &&
-                  _selectedDay.year == day.year;
+              return isSameDay(_selectedDay, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
               setState(() {

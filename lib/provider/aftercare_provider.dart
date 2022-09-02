@@ -41,4 +41,9 @@ class AftercareProvider extends ChangeNotifier {
     _loading = false;
     notifyListeners();
   }
+
+  Future<void> updateAftercare(Aftercare aftercare) async {
+    _firebaseAftercare.updateAftercare(aftercare);
+    notifyListeners();
+  }
 }

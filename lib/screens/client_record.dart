@@ -9,6 +9,7 @@ import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../model/aftercare.dart';
 import '../model/user.dart';
 
 class ClientRecordScreen extends StatelessWidget {
@@ -41,9 +42,17 @@ class ClientRecordScreen extends StatelessWidget {
           clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
           clientStartDate: afterCareProvider.aftercare?.startDate,
           clientEndDate: afterCareProvider.aftercare?.endDate,
-          onIconButtonPressed: () => AutoRouter.of(context).push(
-              UpdateClientRecordScreenRoute(
-                  user: _user, aftercare: afterCareProvider.aftercare)),
+          onIconButtonPressed: () async {
+            final Aftercare? aftercare = await AutoRouter.of(context)
+                .push<Aftercare?>(UpdateClientRecordScreenRoute(
+                    user: _user, aftercare: afterCareProvider.aftercare));
+
+            if (aftercare != null) {
+              await context
+                  .read<AftercareProvider>()
+                  .updateAftercare(aftercare);
+            }
+          },
         );
       },
     );

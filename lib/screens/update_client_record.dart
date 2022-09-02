@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/user.dart';
@@ -88,7 +89,21 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
       },
       initialStartTime: widget._aftercare?.startDate,
       initialEndTime: widget._aftercare?.endDate,
-      onValidatePressed: () {},
+      onValidatePressed: () {
+        if (_selectedStartDate != null) {
+          AutoRouter.of(context).pop(Aftercare(
+            clientId: widget._user.uid,
+            bmi: int.parse(_bmiController.text),
+            weight: double.parse(_weightController.text),
+            diagnostic: _diagnosticController.text,
+            comments: _commentsController.text,
+            foodObjectives: _foodObjectivesController.text,
+            motivations: _motivationsController.text,
+            startDate: _selectedStartDate!,
+            endDate: _selectedEndTime,
+          ));
+        }
+      },
     );
   }
 }

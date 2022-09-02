@@ -55,7 +55,10 @@ class MyApp extends StatelessWidget {
         return SafeArea(
           child: ChangeNotifierProvider.value(
             value: GetIt.I.get<AuthProvider>(),
-            child: child,
+            child: Container(
+              color: Colors.white,
+              child: child,
+            ),
           ),
         );
       },

@@ -5,7 +5,7 @@ class HomeGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
     // Cette variable sera modifié par la valeur qui indique si c'est un client ou non.
-    const bool isClient = true;
+    const bool isClient = false;
 
     // ignore: dead_code
     if (!isClient) {

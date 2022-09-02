@@ -4,6 +4,7 @@ import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/client_list.dart';
+import 'package:pdg_app/screens/client_record.dart';
 import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/discussion_list.dart';
 import 'package:pdg_app/screens/document_list.dart';
@@ -56,11 +57,23 @@ import 'home_guard.dart';
           path: 'main',
           children: [
             AutoRoute(
-              page: ClientListScreen,
-              path: 'clients',
-              guards: [HomeGuard],
-              initial: true,
-            ),
+                page: EmptyRouterPage,
+                name: 'ClientListRouter',
+                path: 'clients',
+                initial: true,
+                guards: [
+                  HomeGuard
+                ],
+                children: [
+                  AutoRoute(
+                    page: ClientListScreen,
+                    path: '',
+                  ),
+                  AutoRoute(
+                    page: ClientRecordScreen,
+                    path: 'record',
+                  )
+                ]),
             AutoRoute(
               page: EmptyRouterPage,
               name: 'DiaryRouterPage',

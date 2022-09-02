@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
-import 'package:pdg_app/widgets/text_information.dart';
-import 'package:intl/intl.dart';
+import 'package:pdg_app/widgets/profile_template.dart';
 import '../router/router.gr.dart';
-import '../widgets/profile/profile_top_bar.dart';
+import '../widgets/custom_divider.dart';
 
 import '../provider/auth_provider.dart';
 
@@ -72,71 +71,34 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width =
-        _screenWidth == 0 ? MediaQuery.of(context).size.width : _screenWidth;
-
-    final height = (width * 0.46111111111111114).toDouble();
-
-    final DateFormat hourFormatter = DateFormat("d/M/y");
-
-    return Column(
-      children: [
-        ProfileTopBar(
-          width: width,
-          height: height,
-          clientPicturePath: _clientPicturePath,
-          clientFirstName: _clientFirstName,
-          clientLastName: _clientLastName,
-          onLogOutPress: _onLogoutPressed,
-        ),
-        const SizedBox(height: 15),
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              LeftElementCard(
-                title: Text(
-                    "Your nutritionnist is $_nutriFirstName $_nutriLastName."),
-                element: IconTheme(
-                  data: IconThemeData(
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 30,
-                  ),
-                  child: const Icon(Icons.notification_important_outlined),
-                ),
-              ),
-              Divider(
-                height: 60,
-                thickness: 1,
-                indent: 40,
-                endIndent: 40,
+    return ProfileTemplate(
+        screenWidth: _screenWidth,
+        clientPicturePath: _clientPicturePath,
+        clientFirstName: _clientFirstName,
+        clientLastName: _clientLastName,
+        clientEmail: _clientEmail,
+        clientPhone: _clientPhone,
+        clientBirthday: _clientBirthday,
+        clientInsurance: _clientInsurance,
+        onIconButtonPressed: _onLogoutPressed,
+        buttonIcon: Icons.logout_outlined,
+        firstBloc: Column(children: [
+          LeftElementCard(
+            title:
+                Text("Your nutritionnist is $_nutriFirstName $_nutriLastName."),
+            element: IconTheme(
+              data: IconThemeData(
                 color: Theme.of(context).colorScheme.primary,
+                size: 30,
               ),
-              const Text("Personal datas",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
-              const SizedBox(height: 15),
-              Container(
-                alignment: Alignment.topLeft,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextInformation(label: "Email", text: _clientEmail),
-                      const SizedBox(height: 15),
-                      TextInformation(label: "Phone", text: _clientPhone),
-                      const SizedBox(height: 15),
-                      TextInformation(
-                          label: "Birthday",
-                          text: hourFormatter.format(_clientBirthday)),
-                      const SizedBox(height: 15),
-                      TextInformation(
-                          label: "Insurance", text: _clientInsurance),
-                      const SizedBox(height: 15),
-                    ]),
-              )
-            ],
+              child: const Icon(Icons.notification_important_outlined),
+            ),
           ),
-        ),
-      ],
-    );
+          const CustomDivider(),
+          const Text("Personal data",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+          const SizedBox(height: 15),
+        ]));
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
-import 'package:pdg_app/widgets/right_arrow_button.dart';
 
 import '../router/router.gr.dart';
+import '../widgets/buttons/right_arrow_button.dart';
 import '../widgets/login/bottom_shape.dart';
 import '../widgets/login/top_shape.dart';
 

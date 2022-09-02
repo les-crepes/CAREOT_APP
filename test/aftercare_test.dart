@@ -3,13 +3,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/api/firebase_aftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
+import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
-Aftercare a1 = Aftercare(bmi: 12, weight: 14.0, startDate: DateTime.now());
-Aftercare a2 = Aftercare(bmi: 13, weight: 14.0, startDate: DateTime.now());
+User c3 = User(
+    firstName: 'Luca',
+    lastName: 'Coduri',
+    phoneNumber: '0780003445',
+    birthDate: DateTime.now(),
+    avs: '');
+Aftercare a1 = Aftercare(
+    clientId: c3.uid, bmi: 12, weight: 14.0, startDate: DateTime.now());
+Aftercare a2 = Aftercare(
+    clientId: c3.uid, bmi: 13, weight: 14.0, startDate: DateTime.now());
 
 void populateMockAftercare(Aftercare c) async {
   await db.collection('aftercare').doc(c.uid).set(c.toFirestore());
+}
+
+Future<void> populateMockClient(User c) async {
+  await db.collection('user').doc(c.uid).set(c.toFirestore());
 }
 
 void main() {
@@ -18,6 +31,7 @@ void main() {
 
   setUp(() async {
     populateMockAftercare(a2);
+    populateMockClient(c3);
     aftercareApi = FirebaseAftercare(db);
   });
 
@@ -37,6 +51,11 @@ void main() {
   test("Read Aftercare", () async {
     final Aftercare a2Bis = await aftercareApi.readAftercare(a2.uid);
     expect(a2.toString(), a2Bis.toString());
+  });
+
+    test("Read Aftercare of Client", () async {
+    final List<Aftercare> c2Bis = await aftercareApi.readAftercareOfClient(c3.uid);
+    expect(a2.toString(), c2Bis.first.toString());
   });
 
   test("Update aftercare", () async {

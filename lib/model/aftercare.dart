@@ -5,6 +5,7 @@ import 'imodel.dart';
 
 class Aftercare implements IModel {
   String uid;
+  String clientId;
   int? bmi;
   double? weight;
   String? diagnostic;
@@ -17,6 +18,7 @@ class Aftercare implements IModel {
 
   Aftercare(
       {String? uid,
+      required this.clientId,
       this.bmi,
       this.weight,
       this.diagnostic,
@@ -38,6 +40,7 @@ class Aftercare implements IModel {
       stDate = data?['endDate'].toDate();
     }
     return Aftercare(
+      clientId: data?['clientId'],
       uid: data?['uid'],
       bmi: data?['bmi'],
       weight: data?['weight'],
@@ -54,6 +57,7 @@ class Aftercare implements IModel {
   @override
   Map<String, dynamic> toFirestore() {
     return {
+      'clientId': clientId,
       'uid': uid,
       'bmi': bmi,
       'weight': weight,
@@ -69,7 +73,7 @@ class Aftercare implements IModel {
 
   @override
   String toString() {
-    return 'Aftercare{$bmi $comments $diagnostic $documents $endDate $foodObjectives $motivations $startDate $weight}';
+    return 'Aftercare{ $clientId $bmi $comments $diagnostic $documents $endDate $foodObjectives $motivations $startDate $weight}';
   }
 
   void setBmi(int newBmi) {

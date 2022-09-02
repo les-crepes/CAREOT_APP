@@ -20,13 +20,6 @@ import 'package:pdg_app/model/user.dart';
 
 final db = FirebaseFirestore.instance;
 DateTime fisherDay = DateTime(2017, 9, 7, 17, 30);
-Aftercare a1 = Aftercare(
-    bmi: 12,
-    weight: 14.0,
-    startDate: DateTime.now(),
-    comments: "commentaire",
-    diagnostic: "diagnostic",
-    documents: ['dfdf']);
 
 User u1 = User(
     firstName: 'Olivier',
@@ -72,6 +65,15 @@ Dietitian d1 = Dietitian(
     clientList: [u1.uid, u2.uid, u3.uid, u4.uid],
     phoneNumber: '0266634556',
     uid: 'bZB6G7LbLSfp8lTPsh00fWxiHb03');
+
+Aftercare a1 = Aftercare(
+    clientId: u1.uid,
+    bmi: 12,
+    weight: 14.0,
+    startDate: DateTime.now(),
+    comments: "commentaire",
+    diagnostic: "diagnostic",
+    documents: ['dfdf']);
 
 Meal m1 = Meal(
     startTime: fisherDay,

@@ -3,8 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
+import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
+User c2 = User(
+    firstName: 'Chloé',
+    lastName: 'Fontaine',
+    phoneNumber: '0780002334',
+    birthDate: DateTime.now(),
+    avs: '');
 Dietitian d1 = Dietitian(
     firstName: 'Claire',
     lastName: 'Emery',
@@ -16,7 +23,8 @@ Dietitian d2 = Dietitian(
     lastName: 'Emery',
     birthDate: DateTime.now(),
     avs: '',
-    phoneNumber: '9175097');
+    phoneNumber: '9175097',
+    clientList: [c2.uid]);
 
 Future<void> populateMockDietitian(Dietitian d) async {
   await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
@@ -46,6 +54,11 @@ void main() {
 
   test("Read Dietitian", () async {
     final Dietitian c2Bis = await dietitianApi.readDietitian(d2.uid);
+    expect(d2.toString(), c2Bis.toString());
+  });
+
+  test("Read Dietitian of Client", () async {
+    final Dietitian c2Bis = await dietitianApi.readDietitianOfClient(c2.uid);
     expect(d2.toString(), c2Bis.toString());
   });
 

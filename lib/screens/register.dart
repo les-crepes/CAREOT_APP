@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:pdg_app/provider/register_provider.dart';
 import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
+import 'package:provider/provider.dart';
 
 import '../router/router.gr.dart';
-import '../widgets/buttons/right_arrow_button.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -37,17 +37,6 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     final width =
         screenWidth == 0 ? MediaQuery.of(context).size.width : screenWidth;
-    final items = [
-      const MainTextField(name: 'Email', icon: Icon(Icons.email_outlined)),
-      const MainTextField(name: 'Password', icon: Icon(Icons.lock_outline)),
-      const MainTextField(name: 'Firstname', icon: Icon(Icons.person)),
-      const MainTextField(name: 'Lastname', icon: Icon(Icons.person)),
-      const MainTextField(
-          name: 'Phone', icon: Icon(Icons.phone_android_outlined)),
-      const MainTextField(name: 'Birthdate', icon: Icon(Icons.cake_outlined)),
-      const MainTextField(name: 'insurance', icon: Icon(Icons.house_outlined)),
-      RightArrowButton(text: 'REGISTER', onPressed: onRegisterPress),
-    ];
 
     return Stack(
       children: [
@@ -74,16 +63,9 @@ class Register extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView.separated(
-                clipBehavior: Clip.none,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                separatorBuilder: (context, i) {
-                  return const SizedBox(height: 20);
-                },
-                itemCount: items.length,
-                itemBuilder: (context, i) {
-                  return items[i];
-                },
+              child: ChangeNotifierProvider(
+                create: (context) => RegisterProvider(),
+                child: const AutoRouter(),
               ),
             ),
             CustomPaint(

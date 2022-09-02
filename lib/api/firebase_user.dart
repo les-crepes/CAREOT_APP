@@ -2,35 +2,27 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pdg_app/api/firebase_api.dart';
-import 'package:pdg_app/api/firebase_dietitian.dart';
-import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/api/iuser.dart';
-import 'package:pdg_app/model/dietitian.dart';
 import 'package:pdg_app/model/user.dart';
 
 class FirebaseUser extends FirebaseAPI implements IUser {
   FirebaseUser(FirebaseFirestore db) : super(db, 'user');
 
   @override
-  void createUser(User user) {
-    collectionReference
+  Future<void> createUser(User user) async {
+    await collectionReference
         .withConverter(
             fromFirestore: User.fromFirestore,
             toFirestore: (User user, options) => user.toFirestore())
         .doc(user.uid)
-        .set(user)
-        .then((value) => log("User Added"))
-        .catchError((error) {
-      log("Failed to add user: $error");
-      throw Exception(error);
-    });
+        .set(user);
   }
 
   @override
-  Future<User> readUser(String clientId) async {
-    final docRef = collectionReference.doc(clientId).withConverter(
+  Future<User> readUser(String userId) async {
+    final docRef = collectionReference.doc(userId).withConverter(
           fromFirestore: User.fromFirestore,
-          toFirestore: (User city, _) => city.toFirestore(),
+          toFirestore: (User user, _) => user.toFirestore(),
         );
     final docSnapshot = await docRef.get();
     final user = docSnapshot.data();
@@ -61,10 +53,14 @@ class FirebaseUser extends FirebaseAPI implements IUser {
 
   @override
   Future<List<User>> getDietitianClient(String dietitianId) async {
-    IDietitian dietitianApi = FirebaseDietitian(super.getDb());
-    Dietitian d = await dietitianApi.readDietitian(dietitianId);
+    final docRef = collectionReference.doc(dietitianId).withConverter(
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+        );
+    final docSnapshot = await docRef.get();
+    final d = docSnapshot.data();
     final m =
-        await collectionReference.where("uid", whereIn: d.clientList).get();
+        await collectionReference.where("uid", whereIn: d?.clientList).get();
     List<User> clients = m.docs
         .map((doc) => User(
             birthDate: doc['birthDate'].toDate(),
@@ -72,8 +68,23 @@ class FirebaseUser extends FirebaseAPI implements IUser {
             avs: doc['avs'],
             lastName: doc['lastName'],
             phoneNumber: doc['phoneNumber'],
+            email: doc['email'],
             uid: doc['uid']))
         .toList();
     return clients;
+  }
+
+  @override
+  Future<User> readDietitianOfClient(String clientId) async {
+    final querySnapshot = await collectionReference
+        .where('clientList', arrayContains: clientId)
+        .withConverter(
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+        )
+        .get();
+    List<User> dietitians =
+        querySnapshot.docs.map((doc) => doc.data()).toList();
+    return dietitians.first;
   }
 }

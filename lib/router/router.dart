@@ -11,9 +11,12 @@ import 'package:pdg_app/screens/document_list.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
+import 'package:pdg_app/widgets/register/register_first_page.dart';
+import 'package:pdg_app/widgets/register/register_second_page.dart';
 
 import '../model/meal.dart';
 import '../screens/home.dart';
+import '../widgets/register/register_third_page.dart';
 import '../screens/update_client_record.dart';
 import './auth_gard.dart';
 import 'home_guard.dart';
@@ -110,6 +113,20 @@ import 'home_guard.dart';
     AutoRoute(
       page: RegisterScreen,
       path: '/register',
+      children: [
+        AutoRoute(
+          page: RegisterFirstPage,
+          path: '',
+        ),
+        AutoRoute(
+          page: RegisterSecondPage,
+          path: '1',
+        ),
+        AutoRoute(
+          page: RegisterThirdPage,
+          path: '2',
+        ),
+      ],
     ),
     RedirectRoute(
       path: '*',

@@ -386,3 +386,42 @@ class AddMealScreenRouteArgs {
     return 'AddMealScreenRouteArgs{day: $day, key: $key}';
   }
 }
+
+/// generated route for
+/// [_i13.RegisterFirstPage]
+class RegisterFirstPageRoute extends _i16.PageRouteInfo<void> {
+  const RegisterFirstPageRoute() : super(RegisterFirstPageRoute.name, path: '');
+
+  static const String name = 'RegisterFirstPageRoute';
+}
+
+/// generated route for
+/// [_i14.RegisterSecondPage]
+class RegisterSecondPageRoute
+    extends _i16.PageRouteInfo<RegisterSecondPageRouteArgs> {
+  RegisterSecondPageRoute({_i17.Key? key})
+      : super(RegisterSecondPageRoute.name,
+            path: '1', args: RegisterSecondPageRouteArgs(key: key));
+
+  static const String name = 'RegisterSecondPageRoute';
+}
+
+class RegisterSecondPageRouteArgs {
+  const RegisterSecondPageRouteArgs({this.key});
+
+  final _i17.Key? key;
+
+  @override
+  String toString() {
+    return 'RegisterSecondPageRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i15.RegisterThirdPage]
+class RegisterThirdPageRoute extends _i16.PageRouteInfo<void> {
+  const RegisterThirdPageRoute()
+      : super(RegisterThirdPageRoute.name, path: '2');
+
+  static const String name = 'RegisterThirdPageRoute';
+}

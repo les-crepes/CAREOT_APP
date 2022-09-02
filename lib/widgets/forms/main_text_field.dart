@@ -8,6 +8,7 @@ class MainTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool enabled;
   final String? initialValue;
+  final String? Function(String?)? validator;
 
   const MainTextField({
     required this.name,
@@ -15,6 +16,7 @@ class MainTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType,
     this.controller,
+    this.validator,
     this.enabled = true,
     this.initialValue,
     Key? key,
@@ -65,6 +67,7 @@ class _MainTextFieldState extends State<MainTextField> {
         enabled: widget.enabled,
         // initialValue: widget.initialValue,
         maxLines: null,
+        validator: widget.validator,
         decoration: InputDecoration(
           prefixIcon: IconTheme(
             data: const IconThemeData(

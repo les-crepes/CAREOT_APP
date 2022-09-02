@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:pdg_app/provider/aftercare_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/buttons/gradient_button.dart';
 import 'package:pdg_app/widgets/custom_divider.dart';
 import 'package:pdg_app/widgets/profile_template.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../model/user.dart';
 
@@ -18,14 +20,28 @@ class ClientRecordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClientRecord(
-      clientFirstName: _user.firstName,
-      clientLastName: _user.lastName,
-      clientEmail: "email", //TODO
-      clientBirthday: _user.birthDate,
-      clientPhone: _user.phoneNumber,
-      clientInsurance: _user.avs,
-      //TODO ajouter infos aftercare
+    return ChangeNotifierProvider(
+      create: (context) => AftercareProvider(clientUid: _user.uid),
+      builder: (context, child) {
+        final afterCareProvider = context.watch<AftercareProvider>();
+        return ClientRecord(
+          clientFirstName: _user.firstName,
+          clientLastName: _user.lastName,
+          clientEmail: "email", //TODO
+          clientBirthday: _user.birthDate,
+          clientPhone: _user.phoneNumber,
+          clientInsurance: _user.avs,
+          clientBmi: afterCareProvider.aftercare?.bmi ?? 0,
+          clientWeight: afterCareProvider.aftercare?.weight ?? 0.0,
+          clientComments: afterCareProvider.aftercare?.comments ?? '-',
+          clientDiagnostic: afterCareProvider.aftercare?.diagnostic ?? '-',
+          clientFoodObjectives:
+              afterCareProvider.aftercare?.foodObjectives ?? '-',
+          clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
+          clientStartDate: afterCareProvider.aftercare?.startDate,
+          clientEndDate: afterCareProvider.aftercare?.endDate,
+        );
+      },
     );
   }
 }

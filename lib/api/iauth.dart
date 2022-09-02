@@ -22,4 +22,6 @@ abstract class Auth {
   Future<void> sendVerification();
 
   String getUserEmail();
+
+  Future<bool> isDietitian();
 }

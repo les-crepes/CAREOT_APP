@@ -32,6 +32,7 @@ class ClientProvider extends ChangeNotifier {
         birthDate: DateTime(2001, 09, 01),
         avs: "8979279728973912",
         phoneNumber: "0798746756",
+        email: "Nelson.jeanrenaud@heig-vd.ch"
       ),
       User(
         firstName: "Luca",
@@ -39,6 +40,7 @@ class ClientProvider extends ChangeNotifier {
         birthDate: DateTime(2001, 09, 01),
         avs: "8979279728973912",
         phoneNumber: "0798746756",
+        email: "Luca.coduri@heig-vd.ch"
       ),
       User(
         firstName: "Olivier",
@@ -46,6 +48,7 @@ class ClientProvider extends ChangeNotifier {
         birthDate: DateTime(2001, 09, 01),
         avs: "8979279728973912",
         phoneNumber: "0798746756",
+        email: "Olivier.dancona@heig-vd.ch"
       )
     ];
 

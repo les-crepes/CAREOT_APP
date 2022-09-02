@@ -20,15 +20,27 @@ void main() {
   });
 
   test("Upload file", () async {
-    String filename = await fileApi.uploadFile(getFakeImageFile().path);
-    expect(storage.storedFilesMap.containsKey('/$filename'), isTrue);
+    String filepath = await fileApi.uploadFile(getFakeImageFile().path);
+    expect(filepath, isNotNull);
   });
 
   test("Delete file", () async {
+    String filepath = await fileApi.uploadFile(getFakeImageFile().path);
+    fileApi.deleteFile(filepath);
+    expect(storage.storedDataMap.isEmpty, isTrue);
+  });
+
+  test("Download file", () async {
     String filename = await fileApi.uploadFile(getFakeImageFile().path);
-    String filepath = '/$filename';
-    fileApi.deleteFile(filename);
-    expect(storage.storedFilesMap.containsKey(filepath), isFalse);
+    File file = await fileApi.downloadFile(filename, './');
+    expect(file.path, './$filename');
+  });
+
+  test("Download file bytes", () async {
+    String filename = await fileApi.uploadFile(getFakeImageFile().path);
+    Uint8List? bytes = await fileApi.downloadFileBytes(filename);
+    expect(bytes, isNotNull);
+    expect(bytes?.length, greaterThan(0));
   });
 }
 File getFakeImageFile() {

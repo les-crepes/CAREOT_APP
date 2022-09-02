@@ -2,16 +2,22 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
+import '../model/meal.dart';
 import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
-  const AddMealScreen({Key? key}) : super(key: key);
+  final DateTime _day;
+  const AddMealScreen({required DateTime day, Key? key})
+      : _day = day,
+        super(key: key);
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -32,6 +38,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   bool _showModal = false;
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
+  final TextEditingController _nameTextController = TextEditingController();
 
   Future<XFile?> _takePicture() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
@@ -46,6 +53,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   @override
   Widget build(BuildContext context) {
     return AddMeal(
+      nameTextController: _nameTextController,
       hungerBeforeValue: _hungerBeforeValue,
       hungerAfterValue: _hungerAfterValue,
       onHungerAfterChanged: (value) => setState(() {
@@ -101,7 +109,31 @@ class _AddMealScreenState extends State<AddMealScreen> {
       showTimePicker: _showModal,
       startTimeText: _startTime?.format(context) ?? 'Start Time',
       endTimeText: _endTime?.format(context) ?? 'End Time',
-      onValidatePressed: () => AutoRouter.of(context).pop(),
+      onValidatePressed: () {
+        final DateTime selectedStartDate = DateTime(
+          widget._day.year,
+          widget._day.month,
+          widget._day.day,
+          _startTime?.hour ?? 0,
+          _startTime?.minute ?? 0,
+        );
+
+        final DateTime selectedEndDate = DateTime(
+          widget._day.year,
+          widget._day.month,
+          widget._day.day,
+          _endTime?.hour ?? 0,
+          _endTime?.minute ?? 0,
+        );
+        AutoRouter.of(context).pop(Meal(
+          title: _nameTextController.text,
+          startTime: selectedStartDate,
+          endTime: selectedEndDate,
+          hunger: 0,
+          satiety: 0,
+          owner: context.read<AuthProvider>().userUid,
+        ));
+      },
     );
   }
 }
@@ -122,6 +154,7 @@ class AddMeal extends StatelessWidget {
   final String? _startTimeText;
   final String? _endTimeText;
   final void Function()? _onValidatePressed;
+  final TextEditingController? _nameTextController;
 
   const AddMeal({
     Key? key,
@@ -140,6 +173,7 @@ class AddMeal extends StatelessWidget {
     String? startTimeText,
     String? endTimeText,
     XFile? image,
+    TextEditingController? nameTextController,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
@@ -155,6 +189,7 @@ class AddMeal extends StatelessWidget {
         _startTimeText = startTimeText,
         _endTimeText = endTimeText,
         _onValidatePressed = onValidatePressed,
+        _nameTextController = nameTextController,
         super(key: key);
 
   @override
@@ -171,6 +206,7 @@ class AddMeal extends StatelessWidget {
                 onGalleryPressed: _onGalleryPressed),
             Expanded(
               child: _ListView(
+                nameTextController: _nameTextController,
                 hungerAfterValue: _hungerAfterValue,
                 hungerBeforeValue: _hungerBeforeValue,
                 onHungerAfterChanged: _onHungerAfterChanged,
@@ -294,6 +330,7 @@ class _ListView extends StatelessWidget {
   final void Function()? _onEndTimePress;
   final String? _startTimeText;
   final String? _endTimeText;
+  final TextEditingController? _nameTextController;
 
   const _ListView({
     Key? key,
@@ -305,6 +342,7 @@ class _ListView extends StatelessWidget {
     void Function()? onEndTimePress,
     String? startTimeText,
     String? endTimeText,
+    TextEditingController? nameTextController,
   })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
@@ -313,6 +351,7 @@ class _ListView extends StatelessWidget {
         _onEndTimePress = onEndTimePress,
         _startTimeText = startTimeText,
         _endTimeText = endTimeText,
+        _nameTextController = nameTextController,
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) => [
@@ -323,9 +362,10 @@ class _ListView extends StatelessWidget {
               .headline1!
               .copyWith(color: Colors.black),
         ),
-        const MainTextField(
+        MainTextField(
           name: "Meal name",
-          icon: Icon(
+          controller: _nameTextController,
+          icon: const Icon(
             Icons.label,
             color: Colors.black,
           ),

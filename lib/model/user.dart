@@ -10,15 +10,17 @@ class User implements IModel {
   DateTime birthDate;
   String phoneNumber;
   String avs;
+  String? photoUrl;
 
   User(
-      { String? uid,
-        required this.firstName,
-        required this.lastName,
-        required this.birthDate,
-        required this.phoneNumber,
-        required this.avs}
-      ) : uid = uid ?? const Uuid().v1();
+      {String? uid,
+      required this.firstName,
+      required this.lastName,
+      required this.birthDate,
+      required this.phoneNumber,
+      required this.avs,
+      this.photoUrl})
+      : uid = uid ?? const Uuid().v1();
 
   factory User.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -32,6 +34,7 @@ class User implements IModel {
       birthDate: data?['birthDate'].toDate(),
       phoneNumber: data?['phoneNumber'],
       avs: data?['avs'],
+      photoUrl: data?['photoUrl'],
     );
   }
 
@@ -44,6 +47,7 @@ class User implements IModel {
       'birthDate': birthDate,
       'phoneNumber': phoneNumber,
       'avs': avs,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -55,5 +59,4 @@ class User implements IModel {
   void setFirstName(String name) {
     firstName = name;
   }
-
 }

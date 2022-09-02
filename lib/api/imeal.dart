@@ -6,4 +6,5 @@ abstract class IMeal {
   void updateMeal(Meal meal);
   void deleteMeal(String mealId);
   Future<List<Meal>> getUsersMealForDay(String userId, DateTime day);
+  Future<List<Meal>> getUserMeal(String userId);
 }

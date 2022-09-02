@@ -2,61 +2,60 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
+import 'package:pdg_app/provider/meal_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../provider/auth_provider.dart';
 import '../widgets/buttons/action_button.dart';
 import '../widgets/diary/diary_top_bar.dart';
 import '../widgets/diary/top_shape.dart';
 
-class DiaryScreen extends StatelessWidget {
+class DiaryScreen extends StatefulWidget {
   const DiaryScreen({Key? key}) : super(key: key);
 
-  static List<Meal> _getEventsForDay(DateTime day) {
-    return [
-      Meal(
-          startTime: DateTime(2022, 8, 26, 12),
-          endTime: DateTime(2022, 8, 26, 12, 30),
-          comment: "Déjeuner",
-          title: 'Déjeuner',
-          satiety: 5,
-          hunger: 2,
-          owner: ''),
-      Meal(
-          startTime: DateTime(2022, 8, 26, 19),
-          endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper",
-          title: 'Souper',
-          satiety: 5,
-          hunger: 2,
-          owner: ''),
-      Meal(
-          startTime: DateTime(2022, 8, 26, 19),
-          endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper",
-          title: 'Souper',
-          satiety: 2,
-          hunger: 5,
-          owner: ''),
-      Meal(
-          startTime: DateTime(2022, 8, 26, 19),
-          endTime: DateTime(2022, 8, 26, 19, 30),
-          comment: "Souper",
-          title: 'Souper',
-          satiety: 2,
-          hunger: 3,
-          owner: '')
-    ];
+  @override
+  State<DiaryScreen> createState() => _DiaryScreenState();
+}
+
+class _DiaryScreenState extends State<DiaryScreen> {
+  DateTime _selectedDate = DateTime.now();
+
+  _onDaySelected(DateTime day) {
+    _selectedDate = day;
+  }
+
+  List<Meal> _getEventsForDay(BuildContext context, DateTime day) {
+    return context.read<MealProvider>().meals;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Diary(
-      getDiariesForDay: _getEventsForDay,
-      clientName: "Marie",
-      onAddPressed: () {
-        AutoRouter.of(context).navigate(const AddMealScreenRoute());
+    final uid = context.read<AuthProvider>().userUid;
+    return ChangeNotifierProvider(
+      create: (context) => MealProvider(uid),
+      builder: (context, child) {
+        context.watch<MealProvider>().meals;
+
+        return Diary(
+          onDaySelected: _onDaySelected,
+          getDiariesForDay: (day) {
+            return _getEventsForDay(context, day);
+          },
+          clientName: "Marie",
+          onAddPressed: () async {
+            final addedMeal = await AutoRouter.of(context)
+                .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
+            if (addedMeal != null) {
+              // ignore: use_build_context_synchronously
+              await context.read<MealProvider>().addMeal(addedMeal);
+              // ignore: use_build_context_synchronously
+              context.read<MealProvider>().fetchMeals();
+            }
+          },
+        );
       },
     );
   }
@@ -69,6 +68,7 @@ class Diary extends StatefulWidget {
   final String clientName;
   final String clientPicturePath;
   final void Function()? _onAddPressed;
+  final void Function(DateTime)? _onDaySelected;
 
   const Diary({
     this.screenWidth = 0,
@@ -76,9 +76,11 @@ class Diary extends StatefulWidget {
     required this.getDiariesForDay,
     required this.clientName,
     this.clientPicturePath = "assets/images/default_user_pic.png",
+    void Function(DateTime)? onDaySelected,
     void Function()? onAddPressed,
     Key? key,
   })  : _onAddPressed = onAddPressed,
+        _onDaySelected = onDaySelected,
         super(key: key);
 
   @override
@@ -86,7 +88,6 @@ class Diary extends StatefulWidget {
 }
 
 class _DiaryState extends State<Diary> {
-  late final ValueNotifier<List<Meal>> _selectedDiaries;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
@@ -96,7 +97,6 @@ class _DiaryState extends State<Diary> {
     super.initState();
 
     _selectedDay = _focusedDay;
-    _selectedDiaries = ValueNotifier(widget.getDiariesForDay(_selectedDay));
   }
 
   @override
@@ -136,6 +136,9 @@ class _DiaryState extends State<Diary> {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay; // update `_focusedDay` here as well
               });
+              if (widget._onDaySelected != null) {
+                widget._onDaySelected!(selectedDay);
+              }
             },
             calendarFormat: _calendarFormat,
             onFormatChanged: (format) {
@@ -146,7 +149,7 @@ class _DiaryState extends State<Diary> {
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
-            eventLoader: widget.getDiariesForDay,
+            eventLoader: context.read<MealProvider>().getMealsByDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: CalendarStyle(
               todayDecoration: BoxDecoration(
@@ -161,16 +164,11 @@ class _DiaryState extends State<Diary> {
           ),
           const SizedBox(height: 13),
           Expanded(
-            child: ValueListenableBuilder<List<Meal>>(
-              valueListenable: _selectedDiaries,
-              builder: (context, value, _) {
-                return _CalendarBody(
-                  hourFormatter: hourFormatter,
-                  meals: value,
-                );
-              },
+            child: _CalendarBody(
+              hourFormatter: hourFormatter,
+              meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
             ),
-          )
+          ),
         ],
       ),
       if (widget.showActionButton)
@@ -205,7 +203,7 @@ class _CalendarBody extends StatelessWidget {
             vertical: 4.0,
           ),
           child: ArrowPicCard(
-            title: Text(meals[index].comment!,
+            title: Text(meals[index].title,
                 style: const TextStyle(fontWeight: FontWeight.w600)),
             subtitle: Text(
               "${hourFormatter.format(meals[index].startTime)} - ${hourFormatter.format(meals[index].endTime)}",

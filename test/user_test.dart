@@ -2,7 +2,6 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/api/iuser.dart';
-import 'package:pdg_app/model/dietitian.dart';
 import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
@@ -34,37 +33,41 @@ User c4 = User(
     birthDate: DateTime.now(),
     avs: '',
     email: 'nelson.jeanrenaud@heig-vd.ch');
-Dietitian d1 = Dietitian(
+User d1 = User(
     firstName: 'Claire',
     lastName: 'Emery',
     birthDate: DateTime.now(),
     avs: '',
     clientList: [c2.uid, c3.uid, c4.uid],
     phoneNumber: '',
-    email: 'thomas.beil@heig-vd.ch');
+    email: 'claire.emery@gmail.com');
+User d2 = User(
+    firstName: 'Alice',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    phoneNumber: '9175097',
+    clientList: [c2.uid],
+    email: 'olivier.dancona@gmail.com');
 
-Future<void> populateMockClient(User c) async {
+Future<void> populateMockUser(User c) async {
   await db.collection('user').doc(c.uid).set(c.toFirestore());
 }
 
-Future<void> populateMockDietitian(Dietitian d) async {
-  await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
-}
-
 void main() {
-  late IUser clientApi;
+  late IUser userApi;
   final clients = db.collection('user');
 
   setUp(() async {
-    populateMockClient(c2);
-    populateMockClient(c3);
-    populateMockClient(c4);
-    populateMockDietitian(d1);
-    clientApi = FirebaseUser(db);
+    populateMockUser(c2);
+    populateMockUser(c3);
+    populateMockUser(c4);
+    populateMockUser(d1);
+    userApi = FirebaseUser(db);
   });
 
-  test("Create User", () async {
-    clientApi.createUser(c1);
+  test("Create Client", () async {
+    userApi.createUser(c1);
     final docSnapshot = await clients
         .doc(c1.uid)
         .withConverter(
@@ -76,14 +79,27 @@ void main() {
     expect(c1.toString(), user.toString());
   });
 
+  test("Create Dietitian", () async {
+    userApi.createUser(d2);
+    final docSnapshot = await clients
+        .doc(d2.uid)
+        .withConverter(
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+        )
+        .get();
+    final dietitian = docSnapshot.data();
+    expect(d2.toString(), dietitian.toString());
+  });
+
   test("Read User", () async {
-    final User c2Bis = await clientApi.readUser(c2.uid);
-    expect(c2.toString(), c2Bis.toString());
+    final User userCopy = await userApi.readUser(d1.uid);
+    expect(d1.toString(), userCopy.toString());
   });
 
   test("Update user", () async {
     c1.setFirstName('Filippo');
-    clientApi.updateUser(c1);
+    userApi.updateUser(c1);
     final docSnapshot = await clients
         .doc(c1.uid)
         .withConverter(
@@ -96,7 +112,7 @@ void main() {
   });
 
   test("Delete user", () async {
-    clientApi.deleteUser(c3.uid);
+    userApi.deleteUser(c3.uid);
     final docSnapshot = await clients
         .doc(c3.uid)
         .withConverter(
@@ -110,7 +126,12 @@ void main() {
 
   test("getDietitianClients", () async {
     List<User> coco = [c2, c3, c4];
-    final clients = await clientApi.getDietitianClient(d1.uid);
+    final clients = await userApi.getDietitianClient(d1.uid);
     expect(clients.elementAt(0).toString(), coco.elementAt(0).toString());
+  });
+
+  test("Read Dietitian of Client", () async {
+    final User dietCopy = await userApi.readDietitianOfClient(c3.uid);
+    expect(d1.toString(), dietCopy.toString());
   });
 }

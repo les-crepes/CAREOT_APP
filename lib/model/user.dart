@@ -12,16 +12,18 @@ class User implements IModel {
   String avs;
   String email;
   String? photoUrl;
+  List? clientList;
   User(
-      { String? uid,
-        required this.firstName,
-        required this.lastName,
-        required this.birthDate,
-        required this.phoneNumber,
-        required this.avs,
-        required this.email,
-        this.photoUrl}
-      ) : uid = uid ?? const Uuid().v1();
+      {String? uid,
+      required this.firstName,
+      required this.lastName,
+      required this.birthDate,
+      required this.phoneNumber,
+      required this.avs,
+      required this.email,
+      this.clientList,
+      this.photoUrl})
+      : uid = uid ?? const Uuid().v1();
 
   factory User.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -37,6 +39,7 @@ class User implements IModel {
       avs: data?['avs'],
       email: data?['email'],
       photoUrl: data?['photoUrl'],
+      clientList: data?['clientList'],
     );
   }
 
@@ -51,6 +54,7 @@ class User implements IModel {
       'avs': avs,
       'email': email,
       'photoUrl': photoUrl,
+      'clientList': clientList,
     };
   }
 

@@ -2,18 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/api/firebase_aftercare.dart';
-import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/api/firebase_meal.dart';
 import 'package:pdg_app/api/firebase_message.dart';
 import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/api/iaftercare.dart';
-import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/api/imeal.dart';
 import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/api/iuser.dart';
 import 'package:pdg_app/firebase_options.dart';
 import 'package:pdg_app/model/aftercare.dart';
-import 'package:pdg_app/model/dietitian.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/model/message.dart';
 import 'package:pdg_app/model/user.dart';
@@ -61,7 +58,7 @@ User u4 = User(
     email: 'nelson.jeanrenaud@heig-vd.ch',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_nelson.jpeg?alt=media&token=a5af4d67-1522-4355-a647-d29496809463');
-Dietitian d1 = Dietitian(
+User d1 = User(
     firstName: 'Claire',
     lastName: 'Emery',
     birthDate: DateTime.now(),
@@ -104,16 +101,12 @@ void createUsers() {
   userApi.createUser(u2);
   userApi.createUser(u3);
   userApi.createUser(u4);
+  userApi.createUser(d1);
 }
 
 void createAftercare() {
   IAftercare aftercareApi = FirebaseAftercare(db);
   aftercareApi.createAftercare(a1);
-}
-
-void createDietitian() {
-  IDietitian dietitianApi = FirebaseDietitian(db);
-  dietitianApi.createDietitian(d1);
 }
 
 void createMeal() {
@@ -138,5 +131,4 @@ void main() async {
   runApp(const MaterialApp());
 
   createUsers();
-  createDietitian();
 }

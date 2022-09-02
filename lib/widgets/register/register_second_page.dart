@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../provider/register_provider.dart';
 import '../../router/router.gr.dart';
 import '../forms/main_text_field.dart';
-import '../right_arrow_button.dart';
+import '../buttons/right_arrow_button.dart';
 
 class RegisterSecondPage extends StatelessWidget {
   RegisterSecondPage({Key? key}) : super(key: key);

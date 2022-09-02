@@ -6,8 +6,8 @@ import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/register_provider.dart';
+import '../buttons/right_arrow_button.dart';
 import '../forms/main_text_field.dart';
-import '../right_arrow_button.dart';
 
 class RegisterThirdPage extends StatefulWidget {
   const RegisterThirdPage({Key? key}) : super(key: key);

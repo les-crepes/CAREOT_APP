@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../provider/register_provider.dart';
 import '../forms/main_text_field.dart';
-import '../right_arrow_button.dart';
+import '../buttons/right_arrow_button.dart';
 
 class RegisterFirstPage extends StatelessWidget {
   const RegisterFirstPage({Key? key}) : super(key: key);

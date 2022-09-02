@@ -41,6 +41,7 @@ class RegisterProvider extends ChangeNotifier {
       phoneNumber: _phoneController.text,
       avs: _insuranceController.text,
       birthDate: _birthDay,
+      email: emailController.text,
     );
   }
 

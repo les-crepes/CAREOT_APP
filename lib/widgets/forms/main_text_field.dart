@@ -6,6 +6,8 @@ class MainTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final bool enabled;
+  final String? initialValue;
 
   const MainTextField({
     required this.name,
@@ -13,6 +15,8 @@ class MainTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType,
     this.controller,
+    this.enabled = true,
+    this.initialValue,
     Key? key,
   }) : super(key: key);
 
@@ -58,6 +62,8 @@ class _MainTextFieldState extends State<MainTextField> {
         obscureText: widget.obscureText,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
+        enabled: widget.enabled,
+        initialValue: widget.initialValue,
         maxLines: null,
         decoration: InputDecoration(
           prefixIcon: IconTheme(

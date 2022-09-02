@@ -58,6 +58,7 @@ class _MainTextFieldState extends State<MainTextField> {
         obscureText: widget.obscureText,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
+        maxLines: null,
         decoration: InputDecoration(
           prefixIcon: IconTheme(
             data: const IconThemeData(

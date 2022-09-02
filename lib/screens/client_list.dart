@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/model/user.dart';
 import 'package:pdg_app/provider/client_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
-import 'package:pdg_app/screens/client_record.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';

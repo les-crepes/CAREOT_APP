@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/profile_template.dart';
-import 'package:pdg_app/widgets/text_information.dart';
-import 'package:intl/intl.dart';
 import '../router/router.gr.dart';
 import '../widgets/custom_divider.dart';
-import '../widgets/profile/profile_top_bar.dart';
 
 import '../provider/auth_provider.dart';
 

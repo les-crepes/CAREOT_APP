@@ -4,6 +4,7 @@ import 'package:pdg_app/api/firebase_aftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 
 class AftercareProvider extends ChangeNotifier {
+  // ignore: unused_field
   final FirebaseAftercare _firebaseAftercare;
   Aftercare? _aftercare;
   bool _loading;

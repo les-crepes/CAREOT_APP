@@ -25,6 +25,7 @@ User u1 = User(
     birthDate: DateTime(1996, 10, 9),
     avs: '7561352485592',
     uid: 'FS3RqfWpeuVXcdZrTQJdBPfFbwV2',
+    email: 'olivier.dancona@heig-vd.ch',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_olivier.jpeg?alt=media&token=0166b19f-428f-419d-b0d5-4b9b665e62f5');
 User u2 = User(
@@ -34,6 +35,7 @@ User u2 = User(
     birthDate: DateTime(1998, 12, 8),
     avs: '7561352485592',
     uid: 'Zaf2afuSAGcicn5DziZTrr4MYCA2',
+    email: 'chloe.fontaine@heig-vd.ch',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_chloe.jpg?alt=media&token=9195f8d5-e8ab-491b-9c61-3fe91ff1c9b3');
 User u3 = User(
@@ -43,6 +45,7 @@ User u3 = User(
     birthDate: DateTime(1996, 12, 18),
     avs: '7561352485592',
     uid: 'PSCOEhz98TORfOb9BizGfjUA8hc2',
+    email: 'luca.coduri@heig-vd.ch',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_luca.webp?alt=media&token=12aa7417-fd0c-41bf-8f80-7db9f16c9fc4');
 User u4 = User(
@@ -52,6 +55,7 @@ User u4 = User(
     birthDate: DateTime(2001, 9, 1),
     avs: '',
     uid: 'iKO7fJfMKgawEDtnd9Ll0kjBNBW2',
+    email: 'nelson.jeanrenaud@heig-vd.ch',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_nelson.jpeg?alt=media&token=a5af4d67-1522-4355-a647-d29496809463');
 User d1 = User(
@@ -61,6 +65,7 @@ User d1 = User(
     avs: '7561352485592',
     clientList: [u1.uid, u2.uid, u3.uid, u4.uid],
     phoneNumber: '0266634556',
+    email: 'claire.emery@heig-vd.ch',
     uid: 'bZB6G7LbLSfp8lTPsh00fWxiHb03');
 
 Aftercare a1 = Aftercare(

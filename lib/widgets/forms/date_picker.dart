@@ -5,13 +5,16 @@ import 'package:intl/intl.dart';
 class DatePicker extends StatefulWidget {
   final String _name;
   final void Function(DateTime?)? _onSelected;
+  final DateTime? _initialDate;
 
   const DatePicker({
     required String name,
     void Function(DateTime?)? onSelected,
+    DateTime? initialDate,
     Key? key,
   })  : _name = name,
         _onSelected = onSelected,
+        _initialDate = initialDate,
         super(key: key);
 
   @override
@@ -19,17 +22,17 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime? picked;
-
   @override
   Widget build(BuildContext context) {
     final DateFormat hourFormatter = DateFormat("dd/MM/y");
+
+    DateTime? picked = widget._initialDate;
 
     return GestureDetector(
       onTap: () async {
         DateTime? selected = await showDatePicker(
           context: context,
-          initialDate: DateTime.now(),
+          initialDate: widget._initialDate ?? DateTime.now(),
           firstDate: DateTime(2020, 01, 01),
           lastDate: DateTime(2050, 12, 31),
         );

@@ -86,6 +86,8 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
       onSelectedEndDate: (date) {
         _selectedEndTime = date;
       },
+      initialStartTime: widget._aftercare?.startDate,
+      initialEndTime: widget._aftercare?.endDate,
       onValidatePressed: () {},
     );
   }
@@ -101,6 +103,8 @@ class UpdateClientRecord extends StatelessWidget {
   final TextEditingController? _motivationsController;
   final TextEditingController? _foodObjectivesController;
   final void Function(DateTime?)? _onSelectedStartDate;
+  final DateTime? _initialStartTime;
+  final DateTime? _initialEndTime;
   final void Function(DateTime?)? _onSelectedEndDate;
   final void Function()? _onValidatePressed;
 
@@ -115,6 +119,8 @@ class UpdateClientRecord extends StatelessWidget {
     TextEditingController? foodObjectivesController,
     void Function(DateTime?)? onSelectedStartDate,
     void Function(DateTime?)? onSelectedEndDate,
+    DateTime? initialStartTime,
+    DateTime? initialEndTime,
     void Function()? onValidatePressed,
     Key? key,
   })  : _clientFirstName = clientFirstName,
@@ -127,6 +133,8 @@ class UpdateClientRecord extends StatelessWidget {
         _foodObjectivesController = foodObjectivesController,
         _onSelectedStartDate = onSelectedStartDate,
         _onSelectedEndDate = onSelectedEndDate,
+        _initialStartTime = initialStartTime,
+        _initialEndTime = initialEndTime,
         _onValidatePressed = onValidatePressed,
         super(key: key);
 
@@ -179,11 +187,13 @@ class UpdateClientRecord extends StatelessWidget {
               DatePicker(
                 name: "Start date",
                 onSelected: _onSelectedStartDate,
+                initialDate: _initialStartTime,
               ),
               const SizedBox(height: 15.0),
               DatePicker(
                 name: "End date",
                 onSelected: _onSelectedEndDate,
+                initialDate: _initialEndTime,
               ),
             ]),
           ),

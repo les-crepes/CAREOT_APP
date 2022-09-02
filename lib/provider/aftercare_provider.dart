@@ -20,7 +20,11 @@ class AftercareProvider extends ChangeNotifier {
 
   void fetchAfterCare(String clientUid) async {
     _loading = true;
-    //TODO récupérer db
+    //TODO décommenter
+    // List<Aftercare> aftercares =
+    //     await _firebaseAftercare.readAftercareOfClient(clientUid);
+    //     if (aftercare != null)
+    //   _aftercare = aftercares.first;
     await Future.delayed(const Duration(seconds: 1));
     _aftercare = Aftercare(
       clientId: "",

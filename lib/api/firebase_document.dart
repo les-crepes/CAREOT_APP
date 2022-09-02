@@ -6,16 +6,21 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseFile implements IFile {
-  final bucket = FirebaseStorage.instance;
+
+  late final FirebaseStorage bucket;
   late final storageRef = bucket.ref();
+
+  FirebaseFile(this.bucket);
 
   /// Uploads the file to the firebase storage under a specific path. with a unique name.
   @override
-  Future<void> uploadFile(String filepath) async {
+  Future<String> uploadFile(String filepath) async {
     File file = File(filepath);
-    final fileRef = storageRef.child("file/${const Uuid().v1()}");
+    String fileName = Uuid().v4();
+    final fileRef = storageRef.child(fileName);
     try {
       await fileRef.putFile(file);
+      return fileName;
     } on FirebaseException catch (e) {
       log("Failed to upload file: $e");
       throw Exception(e);

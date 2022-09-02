@@ -16,7 +16,7 @@ import 'package:pdg_app/model/message.dart';
 import 'package:pdg_app/model/user.dart';
 
 final db = FirebaseFirestore.instance;
-DateTime fisherDay = DateTime(2017, 9, 7, 17, 30);
+DateTime fisherDay = DateTime(2022, 9, 5, 17, 30);
 
 User u1 = User(
     firstName: 'Olivier',
@@ -66,7 +66,9 @@ User d1 = User(
     clientList: [u1.uid, u2.uid, u3.uid, u4.uid],
     phoneNumber: '0266634556',
     email: 'claire.emery@heig-vd.ch',
-    uid: 'bZB6G7LbLSfp8lTPsh00fWxiHb03');
+    uid: 'bZB6G7LbLSfp8lTPsh00fWxiHb03',
+    photoUrl:
+        'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/claire.jpg?alt=media&token=f03c1b9a-b851-40dc-a3c5-a8b4b2afdb02');
 
 Aftercare a1 = Aftercare(
     clientId: u1.uid,
@@ -75,25 +77,43 @@ Aftercare a1 = Aftercare(
     startDate: DateTime.now(),
     comments: "commentaire",
     diagnostic: "diagnostic",
-    documents: ['dfdf']);
+    documents: ['dfdf'],
+    endDate: DateTime.now(),
+    foodObjectives: "Manger plus, prendre du gras, suer de l'huile",
+    motivations: "Etre chaud en hiver",
+    uid: 'aftercare1');
 
 Meal m1 = Meal(
     startTime: fisherDay,
     endTime: fisherDay,
     owner: u1.uid,
-    hunger: 4,
+    hunger: 5,
     satiety: 5,
-    comment: 'no comment',
-    title: 'mojo');
+    comment:
+        'Hey les gars vous êtes prêt pour votre sandwich à la saucisse? Non? Faudrait bien que ça vous vienne car c\'est tout un gros sandwich qui vous attends',
+    title: 'Le gros sandwich',
+    photo:
+        'https://st.depositphotos.com/1044737/1853/i/450/depositphotos_18533723-stock-photo-baguette-with-ham.jpg');
 
 Message msg1 = Message(
-    content: 'Bonjour', fromId: 'alice', toId: 'bob', time: DateTime.now());
+    content: 'Bonjour', fromId: u1.uid, toId: d1.uid, time: DateTime.now());
 Message msg2 = Message(
-    content: 'ciao', fromId: 'alice', toId: 'bob', time: DateTime.now());
+    content: 'Hello, tu vas bien?',
+    fromId: d1.uid,
+    toId: u1.uid,
+    time: DateTime.now());
 Message msg3 = Message(
-    content: 'ciao', fromId: 'alice', toId: 'jean', time: DateTime.now());
+    content:
+        'Oui super, est-ce que c\'est une bonne idée de manger des huitres au fromage? Niveau libido?',
+    fromId: u1.uid,
+    toId: d1.uid,
+    time: DateTime.now());
 Message msg4 = Message(
-    content: 'ciao', fromId: 'jean', toId: 'alice', time: DateTime.now());
+    content:
+        'Alors je suis pas experte en la matière mais je sais que ce n\'est pas forcément un bon combo pour le foie.',
+    fromId: d1.uid,
+    toId: u1.uid,
+    time: DateTime.now());
 
 void createUsers() {
   IUser userApi = FirebaseUser(db);
@@ -131,4 +151,7 @@ void main() async {
   runApp(const MaterialApp());
 
   createUsers();
+  createAftercare();
+  createMeal();
+  createMessage();
 }

@@ -23,24 +23,8 @@ class AuthProvider extends ChangeNotifier {
 
   String get userUid => _auth.uid;
 
-  Future<User?> fetchClient() async {
-    try {
-      _client = await _userApi.readUser(_auth.uid);
-      notifyListeners();
-    } catch (e) {
-      log("Error fetching client: $e");
-    }
-
-    return _client;
-  }
-
   bool isConnected() {
     return _auth.isConnected;
-  }
-
-  Future<void> register(String email, String password) async {
-    await _auth.register(email: email, password: password);
-    notifyListeners();
   }
 
   Future<void> signIn(String email, String password) async {

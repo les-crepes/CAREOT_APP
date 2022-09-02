@@ -9,6 +9,7 @@ class MainTextField extends StatefulWidget {
   final bool enabled;
   final String? initialValue;
   final String? Function(String?)? validator;
+  final int? maxLines;
 
   const MainTextField({
     required this.name,
@@ -19,6 +20,7 @@ class MainTextField extends StatefulWidget {
     this.validator,
     this.enabled = true,
     this.initialValue,
+    this.maxLines,
     Key? key,
   }) : super(key: key);
 
@@ -58,7 +60,7 @@ class _MainTextFieldState extends State<MainTextField> {
         ],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: TextField(
+      child: TextFormField(
         focusNode: focusNode,
         cursorColor: Colors.black38,
         obscureText: widget.obscureText,
@@ -66,7 +68,7 @@ class _MainTextFieldState extends State<MainTextField> {
         keyboardType: widget.keyboardType,
         enabled: widget.enabled,
         // initialValue: widget.initialValue,
-        maxLines: null,
+        maxLines: widget.maxLines,
         validator: widget.validator,
         decoration: InputDecoration(
           prefixIcon: IconTheme(

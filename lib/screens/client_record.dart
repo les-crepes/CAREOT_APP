@@ -40,6 +40,8 @@ class ClientRecordScreen extends StatelessWidget {
           clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
           clientStartDate: afterCareProvider.aftercare?.startDate,
           clientEndDate: afterCareProvider.aftercare?.endDate,
+          onIconButtonPressed: () => AutoRouter.of(context)
+              .push(UpdateClientRecordScreenRoute(user: _user)),
         );
       },
     );
@@ -61,6 +63,7 @@ class ClientRecord extends StatelessWidget {
   final String _foodObjectives;
   final DateTime? _startDate;
   final DateTime? _endDate;
+  final void Function()? _onIconButtonPressed;
 
   const ClientRecord(
       {required clientFirstName,
@@ -77,6 +80,7 @@ class ClientRecord extends StatelessWidget {
       clientFoodObjectives = "-",
       clientStartDate,
       clientEndDate,
+      onIconButtonPressed,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -92,6 +96,7 @@ class ClientRecord extends StatelessWidget {
         _foodObjectives = clientFoodObjectives,
         _startDate = clientStartDate,
         _endDate = clientEndDate,
+        _onIconButtonPressed = onIconButtonPressed,
         super(key: key);
 
   @override
@@ -105,6 +110,8 @@ class ClientRecord extends StatelessWidget {
       clientPhone: _clientPhone,
       clientBirthday: _clientBirthday,
       clientInsurance: _clientInsurance,
+      buttonIcon: Icons.create_outlined,
+      onIconButtonPressed: _onIconButtonPressed ?? () {},
       firstBloc: Column(
         children: [
           Row(

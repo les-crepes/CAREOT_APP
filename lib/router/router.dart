@@ -14,6 +14,7 @@ import 'package:pdg_app/screens/register.dart';
 
 import '../model/meal.dart';
 import '../screens/home.dart';
+import '../screens/update_client_record.dart';
 import './auth_gard.dart';
 import 'home_guard.dart';
 
@@ -72,6 +73,10 @@ import 'home_guard.dart';
                   AutoRoute(
                     page: ClientRecordScreen,
                     path: 'record',
+                  ),
+                  AutoRoute(
+                    page: UpdateClientRecordScreen,
+                    path: 'update',
                   )
                 ]),
             AutoRoute(

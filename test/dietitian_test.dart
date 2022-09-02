@@ -3,12 +3,28 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pdg_app/api/idietitian.dart';
 import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
+import 'package:pdg_app/model/user.dart';
 
 final db = FakeFirebaseFirestore();
-  Dietitian d1 = Dietitian(firstName: 'Claire', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '12904710');
-  Dietitian d2 = Dietitian(firstName: 'Alice', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '9175097');
+User c2 = User(
+    firstName: 'Chloé',
+    lastName: 'Fontaine',
+    phoneNumber: '0780002334',
+    birthDate: DateTime.now(),
+    avs: '');
+Dietitian d1 = Dietitian(
+    firstName: 'Claire',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    phoneNumber: '12904710');
+Dietitian d2 = Dietitian(
+    firstName: 'Alice',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    phoneNumber: '9175097',
+    clientList: [c2.uid]);
 
 Future<void> populateMockDietitian(Dietitian d) async {
   await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
@@ -41,6 +57,11 @@ void main() {
     expect(d2.toString(), c2Bis.toString());
   });
 
+  test("Read Dietitian of Client", () async {
+    final Dietitian c2Bis = await dietitianApi.readDietitianOfClient(c2.uid);
+    expect(d2.toString(), c2Bis.toString());
+  });
+
   test("Update dietitian", () async {
     d1.setFirstName('Filippo');
     dietitianApi.updateDietitian(d1);
@@ -48,7 +69,7 @@ void main() {
         .doc(d1.uid)
         .withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
@@ -61,7 +82,7 @@ void main() {
         .doc(d2.uid)
         .withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         )
         .get();
     final dietitian = docSnapshot.data();

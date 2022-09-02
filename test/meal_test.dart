@@ -74,7 +74,7 @@ void main() {
         .doc(m1.uid)
         .withConverter(
           fromFirestore: Meal.fromFirestore,
-          toFirestore: (Meal city, _) => city.toFirestore(),
+          toFirestore: (Meal meal, _) => meal.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
@@ -87,7 +87,7 @@ void main() {
         .doc(m2.uid)
         .withConverter(
           fromFirestore: Meal.fromFirestore,
-          toFirestore: (Meal city, _) => city.toFirestore(),
+          toFirestore: (Meal meal, _) => meal.toFirestore(),
         )
         .get();
     final meal = docSnapshot.data();

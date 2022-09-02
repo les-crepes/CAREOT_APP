@@ -32,6 +32,8 @@ class AuthProvider extends ChangeNotifier {
     if (isConnected) {
       fetchClient();
     }
+
+    notifyListeners();
   }
 
   Future<void> signOut() async {

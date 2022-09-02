@@ -15,6 +15,7 @@ import 'package:auto_route/auto_route.dart' as _i14;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i15;
 
+import '../model/aftercare.dart' as _i21;
 import '../model/meal.dart' as _i19;
 import '../model/user.dart' as _i20;
 import '../screens/add_meal.dart' as _i13;
@@ -107,7 +108,8 @@ class AppRouter extends _i14.RootStackRouter {
       final args = routeData.argsAs<UpdateClientRecordScreenRouteArgs>();
       return _i14.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i11.UpdateClientRecordScreen(user: args.user, key: args.key));
+          child: _i11.UpdateClientRecordScreen(
+              user: args.user, aftercare: args.aftercare, key: args.key));
     },
     DiaryScreenRoute.name: (routeData) {
       return _i14.MaterialPageX<dynamic>(
@@ -328,24 +330,29 @@ class ClientRecordScreenRouteArgs {
 /// [_i11.UpdateClientRecordScreen]
 class UpdateClientRecordScreenRoute
     extends _i14.PageRouteInfo<UpdateClientRecordScreenRouteArgs> {
-  UpdateClientRecordScreenRoute({required dynamic user, _i15.Key? key})
+  UpdateClientRecordScreenRoute(
+      {required dynamic user, _i21.Aftercare? aftercare, _i15.Key? key})
       : super(UpdateClientRecordScreenRoute.name,
             path: 'update',
-            args: UpdateClientRecordScreenRouteArgs(user: user, key: key));
+            args: UpdateClientRecordScreenRouteArgs(
+                user: user, aftercare: aftercare, key: key));
 
   static const String name = 'UpdateClientRecordScreenRoute';
 }
 
 class UpdateClientRecordScreenRouteArgs {
-  const UpdateClientRecordScreenRouteArgs({required this.user, this.key});
+  const UpdateClientRecordScreenRouteArgs(
+      {required this.user, this.aftercare, this.key});
 
   final dynamic user;
+
+  final _i21.Aftercare? aftercare;
 
   final _i15.Key? key;
 
   @override
   String toString() {
-    return 'UpdateClientRecordScreenRouteArgs{user: $user, key: $key}';
+    return 'UpdateClientRecordScreenRouteArgs{user: $user, aftercare: $aftercare, key: $key}';
   }
 }
 

@@ -24,6 +24,7 @@ class ClientRecordScreen extends StatelessWidget {
       create: (context) => AftercareProvider(clientUid: _user.uid),
       builder: (context, child) {
         final afterCareProvider = context.watch<AftercareProvider>();
+
         return ClientRecord(
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
@@ -40,8 +41,9 @@ class ClientRecordScreen extends StatelessWidget {
           clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
           clientStartDate: afterCareProvider.aftercare?.startDate,
           clientEndDate: afterCareProvider.aftercare?.endDate,
-          onIconButtonPressed: () => AutoRouter.of(context)
-              .push(UpdateClientRecordScreenRoute(user: _user)),
+          onIconButtonPressed: () => AutoRouter.of(context).push(
+              UpdateClientRecordScreenRoute(
+                  user: _user, aftercare: afterCareProvider.aftercare)),
         );
       },
     );

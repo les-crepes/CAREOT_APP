@@ -56,14 +56,14 @@ class _MainTextFieldState extends State<MainTextField> {
         ],
         borderRadius: BorderRadius.circular(15.0),
       ),
-      child: TextFormField(
+      child: TextField(
         focusNode: focusNode,
         cursorColor: Colors.black38,
         obscureText: widget.obscureText,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         enabled: widget.enabled,
-        initialValue: widget.initialValue,
+        // initialValue: widget.initialValue,
         maxLines: null,
         decoration: InputDecoration(
           prefixIcon: IconTheme(

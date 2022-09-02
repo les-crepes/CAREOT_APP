@@ -67,7 +67,19 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
         .where("startTime", isLessThanOrEqualTo: endD)
         .withConverter(
             fromFirestore: Meal.fromFirestore,
-            toFirestore: (Meal msg, _) => msg.toFirestore())
+            toFirestore: (Meal meal, options) => meal.toFirestore())
+        .get();
+    List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
+    return meals;
+  }
+
+  @override
+  Future<List<Meal>> getUserMeal(String userId) async {
+    final m = await collectionReference
+        .where("owner", isEqualTo: userId)
+        .withConverter(
+            fromFirestore: Meal.fromFirestore,
+            toFirestore: (Meal meal, options) => meal.toFirestore())
         .get();
     List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
     return meals;

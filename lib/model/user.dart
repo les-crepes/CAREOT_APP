@@ -11,7 +11,7 @@ class User implements IModel {
   String phoneNumber;
   String avs;
   String email;
-
+  String? photoUrl;
   User(
       { String? uid,
         required this.firstName,
@@ -19,7 +19,8 @@ class User implements IModel {
         required this.birthDate,
         required this.phoneNumber,
         required this.avs,
-        required this.email}
+        required this.email,
+        this.photoUrl}
       ) : uid = uid ?? const Uuid().v1();
 
   factory User.fromFirestore(
@@ -35,6 +36,7 @@ class User implements IModel {
       phoneNumber: data?['phoneNumber'],
       avs: data?['avs'],
       email: data?['email'],
+      photoUrl: data?['photoUrl'],
     );
   }
 
@@ -48,6 +50,7 @@ class User implements IModel {
       'phoneNumber': phoneNumber,
       'avs': avs,
       'email': email,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -59,5 +62,4 @@ class User implements IModel {
   void setFirstName(String name) {
     firstName = name;
   }
-
 }

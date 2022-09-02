@@ -28,11 +28,12 @@ class AuthProvider extends ChangeNotifier {
     //final isConnected = await _auth.signIn(email: email, password: password);
     final isConnected =
         await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
-    notifyListeners();
 
     if (isConnected) {
       fetchClient();
     }
+
+    notifyListeners();
   }
 
   Future<void> signOut() async {

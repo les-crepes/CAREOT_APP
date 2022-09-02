@@ -5,10 +5,21 @@ import 'package:pdg_app/api/firebase_dietitian.dart';
 import 'package:pdg_app/model/dietitian.dart';
 
 final db = FakeFirebaseFirestore();
-  Dietitian d1 = Dietitian(firstName: 'Claire', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '12904710', email: 'thomas.beil@heig-vd.ch');
-  Dietitian d2 = Dietitian(firstName: 'Alice', lastName: 'Emery',
-      birthDate: DateTime.now(), avs: '', phoneNumber: '9175097', email: 'thomas.beil@heig-vd.ch');
+
+Dietitian d1 = Dietitian(
+    firstName: 'Claire',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    email: 'thomas.beil@heig-vd.ch',
+    phoneNumber: '12904710');
+Dietitian d2 = Dietitian(
+    firstName: 'Alice',
+    lastName: 'Emery',
+    birthDate: DateTime.now(),
+    avs: '',
+    email: 'thomas.beil@heig-vd.ch',
+    phoneNumber: '9175097');
 
 Future<void> populateMockDietitian(Dietitian d) async {
   await db.collection('dietitian').doc(d.uid).set(d.toFirestore());
@@ -48,7 +59,7 @@ void main() {
         .doc(d1.uid)
         .withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         )
         .get();
     final c2 = docSnapshot.data();
@@ -61,7 +72,7 @@ void main() {
         .doc(d2.uid)
         .withConverter(
           fromFirestore: Dietitian.fromFirestore,
-          toFirestore: (Dietitian city, _) => city.toFirestore(),
+          toFirestore: (Dietitian dietitian, _) => dietitian.toFirestore(),
         )
         .get();
     final dietitian = docSnapshot.data();

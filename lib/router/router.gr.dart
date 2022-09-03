@@ -141,7 +141,7 @@ class AppRouter extends _i16.RootStackRouter {
           _i16.RouteConfig('#redirect',
               path: '',
               parent: HomeScreenRoute.name,
-              redirectTo: 'diary',
+              redirectTo: 'main',
               fullMatch: true),
           _i16.RouteConfig(ChatRouterPage.name,
               path: 'chat',

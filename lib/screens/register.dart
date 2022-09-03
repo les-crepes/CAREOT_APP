@@ -12,11 +12,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Register(
-        onRegisterPress: () =>
-            AutoRouter.of(context).navigate(const RegisterScreenRoute()),
-      ),
+    return const Scaffold(
+      body: Register(),
     );
 
     /// Navigating to the RegisterScreenRoute.
@@ -24,12 +21,10 @@ class RegisterScreen extends StatelessWidget {
 }
 
 class Register extends StatelessWidget {
-  final void Function()? onRegisterPress;
   final double screenWidth;
 
   const Register({
     this.screenWidth = 0,
-    this.onRegisterPress,
     Key? key,
   }) : super(key: key);
 

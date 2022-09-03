@@ -28,9 +28,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signIn(String email, String password) async {
-    //final isConnected = await _auth.signIn(email: email, password: password);
-    final isConnected =
-        await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
+    final isConnected = await _auth.signIn(email: email, password: password);
+    //final isConnected =
+    //await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
     _isAdmin = await _auth.isDietitian();
     if (isConnected) {
       fetchClient();

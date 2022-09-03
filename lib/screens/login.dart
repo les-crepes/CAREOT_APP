@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await auth.signIn(_emailController.text, _passwordController.text);
           if (auth.isConnected()) {
             // ignore: use_build_context_synchronously
-            AutoRouter.of(context).navigate(const HomeScreenRoute());
+            AutoRouter.of(context).replaceAll([const HomeScreenRoute()]);
           } else {
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(

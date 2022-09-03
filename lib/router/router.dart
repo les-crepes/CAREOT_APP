@@ -29,10 +29,6 @@ import 'home_guard.dart';
       guards: [AuthGuard],
       initial: true,
       children: [
-        RedirectRoute(
-          path: '',
-          redirectTo: 'diary',
-        ),
         AutoRoute(
           page: EmptyRouterPage,
           name: 'ChatRouterPage',
@@ -57,6 +53,7 @@ import 'home_guard.dart';
         AutoRoute(
           page: EmptyRouterPage,
           name: "MainRouterPage",
+          initial: true,
           path: 'main',
           children: [
             AutoRoute(

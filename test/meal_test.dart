@@ -28,7 +28,8 @@ User c1 = User(
     lastName: 'D\'Ancona',
     phoneNumber: '0780001223',
     birthDate: fisherDay,
-    avs: '');
+    avs: '',
+    email: 'olivier.dancona@gmail.com');
 
 Future<void> populateMockMeal(Meal c) async {
   await db.collection('meal').doc(c.uid).set(c.toFirestore());

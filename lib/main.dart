@@ -26,6 +26,7 @@ Future<void> setup() async {
       clientApi: FirebaseUser(FirebaseFirestore.instance),
     ),
   );
+  await GetIt.I.get<AuthProvider>().init();
 }
 
 void main() async {
@@ -61,7 +62,10 @@ class MyApp extends StatelessWidget {
         return SafeArea(
           child: ChangeNotifierProvider.value(
             value: GetIt.I.get<AuthProvider>(),
-            child: child,
+            child: Container(
+              color: Colors.white,
+              child: child,
+            ),
           ),
         );
       },

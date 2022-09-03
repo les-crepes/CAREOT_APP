@@ -6,6 +6,7 @@ class MainTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   const MainTextField({
     required this.name,
@@ -13,6 +14,7 @@ class MainTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType,
     this.controller,
+    this.validator,
     Key? key,
   }) : super(key: key);
 
@@ -58,6 +60,7 @@ class _MainTextFieldState extends State<MainTextField> {
         obscureText: widget.obscureText,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
+        validator: widget.validator,
         decoration: InputDecoration(
           prefixIcon: IconTheme(
             data: const IconThemeData(

@@ -51,7 +51,11 @@ class ClientRecordScreen extends StatelessWidget {
                     user: _user, aftercare: afterCareProvider.aftercare));
 
             if (aftercare != null) {
-              await aftercareProvider.updateAftercare(aftercare);
+              if (aftercareProvider.aftercare != null) {
+                aftercareProvider.updateAftercare(aftercare);
+              } else {
+                afterCareProvider.createAftercare(aftercare);
+              }
             }
           },
         );

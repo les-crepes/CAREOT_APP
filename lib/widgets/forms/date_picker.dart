@@ -22,17 +22,16 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
+  DateTime? picked;
   @override
   Widget build(BuildContext context) {
     final DateFormat hourFormatter = DateFormat("dd/MM/y");
-
-    DateTime? picked = widget._initialDate;
 
     return GestureDetector(
       onTap: () async {
         DateTime? selected = await showDatePicker(
           context: context,
-          initialDate: widget._initialDate ?? DateTime.now(),
+          initialDate: picked ?? widget._initialDate ?? DateTime.now(),
           firstDate: DateTime(2020, 01, 01),
           lastDate: DateTime(2050, 12, 31),
         );
@@ -45,7 +44,11 @@ class _DatePickerState extends State<DatePicker> {
         }
       },
       child: MainTextField(
-        name: picked != null ? hourFormatter.format(picked!) : widget._name,
+        name: picked != null
+            ? hourFormatter.format(picked!)
+            : widget._initialDate != null
+                ? hourFormatter.format(widget._initialDate!)
+                : widget._name,
         icon: const Icon(Icons.date_range),
         enabled: false,
       ),

@@ -24,7 +24,8 @@ class AftercareProvider extends ChangeNotifier {
     //TODO décommenter
     List<Aftercare> aftercares =
         await _firebaseAftercare.readAftercareOfClient(clientUid);
-    if (aftercares != null) _aftercare = aftercares.first;
+    if (aftercares != null && aftercares.isNotEmpty)
+      _aftercare = aftercares.first;
     // await Future.delayed(const Duration(seconds: 1));
     // _aftercare = Aftercare(
     //   clientId: "",
@@ -41,8 +42,14 @@ class AftercareProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateAftercare(Aftercare aftercare) async {
+  void updateAftercare(Aftercare aftercare) {
     _firebaseAftercare.updateAftercare(aftercare);
+    _aftercare = aftercare;
+    notifyListeners();
+  }
+
+  void createAftercare(Aftercare aftercare) {
+    _firebaseAftercare.createAftercare(aftercare);
     _aftercare = aftercare;
     notifyListeners();
   }

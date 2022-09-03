@@ -10,19 +10,19 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
   FirebaseAftercare(FirebaseFirestore db) : super(db, 'aftercare');
 
   @override
-  void createAftercare(Aftercare aftercare) {
-    collectionReference
-        .withConverter(
-            fromFirestore: Aftercare.fromFirestore,
-            toFirestore: (Aftercare aftercare, options) =>
-                aftercare.toFirestore())
-        .doc(aftercare.uid)
-        .set(aftercare)
-        .then((value) => log("Aftercare Added"))
-        .catchError((error) {
-      log("Failed to add aftercare: $error");
-      throw Exception(error);
-    });
+  void createAftercare(Aftercare aftercare) async {
+    try {
+      await collectionReference
+          .withConverter(
+              fromFirestore: Aftercare.fromFirestore,
+              toFirestore: (Aftercare aftercare, options) =>
+                  aftercare.toFirestore())
+          .doc(aftercare.uid)
+          .set(aftercare);
+    } catch (e) {
+      log("Failed to add aftercare: $e");
+      throw Exception(e);
+    }
   }
 
   @override
@@ -57,9 +57,14 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
 
   @override
   Future<void> updateAftercare(Aftercare aftercare) async {
-    await collectionReference
-        .doc(aftercare.uid)
-        .update(aftercare.toFirestore());
+    try {
+      await collectionReference
+          .doc(aftercare.uid)
+          .update(aftercare.toFirestore());
+    } catch (e) {
+      log("Failed to update aftercare: $e");
+      throw Exception(e);
+    }
   }
 
   @override

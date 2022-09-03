@@ -95,11 +95,33 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
       initialEndTime: widget._aftercare?.endDate,
       onValidatePressed: () {
         if (_selectedStartDate != null) {
+          if (widget._aftercare != null) {
+            AutoRouter.of(context).pop(Aftercare(
+              uid: widget._aftercare?.uid,
+              clientId: widget._user.uid,
+              bmi: _bmiController.text.isNotEmpty
+                  ? int.parse(_bmiController.text)
+                  : null,
+              weight: _weightController.text.isNotEmpty
+                  ? double.parse(_weightController.text)
+                  : null,
+              diagnostic: _diagnosticController.text,
+              comments: _commentsController.text,
+              foodObjectives: _foodObjectivesController.text,
+              motivations: _motivationsController.text,
+              startDate: _selectedStartDate!,
+              endDate: _selectedEndTime,
+            ));
+            return;
+          }
           AutoRouter.of(context).pop(Aftercare(
-            uid: widget._aftercare?.uid,
             clientId: widget._user.uid,
-            bmi: int.parse(_bmiController.text),
-            weight: double.parse(_weightController.text),
+            bmi: _bmiController.text.isNotEmpty
+                ? int.parse(_bmiController.text)
+                : null,
+            weight: _weightController.text.isNotEmpty
+                ? double.parse(_weightController.text)
+                : null,
             diagnostic: _diagnosticController.text,
             comments: _commentsController.text,
             foodObjectives: _foodObjectivesController.text,

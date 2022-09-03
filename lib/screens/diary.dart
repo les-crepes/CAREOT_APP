@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/provider/meal_provider.dart';
@@ -44,7 +45,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           getDiariesForDay: (day) {
             return _getEventsForDay(context, day);
           },
-          clientName: "Marie",
+          clientName: GetIt.I.get<AuthProvider>().user!.firstName,
           onAddPressed: () async {
             final addedMeal = await AutoRouter.of(context)
                 .push<Meal?>(AddMealScreenRoute(day: _selectedDate));

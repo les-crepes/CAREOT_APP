@@ -44,12 +44,8 @@ class FirebaseConnection implements Auth {
             .signInWithEmailAndPassword(email: email, password: password);
       }
       return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        log('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        log('Wrong password provided for that user.');
-      }
+    } catch (e) {
+      log(e.toString());
     }
     return false;
   }

@@ -75,7 +75,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   }
 
   @override
-  Future<User> readDietitianOfClient(String clientId) async {
+  Future<User?> readDietitianOfClient(String clientId) async {
     final querySnapshot = await collectionReference
         .where('clientList', arrayContains: clientId)
         .withConverter(
@@ -85,6 +85,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
         .get();
     List<User> dietitians =
         querySnapshot.docs.map((doc) => doc.data()).toList();
-    return dietitians.first;
+
+    return dietitians.isNotEmpty ? dietitians.first : null;
   }
 }

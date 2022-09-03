@@ -2,19 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/model/user.dart';
-import 'package:pdg_app/provider/aftercare_provider.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/forms/date_picker.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/straight_top_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class UpdateClientRecordScreen extends StatefulWidget {
   final User _user;
   final Aftercare? _aftercare;
 
-  UpdateClientRecordScreen({
+  const UpdateClientRecordScreen({
     required user,
     Aftercare? aftercare,
     Key? key,

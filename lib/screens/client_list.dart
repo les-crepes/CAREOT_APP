@@ -25,9 +25,8 @@ class _ClientListScreenState extends State<ClientListScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ClientProvider(
-          dietitianUid:
-              GetIt.I.get<AuthProvider>().userUid), //TODO changer l'id
+      create: (context) =>
+          ClientProvider(dietitianUid: GetIt.I.get<AuthProvider>().userUid),
       builder: ((context, child) => ClientList(
             searchController: _searchController,
             onSearchBarUpdate: () {

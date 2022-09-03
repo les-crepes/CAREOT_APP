@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'badge.dart';
-
 class StraightTopBar extends StatelessWidget {
   const StraightTopBar({
     Key? key,

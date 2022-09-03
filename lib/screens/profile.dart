@@ -24,7 +24,9 @@ class ProfileScreen extends StatelessWidget {
       clientInsurance: "09734789789248943",
       onLogoutPressed: () {
         GetIt.I.get<AuthProvider>().signOut();
-        AutoRouter.of(context).navigate(const LoginScreenRoute());
+        context.router.replaceAll([
+          const LoginScreenRoute(),
+        ]);
       },
     );
   }

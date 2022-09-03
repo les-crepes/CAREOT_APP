@@ -47,7 +47,7 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
                         registerProvider.createUser(),
                       );
 
-                  router.push(const HomeScreenRoute());
+                  router.replaceAll([const HomeScreenRoute()]);
                 }),
           ),
         ],

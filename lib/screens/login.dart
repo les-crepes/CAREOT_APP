@@ -21,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _emailController.text = "luca.coduri@heig-vd.ch";
+    _passwordController.text = "crepes";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Login(
@@ -31,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await auth.signIn(_emailController.text, _passwordController.text);
           if (auth.isConnected()) {
             // ignore: use_build_context_synchronously
-            AutoRouter.of(context).navigate(const HomeScreenRoute());
+            AutoRouter.of(context).replaceAll([const HomeScreenRoute()]);
           } else {
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(

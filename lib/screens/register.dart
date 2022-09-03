@@ -5,18 +5,13 @@ import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
 import 'package:provider/provider.dart';
 
-import '../router/router.gr.dart';
-
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Register(
-        onRegisterPress: () =>
-            AutoRouter.of(context).navigate(const RegisterScreenRoute()),
-      ),
+    return const Scaffold(
+      body: Register(),
     );
 
     /// Navigating to the RegisterScreenRoute.
@@ -24,12 +19,10 @@ class RegisterScreen extends StatelessWidget {
 }
 
 class Register extends StatelessWidget {
-  final void Function()? onRegisterPress;
   final double screenWidth;
 
   const Register({
     this.screenWidth = 0,
-    this.onRegisterPress,
     Key? key,
   }) : super(key: key);
 

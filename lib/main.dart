@@ -22,6 +22,7 @@ Future<void> setup() async {
       clientApi: FirebaseUser(FirebaseFirestore.instance),
     ),
   );
+  await GetIt.I.get<AuthProvider>().init();
 }
 
 void main() async {

@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/api/iauth.dart';
+import 'package:pdg_app/api/iuser.dart';
 
 class FirebaseConnection implements Auth {
   FirebaseConnection._();
@@ -87,5 +90,18 @@ class FirebaseConnection implements Auth {
       throw Exception("Not connected");
     }
     return user.email!;
+  }
+
+  @override
+  Future<bool> isDietitian() async {
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+    IUser dietitianApi = FirebaseUser(FirebaseFirestore.instance);
+    if (userId == null) return false;
+    try {
+      final dietitian = await dietitianApi.readUser(userId);
+      return dietitian.clientList != null;
+    } catch (e) {
+      return false;
+    }
   }
 }

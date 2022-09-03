@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pdg_app/widgets/gradient_button.dart';
+import 'package:pdg_app/widgets/buttons/gradient_button.dart';
 
 class RightArrowButton extends StatelessWidget {
   final String _text;

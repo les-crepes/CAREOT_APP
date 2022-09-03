@@ -7,13 +7,13 @@ import 'package:pdg_app/screens/diary.dart';
 import 'package:pdg_app/screens/login.dart';
 import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
+import 'package:pdg_app/widgets/buttons/right_arrow_button.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 import 'package:pdg_app/screens/register.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
-import 'package:pdg_app/widgets/gradient_button.dart';
+import 'package:pdg_app/widgets/buttons/gradient_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
-import 'package:pdg_app/widgets/right_arrow_button.dart';
 import 'package:pdg_app/widgets/text_information.dart';
 import 'package:widgetbook/widgetbook.dart';
 // ignore: depend_on_referenced_packages
@@ -191,13 +191,16 @@ class HotReload extends StatelessWidget {
               getDiariesForDay: (datetime) {
                 return [
                   Meal(
-                    startTime: DateTime(2022, 8, 26, 12),
-                    endTime: DateTime(2022, 8, 26, 12, 30),
-                    comment: context.knobs.text(
-                      label: 'meal name',
-                      initialValue: "Déjeuner",
-                    ), hunger: 2, satiety: 5, title: 'Poop', owner: ''
-                  )
+                      startTime: DateTime(2022, 8, 26, 12),
+                      endTime: DateTime(2022, 8, 26, 12, 30),
+                      comment: context.knobs.text(
+                        label: 'meal name',
+                        initialValue: "Déjeuner",
+                      ),
+                      hunger: 2,
+                      satiety: 5,
+                      title: 'Poop',
+                      owner: '')
                 ];
               },
               clientName: context.knobs.text(

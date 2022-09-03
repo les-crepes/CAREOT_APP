@@ -143,7 +143,6 @@ class Login extends StatelessWidget {
                     controller: _emailController,
                     name: 'Email',
                     icon: const Icon(Icons.email_outlined),
-                    maxLines: 1,
                   ),
                   const SizedBox(height: 20),
                   MainTextField(
@@ -151,7 +150,6 @@ class Login extends StatelessWidget {
                     name: 'Password',
                     icon: const Icon(Icons.lock_outlined),
                     obscureText: true,
-                    maxLines: 1,
                   ),
                   const SizedBox(height: 40),
                   Row(

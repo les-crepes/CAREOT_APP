@@ -20,7 +20,7 @@ class MainTextField extends StatefulWidget {
     this.validator,
     this.enabled = true,
     this.initialValue,
-    this.maxLines,
+    this.maxLines = 1,
     Key? key,
   }) : super(key: key);
 

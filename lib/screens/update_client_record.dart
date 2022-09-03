@@ -131,7 +131,7 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
           return;
         }
 
-        var snackBar = SnackBar(
+        final snackBar = SnackBar(
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             margin: const EdgeInsets.only(top: 5),
@@ -219,24 +219,28 @@ class UpdateClientRecord extends StatelessWidget {
                 name: "Diagnosic",
                 icon: const Icon(Icons.recommend_outlined),
                 controller: _diagnosticController,
+                maxLines: null,
               ),
               const SizedBox(height: 15.0),
               MainTextField(
                 name: "Comments",
                 icon: const Icon(Icons.comment_outlined),
                 controller: _commentsController,
+                maxLines: null,
               ),
               const SizedBox(height: 15.0),
               MainTextField(
                 name: "Motivations",
                 icon: const Icon(Icons.favorite),
                 controller: _motivationsController,
+                maxLines: null,
               ),
               const SizedBox(height: 15.0),
               MainTextField(
                 name: "Food objectives",
                 icon: const Icon(Icons.food_bank_outlined),
                 controller: _foodObjectivesController,
+                maxLines: null,
               ),
               const SizedBox(height: 15.0),
               DatePicker(

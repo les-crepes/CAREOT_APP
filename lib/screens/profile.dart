@@ -10,9 +10,6 @@ import 'package:pdg_app/widgets/profile_template.dart';
 import '../router/router.gr.dart';
 import '../widgets/buttons/custom_icon_button.dart';
 import '../widgets/profile/profile_top_bar.dart';
-import 'package:pdg_app/api/firebase_dietitian.dart';
-import 'package:pdg_app/api/idietitian.dart';
-import 'package:pdg_app/model/dietitian.dart';
 import '../widgets/custom_divider.dart';
 
 import '../provider/auth_provider.dart';
@@ -50,9 +47,11 @@ class ProfileScreen extends StatelessWidget {
     return Profile(
       clientFirstName: user.firstName,
       clienLastName: user.lastName,
-      nutriFirstName: "Claire", // TODO
-      nutriLastName: "Nutri", // TODO
-      clientEmail: "luca.coduri@gmail.com", //TODO
+      blockEnabled: !authProvider.isAdmin,
+      blockText: authProvider.clientDietitian == null
+          ? "Yous nutritionnist hasn't contact you yet."
+          : "Your nutritionnist is ${authProvider.clientDietitian!.firstName} ${authProvider.clientDietitian!.lastName}.",
+      clientEmail: user.email,
       clientPhone: user.phoneNumber,
       clientBirthday: user.birthDate,
       clientInsurance: user.avs,
@@ -71,8 +70,8 @@ class Profile extends StatelessWidget {
   final String _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
-  final String _nutriFirstName;
-  final String _nutriLastName;
+  final bool _blockEnabled;
+  final String _blocText;
   final String _clientEmail;
   final String _clientPhone;
   final DateTime _clientBirthday;
@@ -84,20 +83,20 @@ class Profile extends StatelessWidget {
     clientPicturePath = 'assets/images/default_user_pic.png',
     required clientFirstName,
     required clienLastName,
-    required nutriFirstName,
-    required nutriLastName,
     required clientEmail,
     required clientPhone,
     required clientBirthday,
     required clientInsurance,
+    blockEnabled = false,
+    blockText = "",
     void Function()? onLogoutPressed,
     Key? key,
   })  : _screenWidth = screenWidth,
         _clientPicturePath = clientPicturePath,
         _clientFirstName = clientFirstName,
         _clientLastName = clienLastName,
-        _nutriFirstName = nutriFirstName,
-        _nutriLastName = nutriLastName,
+        _blocText = blockText,
+        _blockEnabled = blockEnabled,
         _clientEmail = clientEmail,
         _clientPhone = clientPhone,
         _clientBirthday = clientBirthday,
@@ -119,18 +118,24 @@ class Profile extends StatelessWidget {
         onIconButtonPressed: _onLogoutPressed,
         buttonIcon: Icons.logout_outlined,
         firstBloc: Column(children: [
-          LeftElementCard(
-            title:
-                Text("Your nutritionnist is $_nutriFirstName $_nutriLastName."),
-            element: IconTheme(
-              data: IconThemeData(
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              child: const Icon(Icons.notification_important_outlined),
-            ),
-          ),
-          const CustomDivider(),
+          _blockEnabled
+              ? Column(
+                  children: [
+                    LeftElementCard(
+                      title: Text(_blocText),
+                      element: IconTheme(
+                        data: IconThemeData(
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30,
+                        ),
+                        child:
+                            const Icon(Icons.notification_important_outlined),
+                      ),
+                    ),
+                    const CustomDivider(),
+                  ],
+                )
+              : const SizedBox(),
           const Text("Personal data",
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),

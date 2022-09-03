@@ -8,6 +8,7 @@ import 'package:pdg_app/widgets/forms/date_picker.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:pdg_app/widgets/straight_top_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class UpdateClientRecordScreen extends StatefulWidget {
   final User _user;
@@ -129,7 +130,21 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
             startDate: _selectedStartDate!,
             endDate: _selectedEndTime,
           ));
+          return;
         }
+
+        var snackBar = SnackBar(
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            margin: const EdgeInsets.only(top: 5),
+            elevation: 0,
+            content: AwesomeSnackbarContent(
+              title: "Missing data",
+              message: "You must enter an aftercare's start date.",
+              contentType: ContentType.failure,
+            ));
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
     );
   }

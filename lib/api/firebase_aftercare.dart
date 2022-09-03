@@ -56,15 +56,10 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
   }
 
   @override
-  updateAftercare(Aftercare aftercare) {
-    collectionReference
+  Future<void> updateAftercare(Aftercare aftercare) async {
+    await collectionReference
         .doc(aftercare.uid)
-        .update(aftercare.toFirestore())
-        .then((value) => log("Aftercare Updated"))
-        .catchError((error) {
-      log("Failed to update aftercare: $error");
-      throw Exception(error);
-    });
+        .update(aftercare.toFirestore());
   }
 
   @override

@@ -28,7 +28,7 @@ class ClientRecordScreen extends StatelessWidget {
       builder: (context, child) {
         final afterCareProvider = context.watch<AftercareProvider>();
         log(afterCareProvider.aftercare.toString());
-
+        final aftercareProvider = context.read<AftercareProvider>();
         return ClientRecord(
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
@@ -51,9 +51,7 @@ class ClientRecordScreen extends StatelessWidget {
                     user: _user, aftercare: afterCareProvider.aftercare));
 
             if (aftercare != null) {
-              await context
-                  .read<AftercareProvider>()
-                  .updateAftercare(aftercare);
+              await aftercareProvider.updateAftercare(aftercare);
             }
           },
         );

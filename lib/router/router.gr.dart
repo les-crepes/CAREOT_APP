@@ -15,9 +15,9 @@ import 'package:auto_route/auto_route.dart' as _i17;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
 import 'package:flutter/material.dart' as _i18;
 
-import '../model/aftercare.dart' as _i24;
-import '../model/meal.dart' as _i22;
-import '../model/user.dart' as _i23;
+import '../model/aftercare.dart' as _i22;
+import '../model/meal.dart' as _i23;
+import '../model/user.dart' as _i24;
 import '../screens/add_meal.dart' as _i13;
 import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i9;
@@ -109,7 +109,7 @@ class AppRouter extends _i17.RootStackRouter {
     },
     UpdateClientRecordScreenRoute.name: (routeData) {
       final args = routeData.argsAs<UpdateClientRecordScreenRouteArgs>();
-      return _i17.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<_i22.Aftercare?>(
           routeData: routeData,
           child: _i11.UpdateClientRecordScreen(
               user: args.user, aftercare: args.aftercare, key: args.key));
@@ -120,7 +120,7 @@ class AppRouter extends _i17.RootStackRouter {
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
-      return _i17.MaterialPageX<_i22.Meal?>(
+      return _i17.MaterialPageX<_i23.Meal?>(
           routeData: routeData,
           child: _i13.AddMealScreen(day: args.day, key: args.key));
     },
@@ -332,7 +332,7 @@ class ClientListScreenRoute extends _i17.PageRouteInfo<void> {
 /// [_i10.ClientRecordScreen]
 class ClientRecordScreenRoute
     extends _i17.PageRouteInfo<ClientRecordScreenRouteArgs> {
-  ClientRecordScreenRoute({required _i23.User user, _i18.Key? key})
+  ClientRecordScreenRoute({required _i24.User user, _i18.Key? key})
       : super(ClientRecordScreenRoute.name,
             path: 'record',
             args: ClientRecordScreenRouteArgs(user: user, key: key));
@@ -343,7 +343,7 @@ class ClientRecordScreenRoute
 class ClientRecordScreenRouteArgs {
   const ClientRecordScreenRouteArgs({required this.user, this.key});
 
-  final _i23.User user;
+  final _i24.User user;
 
   final _i18.Key? key;
 
@@ -358,7 +358,7 @@ class ClientRecordScreenRouteArgs {
 class UpdateClientRecordScreenRoute
     extends _i17.PageRouteInfo<UpdateClientRecordScreenRouteArgs> {
   UpdateClientRecordScreenRoute(
-      {required dynamic user, _i24.Aftercare? aftercare, _i18.Key? key})
+      {required dynamic user, _i22.Aftercare? aftercare, _i18.Key? key})
       : super(UpdateClientRecordScreenRoute.name,
             path: 'update',
             args: UpdateClientRecordScreenRouteArgs(
@@ -373,7 +373,7 @@ class UpdateClientRecordScreenRouteArgs {
 
   final dynamic user;
 
-  final _i24.Aftercare? aftercare;
+  final _i22.Aftercare? aftercare;
 
   final _i18.Key? key;
 

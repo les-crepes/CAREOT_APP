@@ -43,6 +43,7 @@ class AftercareProvider extends ChangeNotifier {
 
   Future<void> updateAftercare(Aftercare aftercare) async {
     _firebaseAftercare.updateAftercare(aftercare);
+    _aftercare = aftercare;
     notifyListeners();
   }
 }

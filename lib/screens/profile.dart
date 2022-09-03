@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/model/user.dart';
@@ -9,7 +6,6 @@ import 'package:pdg_app/widgets/cards/left_element_card.dart';
 import 'package:pdg_app/widgets/profile_template.dart';
 import '../router/router.gr.dart';
 import '../widgets/buttons/custom_icon_button.dart';
-import '../widgets/profile/profile_top_bar.dart';
 import '../widgets/custom_divider.dart';
 
 import '../provider/auth_provider.dart';
@@ -31,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("An error has occured."),
+            const Text("An error has occured."),
             CustomIconButton(
               icon: Icons.logout_outlined,
               onTap: () {

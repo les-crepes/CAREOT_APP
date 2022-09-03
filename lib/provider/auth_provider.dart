@@ -93,5 +93,6 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       log("Error fetching client's dietitian: $e");
     }
+    return null;
   }
 }

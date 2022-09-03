@@ -22,21 +22,20 @@ class AftercareProvider extends ChangeNotifier {
   void fetchAfterCare(String clientUid) async {
     _loading = true;
     //TODO décommenter
-    // List<Aftercare> aftercares =
-    //     await _firebaseAftercare.readAftercareOfClient(clientUid);
-    //     if (aftercare != null)
-    //   _aftercare = aftercares.first;
-    await Future.delayed(const Duration(seconds: 1));
-    _aftercare = Aftercare(
-      clientId: "",
-      bmi: 20,
-      weight: 60,
-      comments: "Super",
-      diagnostic: "Gnagna",
-      foodObjectives: "iuheui",
-      motivations: "jkhk",
-      startDate: DateTime(2022, 03, 02),
-    );
+    List<Aftercare> aftercares =
+        await _firebaseAftercare.readAftercareOfClient(clientUid);
+    if (aftercares != null) _aftercare = aftercares.first;
+    // await Future.delayed(const Duration(seconds: 1));
+    // _aftercare = Aftercare(
+    //   clientId: "",
+    //   bmi: 20,
+    //   weight: 60,
+    //   comments: "Super",
+    //   diagnostic: "Gnagna",
+    //   foodObjectives: "iuheui",
+    //   motivations: "jkhk",
+    //   startDate: DateTime(2022, 03, 02),
+    // );
 
     _loading = false;
     notifyListeners();

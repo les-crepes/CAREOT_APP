@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/provider/aftercare_provider.dart';
@@ -25,11 +27,12 @@ class ClientRecordScreen extends StatelessWidget {
       create: (context) => AftercareProvider(clientUid: _user.uid),
       builder: (context, child) {
         final afterCareProvider = context.watch<AftercareProvider>();
+        log(afterCareProvider.aftercare.toString());
 
         return ClientRecord(
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
-          clientEmail: "email", //TODO
+          clientEmail: _user.email,
           clientBirthday: _user.birthDate,
           clientPhone: _user.phoneNumber,
           clientInsurance: _user.avs,

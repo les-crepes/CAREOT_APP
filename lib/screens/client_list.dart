@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pdg_app/model/user.dart';
+import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/provider/client_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
@@ -23,7 +25,8 @@ class _ClientListScreenState extends State<ClientListScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ClientProvider(dietitianUid: ""), //TODO changer l'id
+      create: (context) =>
+          ClientProvider(dietitianUid: GetIt.I.get<AuthProvider>().userUid),
       builder: ((context, child) => ClientList(
             searchController: _searchController,
             onSearchBarUpdate: () {

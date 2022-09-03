@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
@@ -17,6 +18,7 @@ import 'package:pdg_app/widgets/register/register_second_page.dart';
 import '../model/meal.dart';
 import '../screens/home.dart';
 import '../widgets/register/register_third_page.dart';
+import '../screens/update_client_record.dart';
 import './auth_gard.dart';
 import 'home_guard.dart';
 
@@ -72,6 +74,10 @@ import 'home_guard.dart';
                   AutoRoute(
                     page: ClientRecordScreen,
                     path: 'record',
+                  ),
+                  AutoRoute<Aftercare?>(
+                    page: UpdateClientRecordScreen,
+                    path: 'update',
                   )
                 ]),
             AutoRoute(

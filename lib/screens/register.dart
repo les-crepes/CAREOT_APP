@@ -5,8 +5,6 @@ import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
 import 'package:provider/provider.dart';
 
-import '../router/router.gr.dart';
-
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 

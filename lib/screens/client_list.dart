@@ -9,7 +9,6 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';
 
-import '../model/user.dart';
 import '../widgets/client_list.dart/top_shape.dart';
 
 class ClientListScreen extends StatefulWidget {

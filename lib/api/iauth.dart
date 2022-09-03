@@ -24,4 +24,6 @@ abstract class Auth {
   String getUserEmail();
 
   Future<bool> isDietitian();
+
+  Future<bool> checkIfEmailInUse(String emailAddress);
 }

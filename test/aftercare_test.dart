@@ -11,7 +11,8 @@ User c3 = User(
     lastName: 'Coduri',
     phoneNumber: '0780003445',
     birthDate: DateTime.now(),
-    avs: '');
+    avs: '',
+    email: 'Luca.coduri@heig-vd.ch');
 Aftercare a1 = Aftercare(
     clientId: c3.uid, bmi: 12, weight: 14.0, startDate: DateTime.now());
 Aftercare a2 = Aftercare(

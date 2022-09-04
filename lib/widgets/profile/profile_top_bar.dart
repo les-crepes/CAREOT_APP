@@ -10,7 +10,8 @@ class ProfileTopBar extends StatelessWidget {
   final String _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
-  final void Function()? _onLogOutPress;
+  final void Function()? _onIconButtonPress;
+  final IconData? _buttonIcon;
 
   const ProfileTopBar({
     Key? key,
@@ -19,13 +20,15 @@ class ProfileTopBar extends StatelessWidget {
     required String clientPicturePath,
     required String clientFirstName,
     required String clientLastName,
-    void Function()? onLogOutPress,
+    void Function()? onIconButtonPress,
+    buttonIcon,
   })  : _width = width,
         _height = height,
         _clientPicturePath = clientPicturePath,
         _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
-        _onLogOutPress = onLogOutPress,
+        _onIconButtonPress = onIconButtonPress,
+        _buttonIcon = buttonIcon,
         super(key: key);
 
   @override
@@ -54,20 +57,25 @@ class ProfileTopBar extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomIconButton(
-                  icon: Icons.logout_outlined,
-                  onTap: _onLogOutPress,
-                ),
-              ],
-            ),
-          ]),
-        ),
+        _buttonIcon != null
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomIconButton(
+                            icon: _buttonIcon!,
+                            onTap: _onIconButtonPress,
+                          ),
+                        ],
+                      ),
+                    ]),
+              )
+            : const SizedBox(),
       ],
     );
   }

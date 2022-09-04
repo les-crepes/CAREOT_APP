@@ -46,15 +46,14 @@ class FirebaseFile implements IFile {
   }
 
   @override
-  Future<Uint8List?> downloadFileBytes(String fileId) async {
-    final ref = storageRef.child(fileId);
+  Future<Uint8List?> downloadFileBytes(String fileURL) async {
+    final ref = bucket.refFromURL(fileURL);
+    final islandRef = storageRef.child("someimage.png");
+    final islandRef2 = storageRef.child("someimagedsadsa.png");
+    final islandRef3 = storageRef.child(ref.name.substring(1));
     try {
-      final data = ref.getData(maxFileSize);
-      if(data != null) {
-        return data;
-      } else {
-        throw Exception('File not found');
-      }
+      final Uint8List? t = await islandRef3.getData(maxFileSize);
+      return Uint8List(1);
     } on FirebaseException catch (e) {
       log("Failed to download file: $e");
       throw Exception(e);

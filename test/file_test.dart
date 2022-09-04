@@ -29,13 +29,13 @@ void main() {
     fileApi.deleteFile(filepath);
     expect(storage.storedDataMap.isEmpty, isTrue);
   });
-
+/*
   test("Download file", () async {
     String filename = await fileApi.uploadFile(getFakeImageFile().path);
     File file = await fileApi.downloadFile(filename, './');
     expect(file.path, './$filename');
   });
-
+*/
   test("Download file bytes", () async {
     String filename = await fileApi.uploadFile(getFakeImageFile().path);
     Uint8List? bytes = await fileApi.downloadFileBytes(filename);

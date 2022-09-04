@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final router = AutoRouter.of(context);
     final scaffold = ScaffoldMessenger.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: LoadingOverlay(
         controller: _loadingController,
         child: Login(

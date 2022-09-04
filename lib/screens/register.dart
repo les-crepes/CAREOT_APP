@@ -16,6 +16,7 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => RegisterProvider(),
       builder: (context, child) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: LoadingOverlay(
             controller: context.read<RegisterProvider>().loadingController,
             child: const Register(),

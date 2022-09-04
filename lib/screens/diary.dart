@@ -41,22 +41,25 @@ class _DiaryScreenState extends State<DiaryScreen> {
         context.watch<MealProvider>().meals;
 
         return Diary(
-          onDaySelected: _onDaySelected,
-          getDiariesForDay: (day) {
-            return _getEventsForDay(context, day);
-          },
-          clientName: GetIt.I.get<AuthProvider>().user!.firstName,
-          onAddPressed: () async {
-            final addedMeal = await AutoRouter.of(context)
-                .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
-            if (addedMeal != null) {
-              // ignore: use_build_context_synchronously
-              await context.read<MealProvider>().addMeal(addedMeal);
-              // ignore: use_build_context_synchronously
-              context.read<MealProvider>().fetchMeals();
-            }
-          },
-        );
+            onDaySelected: _onDaySelected,
+            getDiariesForDay: (day) {
+              return _getEventsForDay(context, day);
+            },
+            clientName: GetIt.I.get<AuthProvider>().user!.firstName,
+            onAddPressed: () async {
+              final addedMeal = await AutoRouter.of(context)
+                  .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
+              if (addedMeal != null) {
+                // ignore: use_build_context_synchronously
+                await context.read<MealProvider>().addMeal(addedMeal);
+                // ignore: use_build_context_synchronously
+                context.read<MealProvider>().fetchMeals();
+              }
+            },
+            onMealBlocPressed: (Meal meal) {
+              AutoRouter.of(context)
+                  .push(AddMealScreenRoute(day: _selectedDate, meal: meal));
+            });
       },
     );
   }
@@ -70,6 +73,7 @@ class Diary extends StatefulWidget {
   final String clientPicturePath;
   final void Function()? _onAddPressed;
   final void Function(DateTime)? _onDaySelected;
+  final void Function(Meal)? _onMealBlocPressed;
 
   const Diary({
     this.screenWidth = 0,
@@ -79,9 +83,11 @@ class Diary extends StatefulWidget {
     this.clientPicturePath = "assets/images/default_user_pic.png",
     void Function(DateTime)? onDaySelected,
     void Function()? onAddPressed,
+    void Function(Meal)? onMealBlocPressed,
     Key? key,
   })  : _onAddPressed = onAddPressed,
         _onDaySelected = onDaySelected,
+        _onMealBlocPressed = onMealBlocPressed,
         super(key: key);
 
   @override
@@ -168,6 +174,7 @@ class _DiaryState extends State<Diary> {
             child: _CalendarBody(
               hourFormatter: hourFormatter,
               meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
+              onMealBlocPressed: widget._onMealBlocPressed,
             ),
           ),
         ],
@@ -183,11 +190,13 @@ class _DiaryState extends State<Diary> {
 
 class _CalendarBody extends StatelessWidget {
   final List<Meal> meals;
+  final void Function(Meal)? onMealBlocPressed;
 
   const _CalendarBody({
     required this.meals,
     Key? key,
     required this.hourFormatter,
+    this.onMealBlocPressed,
   }) : super(key: key);
 
   final DateFormat hourFormatter;
@@ -198,17 +207,22 @@ class _CalendarBody extends StatelessWidget {
       itemCount: meals.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 4.0,
-          ),
-          child: ArrowPicCard(
-            title: Text(meals[index].title,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            subtitle: Text(
-              "${hourFormatter.format(meals[index].startTime)} - ${hourFormatter.format(meals[index].endTime)}",
-              style: TextStyle(color: Colors.black.withOpacity(0.6)),
+        return GestureDetector(
+          onTap: onMealBlocPressed != null
+              ? (() => onMealBlocPressed!(meals[index]))
+              : () {},
+          child: Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+              vertical: 4.0,
+            ),
+            child: ArrowPicCard(
+              title: Text(meals[index].title,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              subtitle: Text(
+                "${hourFormatter.format(meals[index].startTime)} - ${hourFormatter.format(meals[index].endTime)}",
+                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              ),
             ),
           ),
         );

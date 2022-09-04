@@ -15,8 +15,11 @@ import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
   final DateTime _day;
-  const AddMealScreen({required DateTime day, Key? key})
+  final Meal? _meal;
+
+  const AddMealScreen({required DateTime day, Meal? meal, Key? key})
       : _day = day,
+        _meal = meal,
         super(key: key);
 
   @override
@@ -41,6 +44,29 @@ class _AddMealScreenState extends State<AddMealScreen> {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _settingsController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget._meal != null) {
+      _nameTextController.text = widget._meal!.title;
+
+      if (widget._meal!.setting != null) {
+        _settingsController.text = widget._meal!.setting!;
+      }
+
+      if (widget._meal!.comment != null) {
+        _commentController.text = widget._meal!.comment!;
+      }
+
+      _hungerBeforeValue = widget._meal!.hunger.toDouble();
+      _hungerAfterValue = widget._meal!.satiety.toDouble();
+
+      _startTime = TimeOfDay.fromDateTime(widget._meal!.startTime);
+      _endTime = TimeOfDay.fromDateTime(widget._meal!.endTime);
+    }
+
+    super.initState();
+  }
 
   Future<XFile?> _takePicture() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);

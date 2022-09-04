@@ -133,8 +133,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
           title: _nameTextController.text,
           startTime: selectedStartDate,
           endTime: selectedEndDate,
-          hunger: 0,
-          satiety: 0, //TODO
+          hunger: _hungerBeforeValue.toInt(),
+          satiety: _hungerAfterValue.toInt(), //TODO
           setting: _settingsController.text,
           comment: _commentController.text,
           owner: context.read<AuthProvider>().userUid,
@@ -404,10 +404,12 @@ class _ListView extends StatelessWidget {
             value: _hungerBeforeValue,
             onChanged: _onHungerBeforeChanged,
             labels: const [
-              "encore faim",
-              "inconfort",
-              "léger inconfort",
-              "confort"
+              "0 - not hungry",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5 - really hungry"
             ]),
         SliderWithText(
             context: context,
@@ -415,20 +417,20 @@ class _ListView extends StatelessWidget {
             value: _hungerAfterValue,
             onChanged: _onHungerAfterChanged,
             labels: const [
-              "encore faim",
-              "inconfort",
-              "léger inconfort",
-              "confort"
+              "still hungry",
+              "discomfort",
+              "mild discomfort",
+              "comfort"
             ]),
         MainTextField(
           name: "Settings",
-          icon: Icon(Icons.people_alt, color: Colors.black),
+          icon: const Icon(Icons.people_alt, color: Colors.black),
           maxLines: null,
           controller: _settingsController,
         ),
         MainTextField(
           name: "Comments",
-          icon: Icon(Icons.comment, color: Colors.black),
+          icon: const Icon(Icons.comment, color: Colors.black),
           maxLines: null,
           controller: _commentController,
         ),

@@ -122,7 +122,8 @@ class AppRouter extends _i17.RootStackRouter {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
       return _i17.MaterialPageX<_i23.Meal?>(
           routeData: routeData,
-          child: _i13.AddMealScreen(day: args.day, key: args.key));
+          child: _i13.AddMealScreen(
+              day: args.day, meal: args.meal, key: args.key));
     },
     RegisterFirstPageRoute.name: (routeData) {
       return _i17.MaterialPageX<dynamic>(
@@ -394,23 +395,26 @@ class DiaryScreenRoute extends _i17.PageRouteInfo<void> {
 /// generated route for
 /// [_i13.AddMealScreen]
 class AddMealScreenRoute extends _i17.PageRouteInfo<AddMealScreenRouteArgs> {
-  AddMealScreenRoute({required DateTime day, _i18.Key? key})
+  AddMealScreenRoute({required DateTime day, _i23.Meal? meal, _i18.Key? key})
       : super(AddMealScreenRoute.name,
-            path: 'add', args: AddMealScreenRouteArgs(day: day, key: key));
+            path: 'add',
+            args: AddMealScreenRouteArgs(day: day, meal: meal, key: key));
 
   static const String name = 'AddMealScreenRoute';
 }
 
 class AddMealScreenRouteArgs {
-  const AddMealScreenRouteArgs({required this.day, this.key});
+  const AddMealScreenRouteArgs({required this.day, this.meal, this.key});
 
   final DateTime day;
+
+  final _i23.Meal? meal;
 
   final _i18.Key? key;
 
   @override
   String toString() {
-    return 'AddMealScreenRouteArgs{day: $day, key: $key}';
+    return 'AddMealScreenRouteArgs{day: $day, meal: $meal, key: $key}';
   }
 }
 

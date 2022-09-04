@@ -5,14 +5,24 @@ import 'package:pdg_app/widgets/register/top_shape.dart';
 import 'package:pdg_app/widgets/register/bottom_shape.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/loading_overlay.dart';
+
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Register(),
+    return ChangeNotifierProvider(
+      create: (context) => RegisterProvider(),
+      builder: (context, child) {
+        return Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: LoadingOverlay(
+            controller: context.read<RegisterProvider>().loadingController,
+            child: const Register(),
+          ),
+        );
+      },
     );
 
     /// Navigating to the RegisterScreenRoute.
@@ -56,11 +66,8 @@ class Register extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Expanded(
-              child: ChangeNotifierProvider(
-                create: (context) => RegisterProvider(),
-                child: const AutoRouter(),
-              ),
+            const Expanded(
+              child: AutoRouter(),
             ),
             CustomPaint(
               size: Size(

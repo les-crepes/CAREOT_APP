@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pdg_app/widgets/loading_overlay.dart';
 
 import '../model/user.dart';
 
@@ -13,6 +14,8 @@ class RegisterProvider extends ChangeNotifier {
       TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _insuranceController = TextEditingController();
+  final LoadingOverlayController _loadingController =
+      LoadingOverlayController();
 
   DateTime _birthDay = DateTime.now();
 
@@ -24,6 +27,7 @@ class RegisterProvider extends ChangeNotifier {
       _confirmPasswordController;
   TextEditingController get phoneController => _phoneController;
   TextEditingController get insuranceController => _insuranceController;
+  LoadingOverlayController get loadingController => _loadingController;
   DateTime get birthDay => _birthDay;
 
   final _formPage1 = GlobalKey<FormState>();

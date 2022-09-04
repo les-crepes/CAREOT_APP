@@ -39,6 +39,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
   final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _settingsController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
 
   Future<XFile?> _takePicture() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
@@ -54,6 +56,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
   Widget build(BuildContext context) {
     return AddMeal(
       nameTextController: _nameTextController,
+      settingsController: _settingsController,
+      commentController: _commentController,
       hungerBeforeValue: _hungerBeforeValue,
       hungerAfterValue: _hungerAfterValue,
       onHungerAfterChanged: (value) => setState(() {
@@ -130,7 +134,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
           startTime: selectedStartDate,
           endTime: selectedEndDate,
           hunger: 0,
-          satiety: 0,
+          satiety: 0, //TODO
+          setting: _settingsController.text,
+          comment: _commentController.text,
           owner: context.read<AuthProvider>().userUid,
         ));
       },
@@ -155,26 +161,30 @@ class AddMeal extends StatelessWidget {
   final String? _endTimeText;
   final void Function()? _onValidatePressed;
   final TextEditingController? _nameTextController;
+  final TextEditingController? _settingsController;
+  final TextEditingController? _commentController;
 
-  const AddMeal({
-    Key? key,
-    required double hungerBeforeValue,
-    required double hungerAfterValue,
-    required void Function(double) onHungerBeforeChanged,
-    required void Function(double) onHungerAfterChanged,
-    required void Function() onCameraPressed,
-    required void Function() onGalleryPressed,
-    required void Function(TimeOfDay) onTimeSelected,
-    void Function()? onStartTimeSelected,
-    void Function()? onEndTimeSelected,
-    void Function()? onTimeSelectCanceled,
-    void Function()? onValidatePressed,
-    bool showTimePicker = false,
-    String? startTimeText,
-    String? endTimeText,
-    XFile? image,
-    TextEditingController? nameTextController,
-  })  : _hungerBeforeValue = hungerBeforeValue,
+  const AddMeal(
+      {Key? key,
+      required double hungerBeforeValue,
+      required double hungerAfterValue,
+      required void Function(double) onHungerBeforeChanged,
+      required void Function(double) onHungerAfterChanged,
+      required void Function() onCameraPressed,
+      required void Function() onGalleryPressed,
+      required void Function(TimeOfDay) onTimeSelected,
+      void Function()? onStartTimeSelected,
+      void Function()? onEndTimeSelected,
+      void Function()? onTimeSelectCanceled,
+      void Function()? onValidatePressed,
+      bool showTimePicker = false,
+      String? startTimeText,
+      String? endTimeText,
+      XFile? image,
+      TextEditingController? nameTextController,
+      TextEditingController? settingsController,
+      TextEditingController? commentController})
+      : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -190,6 +200,8 @@ class AddMeal extends StatelessWidget {
         _endTimeText = endTimeText,
         _onValidatePressed = onValidatePressed,
         _nameTextController = nameTextController,
+        _settingsController = settingsController,
+        _commentController = commentController,
         super(key: key);
 
   @override
@@ -207,6 +219,8 @@ class AddMeal extends StatelessWidget {
             Expanded(
               child: _ListView(
                 nameTextController: _nameTextController,
+                settingsController: _settingsController,
+                commentController: _commentController,
                 hungerAfterValue: _hungerAfterValue,
                 hungerBeforeValue: _hungerBeforeValue,
                 onHungerAfterChanged: _onHungerAfterChanged,
@@ -331,19 +345,23 @@ class _ListView extends StatelessWidget {
   final String? _startTimeText;
   final String? _endTimeText;
   final TextEditingController? _nameTextController;
+  final TextEditingController? _settingsController;
+  final TextEditingController? _commentController;
 
-  const _ListView({
-    Key? key,
-    required double hungerBeforeValue,
-    required double hungerAfterValue,
-    required void Function(double) onHungerBeforeChanged,
-    required void Function(double) onHungerAfterChanged,
-    void Function()? onStartTimePress,
-    void Function()? onEndTimePress,
-    String? startTimeText,
-    String? endTimeText,
-    TextEditingController? nameTextController,
-  })  : _hungerBeforeValue = hungerBeforeValue,
+  const _ListView(
+      {Key? key,
+      required double hungerBeforeValue,
+      required double hungerAfterValue,
+      required void Function(double) onHungerBeforeChanged,
+      required void Function(double) onHungerAfterChanged,
+      void Function()? onStartTimePress,
+      void Function()? onEndTimePress,
+      String? startTimeText,
+      String? endTimeText,
+      TextEditingController? nameTextController,
+      TextEditingController? settingsController,
+      TextEditingController? commentController})
+      : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -352,6 +370,8 @@ class _ListView extends StatelessWidget {
         _startTimeText = startTimeText,
         _endTimeText = endTimeText,
         _nameTextController = nameTextController,
+        _settingsController = settingsController,
+        _commentController = commentController,
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) => [
@@ -400,6 +420,18 @@ class _ListView extends StatelessWidget {
               "léger inconfort",
               "confort"
             ]),
+        MainTextField(
+          name: "Settings",
+          icon: Icon(Icons.people_alt, color: Colors.black),
+          maxLines: null,
+          controller: _settingsController,
+        ),
+        MainTextField(
+          name: "Comments",
+          icon: Icon(Icons.comment, color: Colors.black),
+          maxLines: null,
+          controller: _commentController,
+        ),
       ];
 
   @override

@@ -51,7 +51,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
               final addedMeal = await AutoRouter.of(context)
                   .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
               if (addedMeal != null) {
-                await mealProvider.addMeal(addedMeal);
+                mealProvider.addMeal(addedMeal);
                 mealProvider.fetchMeals();
               }
             },
@@ -59,7 +59,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
               final changedMeal = await AutoRouter.of(context).push<Meal?>(
                   AddMealScreenRoute(day: _selectedDate, meal: meal));
               if (changedMeal != null) {
-                await mealProvider.updateMeal(changedMeal);
+                mealProvider.updateMeal(changedMeal);
                 mealProvider.fetchMeals();
               }
             });

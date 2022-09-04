@@ -33,7 +33,7 @@ enum _TimeButtonEnum {
 }
 
 class _AddMealScreenState extends State<AddMealScreen> {
-  double _hungerBeforeValue = 3;
+  double _hungerBeforeValue = 5;
   double _hungerAfterValue = 3;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;

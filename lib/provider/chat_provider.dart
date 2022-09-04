@@ -1,9 +1,10 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:pdg_app/api/firebase_message.dart';
+import 'package:sorted_list/sorted_list.dart';
 
 import '../api/firebase_user.dart';
 import '../api/imessage.dart';
@@ -21,14 +22,18 @@ class ChatProvider extends ChangeNotifier {
   final IUser _userApi = FirebaseUser(FirebaseFirestore.instance);
 
   /// The list of messages using a [LinkedHashMap] to keep the order of the messages.
-  final SplayTreeSet<Message> _messages = SplayTreeSet<Message>(
-    (Message a, Message b) => a.time.compareTo(b.time),
-  );
+  final Map<User, SortedList<Message>> _messages = {};
 
   ChatProvider(AuthProvider authProvider) : _auth = authProvider;
 
   /// Returning an unmodifiable list view of the messages.
-  get messages => UnmodifiableListView(_messages);
+  UnmodifiableListView<Message> getMessagesWith(String uid) {
+    final messages = _messages[uid];
+    if (messages != null) {
+      return UnmodifiableListView(messages);
+    }
+    return UnmodifiableListView([]);
+  }
 
   /// Fetching all the messages from the database.
   Future<void> fetchAllMessages() async {
@@ -43,9 +48,23 @@ class ChatProvider extends ChangeNotifier {
         users.add(diet);
       }
     }
-
+    final List<Future<List<Message>?>> functions = [];
     for (final user in users) {
-      _messageApi.readConversation(_auth.userUid, user.uid);
+      functions.add(_messageApi.readConversation(_auth.userUid, user.uid));
     }
+
+    final futureResult = await Future.wait(functions);
+
+    int index = 0;
+    for (final conv in futureResult) {
+      final sortedList =
+          SortedList<Message>((a, b) => a.time.compareTo(b.time));
+
+      sortedList.addAll(conv!);
+
+      _messages[users[index]] = sortedList;
+      index++;
+    }
+    log(_messages.toString());
   }
 }

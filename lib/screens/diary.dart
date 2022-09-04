@@ -40,6 +40,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       builder: (context, child) {
         context.watch<MealProvider>().meals;
 
+        MealProvider mealProvider = context.read<MealProvider>();
         return Diary(
             onDaySelected: _onDaySelected,
             getDiariesForDay: (day) {
@@ -50,15 +51,17 @@ class _DiaryScreenState extends State<DiaryScreen> {
               final addedMeal = await AutoRouter.of(context)
                   .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
               if (addedMeal != null) {
-                // ignore: use_build_context_synchronously
-                await context.read<MealProvider>().addMeal(addedMeal);
-                // ignore: use_build_context_synchronously
-                context.read<MealProvider>().fetchMeals();
+                await mealProvider.addMeal(addedMeal);
+                mealProvider.fetchMeals();
               }
             },
-            onMealBlocPressed: (Meal meal) {
-              AutoRouter.of(context)
-                  .push(AddMealScreenRoute(day: _selectedDate, meal: meal));
+            onMealBlocPressed: (Meal meal) async {
+              final changedMeal = await AutoRouter.of(context).push<Meal?>(
+                  AddMealScreenRoute(day: _selectedDate, meal: meal));
+              if (changedMeal != null) {
+                await mealProvider.updateMeal(changedMeal);
+                mealProvider.fetchMeals();
+              }
             });
       },
     );

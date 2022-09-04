@@ -41,4 +41,9 @@ class MealProvider extends ChangeNotifier {
     _mealApi.createMeal(meal);
     notifyListeners();
   }
+
+  Future<void> updateMeal(Meal meal) async {
+    _mealApi.updateMeal(meal);
+    notifyListeners();
+  }
 }

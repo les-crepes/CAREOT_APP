@@ -155,12 +155,26 @@ class _AddMealScreenState extends State<AddMealScreen> {
           _endTime?.hour ?? 0,
           _endTime?.minute ?? 0,
         );
+        if (widget._meal == null) {
+          AutoRouter.of(context).pop(Meal(
+            title: _nameTextController.text,
+            startTime: selectedStartDate,
+            endTime: selectedEndDate,
+            hunger: _hungerBeforeValue.toInt(),
+            satiety: _hungerAfterValue.toInt(),
+            setting: _settingsController.text,
+            comment: _commentController.text,
+            owner: context.read<AuthProvider>().userUid,
+          ));
+          return;
+        }
         AutoRouter.of(context).pop(Meal(
+          uid: widget._meal!.uid,
           title: _nameTextController.text,
           startTime: selectedStartDate,
           endTime: selectedEndDate,
           hunger: _hungerBeforeValue.toInt(),
-          satiety: _hungerAfterValue.toInt(), //TODO
+          satiety: _hungerAfterValue.toInt(),
           setting: _settingsController.text,
           comment: _commentController.text,
           owner: context.read<AuthProvider>().userUid,

@@ -62,6 +62,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
               clientName: authProvider.user!.firstName,
               clientPicturePath: authProvider.user!.photoUrl,
               defaultUserPic: "assets/images/default_user_pic.png",
+              defaultMealPic:
+                  "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
               onAddPressed: () async {
                 final addedMeal = await AutoRouter.of(context)
                     .push<Tuple2<Meal?, XFile?>>(
@@ -101,6 +103,7 @@ class Diary extends StatefulWidget {
   final void Function(DateTime)? _onDaySelected;
   final void Function(Meal)? _onMealBlocPressed;
   final String _defaultUserPic;
+  final String _defaultMealPic;
 
   const Diary({
     this.screenWidth = 0,
@@ -112,11 +115,13 @@ class Diary extends StatefulWidget {
     void Function()? onAddPressed,
     void Function(Meal)? onMealBlocPressed,
     required String defaultUserPic,
+    required String defaultMealPic,
     Key? key,
   })  : _onAddPressed = onAddPressed,
         _onDaySelected = onDaySelected,
         _onMealBlocPressed = onMealBlocPressed,
         _defaultUserPic = defaultUserPic,
+        _defaultMealPic = defaultMealPic,
         super(key: key);
 
   @override
@@ -202,6 +207,7 @@ class _DiaryState extends State<Diary> {
           const SizedBox(height: 13),
           Expanded(
             child: _CalendarBody(
+              defaultMealPic: widget._defaultMealPic,
               hourFormatter: hourFormatter,
               meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
               onMealBlocPressed: widget._onMealBlocPressed,
@@ -221,11 +227,13 @@ class _DiaryState extends State<Diary> {
 class _CalendarBody extends StatelessWidget {
   final List<Meal> meals;
   final void Function(Meal)? onMealBlocPressed;
+  final String defaultMealPic;
 
   const _CalendarBody({
     required this.meals,
     Key? key,
     required this.hourFormatter,
+    required this.defaultMealPic,
     this.onMealBlocPressed,
   }) : super(key: key);
 
@@ -247,6 +255,7 @@ class _CalendarBody extends StatelessWidget {
               vertical: 4.0,
             ),
             child: ArrowPicCard(
+              imagePath: meals[index].photo ?? defaultMealPic,
               title: Text(meals[index].title,
                   style: const TextStyle(fontWeight: FontWeight.w600)),
               subtitle: Text(

@@ -11,7 +11,7 @@ class PicCard extends StatelessWidget {
   const PicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = 'assets/images/breakfast.jpg',
+    required this.imagePath,
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -20,7 +20,8 @@ class PicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LeftElementCard(
       element: CircleAvatar(
-        backgroundImage: AssetImage(imagePath),
+        backgroundImage: NetworkImage(imagePath),
+        backgroundColor: Colors.white,
         radius: 66,
       ),
       title: title,

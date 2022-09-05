@@ -123,11 +123,15 @@ class _ChatScreenState extends State<ChatScreen> {
         AutoRouter.of(context).push(const DocumentListScreenRoute());
       },
       onAttachementPressed: _handleAttachementPressed,
+      image: _otherUser.photoUrl != null
+          ? NetworkImage(_otherUser.photoUrl!)
+          : null,
     );
   }
 }
 
 class ChatInterface extends StatefulWidget {
+  final ImageProvider? _image;
   final String name;
   final types.User currentUser;
   final List<types.Message> messages;
@@ -143,10 +147,12 @@ class ChatInterface extends StatefulWidget {
     required this.messages,
     required this.onSendPressed,
     required this.onAttachementPressed,
+    ImageProvider? image,
     this.onMessageTap,
     void Function()? onDocumentPressed,
     Key? key,
-  })  : _onDocumentPressed = onDocumentPressed,
+  })  : _image = image,
+        _onDocumentPressed = onDocumentPressed,
         super(key: key);
 
   @override
@@ -160,61 +166,33 @@ class _ChatInterfaceState extends State<ChatInterface> {
     return Column(
       children: [
         Expanded(
-          child: Stack(
+          child: Column(
             children: [
-              Column(
-                children: [
-                  TopBar(
-                    name: widget.name,
-                    theme: theme,
-                    onDocumentPressed: widget._onDocumentPressed,
-                  ),
-                  Expanded(
-                    child: Chat(
-                      onMessageTap: widget.onMessageTap,
-                      messages: widget.messages,
-                      user: widget.currentUser,
-                      onSendPressed: widget.onSendPressed,
-                      onAttachmentPressed: widget.onAttachementPressed,
-                      theme: DefaultChatTheme(
-                        inputTextColor: Colors.black,
-                        inputBackgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        backgroundColor: Colors.white,
-                        primaryColor: Theme.of(context).colorScheme.primary,
-                        secondaryColor: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                  ),
-                ],
+              TopBar(
+                name: widget.name,
+                theme: theme,
+                onDocumentPressed: widget._onDocumentPressed,
+                image: widget._image,
               ),
-              const Avatar(),
+              Expanded(
+                child: Chat(
+                  onMessageTap: widget.onMessageTap,
+                  messages: widget.messages,
+                  user: widget.currentUser,
+                  onSendPressed: widget.onSendPressed,
+                  onAttachmentPressed: widget.onAttachementPressed,
+                  theme: DefaultChatTheme(
+                    inputTextColor: Colors.black,
+                    inputBackgroundColor:
+                        Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Colors.white,
+                    primaryColor: Theme.of(context).colorScheme.primary,
+                    secondaryColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class Avatar extends StatelessWidget {
-  const Avatar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 50),
-        Row(
-          children: const [
-            SizedBox(width: 25),
-            CircleAvatar(
-              radius: 50,
-            ),
-          ],
         ),
       ],
     );
@@ -226,10 +204,12 @@ class TopBar extends StatelessWidget {
     Key? key,
     required this.name,
     required this.theme,
+    ImageProvider? image,
     void Function()? onDocumentPressed,
   })  : _onDocumentPressed = onDocumentPressed,
+        _image = image,
         super(key: key);
-
+  final ImageProvider? _image;
   final String name;
   final ThemeData theme;
   final void Function()? _onDocumentPressed;
@@ -252,25 +232,27 @@ class TopBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const SizedBox(width: 48),
-          const Expanded(child: SizedBox()),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                name,
-                style: theme.textTheme.headline2!
-                    .copyWith(color: theme.colorScheme.onPrimary),
-              ),
-              const SizedBox(height: 5),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 35,
+              foregroundImage: _image,
+            ),
+          ),
+          Text(
+            name,
+            style: theme.textTheme.headline2!.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
           ),
           const Expanded(child: SizedBox()),
           IconButton(
             onPressed: _onDocumentPressed,
             icon: Icon(
-              Icons.file_open,
+              size: 35,
+              Icons.attach_file_rounded,
               color: theme.colorScheme.onPrimary,
             ),
           ),

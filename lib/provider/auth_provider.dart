@@ -1,22 +1,28 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pdg_app/api/iauth.dart';
+import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/api/iuser.dart';
 
+import '../api/firebase_document.dart';
 import '../model/user.dart';
 
 class AuthProvider extends ChangeNotifier {
   final Auth _auth;
   final IUser _userApi;
+  final IFile _fileApi;
   bool _isAdmin = false;
 
   User? _client;
   User? _clientDietitian;
 
-  AuthProvider({required Auth auth, required IUser clientApi})
+  AuthProvider(
+      {required Auth auth, required IUser clientApi, required IFile fileApi})
       : _auth = auth,
-        _userApi = clientApi;
+        _userApi = clientApi,
+        _fileApi = fileApi;
 
   Future<void> init() async {
     if (isConnected()) {
@@ -63,9 +69,18 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> register(String email, String password, User user) async {
+  Future<void> register(
+      String email, String password, User user, XFile? pic) async {
+    String? picUrl;
+
+    if (pic != null) {
+      picUrl = "";
+      _fileApi.uploadFile(pic.path, picUrl);
+    }
+
     await _auth.register(email: email, password: password);
     user.uid = _auth.uid;
+
     await _userApi.createUser(user);
     _client = user;
     notifyListeners();

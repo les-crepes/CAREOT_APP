@@ -9,7 +9,18 @@ abstract class Auth {
   /// Get the uid of the connected user.
   String get uid;
 
-  /// Connect to the server.
+  /// Attempts to sign in a user with the given email address and password.
+  ///
+  /// A [AuthenticationException] maybe thrown with the following error code:
+  /// - **invalid-email**:
+  ///  - Thrown if the email address is not valid.
+  /// - **user-disabled**:
+  ///  - Thrown if the user corresponding to the given email has been disabled.
+  /// - **user-not-found**:
+  ///  - Thrown if there is no user corresponding to the given email.
+  /// - **wrong-password**:
+  ///  - Thrown if the password is invalid for the given email, or the account
+  ///    corresponding to the email does not have a password set.
   Future<void> signIn({required String email, required String password});
 
   /// Register a new user.

@@ -11,14 +11,14 @@ User c1 = User(
     phoneNumber: '0780001223',
     birthDate: DateTime.now(),
     avs: '',
-  email: 'olivier.dancona@gmail.com');
+    email: 'olivier.dancona@gmail.com');
 User c2 = User(
     firstName: 'Chloé',
     lastName: 'Fontaine',
     phoneNumber: '0780002334',
     birthDate: DateTime.now(),
     avs: '',
-  email: 'chloe.fontaine@heig-vd.ch');
+    email: 'chloe.fontaine@heig-vd.ch');
 User c3 = User(
     firstName: 'Luca',
     lastName: 'Coduri',
@@ -131,7 +131,7 @@ void main() {
   });
 
   test("Read Dietitian of Client", () async {
-    final User dietCopy = await userApi.readDietitianOfClient(c3.uid);
+    final User? dietCopy = await userApi.readDietitianOfClient(c3.uid);
     expect(d1.toString(), dietCopy.toString());
   });
 }

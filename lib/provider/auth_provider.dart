@@ -12,6 +12,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isAdmin = false;
 
   User? _client;
+  User? _clientDietitian;
 
   AuthProvider({required Auth auth, required IUser clientApi})
       : _auth = auth,
@@ -25,12 +26,15 @@ class AuthProvider extends ChangeNotifier {
       ]);
 
       _isAdmin = values[1] as bool;
+      await fetchClientDietitian();
     }
   }
 
   bool get isAdmin => _isAdmin;
 
   User? get user => _client;
+
+  User? get clientDietitian => _clientDietitian;
 
   String get userUid => _auth.uid;
 
@@ -45,6 +49,7 @@ class AuthProvider extends ChangeNotifier {
     _isAdmin = await _auth.isDietitian();
     if (isConnected) {
       await fetchClient();
+      await fetchClientDietitian();
     }
 
     notifyListeners();
@@ -53,6 +58,7 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     await _auth.signOut();
     _client = null;
+    _clientDietitian = null;
     _isAdmin = false;
     notifyListeners();
   }
@@ -74,5 +80,19 @@ class AuthProvider extends ChangeNotifier {
     }
 
     return _client;
+  }
+
+  Future<User?> fetchClientDietitian() async {
+    try {
+      if (!isAdmin) {
+        _clientDietitian = await _userApi.readDietitianOfClient(_client!.uid);
+        notifyListeners();
+        return _clientDietitian;
+      }
+      return null;
+    } catch (e) {
+      log("Error fetching client's dietitian: $e");
+    }
+    return null;
   }
 }

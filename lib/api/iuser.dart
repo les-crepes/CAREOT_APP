@@ -6,5 +6,5 @@ abstract class IUser {
   void updateUser(User user);
   void deleteUser(String userid);
   Future<List<User>> getDietitianClient(String dietitianId);
-  Future<User> readDietitianOfClient(String clientId);
+  Future<User?> readDietitianOfClient(String clientId);
 }

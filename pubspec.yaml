@@ -54,6 +54,7 @@ dependencies:
   firebase_storage_mocks: ^0.5.1
   file_picker: ^3.0.4
   file: ^6.1.4
+  awesome_snackbar_content: ^0.0.8
 
 dev_dependencies:
   flutter_test:

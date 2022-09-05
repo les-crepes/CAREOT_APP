@@ -41,12 +41,13 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
             child: RightArrowButton(
                 text: 'Register',
                 onPressed: () async {
+                  registerProvider.loadingController.showLoadingOverlay();
                   await GetIt.I.get<AuthProvider>().register(
                         registerProvider.emailController.text,
                         registerProvider.passwordController.text,
                         registerProvider.createUser(),
                       );
-
+                  registerProvider.loadingController.hideLoadingOverlay();
                   router.replaceAll([const HomeScreenRoute()]);
                 }),
           ),

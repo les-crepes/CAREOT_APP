@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../model/custom_list_tile_data.dart';
 import 'badge.dart';
+import 'straight_top_bar.dart';
 
 class CustomList extends StatelessWidget {
   final List<CustomListTileData> _conversationsTileData;
@@ -21,36 +22,7 @@ class CustomList extends StatelessWidget {
     DateFormat format = DateFormat('h:m:s d/m/y');
     return Column(
       children: [
-        Container(
-          width: double.infinity,
-          height: 70,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Color(0xFFFFBD70),
-                Color(0xFFFF9877),
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Text(
-                  _title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1!
-                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
-                ),
-              ),
-            ],
-          ),
-        ),
+        StraightTopBar(title: _title),
         Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.symmetric(vertical: 10),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
+import 'package:pdg_app/widgets/loading_overlay.dart';
 
 import '../router/router.gr.dart';
 import '../widgets/buttons/right_arrow_button.dart';
@@ -19,37 +20,46 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final LoadingOverlayController _loadingController =
+      LoadingOverlayController();
   @override
   void initState() {
     super.initState();
-    _emailController.text = "luca.coduri@heig-vd.ch";
-    _passwordController.text = "crepes";
+    _emailController.text = "chloe.fontaine@heig-vd.ch";
+    _passwordController.text = "crepes123";
   }
 
   @override
   Widget build(BuildContext context) {
+    final router = AutoRouter.of(context);
+    final scaffold = ScaffoldMessenger.of(context);
     return Scaffold(
-      body: Login(
-        emailController: _emailController,
-        passwordController: _passwordController,
-        onLoginPress: () async {
-          final auth = GetIt.I.get<AuthProvider>();
-          await auth.signIn(_emailController.text, _passwordController.text);
-          if (auth.isConnected()) {
-            // ignore: use_build_context_synchronously
-            AutoRouter.of(context).replaceAll([const HomeScreenRoute()]);
-          } else {
-            // ignore: use_build_context_synchronously
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Login failed'),
-              ),
-            );
-          }
-        },
-        onRegisterPress: () =>
-            AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+      resizeToAvoidBottomInset: false,
+      body: LoadingOverlay(
+        controller: _loadingController,
+        child: Login(
+          emailController: _emailController,
+          passwordController: _passwordController,
+          onLoginPress: () async {
+            _loadingController.showLoadingOverlay();
+            final auth = GetIt.I.get<AuthProvider>();
+            await auth.signIn(_emailController.text, _passwordController.text);
+            if (auth.isConnected()) {
+              _loadingController.hideLoadingOverlay();
+              router.replaceAll([const HomeScreenRoute()]);
+            } else {
+              // ignore: use_build_context_synchronously
+              _loadingController.hideLoadingOverlay();
+              scaffold.showSnackBar(
+                const SnackBar(
+                  content: Text('Login failed'),
+                ),
+              );
+            }
+          },
+          onRegisterPress: () =>
+              AutoRouter.of(context).navigate(const RegisterScreenRoute()),
+        ),
       ),
     );
   }

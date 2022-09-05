@@ -34,6 +34,13 @@
       "request": "launch",
       "flutterMode": "debug",
       "program": "lib/scripts/populate_DB.dart"
+    },
+    {
+      "name": "Test Email",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "lib/scripts/test_email.dart"
     }
   ]
 }

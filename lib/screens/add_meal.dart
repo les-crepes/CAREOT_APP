@@ -15,8 +15,11 @@ import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
   final DateTime _day;
-  const AddMealScreen({required DateTime day, Key? key})
+  final Meal? _meal;
+
+  const AddMealScreen({required DateTime day, Meal? meal, Key? key})
       : _day = day,
+        _meal = meal,
         super(key: key);
 
   @override
@@ -30,7 +33,7 @@ enum _TimeButtonEnum {
 }
 
 class _AddMealScreenState extends State<AddMealScreen> {
-  double _hungerBeforeValue = 3;
+  double _hungerBeforeValue = 5;
   double _hungerAfterValue = 3;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
@@ -39,6 +42,31 @@ class _AddMealScreenState extends State<AddMealScreen> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
   final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _settingsController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget._meal != null) {
+      _nameTextController.text = widget._meal!.title;
+
+      if (widget._meal!.setting != null) {
+        _settingsController.text = widget._meal!.setting!;
+      }
+
+      if (widget._meal!.comment != null) {
+        _commentController.text = widget._meal!.comment!;
+      }
+
+      _hungerBeforeValue = widget._meal!.hunger.toDouble();
+      _hungerAfterValue = widget._meal!.satiety.toDouble();
+
+      _startTime = TimeOfDay.fromDateTime(widget._meal!.startTime);
+      _endTime = TimeOfDay.fromDateTime(widget._meal!.endTime);
+    }
+
+    super.initState();
+  }
 
   Future<XFile?> _takePicture() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
@@ -54,6 +82,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
   Widget build(BuildContext context) {
     return AddMeal(
       nameTextController: _nameTextController,
+      settingsController: _settingsController,
+      commentController: _commentController,
       hungerBeforeValue: _hungerBeforeValue,
       hungerAfterValue: _hungerAfterValue,
       onHungerAfterChanged: (value) => setState(() {
@@ -125,12 +155,28 @@ class _AddMealScreenState extends State<AddMealScreen> {
           _endTime?.hour ?? 0,
           _endTime?.minute ?? 0,
         );
+        if (widget._meal == null) {
+          AutoRouter.of(context).pop(Meal(
+            title: _nameTextController.text,
+            startTime: selectedStartDate,
+            endTime: selectedEndDate,
+            hunger: _hungerBeforeValue.toInt(),
+            satiety: _hungerAfterValue.toInt(),
+            setting: _settingsController.text,
+            comment: _commentController.text,
+            owner: context.read<AuthProvider>().userUid,
+          ));
+          return;
+        }
         AutoRouter.of(context).pop(Meal(
+          uid: widget._meal!.uid,
           title: _nameTextController.text,
           startTime: selectedStartDate,
           endTime: selectedEndDate,
-          hunger: 0,
-          satiety: 0,
+          hunger: _hungerBeforeValue.toInt(),
+          satiety: _hungerAfterValue.toInt(),
+          setting: _settingsController.text,
+          comment: _commentController.text,
           owner: context.read<AuthProvider>().userUid,
         ));
       },
@@ -155,26 +201,30 @@ class AddMeal extends StatelessWidget {
   final String? _endTimeText;
   final void Function()? _onValidatePressed;
   final TextEditingController? _nameTextController;
+  final TextEditingController? _settingsController;
+  final TextEditingController? _commentController;
 
-  const AddMeal({
-    Key? key,
-    required double hungerBeforeValue,
-    required double hungerAfterValue,
-    required void Function(double) onHungerBeforeChanged,
-    required void Function(double) onHungerAfterChanged,
-    required void Function() onCameraPressed,
-    required void Function() onGalleryPressed,
-    required void Function(TimeOfDay) onTimeSelected,
-    void Function()? onStartTimeSelected,
-    void Function()? onEndTimeSelected,
-    void Function()? onTimeSelectCanceled,
-    void Function()? onValidatePressed,
-    bool showTimePicker = false,
-    String? startTimeText,
-    String? endTimeText,
-    XFile? image,
-    TextEditingController? nameTextController,
-  })  : _hungerBeforeValue = hungerBeforeValue,
+  const AddMeal(
+      {Key? key,
+      required double hungerBeforeValue,
+      required double hungerAfterValue,
+      required void Function(double) onHungerBeforeChanged,
+      required void Function(double) onHungerAfterChanged,
+      required void Function() onCameraPressed,
+      required void Function() onGalleryPressed,
+      required void Function(TimeOfDay) onTimeSelected,
+      void Function()? onStartTimeSelected,
+      void Function()? onEndTimeSelected,
+      void Function()? onTimeSelectCanceled,
+      void Function()? onValidatePressed,
+      bool showTimePicker = false,
+      String? startTimeText,
+      String? endTimeText,
+      XFile? image,
+      TextEditingController? nameTextController,
+      TextEditingController? settingsController,
+      TextEditingController? commentController})
+      : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -190,6 +240,8 @@ class AddMeal extends StatelessWidget {
         _endTimeText = endTimeText,
         _onValidatePressed = onValidatePressed,
         _nameTextController = nameTextController,
+        _settingsController = settingsController,
+        _commentController = commentController,
         super(key: key);
 
   @override
@@ -207,6 +259,8 @@ class AddMeal extends StatelessWidget {
             Expanded(
               child: _ListView(
                 nameTextController: _nameTextController,
+                settingsController: _settingsController,
+                commentController: _commentController,
                 hungerAfterValue: _hungerAfterValue,
                 hungerBeforeValue: _hungerBeforeValue,
                 onHungerAfterChanged: _onHungerAfterChanged,
@@ -331,19 +385,23 @@ class _ListView extends StatelessWidget {
   final String? _startTimeText;
   final String? _endTimeText;
   final TextEditingController? _nameTextController;
+  final TextEditingController? _settingsController;
+  final TextEditingController? _commentController;
 
-  const _ListView({
-    Key? key,
-    required double hungerBeforeValue,
-    required double hungerAfterValue,
-    required void Function(double) onHungerBeforeChanged,
-    required void Function(double) onHungerAfterChanged,
-    void Function()? onStartTimePress,
-    void Function()? onEndTimePress,
-    String? startTimeText,
-    String? endTimeText,
-    TextEditingController? nameTextController,
-  })  : _hungerBeforeValue = hungerBeforeValue,
+  const _ListView(
+      {Key? key,
+      required double hungerBeforeValue,
+      required double hungerAfterValue,
+      required void Function(double) onHungerBeforeChanged,
+      required void Function(double) onHungerAfterChanged,
+      void Function()? onStartTimePress,
+      void Function()? onEndTimePress,
+      String? startTimeText,
+      String? endTimeText,
+      TextEditingController? nameTextController,
+      TextEditingController? settingsController,
+      TextEditingController? commentController})
+      : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -352,6 +410,8 @@ class _ListView extends StatelessWidget {
         _startTimeText = startTimeText,
         _endTimeText = endTimeText,
         _nameTextController = nameTextController,
+        _settingsController = settingsController,
+        _commentController = commentController,
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) => [
@@ -384,10 +444,12 @@ class _ListView extends StatelessWidget {
             value: _hungerBeforeValue,
             onChanged: _onHungerBeforeChanged,
             labels: const [
-              "encore faim",
-              "inconfort",
-              "léger inconfort",
-              "confort"
+              "0 - not hungry",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5 - really hungry"
             ]),
         SliderWithText(
             context: context,
@@ -395,11 +457,23 @@ class _ListView extends StatelessWidget {
             value: _hungerAfterValue,
             onChanged: _onHungerAfterChanged,
             labels: const [
-              "encore faim",
-              "inconfort",
-              "léger inconfort",
-              "confort"
+              "still hungry",
+              "discomfort",
+              "mild discomfort",
+              "comfort"
             ]),
+        MainTextField(
+          name: "Settings",
+          icon: const Icon(Icons.people_alt, color: Colors.black),
+          maxLines: null,
+          controller: _settingsController,
+        ),
+        MainTextField(
+          name: "Comments",
+          icon: const Icon(Icons.comment, color: Colors.black),
+          maxLines: null,
+          controller: _commentController,
+        ),
       ];
 
   @override

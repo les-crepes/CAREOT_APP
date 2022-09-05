@@ -10,18 +10,19 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   FirebaseMeal(FirebaseFirestore db) : super(db, 'meal');
 
   @override
-  void createMeal(Meal meal) {
-    collectionReference
-        .withConverter(
-            fromFirestore: Meal.fromFirestore,
-            toFirestore: (Meal meal, options) => meal.toFirestore())
-        .doc(meal.uid)
-        .set(meal)
-        .then((value) => log("Meal Added"))
-        .catchError((error) {
-      log("Failed to add meal: $error");
-      throw Exception(error);
-    });
+  Future<void> createMeal(Meal meal) async {
+    try {
+      await collectionReference
+          .withConverter(
+              fromFirestore: Meal.fromFirestore,
+              toFirestore: (Meal meal, options) => meal.toFirestore())
+          .doc(meal.uid)
+          .set(meal);
+      log("Meal Added");
+    } catch (e) {
+      log("Failed to add meal: $e");
+      throw Exception(e);
+    }
   }
 
   @override
@@ -41,15 +42,14 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   }
 
   @override
-  void updateMeal(Meal meal) {
-    collectionReference
-        .doc(meal.uid)
-        .update(meal.toFirestore())
-        .then((value) => log("Meal Updated"))
-        .catchError((error) {
-      log("Failed to update meal: $error");
-      throw Exception(error);
-    });
+  Future<void> updateMeal(Meal meal) async {
+    try {
+      await collectionReference.doc(meal.uid).update(meal.toFirestore());
+      log("Meal Updated");
+    } catch (e) {
+      log("Failed to update meal: $e");
+      throw Exception(e);
+    }
   }
 
   @override

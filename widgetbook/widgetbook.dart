@@ -224,14 +224,6 @@ class HotReload extends StatelessWidget {
                   label: 'Last name',
                   initialValue: "Coduri",
                 ),
-                nutriFirstName: context.knobs.text(
-                  label: 'Nutri first name',
-                  initialValue: "Claire",
-                ),
-                nutriLastName: context.knobs.text(
-                  label: 'Nutri last name',
-                  initialValue: "Nutri",
-                ),
                 clientEmail: context.knobs.text(
                   label: 'Email',
                   initialValue: "luca.coduri@gmail.com",

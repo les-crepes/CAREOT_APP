@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/provider/aftercare_provider.dart';
@@ -9,6 +11,7 @@ import 'package:pdg_app/widgets/text_information.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../model/aftercare.dart';
 import '../model/user.dart';
 
 class ClientRecordScreen extends StatelessWidget {
@@ -24,10 +27,12 @@ class ClientRecordScreen extends StatelessWidget {
       create: (context) => AftercareProvider(clientUid: _user.uid),
       builder: (context, child) {
         final afterCareProvider = context.watch<AftercareProvider>();
+        log(afterCareProvider.aftercare.toString());
+        final aftercareProvider = context.read<AftercareProvider>();
         return ClientRecord(
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
-          clientEmail: "email", //TODO
+          clientEmail: _user.email,
           clientBirthday: _user.birthDate,
           clientPhone: _user.phoneNumber,
           clientInsurance: _user.avs,
@@ -40,6 +45,19 @@ class ClientRecordScreen extends StatelessWidget {
           clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
           clientStartDate: afterCareProvider.aftercare?.startDate,
           clientEndDate: afterCareProvider.aftercare?.endDate,
+          onIconButtonPressed: () async {
+            final Aftercare? aftercare = await AutoRouter.of(context)
+                .push<Aftercare?>(UpdateClientRecordScreenRoute(
+                    user: _user, aftercare: afterCareProvider.aftercare));
+
+            if (aftercare != null) {
+              if (aftercareProvider.aftercare != null) {
+                aftercareProvider.updateAftercare(aftercare);
+              } else {
+                afterCareProvider.createAftercare(aftercare);
+              }
+            }
+          },
         );
       },
     );
@@ -61,6 +79,7 @@ class ClientRecord extends StatelessWidget {
   final String _foodObjectives;
   final DateTime? _startDate;
   final DateTime? _endDate;
+  final void Function()? _onIconButtonPressed;
 
   const ClientRecord(
       {required clientFirstName,
@@ -77,6 +96,7 @@ class ClientRecord extends StatelessWidget {
       clientFoodObjectives = "-",
       clientStartDate,
       clientEndDate,
+      onIconButtonPressed,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -92,6 +112,7 @@ class ClientRecord extends StatelessWidget {
         _foodObjectives = clientFoodObjectives,
         _startDate = clientStartDate,
         _endDate = clientEndDate,
+        _onIconButtonPressed = onIconButtonPressed,
         super(key: key);
 
   @override
@@ -105,6 +126,8 @@ class ClientRecord extends StatelessWidget {
       clientPhone: _clientPhone,
       clientBirthday: _clientBirthday,
       clientInsurance: _clientInsurance,
+      buttonIcon: Icons.create_outlined,
+      onIconButtonPressed: _onIconButtonPressed ?? () {},
       firstBloc: Column(
         children: [
           Row(

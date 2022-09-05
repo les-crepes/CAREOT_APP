@@ -47,6 +47,15 @@ void main() {
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
     });
+
+    test('is email valid?', () async {
+      const email = 'some@email.com';
+      const password = 'some!password';
+      final auth = MockFirebaseAuth();
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+   
+    });
   });
 
   group('Returns a mocked user after sign in', () {

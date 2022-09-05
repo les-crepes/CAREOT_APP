@@ -44,12 +44,8 @@ class FirebaseConnection implements Auth {
             .signInWithEmailAndPassword(email: email, password: password);
       }
       return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        log('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        log('Wrong password provided for that user.');
-      }
+    } catch (e) {
+      log(e.toString());
     }
     return false;
   }
@@ -106,6 +102,30 @@ class FirebaseConnection implements Auth {
       return dietitian.clientList != null;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  // Returns true if email address is in use.
+  Future<bool> checkIfEmailInUse(String emailAddress) async {
+    try {
+      // Fetch sign-in methods for the email address
+      final list =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
+
+      // In case list is not empty
+      if (list.isNotEmpty) {
+        // Return true because there is an existing
+        // user using the email address
+        return true;
+      } else {
+        // Return false because email adress is not in use
+        return false;
+      }
+    } catch (error) {
+      // Handle error
+      // ...
+      return true;
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:pdg_app/widgets/cards/main_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 import '../model/meal.dart';
 import '../widgets/buttons/custom_icon_button.dart';
@@ -156,29 +157,33 @@ class _AddMealScreenState extends State<AddMealScreen> {
           _endTime?.minute ?? 0,
         );
         if (widget._meal == null) {
-          AutoRouter.of(context).pop(Meal(
-            title: _nameTextController.text,
-            startTime: selectedStartDate,
-            endTime: selectedEndDate,
-            hunger: _hungerBeforeValue.toInt(),
-            satiety: _hungerAfterValue.toInt(),
-            setting: _settingsController.text,
-            comment: _commentController.text,
-            owner: context.read<AuthProvider>().userUid,
-          ));
+          AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
+              Meal(
+                title: _nameTextController.text,
+                startTime: selectedStartDate,
+                endTime: selectedEndDate,
+                hunger: _hungerBeforeValue.toInt(),
+                satiety: _hungerAfterValue.toInt(),
+                setting: _settingsController.text,
+                comment: _commentController.text,
+                owner: context.read<AuthProvider>().userUid,
+              ),
+              _image));
           return;
         }
-        AutoRouter.of(context).pop(Meal(
-          uid: widget._meal!.uid,
-          title: _nameTextController.text,
-          startTime: selectedStartDate,
-          endTime: selectedEndDate,
-          hunger: _hungerBeforeValue.toInt(),
-          satiety: _hungerAfterValue.toInt(),
-          setting: _settingsController.text,
-          comment: _commentController.text,
-          owner: context.read<AuthProvider>().userUid,
-        ));
+        AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
+            Meal(
+              uid: widget._meal!.uid,
+              title: _nameTextController.text,
+              startTime: selectedStartDate,
+              endTime: selectedEndDate,
+              hunger: _hungerBeforeValue.toInt(),
+              satiety: _hungerAfterValue.toInt(),
+              setting: _settingsController.text,
+              comment: _commentController.text,
+              owner: context.read<AuthProvider>().userUid,
+            ),
+            _image));
       },
     );
   }

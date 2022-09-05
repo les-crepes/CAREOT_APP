@@ -55,6 +55,7 @@ dependencies:
   file_picker: ^3.0.4
   file: ^6.1.4
   awesome_snackbar_content: ^0.0.8
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:

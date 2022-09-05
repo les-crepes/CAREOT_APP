@@ -13,11 +13,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i17;
 import 'package:auto_route/empty_router_widgets.dart' as _i4;
+import 'package:flutter/foundation.dart' as _i27;
 import 'package:flutter/material.dart' as _i18;
+import 'package:image_picker/image_picker.dart' as _i25;
+import 'package:tuple/tuple.dart' as _i23;
 
 import '../model/aftercare.dart' as _i22;
-import '../model/meal.dart' as _i23;
-import '../model/user.dart' as _i24;
+import '../model/meal.dart' as _i24;
+import '../model/user.dart' as _i26;
 import '../screens/add_meal.dart' as _i13;
 import '../screens/chat.dart' as _i6;
 import '../screens/client_list.dart' as _i9;
@@ -120,7 +123,7 @@ class AppRouter extends _i17.RootStackRouter {
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
-      return _i17.MaterialPageX<_i23.Meal?>(
+      return _i17.MaterialPageX<_i23.Tuple2<_i24.Meal?, _i25.XFile?>>(
           routeData: routeData,
           child: _i13.AddMealScreen(
               day: args.day, meal: args.meal, key: args.key));
@@ -333,7 +336,7 @@ class ClientListScreenRoute extends _i17.PageRouteInfo<void> {
 /// [_i10.ClientRecordScreen]
 class ClientRecordScreenRoute
     extends _i17.PageRouteInfo<ClientRecordScreenRouteArgs> {
-  ClientRecordScreenRoute({required _i24.User user, _i18.Key? key})
+  ClientRecordScreenRoute({required _i26.User user, _i27.Key? key})
       : super(ClientRecordScreenRoute.name,
             path: 'record',
             args: ClientRecordScreenRouteArgs(user: user, key: key));
@@ -344,9 +347,9 @@ class ClientRecordScreenRoute
 class ClientRecordScreenRouteArgs {
   const ClientRecordScreenRouteArgs({required this.user, this.key});
 
-  final _i24.User user;
+  final _i26.User user;
 
-  final _i18.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -359,7 +362,7 @@ class ClientRecordScreenRouteArgs {
 class UpdateClientRecordScreenRoute
     extends _i17.PageRouteInfo<UpdateClientRecordScreenRouteArgs> {
   UpdateClientRecordScreenRoute(
-      {required dynamic user, _i22.Aftercare? aftercare, _i18.Key? key})
+      {required dynamic user, _i22.Aftercare? aftercare, _i27.Key? key})
       : super(UpdateClientRecordScreenRoute.name,
             path: 'update',
             args: UpdateClientRecordScreenRouteArgs(
@@ -376,7 +379,7 @@ class UpdateClientRecordScreenRouteArgs {
 
   final _i22.Aftercare? aftercare;
 
-  final _i18.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -395,7 +398,7 @@ class DiaryScreenRoute extends _i17.PageRouteInfo<void> {
 /// generated route for
 /// [_i13.AddMealScreen]
 class AddMealScreenRoute extends _i17.PageRouteInfo<AddMealScreenRouteArgs> {
-  AddMealScreenRoute({required DateTime day, _i23.Meal? meal, _i18.Key? key})
+  AddMealScreenRoute({required DateTime day, _i24.Meal? meal, _i27.Key? key})
       : super(AddMealScreenRoute.name,
             path: 'add',
             args: AddMealScreenRouteArgs(day: day, meal: meal, key: key));
@@ -408,9 +411,9 @@ class AddMealScreenRouteArgs {
 
   final DateTime day;
 
-  final _i23.Meal? meal;
+  final _i24.Meal? meal;
 
-  final _i18.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -430,7 +433,7 @@ class RegisterFirstPageRoute extends _i17.PageRouteInfo<void> {
 /// [_i15.RegisterSecondPage]
 class RegisterSecondPageRoute
     extends _i17.PageRouteInfo<RegisterSecondPageRouteArgs> {
-  RegisterSecondPageRoute({_i18.Key? key})
+  RegisterSecondPageRoute({_i27.Key? key})
       : super(RegisterSecondPageRoute.name,
             path: '1', args: RegisterSecondPageRouteArgs(key: key));
 
@@ -440,7 +443,7 @@ class RegisterSecondPageRoute
 class RegisterSecondPageRouteArgs {
   const RegisterSecondPageRouteArgs({this.key});
 
-  final _i18.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {

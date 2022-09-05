@@ -188,6 +188,7 @@ class HotReload extends StatelessWidget {
           name: 'Default',
           builder: (context) {
             return Diary(
+              defaultUserPic: 'assets/images/default_user_pic.png',
               getDiariesForDay: (datetime) {
                 return [
                   Meal(
@@ -216,6 +217,7 @@ class HotReload extends StatelessWidget {
           name: 'Default',
           builder: (context) {
             return Profile(
+                defaultUserPic: 'assets/images/default_user_pic.png',
                 clientFirstName: context.knobs.text(
                   label: 'First name',
                   initialValue: "Luca",

@@ -73,7 +73,7 @@ class AuthProvider extends ChangeNotifier {
   Future<String?> uploadProfilePic(XFile? pic, String userUid) async {
     String? picUrl;
     if (pic != null) {
-      String path = "images/profile/" + userUid + ".jpg";
+      String path = "images/profile/$userUid.jpg";
       picUrl = await _fileApi.uploadFile(pic.path, path);
       log(picUrl);
       log(pic.path);

@@ -10,7 +10,7 @@ abstract class Auth {
   String get uid;
 
   /// Connect to the server.
-  Future<bool> signIn({required String email, required String password});
+  Future<void> signIn({required String email, required String password});
 
   /// Register a new user.
   Future<bool> register({required String email, required String password});

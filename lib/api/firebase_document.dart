@@ -5,9 +5,10 @@ import 'package:pdg_app/api/ifile.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
-
+/// Implementation of [IFile] for firebase storage.
 class FirebaseFile implements IFile {
 
+  /// Maximum file download size in bytes.
   static const maxFileSize = 20 * 1024 * 1024; // 20 MB
 
   late final FirebaseStorage bucket;
@@ -15,23 +16,21 @@ class FirebaseFile implements IFile {
 
   FirebaseFile(this.bucket);
 
-  /// Uploads the file to the firebase storage under a specific path. with a unique name.
   @override
-  Future<String> uploadFile(String filepath) async {
-    File file = File(filepath);
-    String fileName = const Uuid().v4();
-    final fileRef = storageRef.child(fileName);
+  Future<String> uploadFile(String filePath, String storagePath) async {
+    File file = File(filePath);
+    String fileName = const Uuid().v4(); /// Generate a unique file name.
+    final fileRef = storageRef.child('$storagePath$fileName');
     try {
       await fileRef.putFile(file);
       log("File uploaded successfully");
-      return fileRef.fullPath;
+      return fileRef.getDownloadURL();
     } on FirebaseException catch (e) {
       log("Failed to upload file: $e");
       throw Exception(e);
     }
   }
 
-  /// Deletes the file from the firebase storage.
   @override
   void deleteFile(String fileURL) async {
     log('deleteFile: $fileURL');
@@ -40,7 +39,6 @@ class FirebaseFile implements IFile {
     await ref.delete();
   }
 
-  /// Downloads the file from the firebase storage.
   @override
   Future<Uint8List?> downloadFileBytes(String fileURL) async {
     log("downloadFileBytes: $fileURL");

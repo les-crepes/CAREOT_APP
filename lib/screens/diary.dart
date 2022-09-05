@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
@@ -8,6 +9,8 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../api/firebase_document.dart';
+import '../api/ifile.dart';
 import '../provider/auth_provider.dart';
 import '../widgets/buttons/action_button.dart';
 import '../widgets/diary/diary_top_bar.dart';
@@ -22,8 +25,9 @@ class DiaryScreen extends StatefulWidget {
 
 class _DiaryScreenState extends State<DiaryScreen> {
   DateTime _selectedDate = DateTime.now();
+  IFile fileApi = FirebaseFile(FirebaseStorage.instance);
 
-  _onDaySelected(DateTime day) {
+  _onDaySelected(DateTime day) async {
     _selectedDate = day;
   }
 
@@ -46,6 +50,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           },
           clientName: "Marie",
           onAddPressed: () async {
+
             final addedMeal = await AutoRouter.of(context)
                 .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
             if (addedMeal != null) {

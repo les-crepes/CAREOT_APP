@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
@@ -13,9 +12,6 @@ import 'package:provider/provider.dart';
 import 'api/firebase_connection.dart';
 import 'api/firebase_user.dart';
 import 'firebase_options.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
-import 'api/firebase_document.dart';
 
 Future<void> setup() async {
   final getIt = GetIt.instance;
@@ -35,8 +31,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await setup();
-  IFile fileApi = FirebaseFile(FirebaseStorage.instance);
-  fileApi.updateFile('test/test.txt');
+
   runApp(MyApp());
 }
 

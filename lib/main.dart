@@ -38,6 +38,7 @@ void main() async {
     ),
   ]);
   await setup();
+
   runApp(MyApp());
 }
 

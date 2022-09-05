@@ -77,6 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
       onDocumentPressed: () {
         AutoRouter.of(context).push(const DocumentListScreenRoute());
       },
+      onAttachementPressed: () {},
     );
   }
 }
@@ -86,6 +87,7 @@ class ChatInterface extends StatefulWidget {
   final types.User currentUser;
   final List<types.Message> messages;
   final void Function(types.PartialText) onSendPressed;
+  final void Function() onAttachementPressed;
   final void Function()? _onDocumentPressed;
 
   const ChatInterface({
@@ -93,6 +95,7 @@ class ChatInterface extends StatefulWidget {
     required this.currentUser,
     required this.messages,
     required this.onSendPressed,
+    required this.onAttachementPressed,
     void Function()? onDocumentPressed,
     Key? key,
   })  : _onDocumentPressed = onDocumentPressed,
@@ -123,6 +126,7 @@ class _ChatInterfaceState extends State<ChatInterface> {
                       messages: widget.messages,
                       user: widget.currentUser,
                       onSendPressed: widget.onSendPressed,
+                      onAttachmentPressed: widget.onAttachementPressed,
                       theme: DefaultChatTheme(
                         inputTextColor: Colors.black,
                         inputBackgroundColor:

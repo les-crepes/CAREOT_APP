@@ -55,7 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
               }
             } catch (e) {
               _loadingController.hideLoadingOverlay();
-              var snackBar = _openSnackBar('Login error !', e.toString());
+              final snackBar =
+                  _createSnackBarMessage('Login error !', e.toString());
 
               scaffold.showSnackBar(snackBar);
             }
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  SnackBar _openSnackBar(String title, String message) {
+  SnackBar _createSnackBarMessage(String title, String message) {
     return SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,

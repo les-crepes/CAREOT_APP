@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -17,6 +18,7 @@ import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/user.dart';
 import '../model/message.dart' as model;
@@ -82,6 +84,14 @@ class _ChatScreenState extends State<ChatScreen> {
     _messageApi.createMessage(newMessage);
   }
 
+  void _handleMessageTap(BuildContext context, types.Message message) {
+    log(message.toString());
+    if (message.type != types.MessageType.file) return;
+    final fileMessage = message as types.FileMessage;
+    final Uri _url = Uri.parse(message.uri);
+    launchUrl(_url, mode: LaunchMode.externalApplication);
+  }
+
   @override
   Widget build(BuildContext context) {
     final ChatProvider chatProvider = context.watch<ChatProvider>();
@@ -108,6 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
           )
           .toList(),
       onSendPressed: _handleSendPressed,
+      onMessageTap: _handleMessageTap,
       onDocumentPressed: () {
         AutoRouter.of(context).push(const DocumentListScreenRoute());
       },
@@ -123,6 +134,8 @@ class ChatInterface extends StatefulWidget {
   final void Function(types.PartialText) onSendPressed;
   final void Function() onAttachementPressed;
   final void Function()? _onDocumentPressed;
+  final void Function(BuildContext context, types.Message message)?
+      onMessageTap;
 
   const ChatInterface({
     required this.name,
@@ -130,6 +143,7 @@ class ChatInterface extends StatefulWidget {
     required this.messages,
     required this.onSendPressed,
     required this.onAttachementPressed,
+    this.onMessageTap,
     void Function()? onDocumentPressed,
     Key? key,
   })  : _onDocumentPressed = onDocumentPressed,
@@ -157,6 +171,7 @@ class _ChatInterfaceState extends State<ChatInterface> {
                   ),
                   Expanded(
                     child: Chat(
+                      onMessageTap: widget.onMessageTap,
                       messages: widget.messages,
                       user: widget.currentUser,
                       onSendPressed: widget.onSendPressed,

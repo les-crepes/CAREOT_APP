@@ -57,6 +57,7 @@ dependencies:
     awesome_snackbar_content: ^0.0.8
     sorted_list: ^1.0.0
     async: ^2.9.0
+    url_launcher: ^6.1.5
 
 dev_dependencies:
     flutter_test:

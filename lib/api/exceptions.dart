@@ -6,9 +6,10 @@ enum LoginExceptionType {
   unknown,
 }
 
-class LoginException implements Exception {
+/// Generic exception related to Authentication. Check the error message for more details.
+class AuthenticationException implements Exception {
   LoginExceptionType exceptionType;
-  LoginException(this.exceptionType);
+  AuthenticationException(this.exceptionType);
 
   @override
   String toString() {

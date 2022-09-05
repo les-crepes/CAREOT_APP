@@ -47,15 +47,15 @@ class FirebaseConnection implements Auth {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "user-not-found":
-          throw LoginException(LoginExceptionType.userNotFound);
+          throw AuthenticationException(LoginExceptionType.userNotFound);
         case "wrong-password":
-          throw LoginException(LoginExceptionType.wrongPassword);
+          throw AuthenticationException(LoginExceptionType.wrongPassword);
         case "invalid-email":
-          throw LoginException(LoginExceptionType.invalidEmail);
+          throw AuthenticationException(LoginExceptionType.invalidEmail);
         case "user-disabled":
-          throw LoginException(LoginExceptionType.userDisabled);
+          throw AuthenticationException(LoginExceptionType.userDisabled);
         default:
-          throw LoginException(LoginExceptionType.unknown);
+          throw AuthenticationException(LoginExceptionType.unknown);
       }
     }
   }

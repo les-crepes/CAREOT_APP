@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:file/memory.dart';
 import 'package:firebase_storage_mocks/firebase_storage_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pdg_app/api/firebase_document.dart';
+import 'package:pdg_app/api/firebase_file.dart';
 import 'package:pdg_app/api/ifile.dart';
 
 const filename = 'someimage.png';

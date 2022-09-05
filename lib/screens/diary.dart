@@ -10,7 +10,7 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../model/user.dart';
-import '../api/firebase_document.dart';
+import '../api/firebase_file.dart';
 import '../api/ifile.dart';
 import '../provider/auth_provider.dart';
 import '../widgets/buttons/action_button.dart';

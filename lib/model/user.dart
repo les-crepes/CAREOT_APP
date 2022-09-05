@@ -66,4 +66,11 @@ class User implements IModel {
   void setFirstName(String name) {
     firstName = name;
   }
+
+  void addUser(String userId) {
+    if (clientList == null) {
+      throw Exception("Client list is null");
+    }
+    clientList!.add(userId);
+  }
 }

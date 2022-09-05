@@ -1,8 +1,13 @@
-import 'dart:io';
+import 'dart:typed_data';
 
+/// Interface for file storage operations.
 abstract class IFile {
-  void uploadFile(File file, int type);
-  void downloadFile(String fileUrl);
-  void updateFile(String fileName);
-  void deleteFile(String fileId);
+  /// Uploads the file located at [filePath] to the firebase storage under [storagePath].
+  /// Returns the download URL.
+  Future<String> uploadFile(String filePath, String storagePath);
+  /// Downloads the file located at [fileURL] from the firebase storage.
+  /// Returns the file bytes.
+  Future<Uint8List?> downloadFileBytes(String fileURL);
+  /// Deletes the file located at [fileURL] from the firebase storage.
+  void deleteFile(String fileURL);
 }

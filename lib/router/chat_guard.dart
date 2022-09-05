@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/router/router.gr.dart';
-import 'package:provider/provider.dart';
 
 import '../provider/auth_provider.dart';
-import '../provider/chat_provider.dart';
 
 class ChatGuard extends AutoRouteGuard {
   @override

@@ -87,6 +87,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       commentController: _commentController,
       hungerBeforeValue: _hungerBeforeValue,
       hungerAfterValue: _hungerAfterValue,
+      isAdmin: GetIt.I.get<AuthProvider>().isAdmin,
       onHungerAfterChanged: (value) => setState(() {
         _hungerAfterValue = value;
       }),
@@ -204,28 +205,30 @@ class AddMeal extends StatelessWidget {
   final TextEditingController? _nameTextController;
   final TextEditingController? _settingsController;
   final TextEditingController? _commentController;
+  final bool _isAdmin;
 
-  const AddMeal(
-      {Key? key,
-      required double hungerBeforeValue,
-      required double hungerAfterValue,
-      required void Function(double) onHungerBeforeChanged,
-      required void Function(double) onHungerAfterChanged,
-      required void Function() onCameraPressed,
-      required void Function() onGalleryPressed,
-      required void Function(TimeOfDay) onTimeSelected,
-      void Function()? onStartTimeSelected,
-      void Function()? onEndTimeSelected,
-      void Function()? onTimeSelectCanceled,
-      void Function()? onValidatePressed,
-      bool showTimePicker = false,
-      String? startTimeText,
-      String? endTimeText,
-      XFile? image,
-      TextEditingController? nameTextController,
-      TextEditingController? settingsController,
-      TextEditingController? commentController})
-      : _hungerBeforeValue = hungerBeforeValue,
+  const AddMeal({
+    Key? key,
+    required double hungerBeforeValue,
+    required double hungerAfterValue,
+    required void Function(double) onHungerBeforeChanged,
+    required void Function(double) onHungerAfterChanged,
+    required void Function() onCameraPressed,
+    required void Function() onGalleryPressed,
+    required void Function(TimeOfDay) onTimeSelected,
+    void Function()? onStartTimeSelected,
+    void Function()? onEndTimeSelected,
+    void Function()? onTimeSelectCanceled,
+    void Function()? onValidatePressed,
+    bool showTimePicker = false,
+    String? startTimeText,
+    String? endTimeText,
+    XFile? image,
+    TextEditingController? nameTextController,
+    TextEditingController? settingsController,
+    TextEditingController? commentController,
+    required bool isAdmin,
+  })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -243,23 +246,24 @@ class AddMeal extends StatelessWidget {
         _nameTextController = nameTextController,
         _settingsController = settingsController,
         _commentController = commentController,
+        _isAdmin = isAdmin,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const double height = 250;
 
-    final isAdmin = context.read<AuthProvider>().isAdmin;
-
     return Stack(
       children: [
         Column(
           children: [
             _Top(
-                height: height,
-                image: _image,
-                onCameraPressed: _onCameraPressed,
-                onGalleryPressed: _onGalleryPressed),
+              height: height,
+              image: _image,
+              onCameraPressed: _onCameraPressed,
+              onGalleryPressed: _onGalleryPressed,
+              isAdmin: _isAdmin,
+            ),
             Expanded(
               child: _ListView(
                 nameTextController: _nameTextController,
@@ -273,11 +277,12 @@ class AddMeal extends StatelessWidget {
                 onStartTimePress: _onStartTimeSelected,
                 endTimeText: _endTimeText,
                 startTimeText: _startTimeText,
+                isAdmin: _isAdmin,
               ),
             ),
           ],
         ),
-        !isAdmin
+        !_isAdmin
             ? ActionButton(
                 icon: Icons.check,
                 onPressed: _onValidatePressed,
@@ -303,20 +308,21 @@ class _Top extends StatelessWidget {
     required XFile? image,
     required void Function() onCameraPressed,
     required void Function() onGalleryPressed,
+    required bool isAdmin,
   })  : _image = image,
         _onCameraPressed = onCameraPressed,
         _onGalleryPressed = onGalleryPressed,
+        _isAdmin = isAdmin,
         super(key: key);
 
   final double height;
   final XFile? _image;
   final void Function() _onCameraPressed;
   final void Function() _onGalleryPressed;
+  final bool _isAdmin;
 
   @override
   Widget build(BuildContext context) {
-    final isAdmin = GetIt.I.get<AuthProvider>().isAdmin;
-
     return SizedBox(
       height: height,
       child: Stack(
@@ -334,7 +340,7 @@ class _Top extends StatelessWidget {
               ),
             ),
           ),
-          !isAdmin
+          !_isAdmin
               ? _PictureSelectorLayout(
                   onCameraPress: _onCameraPressed,
                   onImageSelectPress: _onGalleryPressed,
@@ -397,21 +403,23 @@ class _ListView extends StatelessWidget {
   final TextEditingController? _nameTextController;
   final TextEditingController? _settingsController;
   final TextEditingController? _commentController;
+  final bool _isAdmin;
 
-  const _ListView(
-      {Key? key,
-      required double hungerBeforeValue,
-      required double hungerAfterValue,
-      required void Function(double) onHungerBeforeChanged,
-      required void Function(double) onHungerAfterChanged,
-      void Function()? onStartTimePress,
-      void Function()? onEndTimePress,
-      String? startTimeText,
-      String? endTimeText,
-      TextEditingController? nameTextController,
-      TextEditingController? settingsController,
-      TextEditingController? commentController})
-      : _hungerBeforeValue = hungerBeforeValue,
+  const _ListView({
+    Key? key,
+    required double hungerBeforeValue,
+    required double hungerAfterValue,
+    required void Function(double) onHungerBeforeChanged,
+    required void Function(double) onHungerAfterChanged,
+    void Function()? onStartTimePress,
+    void Function()? onEndTimePress,
+    String? startTimeText,
+    String? endTimeText,
+    TextEditingController? nameTextController,
+    TextEditingController? settingsController,
+    TextEditingController? commentController,
+    required bool isAdmin,
+  })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -422,11 +430,10 @@ class _ListView extends StatelessWidget {
         _nameTextController = nameTextController,
         _settingsController = settingsController,
         _commentController = commentController,
+        _isAdmin = isAdmin,
         super(key: key);
 
   List<Widget> listViewContent(BuildContext context) {
-    final isAdmin = GetIt.I.get<AuthProvider>().isAdmin;
-
     return [
       Text(
         "Add a meal",
@@ -438,7 +445,7 @@ class _ListView extends StatelessWidget {
       MainTextField(
         name: "Meal name",
         controller: _nameTextController,
-        enabled: !isAdmin,
+        enabled: !_isAdmin,
         icon: const Icon(
           Icons.label,
           color: Colors.black,
@@ -446,17 +453,17 @@ class _ListView extends StatelessWidget {
       ),
       _TimePickerbutton(
         text: _startTimeText ?? "Start Time",
-        onTap: !isAdmin ? _onStartTimePress : null,
+        onTap: !_isAdmin ? _onStartTimePress : null,
       ),
       _TimePickerbutton(
         text: _endTimeText ?? "End Time",
-        onTap: !isAdmin ? _onEndTimePress : null,
+        onTap: !_isAdmin ? _onEndTimePress : null,
       ),
       SliderWithText(
           context: context,
           text: "Rate your hunger before eating",
           value: _hungerBeforeValue,
-          onChanged: !isAdmin ? _onHungerBeforeChanged : null,
+          onChanged: !_isAdmin ? _onHungerBeforeChanged : null,
           labels: const [
             "0 - not hungry",
             "1",
@@ -469,7 +476,7 @@ class _ListView extends StatelessWidget {
           context: context,
           text: "Rate your satiety after eating",
           value: _hungerAfterValue,
-          onChanged: !isAdmin ? _onHungerAfterChanged : null,
+          onChanged: !_isAdmin ? _onHungerAfterChanged : null,
           labels: const [
             "still hungry",
             "discomfort",
@@ -481,14 +488,14 @@ class _ListView extends StatelessWidget {
         icon: const Icon(Icons.people_alt, color: Colors.black),
         maxLines: null,
         controller: _settingsController,
-        enabled: !isAdmin,
+        enabled: !_isAdmin,
       ),
       MainTextField(
         name: "Comments",
         icon: const Icon(Icons.comment, color: Colors.black),
         maxLines: null,
         controller: _commentController,
-        enabled: !isAdmin,
+        enabled: !_isAdmin,
       ),
     ];
   }

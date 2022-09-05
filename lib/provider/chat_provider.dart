@@ -39,6 +39,7 @@ class ChatProvider extends ChangeNotifier {
     return UnmodifiableListView([]);
   }
 
+  /// It filters the messages to get all last messages of every users.
   UnmodifiableListView<MapEntry<User, Message>> getLastMessageOfEachUser() {
     final result =
         _messages.entries.where((element) => element.value.isNotEmpty).map((e) {
@@ -81,11 +82,13 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// send a message
   Future<void> sendMessage(Message message) async {
     _messageApi.createMessage(message);
   }
 
-  startNewMessageListener() {
+  /// Start listen to new incoming message.
+  void startNewMessageListener() {
     stopNewMessageListener();
     for (final user in _messages.keys) {
       final currentUserUid = _auth.userUid;
@@ -94,7 +97,9 @@ class ChatProvider extends ChangeNotifier {
           .followConversation(currentUserUid, user.uid)
           .listen((event) {
         log('FOLLOW: $event');
-        if (event != null) {
+
+        /// Be sure that the last received message isn't already in the list.
+        if (event != null && _messages[user]!.last.uid != event.uid) {
           _messages[user]!.add(event);
         }
 
@@ -104,7 +109,8 @@ class ChatProvider extends ChangeNotifier {
     }
   }
 
-  stopNewMessageListener() {
+  /// Stop listening to new incoming message.
+  void stopNewMessageListener() {
     for (final subscription in subcriptions) {
       subscription.cancel();
     }

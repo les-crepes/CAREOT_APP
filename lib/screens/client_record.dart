@@ -63,11 +63,7 @@ class ClientRecordScreen extends StatelessWidget {
               DiaryScreenRoute(client: _user),
             ]));
           },
-          onChatButtonPressed: () {
-            context.pushRoute(const ChatRouterPage(children: [
-              ChatScreenRoute(),
-            ]));
-          },
+          onChatButtonPressed: () {},
         );
       },
     );

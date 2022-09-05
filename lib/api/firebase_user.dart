@@ -35,7 +35,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   }
 
   @override
-  void updateUser(User user) {
+  Future<void> updateUser(User user) async {
     collectionReference
         .doc(user.uid)
         .update(user.toFirestore())
@@ -87,5 +87,12 @@ class FirebaseUser extends FirebaseAPI implements IUser {
         querySnapshot.docs.map((doc) => doc.data()).toList();
 
     return dietitians.isNotEmpty ? dietitians.first : null;
+  }
+
+  @override
+  Future<void> addClient(String userId, String dietitianId) async {
+    final dietitian = await readUser(dietitianId);
+    dietitian.addUser(userId);
+    await updateUser(dietitian);
   }
 }

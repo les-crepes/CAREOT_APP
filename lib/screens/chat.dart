@@ -6,7 +6,13 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pdg_app/router/router.gr.dart';
+import 'package:provider/provider.dart';
+
+import '../model/user.dart';
+import '../provider/auth_provider.dart';
+import '../provider/chat_provider.dart';
 
 String randomString() {
   final random = math.Random.secure();
@@ -15,26 +21,34 @@ String randomString() {
 }
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final User _otherUser;
+  const ChatScreen({
+    Key? key,
+    required User otherUser,
+  })  : _otherUser = otherUser,
+        super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final List<types.Message> _messages = [];
-  final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
-  final _user2 = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3af');
+  final _mainUser = types.User(id: GetIt.I.get<AuthProvider>().userUid);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _addMessage(types.Message message) {
     setState(() {
-      _messages.insert(0, message);
+      //_messages.insert(0, message);
     });
   }
 
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: _user2,
+      author: _mainUser,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: randomString(),
       text: message.text,
@@ -45,10 +59,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ChatProvider chatProvider = context.watch<ChatProvider>();
     return ChatInterface(
-      name: "Nelson",
-      currentUser: _user,
-      messages: _messages,
+      name: '${widget._otherUser.firstName} ${widget._otherUser.lastName}',
+      currentUser: _mainUser,
+      messages: chatProvider.messages[widget._otherUser]!
+          .map((m) => types.TextMessage(
+                id: m.uid,
+                author: types.User(id: m.fromId),
+                type: types.MessageType.text,
+                text: m.content,
+              ))
+          .toList(),
       onSendPressed: _handleSendPressed,
       onDocumentPressed: () {
         AutoRouter.of(context).push(const DocumentListScreenRoute());

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/router/chat_guard.dart';
+import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/screens/add_meal.dart';
 import 'package:pdg_app/screens/chat.dart';
 import 'package:pdg_app/screens/client_list.dart';
@@ -20,6 +21,7 @@ import '../screens/home.dart';
 import '../widgets/register/register_third_page.dart';
 import '../screens/update_client_record.dart';
 import './auth_gard.dart';
+import 'chat_router_page.dart';
 import 'home_guard.dart';
 
 @MaterialAutoRouter(
@@ -32,8 +34,7 @@ import 'home_guard.dart';
       initial: true,
       children: [
         AutoRoute(
-          page: EmptyRouterPage,
-          name: 'ChatRouterPage',
+          page: ChatRouterPage,
           path: 'chat',
           children: [
             AutoRoute(

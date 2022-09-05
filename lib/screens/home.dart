@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/router/router.gr.dart';
 
+import '../router/chat_router_page.dart';
 import '../widgets/navbar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
-        ChatRouterPage(),
+        ChatRouterPageRoute(),
         MainRouterPage(),
         ProfileScreenRoute(),
       ],

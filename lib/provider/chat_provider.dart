@@ -26,13 +26,24 @@ class ChatProvider extends ChangeNotifier {
 
   ChatProvider(AuthProvider authProvider) : _auth = authProvider;
 
+  Map<User, SortedList<Message>> get messages => UnmodifiableMapView(_messages);
+
   /// Returning an unmodifiable list view of the messages.
-  UnmodifiableListView<Message> getMessagesWith(String uid) {
+  UnmodifiableListView<Message> getMessagesWithUid(String uid) {
     final messages = _messages[uid];
     if (messages != null) {
       return UnmodifiableListView(messages);
     }
     return UnmodifiableListView([]);
+  }
+
+  UnmodifiableListView<MapEntry<User, Message>> getLastMessageOfEachUser() {
+    final result =
+        _messages.entries.where((element) => element.value.isNotEmpty).map((e) {
+      MapEntry<User, Message> entry = MapEntry(e.key, e.value.last);
+      return entry;
+    }).toList();
+    return UnmodifiableListView(result);
   }
 
   /// Fetching all the messages from the database.

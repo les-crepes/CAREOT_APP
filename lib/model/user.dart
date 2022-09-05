@@ -66,4 +66,13 @@ class User implements IModel {
   void setFirstName(String name) {
     firstName = name;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is User && other.uid == uid) return true;
+    return false;
+  }
+
+  @override
+  int get hashCode => Object.hash(uid, null);
 }

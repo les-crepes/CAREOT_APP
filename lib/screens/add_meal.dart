@@ -46,6 +46,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _settingsController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+  bool updatePic = false;
 
   @override
   void initState() {
@@ -82,6 +83,18 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider image = AssetImage("assets/images/placeholderfood.png");
+
+    if (widget._meal != null && widget._meal!.photo != null) {
+      if (_image != null) {
+        image = XFileImage(_image!);
+      } else {
+        image = NetworkImage(widget._meal!.photo!);
+      }
+    } else if (_image != null) {
+      image = XFileImage(_image!);
+    }
+
     return AddMeal(
       nameTextController: _nameTextController,
       settingsController: _settingsController,
@@ -94,7 +107,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       onHungerBeforeChanged: (value) => setState(() {
         _hungerBeforeValue = value;
       }),
-      image: _image,
+      image: image,
       onCameraPressed: () async {
         _image = await _takePicture();
         setState(() {});
@@ -197,7 +210,7 @@ class AddMeal extends StatelessWidget {
   final void Function(double) _onHungerAfterChanged;
   final void Function() _onCameraPressed;
   final void Function() _onGalleryPressed;
-  final XFile? _image;
+  final ImageProvider? _image;
   final void Function(TimeOfDay) _onTimeSelected;
   final void Function()? _onTimeSelectCanceled;
   final void Function()? _onStartTimeSelected;
@@ -226,7 +239,7 @@ class AddMeal extends StatelessWidget {
       bool showTimePicker = false,
       String? startTimeText,
       String? endTimeText,
-      XFile? image,
+      ImageProvider? image,
       TextEditingController? nameTextController,
       TextEditingController? settingsController,
       TextEditingController? commentController})
@@ -300,7 +313,7 @@ class _Top extends StatelessWidget {
   const _Top({
     Key? key,
     required this.height,
-    required XFile? image,
+    required ImageProvider? image,
     required void Function() onCameraPressed,
     required void Function() onGalleryPressed,
   })  : _image = image,
@@ -309,7 +322,7 @@ class _Top extends StatelessWidget {
         super(key: key);
 
   final double height;
-  final XFile? _image;
+  final ImageProvider? _image;
   final void Function() _onCameraPressed;
   final void Function() _onGalleryPressed;
 
@@ -323,13 +336,7 @@ class _Top extends StatelessWidget {
             height: height,
             width: double.infinity,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: _image == null
-                    ? const AssetImage("assets/images/placeholderfood.png")
-                        as ImageProvider
-                    : XFileImage(_image!),
-              ),
+              image: DecorationImage(fit: BoxFit.cover, image: _image!),
             ),
           ),
           _PictureSelectorLayout(

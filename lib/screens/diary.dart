@@ -84,8 +84,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   await mealProvider.updateMeal(
                       changedMeal.item1!, changedMeal.item2);
                   mealProvider.fetchMeals();
-                  _loadingOverlayController.hideLoadingOverlay();
                 }
+                _loadingOverlayController.hideLoadingOverlay();
               }),
         );
       },

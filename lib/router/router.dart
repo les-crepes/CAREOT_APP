@@ -20,6 +20,7 @@ import '../screens/home.dart';
 import '../widgets/register/register_third_page.dart';
 import '../screens/update_client_record.dart';
 import './auth_gard.dart';
+import 'chat_router_page.dart';
 import 'home_guard.dart';
 
 @MaterialAutoRouter(
@@ -32,8 +33,7 @@ import 'home_guard.dart';
       initial: true,
       children: [
         AutoRoute(
-          page: EmptyRouterPage,
-          name: 'ChatRouterPage',
+          page: ChatRouterPage,
           path: 'chat',
           children: [
             AutoRoute(

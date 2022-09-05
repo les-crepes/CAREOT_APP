@@ -13,7 +13,7 @@ class ChatGuard extends AutoRouteGuard {
     if (isAdmin) {
       resolver.next(true);
     } else {
-      router.push(const ChatScreenRoute());
+      router.push(ChatScreenRoute());
     }
   }
 }

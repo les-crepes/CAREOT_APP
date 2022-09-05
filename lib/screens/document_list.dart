@@ -27,8 +27,9 @@ class DocumentListScreen extends StatelessWidget {
                 Icons.description_outlined,
                 size: 40,
               ),
+              // Le contenu du message est raccourci car sinon il ne rentre pas dans la liste
               title: m.content
-                  .substring(0, m.content.length < 20 ? m.content.length : 20),
+                  .substring(0, m.content.length < 15 ? m.content.length : 15),
               date: m.time,
               onTap: () {
                 final Uri url = Uri.parse(m.fileUrl!);

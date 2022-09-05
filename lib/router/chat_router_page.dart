@@ -17,7 +17,7 @@ class ChatRouterPage extends StatelessWidget {
           future: () async {
             final chatProvider = context.read<ChatProvider>();
             await chatProvider.fetchAllMessages();
-            await chatProvider.startNewMessageListener();
+            chatProvider.startNewMessageListener();
           }(),
           builder: (context, snapshot) =>
               snapshot.connectionState == ConnectionState.done

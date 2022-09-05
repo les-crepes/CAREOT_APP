@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/iuser.dart';
@@ -35,7 +36,7 @@ class FirebaseConnection implements Auth {
   }
 
   @override
-  Future<bool> signIn({required String email, required String password}) async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
       if (isConnected) {
         log("Already connected");
@@ -43,11 +44,20 @@ class FirebaseConnection implements Auth {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
       }
-      return true;
-    } catch (e) {
-      log(e.toString());
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "user-not-found":
+          throw AuthenticationException(LoginExceptionType.userNotFound);
+        case "wrong-password":
+          throw AuthenticationException(LoginExceptionType.wrongPassword);
+        case "invalid-email":
+          throw AuthenticationException(LoginExceptionType.invalidEmail);
+        case "user-disabled":
+          throw AuthenticationException(LoginExceptionType.userDisabled);
+        default:
+          throw AuthenticationException(LoginExceptionType.unknown);
+      }
     }
-    return false;
   }
 
   @override

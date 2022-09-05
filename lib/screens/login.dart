@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
@@ -43,23 +44,37 @@ class _LoginScreenState extends State<LoginScreen> {
           onLoginPress: () async {
             _loadingController.showLoadingOverlay();
             final auth = GetIt.I.get<AuthProvider>();
-            await auth.signIn(_emailController.text, _passwordController.text);
-            if (auth.isConnected()) {
+            try {
+              await auth.signIn(
+                  _emailController.text, _passwordController.text);
+              if (auth.isConnected()) {
+                _loadingController.hideLoadingOverlay();
+                router.replaceAll([const HomeScreenRoute()]);
+              }
+            } catch (e) {
               _loadingController.hideLoadingOverlay();
-              router.replaceAll([const HomeScreenRoute()]);
-            } else {
-              // ignore: use_build_context_synchronously
-              _loadingController.hideLoadingOverlay();
-              scaffold.showSnackBar(
-                const SnackBar(
-                  content: Text('Login failed'),
-                ),
-              );
+              final snackBar =
+                  _createSnackBarMessage('Login error !', e.toString());
+
+              scaffold.showSnackBar(snackBar);
             }
           },
           onRegisterPress: () =>
               AutoRouter.of(context).navigate(const RegisterScreenRoute()),
         ),
+      ),
+    );
+  }
+
+  SnackBar _createSnackBarMessage(String title, String message) {
+    return SnackBar(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: ContentType.failure,
       ),
     );
   }

@@ -30,24 +30,30 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  /// Return true if the user is admin (Dietitian).
   bool get isAdmin => _isAdmin;
 
+  /// Return the currently connected user's data.
   User? get user => _client;
 
+  /// Returns the dietitian of the client.
+  ///
+  /// It's null if it wasn't fetched or if the user is a dietitian.
   User? get clientDietitian => _clientDietitian;
 
+  /// Returns the user's uid.
   String get userUid => _auth.uid;
 
+  /// Returns true if the user is connected.
   bool isConnected() {
     return _auth.isConnected;
   }
 
+  /// Sign in using [email] and [password].
   Future<void> signIn(String email, String password) async {
-    final isConnected = await _auth.signIn(email: email, password: password);
-    //final isConnected =
-    //await _auth.signIn(email: "luca.coduri@heig-vd.ch", password: 'crepes');
+    await _auth.signIn(email: email, password: password);
     _isAdmin = await _auth.isDietitian();
-    if (isConnected) {
+    if (isConnected()) {
       await fetchClient();
       await fetchClientDietitian();
     }
@@ -55,6 +61,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// It signs out the user and deletes cache related to the user.
   Future<void> signOut() async {
     await _auth.signOut();
     _client = null;
@@ -63,6 +70,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// register a new user using [email] and [password] as credentials.
   Future<void> register(String email, String password, User user) async {
     await _auth.register(email: email, password: password);
     user.uid = _auth.uid;
@@ -71,6 +79,9 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Return and stores the loged in user from the database.
+  ///
+  /// The user is stored in [this.user].
   Future<User?> fetchClient() async {
     try {
       _client = await _userApi.readUser(_auth.uid);
@@ -82,6 +93,9 @@ class AuthProvider extends ChangeNotifier {
     return _client;
   }
 
+  /// Returns and stores the dietitian of the user.
+  ///
+  /// The dietitian is stored in [this.clientDietitian].
   Future<User?> fetchClientDietitian() async {
     try {
       if (!isAdmin) {

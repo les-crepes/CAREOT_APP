@@ -88,8 +88,8 @@ class _ChatScreenState extends State<ChatScreen> {
     log(message.toString());
     if (message.type != types.MessageType.file) return;
     final fileMessage = message as types.FileMessage;
-    final Uri _url = Uri.parse(message.uri);
-    launchUrl(_url, mode: LaunchMode.externalApplication);
+    final Uri url = Uri.parse(fileMessage.uri);
+    launchUrl(url, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -114,6 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     size: 0,
                     author: types.User(id: m.fromId),
                     uri: m.fileUrl!,
+                    type: types.MessageType.file,
                   ),
           )
           .toList(),

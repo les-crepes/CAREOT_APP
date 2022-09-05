@@ -165,6 +165,7 @@ class HotReload extends StatelessWidget {
                   const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3af'),
               name: "test",
               onSendPressed: (types.PartialText p) {},
+              onAttachementPressed: () {},
             );
           },
         ),

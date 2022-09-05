@@ -2,17 +2,17 @@
 name: CI - Check code & run tests
 on: push
 jobs:
-  test:
-    name: Check the source code
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.0.5"
-      - name: Install packages
-        run: flutter pub get
-      - name: Linter
-        run: flutter analyze
-      - name: Test
-        run: flutter test
+    test:
+        name: Check the source code
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.3.0"
+            - name: Install packages
+              run: flutter pub get
+            - name: Linter
+              run: flutter analyze
+            - name: Test
+              run: flutter test

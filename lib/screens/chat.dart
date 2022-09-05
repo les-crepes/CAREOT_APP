@@ -1,14 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pdg_app/api/firebase_file.dart';
 import 'package:pdg_app/api/firebase_message.dart';
+import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +43,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _mainUser = types.User(id: GetIt.I.get<AuthProvider>().userUid);
+  final IMessage _messageApi = FirebaseMessage(FirebaseFirestore.instance);
   late User _otherUser;
 
   @override
@@ -46,8 +52,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleSendPressed(types.PartialText message) {
-    IMessage messageApi = FirebaseMessage(FirebaseFirestore.instance);
-
     final newMessage = model.Message(
       toId: _otherUser.uid,
       fromId: _mainUser.id,
@@ -55,7 +59,27 @@ class _ChatScreenState extends State<ChatScreen> {
       time: DateTime.now(),
     );
 
-    messageApi.createMessage(newMessage);
+    _messageApi.createMessage(newMessage);
+  }
+
+  void _handleAttachementPressed() async {
+    IFile fileApi = FirebaseFile(FirebaseStorage.instance);
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result == null) return;
+
+    final url = await fileApi.uploadFile(result.files.single.path!, 'files/');
+
+    final newMessage = model.Message(
+      toId: _otherUser.uid,
+      fromId: _mainUser.id,
+      content: result.files.single.name,
+      time: DateTime.now(),
+      fileUrl: url,
+    );
+
+    _messageApi.createMessage(newMessage);
   }
 
   @override
@@ -66,18 +90,28 @@ class _ChatScreenState extends State<ChatScreen> {
       name: '${_otherUser.firstName} ${_otherUser.lastName}',
       currentUser: _mainUser,
       messages: chatProvider.messages[_otherUser]!
-          .map((m) => types.TextMessage(
-                id: m.uid,
-                author: types.User(id: m.fromId),
-                type: types.MessageType.text,
-                text: m.content,
-              ))
+          .map(
+            (m) => m.fileUrl == null
+                ? types.TextMessage(
+                    id: m.uid,
+                    author: types.User(id: m.fromId),
+                    type: types.MessageType.text,
+                    text: m.content,
+                  )
+                : types.FileMessage(
+                    id: m.uid,
+                    name: m.content,
+                    size: 0,
+                    author: types.User(id: m.fromId),
+                    uri: m.fileUrl!,
+                  ),
+          )
           .toList(),
       onSendPressed: _handleSendPressed,
       onDocumentPressed: () {
         AutoRouter.of(context).push(const DocumentListScreenRoute());
       },
-      onAttachementPressed: () {},
+      onAttachementPressed: _handleAttachementPressed,
     );
   }
 }

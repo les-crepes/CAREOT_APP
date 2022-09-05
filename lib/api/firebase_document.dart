@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:flutter/widgets.dart';
 import 'package:pdg_app/api/ifile.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
+
 
 class FirebaseFile implements IFile {
 
@@ -19,10 +19,11 @@ class FirebaseFile implements IFile {
   @override
   Future<String> uploadFile(String filepath) async {
     File file = File(filepath);
-    String fileName = Uuid().v4();
+    String fileName = const Uuid().v4();
     final fileRef = storageRef.child(fileName);
     try {
       await fileRef.putFile(file);
+      log("File uploaded successfully");
       return fileRef.fullPath;
     } on FirebaseException catch (e) {
       log("Failed to upload file: $e");
@@ -30,30 +31,22 @@ class FirebaseFile implements IFile {
     }
   }
 
+  /// Deletes the file from the firebase storage.
   @override
   void deleteFile(String fileURL) async {
+    log('deleteFile: $fileURL');
     final fileId = bucket.refFromURL(fileURL).name;
     final ref = storageRef.child(fileId);
     await ref.delete();
   }
 
-  @override
-  Future<File> downloadFile(String fileId, String downloadPath) async {
-    final ref = storageRef.child(fileId);
-    File file = File('$downloadPath/$fileId');
-    ref.writeToFile(file);
-    return file;
-  }
-
+  /// Downloads the file from the firebase storage.
   @override
   Future<Uint8List?> downloadFileBytes(String fileURL) async {
+    log("downloadFileBytes: $fileURL");
     final ref = bucket.refFromURL(fileURL);
-    final islandRef = storageRef.child("someimage.png");
-    final islandRef2 = storageRef.child("someimagedsadsa.png");
-    final islandRef3 = storageRef.child(ref.name.substring(1));
     try {
-      final Uint8List? t = await islandRef3.getData(maxFileSize);
-      return Uint8List(1);
+      return await ref.getData(maxFileSize);
     } on FirebaseException catch (e) {
       log("Failed to download file: $e");
       throw Exception(e);

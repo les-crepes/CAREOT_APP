@@ -52,6 +52,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         MealProvider mealProvider = context.read<MealProvider>();
         return Diary(
             onDaySelected: _onDaySelected,
+            showActionButton: !isAdmin,
             getDiariesForDay: (day) {
               return _getEventsForDay(context, day);
             },
@@ -135,6 +136,8 @@ class _DiaryState extends State<Diary> {
     );
 
     final DateFormat hourFormatter = DateFormat('HH:mm');
+
+    final isAdmin = context.read<AuthProvider>().isAdmin;
 
     return Stack(children: [
       Column(

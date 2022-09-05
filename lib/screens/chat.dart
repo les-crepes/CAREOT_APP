@@ -120,7 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
       onSendPressed: _handleSendPressed,
       onMessageTap: _handleMessageTap,
       onDocumentPressed: () {
-        AutoRouter.of(context).push(const DocumentListScreenRoute());
+        AutoRouter.of(context).push(DocumentListScreenRoute(user: _otherUser));
       },
       onAttachementPressed: _handleAttachementPressed,
     );

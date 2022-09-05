@@ -87,7 +87,7 @@ class ClientRecord extends StatelessWidget {
   final DateTime? _endDate;
   final void Function()? _onIconButtonPressed;
   final void Function()? _onDiariesButtonPressed;
-  final void Function()? _onChatButtonPressed;
+  final void Function()? _onChatButtonPressed; //TODO décommenter
 
   const ClientRecord(
       {required clientFirstName,
@@ -157,7 +157,8 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                   color1: Theme.of(context).colorScheme.tertiary,
                   color2: Theme.of(context).colorScheme.tertiary,
-                  onPress: () {}, // TODO changer pour sélectionner le bon chat.
+                  onPress:
+                      _onChatButtonPressed, // TODO changer pour sélectionner le bon chat.
                   child: const Text(
                     "CHAT",
                     style: TextStyle(color: Colors.white),

@@ -79,7 +79,8 @@ class AppRouter extends _i18.RootStackRouter {
           routeData: routeData, child: const _i6.ProfileScreen());
     },
     ChatScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<ChatScreenRouteArgs>();
+      final args = routeData.argsAs<ChatScreenRouteArgs>(
+          orElse: () => const ChatScreenRouteArgs());
       return _i18.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i7.ChatScreen(key: args.key, otherUser: args.otherUser));
@@ -283,7 +284,7 @@ class ProfileScreenRoute extends _i18.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.ChatScreen]
 class ChatScreenRoute extends _i18.PageRouteInfo<ChatScreenRouteArgs> {
-  ChatScreenRoute({_i19.Key? key, required _i25.User otherUser})
+  ChatScreenRoute({_i19.Key? key, _i25.User? otherUser})
       : super(ChatScreenRoute.name,
             path: 'onechat',
             args: ChatScreenRouteArgs(key: key, otherUser: otherUser));
@@ -292,11 +293,11 @@ class ChatScreenRoute extends _i18.PageRouteInfo<ChatScreenRouteArgs> {
 }
 
 class ChatScreenRouteArgs {
-  const ChatScreenRouteArgs({this.key, required this.otherUser});
+  const ChatScreenRouteArgs({this.key, this.otherUser});
 
   final _i19.Key? key;
 
-  final _i25.User otherUser;
+  final _i25.User? otherUser;
 
   @override
   String toString() {

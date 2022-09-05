@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
@@ -21,10 +22,10 @@ String randomString() {
 }
 
 class ChatScreen extends StatefulWidget {
-  final User _otherUser;
+  final User? _otherUser;
   const ChatScreen({
     Key? key,
-    required User otherUser,
+    User? otherUser,
   })  : _otherUser = otherUser,
         super(key: key);
 
@@ -34,6 +35,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _mainUser = types.User(id: GetIt.I.get<AuthProvider>().userUid);
+  late User _otherUser;
 
   @override
   void initState() {
@@ -60,10 +62,12 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final ChatProvider chatProvider = context.watch<ChatProvider>();
+    _otherUser = widget._otherUser ?? chatProvider.messages.keys.first;
+    log(chatProvider.messages.toString());
     return ChatInterface(
-      name: '${widget._otherUser.firstName} ${widget._otherUser.lastName}',
+      name: '${_otherUser.firstName} ${_otherUser.lastName}',
       currentUser: _mainUser,
-      messages: chatProvider.messages[widget._otherUser]!
+      messages: chatProvider.messages[_otherUser]!
           .map((m) => types.TextMessage(
                 id: m.uid,
                 author: types.User(id: m.fromId),

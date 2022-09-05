@@ -15,13 +15,7 @@ class ChatGuard extends AutoRouteGuard {
     if (isAdmin) {
       resolver.next(true);
     } else {
-      router.push(ChatScreenRoute(
-        otherUser: router.navigatorKey.currentContext!
-            .read<ChatProvider>()
-            .messages
-            .keys
-            .first,
-      ));
+      router.push(ChatScreenRoute());
     }
   }
 }

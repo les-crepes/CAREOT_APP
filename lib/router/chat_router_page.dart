@@ -12,7 +12,20 @@ class ChatRouterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ChatProvider(GetIt.I.get<AuthProvider>()),
-      child: const AutoRouter(),
+      builder: (context, child) {
+        return FutureBuilder(
+          future: context.read<ChatProvider>().fetchAllMessages(),
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+                  ? const AutoRouter()
+                  : Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [CircularProgressIndicator()]),
+                    ),
+        );
+      },
     );
   }
 }

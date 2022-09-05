@@ -12,29 +12,21 @@ class DiscussionListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: context.read<ChatProvider>().fetchAllMessages(),
-      builder: (context, snapshot) =>
-          snapshot.connectionState == ConnectionState.done
-              ? CustomList(
-                  title: 'Discussions',
-                  conversationsTileData: context
-                      .watch<ChatProvider>()
-                      .getLastMessageOfEachUser()
-                      .map((e) => CustomListTileData(
-                            title: '${e.key.firstName} ${e.key.lastName}',
-                            subtitle: e.value.content,
-                            date: e.value.time,
-                            onTap: () {
-                              AutoRouter.of(context)
-                                  .push(ChatScreenRoute(otherUser: e.key));
-                            },
-                          ))
-                      .toList(),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [CircularProgressIndicator()]),
+    return CustomList(
+      title: 'Discussions',
+      conversationsTileData: context
+          .watch<ChatProvider>()
+          .getLastMessageOfEachUser()
+          .map((e) => CustomListTileData(
+                title: '${e.key.firstName} ${e.key.lastName}',
+                subtitle: e.value.content,
+                date: e.value.time,
+                onTap: () {
+                  AutoRouter.of(context)
+                      .push(ChatScreenRoute(otherUser: e.key));
+                },
+              ))
+          .toList(),
     );
   }
 }

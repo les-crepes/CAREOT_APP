@@ -137,8 +137,6 @@ class _DiaryState extends State<Diary> {
 
     final DateFormat hourFormatter = DateFormat('HH:mm');
 
-    final isAdmin = context.read<AuthProvider>().isAdmin;
-
     return Stack(children: [
       Column(
         children: [

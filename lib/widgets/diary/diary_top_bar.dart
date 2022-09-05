@@ -21,7 +21,6 @@ class DiaryTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isAdmin = context.read<AuthProvider>().isAdmin;
-    ;
 
     return Stack(children: [
       background,

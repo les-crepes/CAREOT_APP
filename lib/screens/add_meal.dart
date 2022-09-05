@@ -12,6 +12,7 @@ import 'package:tuple/tuple.dart';
 
 import '../model/meal.dart';
 import '../widgets/buttons/custom_icon_button.dart';
+import '../widgets/loading_overlay.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {

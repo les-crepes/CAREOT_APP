@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
 
@@ -20,6 +21,7 @@ class ChatProvider extends ChangeNotifier {
   final AuthProvider _auth;
   final IMessage _messageApi = FirebaseMessage(FirebaseFirestore.instance);
   final IUser _userApi = FirebaseUser(FirebaseFirestore.instance);
+  final List<StreamSubscription<Message?>> subcriptions = [];
 
   /// The list of messages using a [LinkedHashMap] to keep the order of the messages.
   final Map<User, SortedList<Message>> _messages = {};
@@ -69,13 +71,42 @@ class ChatProvider extends ChangeNotifier {
     int index = 0;
     for (final conv in futureResult) {
       final sortedList =
-          SortedList<Message>((a, b) => a.time.compareTo(b.time));
+          SortedList<Message>((a, b) => b.time.compareTo(a.time));
 
       sortedList.addAll(conv!);
 
       _messages[users[index]] = sortedList;
       index++;
     }
-    log(_messages.toString());
+    notifyListeners();
+  }
+
+  Future<void> sendMessage(Message message) async {
+    _messageApi.createMessage(message);
+  }
+
+  startNewMessageListener() {
+    stopNewMessageListener();
+    for (final user in _messages.keys) {
+      final currentUserUid = _auth.userUid;
+
+      final subscription = _messageApi
+          .followConversation(currentUserUid, user.uid)
+          .listen((event) {
+        log('FOLLOW: $event');
+        if (event != null) {
+          _messages[user]!.add(event);
+        }
+
+        notifyListeners();
+      });
+      subcriptions.add(subscription);
+    }
+  }
+
+  stopNewMessageListener() {
+    for (final subscription in subcriptions) {
+      subscription.cancel();
+    }
   }
 }

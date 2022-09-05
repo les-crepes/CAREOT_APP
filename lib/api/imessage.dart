@@ -6,4 +6,5 @@ abstract class IMessage {
   Future<List<Message>?> readConversation(String firstId, String secondId);
   void updateMessage(Message message);
   void deleteMessage(String messageId);
+  Stream<Message?> followConversation(String firstId, String secondId);
 }

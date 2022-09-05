@@ -1,17 +1,20 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pdg_app/api/firebase_message.dart';
+import 'package:pdg_app/api/imessage.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
 
 import '../model/user.dart';
+import '../model/message.dart' as model;
 import '../provider/auth_provider.dart';
 import '../provider/chat_provider.dart';
 
@@ -42,28 +45,23 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
-  void _addMessage(types.Message message) {
-    setState(() {
-      //_messages.insert(0, message);
-    });
-  }
-
   void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: _mainUser,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: randomString(),
-      text: message.text,
+    IMessage messageApi = FirebaseMessage(FirebaseFirestore.instance);
+
+    final newMessage = model.Message(
+      toId: _otherUser.uid,
+      fromId: _mainUser.id,
+      content: message.text,
+      time: DateTime.now(),
     );
 
-    _addMessage(textMessage);
+    messageApi.createMessage(newMessage);
   }
 
   @override
   Widget build(BuildContext context) {
     final ChatProvider chatProvider = context.watch<ChatProvider>();
     _otherUser = widget._otherUser ?? chatProvider.messages.keys.first;
-    log(chatProvider.messages.toString());
     return ChatInterface(
       name: '${_otherUser.firstName} ${_otherUser.lastName}',
       currentUser: _mainUser,

@@ -34,7 +34,8 @@ class CustomList extends StatelessWidget {
                         image:
                             AssetImage('assets/images/default_user_pic.png')),
                 title: conv.title ?? 'Conversation ${index + 1}',
-                subtitle: conv.date != null
+                subtitle: conv.subtitle ?? '',
+                date: conv.date != null
                     ? format.format(conv.date!)
                     : 'No messages yet',
                 badgeCount: _conversationsTileData[index].badgeCount ?? 0,
@@ -58,6 +59,7 @@ class CustomList extends StatelessWidget {
 class _CustomListTile extends StatelessWidget {
   final String _title;
   final String _subtitle;
+  final String? _date;
   final int _badgeCount;
   final Widget _avatar;
   final void Function()? _onTap;
@@ -66,6 +68,7 @@ class _CustomListTile extends StatelessWidget {
     Key? key,
     required String title,
     required String subtitle,
+    String? date,
     required int badgeCount,
     required Widget avatar,
     void Function()? onTap,
@@ -74,6 +77,7 @@ class _CustomListTile extends StatelessWidget {
         _badgeCount = badgeCount,
         _avatar = avatar,
         _onTap = onTap,
+        _date = date,
         super(key: key);
 
   @override
@@ -84,7 +88,15 @@ class _CustomListTile extends StatelessWidget {
         onTap: _onTap,
         leading: _avatar,
         trailing: _badgeCount == 0 ? const SizedBox() : Badge(_badgeCount),
-        title: Text(_title),
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(_title),
+          if (_date != null)
+            Text(
+              _date!,
+              style: const TextStyle(fontSize: 14),
+            )
+        ]),
         subtitle: Text(_subtitle),
       ),
     );

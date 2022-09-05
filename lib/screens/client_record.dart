@@ -161,7 +161,7 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                   color1: Theme.of(context).colorScheme.tertiary,
                   color2: Theme.of(context).colorScheme.tertiary,
-                  onPress: _onChatButtonPressed,
+                  onPress: () {}, // TODO changer pour sélectionner le bon chat.
                   child: const Text(
                     "CHAT",
                     style: TextStyle(color: Colors.white),

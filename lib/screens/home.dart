@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/router/router.gr.dart';
 
-import '../router/chat_router_page.dart';
 import '../widgets/navbar.dart';
 
 class HomeScreen extends StatefulWidget {

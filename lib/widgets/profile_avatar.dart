@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfileAvatar extends StatelessWidget {
-  final AssetImage image;
+  final ImageProvider image;
 
   const ProfileAvatar({required this.image, Key? key}) : super(key: key);
 

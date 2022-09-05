@@ -69,19 +69,27 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> register(
-      String email, String password, User user, XFile? pic) async {
+// Return the profile pic URL
+  Future<String?> uploadProfilePic(XFile? pic, String userUid) async {
     String? picUrl;
-
     if (pic != null) {
-      picUrl = "images/profile/" + user.uid + ".jpg";
-      _fileApi.uploadFile(pic.path, picUrl);
+      String path = "images/profile/" + userUid + ".jpg";
+      picUrl = await _fileApi.uploadFile(pic.path, path);
       log(picUrl);
       log(pic.path);
     }
 
+    return picUrl;
+  }
+
+  Future<void> register(
+      String email, String password, User user, XFile? pic) async {
+    String? picUrl = await uploadProfilePic(pic, user.uid);
+
     await _auth.register(email: email, password: password);
     user.uid = _auth.uid;
+
+    user.photoUrl = picUrl;
 
     await _userApi.createUser(user);
     _client = user;

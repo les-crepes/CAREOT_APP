@@ -45,12 +45,16 @@ class _DiaryScreenState extends State<DiaryScreen> {
         context.watch<MealProvider>().meals;
 
         MealProvider mealProvider = context.read<MealProvider>();
+        AuthProvider authProvider = GetIt.I.get<AuthProvider>();
+
         return Diary(
             onDaySelected: _onDaySelected,
             getDiariesForDay: (day) {
               return _getEventsForDay(context, day);
             },
-            clientName: GetIt.I.get<AuthProvider>().user!.firstName,
+            clientName: authProvider.user!.firstName,
+            clientPicturePath: authProvider.user!.photoUrl,
+            defaultUserPic: "assets/images/default_user_pic.png",
             onAddPressed: () async {
               final addedMeal = await AutoRouter.of(context)
                   .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
@@ -77,24 +81,27 @@ class Diary extends StatefulWidget {
   final bool showActionButton;
   final List<Meal> Function(DateTime) getDiariesForDay;
   final String clientName;
-  final String clientPicturePath;
+  final String? clientPicturePath;
   final void Function()? _onAddPressed;
   final void Function(DateTime)? _onDaySelected;
   final void Function(Meal)? _onMealBlocPressed;
+  final String _defaultUserPic;
 
   const Diary({
     this.screenWidth = 0,
     this.showActionButton = true,
     required this.getDiariesForDay,
     required this.clientName,
-    this.clientPicturePath = "assets/images/default_user_pic.png",
+    this.clientPicturePath,
     void Function(DateTime)? onDaySelected,
     void Function()? onAddPressed,
     void Function(Meal)? onMealBlocPressed,
+    required String defaultUserPic,
     Key? key,
   })  : _onAddPressed = onAddPressed,
         _onDaySelected = onDaySelected,
         _onMealBlocPressed = onMealBlocPressed,
+        _defaultUserPic = defaultUserPic,
         super(key: key);
 
   @override
@@ -137,6 +144,7 @@ class _DiaryState extends State<Diary> {
             height: height,
             clientName: widget.clientName,
             clientPicturePath: widget.clientPicturePath,
+            defaultUserPic: widget._defaultUserPic,
           ),
           TableCalendar(
             firstDay: DateTime.utc(2020, 1, 1),

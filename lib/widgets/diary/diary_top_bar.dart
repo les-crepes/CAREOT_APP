@@ -8,12 +8,14 @@ class DiaryTopBar extends StatelessWidget {
     required this.height,
     required this.clientName,
     required this.clientPicturePath,
+    required this.defaultUserPic,
   }) : super(key: key);
 
   final CustomPaint background;
   final double height;
   final String clientName;
-  final String clientPicturePath;
+  final String? clientPicturePath;
+  final String defaultUserPic;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,9 @@ class DiaryTopBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ProfileAvatar(image: AssetImage(clientPicturePath)),
+            clientPicturePath != null
+                ? ProfileAvatar(image: NetworkImage(clientPicturePath!))
+                : ProfileAvatar(image: AssetImage(defaultUserPic)),
             const SizedBox(height: 15),
             Text(
               "Hello $clientName",

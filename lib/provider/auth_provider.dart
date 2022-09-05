@@ -74,8 +74,10 @@ class AuthProvider extends ChangeNotifier {
     String? picUrl;
 
     if (pic != null) {
-      picUrl = "";
+      picUrl = "images/profile/" + user.uid + ".jpg";
       _fileApi.uploadFile(pic.path, picUrl);
+      log(picUrl);
+      log(pic.path);
     }
 
     await _auth.register(email: email, password: password);

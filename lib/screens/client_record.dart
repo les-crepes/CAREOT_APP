@@ -58,6 +58,12 @@ class ClientRecordScreen extends StatelessWidget {
               }
             }
           },
+          onDiariesButtonPressed: () {
+            context.pushRoute(DiaryRouterPage(children: [
+              DiaryScreenRoute(client: _user),
+            ]));
+          },
+          onChatButtonPressed: () {},
         );
       },
     );
@@ -80,6 +86,8 @@ class ClientRecord extends StatelessWidget {
   final DateTime? _startDate;
   final DateTime? _endDate;
   final void Function()? _onIconButtonPressed;
+  final void Function()? _onDiariesButtonPressed;
+  final void Function()? _onChatButtonPressed; //TODO décommenter
 
   const ClientRecord(
       {required clientFirstName,
@@ -97,6 +105,8 @@ class ClientRecord extends StatelessWidget {
       clientStartDate,
       clientEndDate,
       onIconButtonPressed,
+      onDiariesButtonPressed,
+      onChatButtonPressed,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -113,6 +123,8 @@ class ClientRecord extends StatelessWidget {
         _startDate = clientStartDate,
         _endDate = clientEndDate,
         _onIconButtonPressed = onIconButtonPressed,
+        _onDiariesButtonPressed = onDiariesButtonPressed,
+        _onChatButtonPressed = onChatButtonPressed,
         super(key: key);
 
   @override
@@ -136,8 +148,7 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                 color1: const Color(0xFFFFBD70),
                 color2: const Color(0xFFFFBD70),
-                onPress: (() => AutoRouter.of(context).push(
-                    const DiaryScreenRoute())), //TODO changer pour sélectionner bon calendrier
+                onPress: _onDiariesButtonPressed,
                 child: const Text(
                   "DIARIES",
                   style: TextStyle(color: Colors.white),
@@ -146,7 +157,8 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                   color1: Theme.of(context).colorScheme.tertiary,
                   color2: Theme.of(context).colorScheme.tertiary,
-                  onPress: () {}, // TODO changer pour sélectionner le bon chat.
+                  onPress:
+                      _onChatButtonPressed, // TODO changer pour sélectionner le bon chat.
                   child: const Text(
                     "CHAT",
                     style: TextStyle(color: Colors.white),

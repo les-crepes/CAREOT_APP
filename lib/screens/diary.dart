@@ -9,7 +9,7 @@ import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import '../model/user.dart';
 import '../api/firebase_document.dart';
 import '../api/ifile.dart';
 import '../provider/auth_provider.dart';
@@ -18,7 +18,13 @@ import '../widgets/diary/diary_top_bar.dart';
 import '../widgets/diary/top_shape.dart';
 
 class DiaryScreen extends StatefulWidget {
-  const DiaryScreen({Key? key}) : super(key: key);
+  final User? _client;
+
+  const DiaryScreen({
+    User? client,
+    Key? key,
+  })  : _client = client,
+        super(key: key);
 
   @override
   State<DiaryScreen> createState() => _DiaryScreenState();
@@ -39,18 +45,23 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   Widget build(BuildContext context) {
     final uid = context.read<AuthProvider>().userUid;
+    final isAdmin = context.read<AuthProvider>().isAdmin;
+
     return ChangeNotifierProvider(
-      create: (context) => MealProvider(uid),
+      create: (context) => MealProvider(!isAdmin ? uid : widget._client!.uid),
       builder: (context, child) {
         context.watch<MealProvider>().meals;
 
         MealProvider mealProvider = context.read<MealProvider>();
         return Diary(
             onDaySelected: _onDaySelected,
+            showActionButton: !isAdmin,
             getDiariesForDay: (day) {
               return _getEventsForDay(context, day);
             },
-            clientName: GetIt.I.get<AuthProvider>().user!.firstName,
+            clientName: !isAdmin
+                ? GetIt.I.get<AuthProvider>().user!.firstName
+                : widget._client!.firstName,
             onAddPressed: () async {
               final addedMeal = await AutoRouter.of(context)
                   .push<Meal?>(AddMealScreenRoute(day: _selectedDate));

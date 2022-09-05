@@ -119,8 +119,11 @@ class AppRouter extends _i18.RootStackRouter {
               user: args.user, aftercare: args.aftercare, key: args.key));
     },
     DiaryScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<DiaryScreenRouteArgs>(
+          orElse: () => const DiaryScreenRouteArgs());
       return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i13.DiaryScreen());
+          routeData: routeData,
+          child: _i13.DiaryScreen(client: args.client, key: args.key));
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
@@ -407,10 +410,25 @@ class UpdateClientRecordScreenRouteArgs {
 
 /// generated route for
 /// [_i13.DiaryScreen]
-class DiaryScreenRoute extends _i18.PageRouteInfo<void> {
-  const DiaryScreenRoute() : super(DiaryScreenRoute.name, path: '');
+class DiaryScreenRoute extends _i18.PageRouteInfo<DiaryScreenRouteArgs> {
+  DiaryScreenRoute({_i25.User? client, _i19.Key? key})
+      : super(DiaryScreenRoute.name,
+            path: '', args: DiaryScreenRouteArgs(client: client, key: key));
 
   static const String name = 'DiaryScreenRoute';
+}
+
+class DiaryScreenRouteArgs {
+  const DiaryScreenRouteArgs({this.client, this.key});
+
+  final _i25.User? client;
+
+  final _i19.Key? key;
+
+  @override
+  String toString() {
+    return 'DiaryScreenRouteArgs{client: $client, key: $key}';
+  }
 }
 
 /// generated route for

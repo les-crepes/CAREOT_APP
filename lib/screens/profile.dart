@@ -51,6 +51,8 @@ class ProfileScreen extends StatelessWidget {
       clientPhone: user.phoneNumber,
       clientBirthday: user.birthDate,
       clientInsurance: user.avs,
+      defaultUserPic: 'assets/images/default_user_pic.png',
+      clientPicturePath: user.photoUrl,
       onLogoutPressed: () {
         GetIt.I.get<AuthProvider>().signOut();
         context.router.replaceAll([
@@ -63,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
 
 class Profile extends StatelessWidget {
   final double _screenWidth;
-  final String _clientPicturePath;
+  final String? _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
   final bool _blockEnabled;
@@ -73,10 +75,11 @@ class Profile extends StatelessWidget {
   final DateTime _clientBirthday;
   final String _clientInsurance;
   final void Function()? _onLogoutPressed;
+  final String _defaultUserPic;
 
   const Profile({
     screenWidth = 0.0,
-    clientPicturePath = 'assets/images/default_user_pic.png',
+    String? clientPicturePath,
     required clientFirstName,
     required clienLastName,
     required clientEmail,
@@ -86,6 +89,7 @@ class Profile extends StatelessWidget {
     blockEnabled = false,
     blockText = "",
     void Function()? onLogoutPressed,
+    required String defaultUserPic,
     Key? key,
   })  : _screenWidth = screenWidth,
         _clientPicturePath = clientPicturePath,
@@ -98,6 +102,7 @@ class Profile extends StatelessWidget {
         _clientBirthday = clientBirthday,
         _clientInsurance = clientInsurance,
         _onLogoutPressed = onLogoutPressed,
+        _defaultUserPic = defaultUserPic,
         super(key: key);
 
   @override
@@ -113,6 +118,7 @@ class Profile extends StatelessWidget {
         clientInsurance: _clientInsurance,
         onIconButtonPressed: _onLogoutPressed,
         buttonIcon: Icons.logout_outlined,
+        defaultUserPic: _defaultUserPic,
         firstBloc: Column(children: [
           _blockEnabled
               ? Column(

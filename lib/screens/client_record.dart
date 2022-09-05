@@ -30,6 +30,8 @@ class ClientRecordScreen extends StatelessWidget {
         log(afterCareProvider.aftercare.toString());
         final aftercareProvider = context.read<AftercareProvider>();
         return ClientRecord(
+          defaultUserPic: 'assets/images/default_user_pic.png',
+          clientPicturePath: _user.photoUrl,
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
           clientEmail: _user.email,
@@ -80,6 +82,8 @@ class ClientRecord extends StatelessWidget {
   final DateTime? _startDate;
   final DateTime? _endDate;
   final void Function()? _onIconButtonPressed;
+  final String _defaultUserPic;
+  final String? _clientPicturePath;
 
   const ClientRecord(
       {required clientFirstName,
@@ -97,6 +101,8 @@ class ClientRecord extends StatelessWidget {
       clientStartDate,
       clientEndDate,
       onIconButtonPressed,
+      required String defaultUserPic,
+      String? clientPicturePath,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -113,6 +119,8 @@ class ClientRecord extends StatelessWidget {
         _startDate = clientStartDate,
         _endDate = clientEndDate,
         _onIconButtonPressed = onIconButtonPressed,
+        _defaultUserPic = defaultUserPic,
+        _clientPicturePath = clientPicturePath,
         super(key: key);
 
   @override
@@ -127,6 +135,8 @@ class ClientRecord extends StatelessWidget {
       clientBirthday: _clientBirthday,
       clientInsurance: _clientInsurance,
       buttonIcon: Icons.create_outlined,
+      defaultUserPic: _defaultUserPic,
+      clientPicturePath: _clientPicturePath,
       onIconButtonPressed: _onIconButtonPressed ?? () {},
       firstBloc: Column(
         children: [

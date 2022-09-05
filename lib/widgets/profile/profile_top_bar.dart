@@ -7,20 +7,22 @@ import '../profile_avatar.dart';
 class ProfileTopBar extends StatelessWidget {
   final double _width;
   final double _height;
-  final String _clientPicturePath;
+  final String? _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
   final void Function()? _onIconButtonPress;
   final IconData? _buttonIcon;
+  final String _defaultUserPic;
 
   const ProfileTopBar({
     Key? key,
     required width,
     required height,
-    required String clientPicturePath,
+    required String? clientPicturePath,
     required String clientFirstName,
     required String clientLastName,
     void Function()? onIconButtonPress,
+    required String defaultUserPic,
     buttonIcon,
   })  : _width = width,
         _height = height,
@@ -29,6 +31,7 @@ class ProfileTopBar extends StatelessWidget {
         _clientLastName = clientLastName,
         _onIconButtonPress = onIconButtonPress,
         _buttonIcon = buttonIcon,
+        _defaultUserPic = defaultUserPic,
         super(key: key);
 
   @override
@@ -45,7 +48,9 @@ class ProfileTopBar extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ProfileAvatar(image: AssetImage(_clientPicturePath)),
+              _clientPicturePath != null
+                  ? ProfileAvatar(image: NetworkImage(_clientPicturePath!))
+                  : ProfileAvatar(image: AssetImage(_defaultUserPic)),
               const SizedBox(height: 8),
               Text(
                 "$_clientFirstName $_clientLastName",

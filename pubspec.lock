@@ -268,12 +268,19 @@ packages:
     source: hosted
     version: "2.0.1"
   file:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.4"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.4"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -351,6 +358,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "10.3.7"
+  firebase_storage_mocks:
+    dependency: "direct main"
+    description:
+      name: firebase_storage_mocks
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   firebase_storage_platform_interface:
     dependency: transitive
     description:

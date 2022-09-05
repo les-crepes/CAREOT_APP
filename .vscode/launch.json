@@ -41,6 +41,13 @@
       "request": "launch",
       "flutterMode": "debug",
       "program": "lib/scripts/test_email.dart"
+    },
+    {
+      "name": "App run",
+      "type": "dart",
+      "request": "launch",
+      "flutterMode": "debug",
+      "program": "lib/scripts/app_run.dart"
     }
   ]
 }

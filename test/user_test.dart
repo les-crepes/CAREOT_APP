@@ -38,7 +38,7 @@ User d1 = User(
     lastName: 'Emery',
     birthDate: DateTime.now(),
     avs: '',
-    clientList: [c2.uid, c3.uid, c4.uid],
+    clientList: [c2.uid, c3.uid],
     phoneNumber: '',
     email: 'claire.emery@gmail.com');
 User d2 = User(
@@ -125,7 +125,7 @@ void main() {
   });
 
   test("getDietitianClients", () async {
-    List<User> coco = [c2, c3, c4];
+    List<User> coco = [c2, c3];
     final clients = await userApi.getDietitianClient(d1.uid);
     expect(clients.elementAt(0).toString(), coco.elementAt(0).toString());
   });
@@ -133,5 +133,11 @@ void main() {
   test("Read Dietitian of Client", () async {
     final User? dietCopy = await userApi.readDietitianOfClient(c3.uid);
     expect(d1.toString(), dietCopy.toString());
+  });
+
+  test("Add Client to dietitian", () async {
+    await userApi.addClient("banane", d1.uid);
+    final User diet = await userApi.readUser(d1.uid);
+    expect(diet.clientList, [c2.uid, c3.uid, "banane"]);
   });
 }

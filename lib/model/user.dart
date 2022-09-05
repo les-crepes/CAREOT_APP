@@ -75,4 +75,11 @@ class User implements IModel {
 
   @override
   int get hashCode => Object.hash(uid, null);
+
+  void addUser(String userId) {
+    if (clientList == null) {
+      throw Exception("Client list is null");
+    }
+    clientList!.add(userId);
+  }
 }

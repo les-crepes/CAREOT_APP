@@ -99,7 +99,7 @@ class ChatProvider extends ChangeNotifier {
         log('FOLLOW: $event');
 
         /// Be sure that the last received message isn't already in the list.
-        if (event != null && _messages[user]!.last.uid != event.uid) {
+        if (event != null && !_messages[user]!.any((m) => m.uid == event.uid)) {
           _messages[user]!.add(event);
         }
 

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

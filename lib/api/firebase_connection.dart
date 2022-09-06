@@ -7,6 +7,8 @@ import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/iuser.dart';
 
+/// Implementation of the [Auth] API interface for Firebase.
+/// This class is a singleton.
 class FirebaseConnection implements Auth {
   FirebaseConnection._();
   static final FirebaseConnection _instance = FirebaseConnection._();
@@ -40,10 +42,10 @@ class FirebaseConnection implements Auth {
     try {
       if (isConnected) {
         log("Already connected");
-      } else {
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
+        return;
       }
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "user-not-found":
@@ -129,7 +131,7 @@ class FirebaseConnection implements Auth {
         // user using the email address
         return true;
       } else {
-        // Return false because email adress is not in use
+        // Return false because email address is not in use
         return false;
       }
     } catch (error) {

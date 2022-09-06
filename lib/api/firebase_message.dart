@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_api.dart';
 import 'package:async/async.dart' show StreamGroup;
 
+/// Implementation of the [IMessage] API interface for Firebase.
 class FirebaseMessage extends FirebaseAPI implements IMessage {
   FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
 
@@ -44,6 +45,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   @override
   Future<List<Message>?> readConversation(
       String userId1, String userId2) async {
+    /// Get messages from user1 to user2
     final query = collectionReference
         .where('fromId', isEqualTo: userId1)
         .where('toId', isEqualTo: userId2)
@@ -51,7 +53,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
             fromFirestore: Message.fromFirestore,
             toFirestore: (Message msg, _) => msg.toFirestore())
         .get();
-
+    /// Get messages from user2 to user1
     final query2 = collectionReference
         .where('fromId', isEqualTo: userId2)
         .where('toId', isEqualTo: userId1)

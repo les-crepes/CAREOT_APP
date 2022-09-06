@@ -6,7 +6,7 @@ abstract class IFile {
   /// Returns the download URL.
   Future<String> uploadFile(String filePath, String storagePath);
   /// Downloads the file located at [fileURL] from the firebase storage.
-  /// Returns the file bytes.
+  /// Returns the file as a list of bytes.
   Future<Uint8List?> downloadFileBytes(String fileURL);
   /// Deletes the file located at [fileURL] from the firebase storage.
   void deleteFile(String fileURL);

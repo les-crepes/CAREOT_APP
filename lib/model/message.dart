@@ -3,14 +3,17 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
+/// Implementation of the [IModel] model interface for the Message document in Firebase.
 class Message implements IModel {
-  String uid = const Uuid().v1();
+  String uid = const Uuid().v1(); // Unique identifier
   DateTime time;
-  String fromId;
-  String toId;
-  String content;
-  String? fileUrl;
+  String fromId; // Id of the sender
+  String toId; // Id of the receiver
+  String content; // Content of the message
+  String? fileUrl; // URL of the file attached to the message (if any)
 
+  /// Instantiates a new [Message].
+  /// If [uid] is not provided, a new one is generated.
   Message({
     String? uid,
     required this.time,
@@ -20,6 +23,7 @@ class Message implements IModel {
     this.fileUrl,
   }) : uid = uid ?? const Uuid().v1();
 
+  /// Instantiates a new [Message] from a Firebase [Map].
   factory Message.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
@@ -52,6 +56,7 @@ class Message implements IModel {
     return 'Message{$fromId $toId $content $fileUrl}';
   }
 
+  /// Set the [content] of the message to the given [newContent]
   void setContent(String newContent) {
     content = newContent;
   }

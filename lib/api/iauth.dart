@@ -32,9 +32,12 @@ abstract class Auth {
   /// Send a verification to the user connected.
   Future<void> sendVerification();
 
+  /// Get the email of the user connected.
   String getUserEmail();
 
+  /// Returns if the user connected is a dietitian.
   Future<bool> isDietitian();
 
+  /// Returns if the email [emailAddress] is already used by a user.
   Future<bool> checkIfEmailInUse(String emailAddress);
 }

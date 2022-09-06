@@ -46,6 +46,7 @@ class _RegisterThirdPageState extends State<RegisterThirdPage> {
                         registerProvider.emailController.text,
                         registerProvider.passwordController.text,
                         registerProvider.createUser(),
+                        registerProvider.profilePicture,
                       );
                   registerProvider.loadingController.hideLoadingOverlay();
                   router.replaceAll([const HomeScreenRoute()]);

@@ -21,6 +21,22 @@ class DiscussionListScreen extends StatelessWidget {
                 title: '${e.key.firstName} ${e.key.lastName}',
                 subtitle: e.value.content,
                 date: e.value.time,
+                avatar: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 35,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: (e.key.photoUrl != null
+                                  ? NetworkImage(e.key.photoUrl!)
+                                  : const AssetImage(
+                                      "assets/images/default_user_pic.png"))
+                              as ImageProvider<Object>,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )),
                 onTap: () {
                   AutoRouter.of(context)
                       .push(ChatScreenRoute(otherUser: e.key));

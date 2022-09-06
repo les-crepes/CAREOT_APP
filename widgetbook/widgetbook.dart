@@ -83,6 +83,7 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => PicCard(
+            image: const AssetImage("assets/images/breakfast.jpg"),
             title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
@@ -102,6 +103,7 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => ArrowPicCard(
+            defaultUserPic: const AssetImage("assets/images/breakfast.jpg"),
             title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
@@ -189,6 +191,8 @@ class HotReload extends StatelessWidget {
           name: 'Default',
           builder: (context) {
             return Diary(
+              defaultUserPic: 'assets/images/default_user_pic.png',
+              defaultMealPic: "assets/images/breakfast.jpg",
               getDiariesForDay: (datetime) {
                 return [
                   Meal(
@@ -217,6 +221,7 @@ class HotReload extends StatelessWidget {
           name: 'Default',
           builder: (context) {
             return Profile(
+                defaultUserPic: 'assets/images/default_user_pic.png',
                 clientFirstName: context.knobs.text(
                   label: 'First name',
                   initialValue: "Luca",

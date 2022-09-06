@@ -30,6 +30,8 @@ class ClientRecordScreen extends StatelessWidget {
         log(afterCareProvider.aftercare.toString());
         final aftercareProvider = context.read<AftercareProvider>();
         return ClientRecord(
+          defaultUserPic: 'assets/images/default_user_pic.png',
+          clientPicturePath: _user.photoUrl,
           clientFirstName: _user.firstName,
           clientLastName: _user.lastName,
           clientEmail: _user.email,
@@ -86,6 +88,8 @@ class ClientRecord extends StatelessWidget {
   final DateTime? _startDate;
   final DateTime? _endDate;
   final void Function()? _onIconButtonPressed;
+  final String _defaultUserPic;
+  final String? _clientPicturePath;
   final void Function()? _onDiariesButtonPressed;
   final void Function()? _onChatButtonPressed; //TODO décommenter
 
@@ -105,8 +109,10 @@ class ClientRecord extends StatelessWidget {
       clientStartDate,
       clientEndDate,
       onIconButtonPressed,
+      String? clientPicturePath,
       onDiariesButtonPressed,
       onChatButtonPressed,
+      required String defaultUserPic,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -123,6 +129,8 @@ class ClientRecord extends StatelessWidget {
         _startDate = clientStartDate,
         _endDate = clientEndDate,
         _onIconButtonPressed = onIconButtonPressed,
+        _defaultUserPic = defaultUserPic,
+        _clientPicturePath = clientPicturePath,
         _onDiariesButtonPressed = onDiariesButtonPressed,
         _onChatButtonPressed = onChatButtonPressed,
         super(key: key);
@@ -139,6 +147,8 @@ class ClientRecord extends StatelessWidget {
       clientBirthday: _clientBirthday,
       clientInsurance: _clientInsurance,
       buttonIcon: Icons.create_outlined,
+      defaultUserPic: _defaultUserPic,
+      clientPicturePath: _clientPicturePath,
       onIconButtonPressed: _onIconButtonPressed ?? () {},
       firstBloc: Column(
         children: [

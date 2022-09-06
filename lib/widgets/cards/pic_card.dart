@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'left_element_card.dart';
 
 class PicCard extends StatelessWidget {
-  final String imagePath;
+  final ImageProvider image;
   final Widget title;
   final Widget? subtitle;
   final Icon? icon;
@@ -11,7 +11,7 @@ class PicCard extends StatelessWidget {
   const PicCard({
     required this.title,
     this.subtitle,
-    this.imagePath = 'assets/images/breakfast.jpg',
+    required this.image,
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -20,8 +20,20 @@ class PicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LeftElementCard(
       element: CircleAvatar(
-        backgroundImage: AssetImage(imagePath),
+        // backgroundImage: NetworkImage(imagePath),
+        backgroundColor: Colors.white,
         radius: 66,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: image,
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // borderRadius: BorderRadius.circular(50.0),
+        ),
       ),
       title: title,
       subtitle: subtitle,

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pdg_app/api/firebase_file.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';
@@ -21,6 +23,7 @@ Future<void> setup() async {
     AuthProvider(
       auth: FirebaseConnection(),
       clientApi: FirebaseUser(FirebaseFirestore.instance),
+      fileApi: FirebaseFile(FirebaseStorage.instance),
     ),
   );
   await GetIt.I.get<AuthProvider>().init();

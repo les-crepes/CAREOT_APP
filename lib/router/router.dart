@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/empty_router_widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:pdg_app/router/chat_guard.dart';
 import 'package:pdg_app/screens/add_meal.dart';
@@ -14,6 +15,7 @@ import 'package:pdg_app/screens/profile.dart';
 import 'package:pdg_app/screens/register.dart';
 import 'package:pdg_app/widgets/register/register_first_page.dart';
 import 'package:pdg_app/widgets/register/register_second_page.dart';
+import 'package:tuple/tuple.dart';
 
 import '../model/meal.dart';
 import '../screens/home.dart';
@@ -89,7 +91,7 @@ import 'home_guard.dart';
                   path: '',
                   page: DiaryScreen,
                 ),
-                AutoRoute<Meal?>(
+                AutoRoute<Tuple2<Meal?, XFile?>>(
                   path: 'add',
                   page: AddMealScreen,
                 ),

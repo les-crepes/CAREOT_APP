@@ -2,15 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:pdg_app/provider/meal_provider.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
+import 'package:pdg_app/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../model/user.dart';
 import '../api/firebase_file.dart';
+import 'package:tuple/tuple.dart';
 import '../api/ifile.dart';
 import '../provider/auth_provider.dart';
 import '../widgets/buttons/action_button.dart';
@@ -33,6 +36,8 @@ class DiaryScreen extends StatefulWidget {
 class _DiaryScreenState extends State<DiaryScreen> {
   DateTime _selectedDate = DateTime.now();
   IFile fileApi = FirebaseFile(FirebaseStorage.instance);
+  final LoadingOverlayController _loadingOverlayController =
+      LoadingOverlayController();
 
   _onDaySelected(DateTime day) async {
     _selectedDate = day;
@@ -53,31 +58,46 @@ class _DiaryScreenState extends State<DiaryScreen> {
         context.watch<MealProvider>().meals;
 
         MealProvider mealProvider = context.read<MealProvider>();
-        return Diary(
-            onDaySelected: _onDaySelected,
-            showActionButton: !isAdmin,
-            getDiariesForDay: (day) {
-              return _getEventsForDay(context, day);
-            },
-            clientName: !isAdmin
-                ? GetIt.I.get<AuthProvider>().user!.firstName
-                : widget._client!.firstName,
-            onAddPressed: () async {
-              final addedMeal = await AutoRouter.of(context)
-                  .push<Meal?>(AddMealScreenRoute(day: _selectedDate));
-              if (addedMeal != null) {
-                mealProvider.addMeal(addedMeal);
-                mealProvider.fetchMeals();
-              }
-            },
-            onMealBlocPressed: (Meal meal) async {
-              final changedMeal = await AutoRouter.of(context).push<Meal?>(
-                  AddMealScreenRoute(day: _selectedDate, meal: meal));
-              if (changedMeal != null) {
-                mealProvider.updateMeal(changedMeal);
-                mealProvider.fetchMeals();
-              }
-            });
+        AuthProvider authProvider = GetIt.I.get<AuthProvider>();
+
+        return LoadingOverlay(
+          controller: _loadingOverlayController,
+          child: Diary(
+              onDaySelected: _onDaySelected,
+              getDiariesForDay: (day) {
+                return _getEventsForDay(context, day);
+              },
+              clientName: !isAdmin
+                  ? GetIt.I.get<AuthProvider>().user!.firstName
+                  : widget._client!.firstName,
+              clientPicturePath: authProvider.user!.photoUrl,
+              defaultUserPic: "assets/images/default_user_pic.png",
+              showActionButton: !isAdmin,
+              defaultMealPic: "assets/images/breakfast.jpg",
+              onAddPressed: () async {
+                final addedMeal = await AutoRouter.of(context)
+                    .push<Tuple2<Meal?, XFile?>>(
+                        AddMealScreenRoute(day: _selectedDate));
+                _loadingOverlayController.showLoadingOverlay();
+                if (addedMeal != null) {
+                  await mealProvider.addMeal(addedMeal.item1!, addedMeal.item2);
+                  mealProvider.fetchMeals();
+                }
+                _loadingOverlayController.hideLoadingOverlay();
+              },
+              onMealBlocPressed: (Meal meal) async {
+                final changedMeal = await AutoRouter.of(context)
+                    .push<Tuple2<Meal?, XFile?>>(
+                        AddMealScreenRoute(day: _selectedDate, meal: meal));
+                _loadingOverlayController.showLoadingOverlay();
+                if (changedMeal != null) {
+                  await mealProvider.updateMeal(
+                      changedMeal.item1!, changedMeal.item2);
+                  mealProvider.fetchMeals();
+                }
+                _loadingOverlayController.hideLoadingOverlay();
+              }),
+        );
       },
     );
   }
@@ -88,24 +108,30 @@ class Diary extends StatefulWidget {
   final bool showActionButton;
   final List<Meal> Function(DateTime) getDiariesForDay;
   final String clientName;
-  final String clientPicturePath;
+  final String? clientPicturePath;
   final void Function()? _onAddPressed;
   final void Function(DateTime)? _onDaySelected;
   final void Function(Meal)? _onMealBlocPressed;
+  final String _defaultUserPic;
+  final String _defaultMealPic;
 
   const Diary({
     this.screenWidth = 0,
     this.showActionButton = true,
     required this.getDiariesForDay,
     required this.clientName,
-    this.clientPicturePath = "assets/images/default_user_pic.png",
+    this.clientPicturePath,
     void Function(DateTime)? onDaySelected,
     void Function()? onAddPressed,
     void Function(Meal)? onMealBlocPressed,
+    required String defaultUserPic,
+    required String defaultMealPic,
     Key? key,
   })  : _onAddPressed = onAddPressed,
         _onDaySelected = onDaySelected,
         _onMealBlocPressed = onMealBlocPressed,
+        _defaultUserPic = defaultUserPic,
+        _defaultMealPic = defaultMealPic,
         super(key: key);
 
   @override
@@ -148,6 +174,7 @@ class _DiaryState extends State<Diary> {
             height: height,
             clientName: widget.clientName,
             clientPicturePath: widget.clientPicturePath,
+            defaultUserPic: widget._defaultUserPic,
           ),
           TableCalendar(
             firstDay: DateTime.utc(2020, 1, 1),
@@ -190,6 +217,7 @@ class _DiaryState extends State<Diary> {
           const SizedBox(height: 13),
           Expanded(
             child: _CalendarBody(
+              defaultMealPic: widget._defaultMealPic,
               hourFormatter: hourFormatter,
               meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
               onMealBlocPressed: widget._onMealBlocPressed,
@@ -209,11 +237,13 @@ class _DiaryState extends State<Diary> {
 class _CalendarBody extends StatelessWidget {
   final List<Meal> meals;
   final void Function(Meal)? onMealBlocPressed;
+  final String defaultMealPic;
 
   const _CalendarBody({
     required this.meals,
     Key? key,
     required this.hourFormatter,
+    required this.defaultMealPic,
     this.onMealBlocPressed,
   }) : super(key: key);
 
@@ -235,6 +265,10 @@ class _CalendarBody extends StatelessWidget {
               vertical: 4.0,
             ),
             child: ArrowPicCard(
+              image: meals[index].photo != null
+                  ? NetworkImage(meals[index].photo!)
+                  : null,
+              defaultUserPic: AssetImage(defaultMealPic),
               title: Text(meals[index].title,
                   style: const TextStyle(fontWeight: FontWeight.w600)),
               subtitle: Text(

@@ -17,7 +17,7 @@ class MealProvider extends ChangeNotifier {
   final String _uid;
   bool _isFetching = false;
   final IFile _fileApi = FirebaseFile(FirebaseStorage.instance);
-  StreamSubscription<Meal?>? _subscription;
+  StreamSubscription<List<Meal>>? _subscription;
 
   MealProvider(this._uid) {
     fetchMeals();
@@ -78,7 +78,7 @@ class MealProvider extends ChangeNotifier {
     if (_subscription != null) return;
 
     final subscription = _mealApi.followMeals(userId, date).listen((event) {
-      log("notify");
+      _meals = event;
       notifyListeners();
     });
 

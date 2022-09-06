@@ -80,7 +80,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   }
 
   @override
-  Stream<Meal?> followMeals(String userId, DateTime day) {
+  Stream<List<Meal>> followMeals(String userId, DateTime day) {
     DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
 
     /// Start of the day
@@ -99,7 +99,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
 
     return mealStream
         .map((querySnapshot) => querySnapshot.docs)
-        .map((doc) => doc.isNotEmpty ? doc.first.data() : null)
+        .map((doc) => doc.map((e) => e.data()))
         .cast();
   }
 

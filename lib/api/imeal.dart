@@ -18,7 +18,7 @@ abstract class IMeal {
   Future<List<Meal>> getUsersMealForDay(String userId, DateTime day);
 
   /// Subscribe to the user [userId] meals for the day [day]
-  Stream<Meal?> followMeals(String userId, DateTime day);
+  Stream<List<Meal>> followMeals(String userId, DateTime day);
 
   /// Get the meals of the user [userId]
   Future<List<Meal>> getUserMeal(String userId);

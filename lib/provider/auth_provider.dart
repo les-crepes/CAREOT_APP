@@ -6,7 +6,6 @@ import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/api/iuser.dart';
 
-import '../api/firebase_document.dart';
 import '../model/user.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -89,12 +88,11 @@ class AuthProvider extends ChangeNotifier {
     return picUrl;
   }
 
-/// register a new user using [email] and [password] as credentials.
+  /// register a new user using [email] and [password] as credentials.
   Future<void> register(
       String email, String password, User user, XFile? pic) async {
     String? picUrl = await uploadProfilePic(pic, user.uid);
 
-  
     await _auth.register(email: email, password: password);
     user.uid = _auth.uid;
 

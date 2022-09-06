@@ -16,9 +16,16 @@ class ProfileAvatar extends StatelessWidget {
           )
         ], shape: BoxShape.circle),
         child: CircleAvatar(
-          backgroundImage: image,
           backgroundColor: Colors.white,
           radius: 45,
+          child: Container(
+              decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: image,
+              fit: BoxFit.cover,
+            ),
+          )),
         ));
   }
 }

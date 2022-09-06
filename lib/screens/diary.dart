@@ -68,10 +68,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 return _getEventsForDay(context, day);
               },
               clientName: !isAdmin
-                ? GetIt.I.get<AuthProvider>().user!.firstName
-                : widget._client!.firstName,
+                  ? GetIt.I.get<AuthProvider>().user!.firstName
+                  : widget._client!.firstName,
               clientPicturePath: authProvider.user!.photoUrl,
               defaultUserPic: "assets/images/default_user_pic.png",
+              showActionButton: !isAdmin,
               defaultMealPic:
                   "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
               onAddPressed: () async {
@@ -98,7 +99,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 _loadingOverlayController.hideLoadingOverlay();
               }),
         );
-            
       },
     );
   }

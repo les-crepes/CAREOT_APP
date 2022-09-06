@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pdg_app/api/firebase_document.dart';
+import 'package:pdg_app/api/firebase_file.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/router/auth_gard.dart';
 import 'package:pdg_app/router/chat_guard.dart';

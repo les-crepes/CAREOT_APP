@@ -69,6 +69,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
             lastName: doc['lastName'],
             phoneNumber: doc['phoneNumber'],
             email: doc['email'],
+            photoUrl: doc['photoUrl'],
             uid: doc['uid']))
         .toList();
     return clients;

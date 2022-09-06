@@ -20,9 +20,20 @@ class PicCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LeftElementCard(
       element: CircleAvatar(
-        backgroundImage: NetworkImage(imagePath),
+        // backgroundImage: NetworkImage(imagePath),
         backgroundColor: Colors.white,
         radius: 66,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: NetworkImage(imagePath),
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // borderRadius: BorderRadius.circular(50.0),
+        ),
       ),
       title: title,
       subtitle: subtitle,

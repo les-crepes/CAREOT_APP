@@ -5,6 +5,7 @@ import 'package:pdg_app/model/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_api.dart';
+import 'package:async/async.dart' show StreamGroup;
 
 class FirebaseMessage extends FirebaseAPI implements IMessage {
   FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
@@ -42,33 +43,61 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
 
   @override
   Future<List<Message>?> readConversation(
-      String firstId, String secondId) async {
-    List<String> userIds = [firstId, secondId];
-    final querySnapshot = await collectionReference
-        .where('fromId', whereIn: userIds)
-        .where('toId', whereIn: userIds)
+      String userId1, String userId2) async {
+    final query = collectionReference
+        .where('fromId', isEqualTo: userId1)
+        .where('toId', isEqualTo: userId2)
         .withConverter(
             fromFirestore: Message.fromFirestore,
             toFirestore: (Message msg, _) => msg.toFirestore())
         .get();
-    final messages = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    final query2 = collectionReference
+        .where('fromId', isEqualTo: userId2)
+        .where('toId', isEqualTo: userId1)
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message msg, _) => msg.toFirestore())
+        .get();
+
+    final querySnapshots = await Future.wait([query, query2]);
+
+    final messages = [
+      ...querySnapshots[0].docs.map((doc) => doc.data()).toList(),
+      ...querySnapshots[1].docs.map((doc) => doc.data()).toList(),
+    ];
+
     return messages;
   }
 
-  Stream<Message> followConversation(
-      String firstId, String secondId) {
-    List<String> userIds = [firstId, secondId];
-    final Stream<QuerySnapshot> msgStream = collectionReference
-        .where('fromId', whereIn: userIds)
-        .where('toId', whereIn: userIds)
+  @override
+  Stream<Message?> followConversation(String firstId, String secondId) {
+    final Stream<QuerySnapshot<Message>> msgStream1 = collectionReference
+        .where('fromId', isEqualTo: firstId)
+        .where('toId', isEqualTo: secondId)
+        .orderBy('time', descending: false)
+        .limitToLast(1)
         .withConverter(
             fromFirestore: Message.fromFirestore,
             toFirestore: (Message msg, _) => msg.toFirestore())
         .snapshots();
 
+    final Stream<QuerySnapshot<Message>> msgStream2 = collectionReference
+        .where('fromId', isEqualTo: secondId)
+        .where('toId', isEqualTo: firstId)
+        .orderBy('time', descending: false)
+        .limitToLast(1)
+        .withConverter(
+            fromFirestore: Message.fromFirestore,
+            toFirestore: (Message msg, _) => msg.toFirestore())
+        .snapshots();
+
+    final msgStream =
+        StreamGroup.merge<QuerySnapshot<Message>>([msgStream1, msgStream2]);
+
     return msgStream
-        .map((querySnapshot) =>
-            querySnapshot.docs.map((doc) => doc.data()))
+        .map((querySnapshot) => querySnapshot.docs)
+        .map((doc) => doc.isNotEmpty ? doc.first.data() : null)
         .cast();
   }
 

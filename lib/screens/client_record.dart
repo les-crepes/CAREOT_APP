@@ -60,6 +60,12 @@ class ClientRecordScreen extends StatelessWidget {
               }
             }
           },
+          onDiariesButtonPressed: () {
+            context.pushRoute(DiaryRouterPage(children: [
+              DiaryScreenRoute(client: _user),
+            ]));
+          },
+          onChatButtonPressed: () {},
         );
       },
     );
@@ -84,6 +90,8 @@ class ClientRecord extends StatelessWidget {
   final void Function()? _onIconButtonPressed;
   final String _defaultUserPic;
   final String? _clientPicturePath;
+  final void Function()? _onDiariesButtonPressed;
+  final void Function()? _onChatButtonPressed; //TODO décommenter
 
   const ClientRecord(
       {required clientFirstName,
@@ -101,8 +109,10 @@ class ClientRecord extends StatelessWidget {
       clientStartDate,
       clientEndDate,
       onIconButtonPressed,
-      required String defaultUserPic,
       String? clientPicturePath,
+      onDiariesButtonPressed,
+      onChatButtonPressed,
+      required String defaultUserPic,
       Key? key})
       : _clientFirstName = clientFirstName,
         _clientLastName = clientLastName,
@@ -121,6 +131,8 @@ class ClientRecord extends StatelessWidget {
         _onIconButtonPressed = onIconButtonPressed,
         _defaultUserPic = defaultUserPic,
         _clientPicturePath = clientPicturePath,
+        _onDiariesButtonPressed = onDiariesButtonPressed,
+        _onChatButtonPressed = onChatButtonPressed,
         super(key: key);
 
   @override
@@ -146,8 +158,7 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                 color1: const Color(0xFFFFBD70),
                 color2: const Color(0xFFFFBD70),
-                onPress: (() => AutoRouter.of(context).push(
-                    const DiaryScreenRoute())), //TODO changer pour sélectionner bon calendrier
+                onPress: _onDiariesButtonPressed,
                 child: const Text(
                   "DIARIES",
                   style: TextStyle(color: Colors.white),
@@ -156,8 +167,8 @@ class ClientRecord extends StatelessWidget {
               GradientButton(
                   color1: Theme.of(context).colorScheme.tertiary,
                   color2: Theme.of(context).colorScheme.tertiary,
-                  onPress: (() => AutoRouter.of(context).push(
-                      const ChatScreenRoute())), //TODO pour sélectionner bonne discussion
+                  onPress:
+                      _onChatButtonPressed, // TODO changer pour sélectionner le bon chat.
                   child: const Text(
                     "CHAT",
                     style: TextStyle(color: Colors.white),

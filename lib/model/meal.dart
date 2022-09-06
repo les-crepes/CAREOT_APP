@@ -14,6 +14,7 @@ class Meal implements IModel {
   String? setting;
   String? comment;
   String owner;
+  String? photoUrl;
 
   Meal(
       {String? uid,
@@ -25,6 +26,7 @@ class Meal implements IModel {
       required this.hunger,
       this.setting,
       this.comment,
+      this.photoUrl,
       required this.owner})
       : uid = uid ?? const Uuid().v1();
 
@@ -44,6 +46,7 @@ class Meal implements IModel {
       setting: data?['setting'],
       comment: data?['comment'],
       owner: data?['owner'],
+      photoUrl: data?['photoUrl'],
     );
   }
 
@@ -60,6 +63,7 @@ class Meal implements IModel {
       'setting': setting,
       'comment': comment,
       'owner': owner,
+      'photoUrl': photoUrl,
     };
   }
 

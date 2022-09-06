@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/buttons/action_button.dart';
 import 'package:pdg_app/widgets/cards/main_card.dart';
@@ -101,6 +102,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       commentController: _commentController,
       hungerBeforeValue: _hungerBeforeValue,
       hungerAfterValue: _hungerAfterValue,
+      isAdmin: GetIt.I.get<AuthProvider>().isAdmin,
       onHungerAfterChanged: (value) => setState(() {
         _hungerAfterValue = value;
       }),
@@ -222,6 +224,7 @@ class AddMeal extends StatelessWidget {
   final TextEditingController? _nameTextController;
   final TextEditingController? _settingsController;
   final TextEditingController? _commentController;
+  final bool _isAdmin;
 
   const AddMeal(
       {Key? key,
@@ -242,8 +245,10 @@ class AddMeal extends StatelessWidget {
       ImageProvider? image,
       TextEditingController? nameTextController,
       TextEditingController? settingsController,
-      TextEditingController? commentController})
+      TextEditingController? commentController,
+      required bool isAdmin,,})
       : _hungerBeforeValue = hungerBeforeValue,
+    
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -261,20 +266,24 @@ class AddMeal extends StatelessWidget {
         _nameTextController = nameTextController,
         _settingsController = settingsController,
         _commentController = commentController,
+        _isAdmin = isAdmin,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     const double height = 250;
+
     return Stack(
       children: [
         Column(
           children: [
             _Top(
-                height: height,
-                image: _image,
-                onCameraPressed: _onCameraPressed,
-                onGalleryPressed: _onGalleryPressed),
+              height: height,
+              image: _image,
+              onCameraPressed: _onCameraPressed,
+              onGalleryPressed: _onGalleryPressed,
+              isAdmin: _isAdmin,
+            ),
             Expanded(
               child: _ListView(
                 nameTextController: _nameTextController,
@@ -288,14 +297,17 @@ class AddMeal extends StatelessWidget {
                 onStartTimePress: _onStartTimeSelected,
                 endTimeText: _endTimeText,
                 startTimeText: _startTimeText,
+                isAdmin: _isAdmin,
               ),
             ),
           ],
         ),
-        ActionButton(
-          icon: Icons.check,
-          onPressed: _onValidatePressed,
-        ),
+        !_isAdmin
+            ? ActionButton(
+                icon: Icons.check,
+                onPressed: _onValidatePressed,
+              )
+            : const SizedBox(),
         if (_showTimePicker)
           createInlinePicker(
             value: TimeOfDay.now(),
@@ -316,15 +328,18 @@ class _Top extends StatelessWidget {
     required ImageProvider? image,
     required void Function() onCameraPressed,
     required void Function() onGalleryPressed,
+    required bool isAdmin,
   })  : _image = image,
         _onCameraPressed = onCameraPressed,
         _onGalleryPressed = onGalleryPressed,
+        _isAdmin = isAdmin,
         super(key: key);
 
   final double height;
   final ImageProvider? _image;
   final void Function() _onCameraPressed;
   final void Function() _onGalleryPressed;
+  final bool _isAdmin;
 
   @override
   Widget build(BuildContext context) {
@@ -339,10 +354,12 @@ class _Top extends StatelessWidget {
               image: DecorationImage(fit: BoxFit.cover, image: _image!),
             ),
           ),
-          _PictureSelectorLayout(
-            onCameraPress: _onCameraPressed,
-            onImageSelectPress: _onGalleryPressed,
-          ),
+          !_isAdmin
+              ? _PictureSelectorLayout(
+                  onCameraPress: _onCameraPressed,
+                  onImageSelectPress: _onGalleryPressed,
+                )
+              : const SizedBox(),
         ],
       ),
     );
@@ -400,21 +417,23 @@ class _ListView extends StatelessWidget {
   final TextEditingController? _nameTextController;
   final TextEditingController? _settingsController;
   final TextEditingController? _commentController;
+  final bool _isAdmin;
 
-  const _ListView(
-      {Key? key,
-      required double hungerBeforeValue,
-      required double hungerAfterValue,
-      required void Function(double) onHungerBeforeChanged,
-      required void Function(double) onHungerAfterChanged,
-      void Function()? onStartTimePress,
-      void Function()? onEndTimePress,
-      String? startTimeText,
-      String? endTimeText,
-      TextEditingController? nameTextController,
-      TextEditingController? settingsController,
-      TextEditingController? commentController})
-      : _hungerBeforeValue = hungerBeforeValue,
+  const _ListView({
+    Key? key,
+    required double hungerBeforeValue,
+    required double hungerAfterValue,
+    required void Function(double) onHungerBeforeChanged,
+    required void Function(double) onHungerAfterChanged,
+    void Function()? onStartTimePress,
+    void Function()? onEndTimePress,
+    String? startTimeText,
+    String? endTimeText,
+    TextEditingController? nameTextController,
+    TextEditingController? settingsController,
+    TextEditingController? commentController,
+    required bool isAdmin,
+  })  : _hungerBeforeValue = hungerBeforeValue,
         _hungerAfterValue = hungerAfterValue,
         _onHungerAfterChanged = onHungerAfterChanged,
         _onHungerBeforeChanged = onHungerBeforeChanged,
@@ -425,69 +444,75 @@ class _ListView extends StatelessWidget {
         _nameTextController = nameTextController,
         _settingsController = settingsController,
         _commentController = commentController,
+        _isAdmin = isAdmin,
         super(key: key);
 
-  List<Widget> listViewContent(BuildContext context) => [
-        Text(
-          "Add a meal",
-          style: Theme.of(context)
-              .textTheme
-              .headline1!
-              .copyWith(color: Colors.black),
+  List<Widget> listViewContent(BuildContext context) {
+    return [
+      Text(
+        "Add a meal",
+        style: Theme.of(context)
+            .textTheme
+            .headline1!
+            .copyWith(color: Colors.black),
+      ),
+      MainTextField(
+        name: "Meal name",
+        controller: _nameTextController,
+        enabled: !_isAdmin,
+        icon: const Icon(
+          Icons.label,
+          color: Colors.black,
         ),
-        MainTextField(
-          name: "Meal name",
-          controller: _nameTextController,
-          icon: const Icon(
-            Icons.label,
-            color: Colors.black,
-          ),
-        ),
-        _TimePickerbutton(
-          text: _startTimeText ?? "Start Time",
-          onTap: _onStartTimePress,
-        ),
-        _TimePickerbutton(
-          text: _endTimeText ?? "End Time",
-          onTap: _onEndTimePress,
-        ),
-        SliderWithText(
-            context: context,
-            text: "Rate your hunger before eating",
-            value: _hungerBeforeValue,
-            onChanged: _onHungerBeforeChanged,
-            labels: const [
-              "0 - not hungry",
-              "1",
-              "2",
-              "3",
-              "4",
-              "5 - really hungry"
-            ]),
-        SliderWithText(
-            context: context,
-            text: "Rate your satiety after eating",
-            value: _hungerAfterValue,
-            onChanged: _onHungerAfterChanged,
-            labels: const [
-              "still hungry",
-              "discomfort",
-              "mild discomfort",
-              "comfort"
-            ]),
-        MainTextField(
-          name: "Settings",
-          icon: const Icon(Icons.people_alt, color: Colors.black),
-          maxLines: null,
-          controller: _settingsController,
-        ),
-        MainTextField(
-          name: "Comments",
-          icon: const Icon(Icons.comment, color: Colors.black),
-          maxLines: null,
-          controller: _commentController,
-        ),
-      ];
+      ),
+      _TimePickerbutton(
+        text: _startTimeText ?? "Start Time",
+        onTap: !_isAdmin ? _onStartTimePress : null,
+      ),
+      _TimePickerbutton(
+        text: _endTimeText ?? "End Time",
+        onTap: !_isAdmin ? _onEndTimePress : null,
+      ),
+      SliderWithText(
+          context: context,
+          text: "Rate your hunger before eating",
+          value: _hungerBeforeValue,
+          onChanged: !_isAdmin ? _onHungerBeforeChanged : null,
+          labels: const [
+            "0 - not hungry",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5 - really hungry"
+          ]),
+      SliderWithText(
+          context: context,
+          text: "Rate your satiety after eating",
+          value: _hungerAfterValue,
+          onChanged: !_isAdmin ? _onHungerAfterChanged : null,
+          labels: const [
+            "still hungry",
+            "discomfort",
+            "mild discomfort",
+            "comfort"
+          ]),
+      MainTextField(
+        name: "Settings",
+        icon: const Icon(Icons.people_alt, color: Colors.black),
+        maxLines: null,
+        controller: _settingsController,
+        enabled: !_isAdmin,
+      ),
+      MainTextField(
+        name: "Comments",
+        icon: const Icon(Icons.comment, color: Colors.black),
+        maxLines: null,
+        controller: _commentController,
+        enabled: !_isAdmin,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

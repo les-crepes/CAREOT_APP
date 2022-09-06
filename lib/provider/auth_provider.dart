@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pdg_app/api/iauth.dart';
 import 'package:pdg_app/api/ifile.dart';
 import 'package:pdg_app/api/iuser.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../model/user.dart';
 
@@ -94,12 +95,16 @@ class AuthProvider extends ChangeNotifier {
     String? picUrl = await uploadProfilePic(pic, user.uid);
 
     await _auth.register(email: email, password: password);
-    user.uid = _auth.uid;
 
+    user.uid = _auth.uid;
     user.photoUrl = picUrl;
 
     await _userApi.createUser(user);
     _client = user;
+
+    await _userApi.addClient(user.uid, dotenv.env['DIET_UID'] as String);
+    await fetchClientDietitian();
+
     notifyListeners();
   }
 

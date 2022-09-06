@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pdg_app/api/firebase_connection.dart';
 import 'package:pdg_app/widgets/loading_overlay.dart';
 
 import '../model/user.dart';
@@ -18,6 +19,7 @@ class RegisterProvider extends ChangeNotifier {
       LoadingOverlayController();
 
   DateTime _birthDay = DateTime.now();
+  final FirebaseConnection connectionApi = FirebaseConnection();
 
   TextEditingController get firstnameController => _firstnameController;
   TextEditingController get lastnameController => _lastnameController;
@@ -65,5 +67,9 @@ class RegisterProvider extends ChangeNotifier {
 
   bool verifyPassword() {
     return _passwordController.text == _confirmPasswordController.text;
+  }
+
+  Future<bool> checkEmailValidity() async {
+    return !(await connectionApi.checkIfEmailInUse(_emailController.text));
   }
 }

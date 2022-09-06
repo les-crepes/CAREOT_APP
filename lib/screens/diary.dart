@@ -73,8 +73,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
               clientPicturePath: authProvider.user!.photoUrl,
               defaultUserPic: "assets/images/default_user_pic.png",
               showActionButton: !isAdmin,
-              defaultMealPic:
-                  "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
+              defaultMealPic: "assets/images/breakfast.jpg",
               onAddPressed: () async {
                 final addedMeal = await AutoRouter.of(context)
                     .push<Tuple2<Meal?, XFile?>>(
@@ -266,7 +265,10 @@ class _CalendarBody extends StatelessWidget {
               vertical: 4.0,
             ),
             child: ArrowPicCard(
-              imagePath: meals[index].photo ?? defaultMealPic,
+              image: meals[index].photo != null
+                  ? NetworkImage(meals[index].photo!)
+                  : null,
+              defaultUserPic: AssetImage(defaultMealPic),
               title: Text(meals[index].title,
                   style: const TextStyle(fontWeight: FontWeight.w600)),
               subtitle: Text(

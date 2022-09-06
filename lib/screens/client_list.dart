@@ -149,8 +149,11 @@ class ScrollableClientList extends StatelessWidget {
               child: ArrowPicCard(
                 title: Text(
                     "${_clients[index].firstName} ${_clients[index].lastName}"),
-                imagePath: _clients[index].photoUrl ??
-                    'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fdefault_user_pic.png?alt=media&token=258f5435-e80c-4847-9572-9a4dd669a649',
+                defaultUserPic:
+                    const AssetImage("assets/images/default_user_pic.png"),
+                image: _clients[index].photoUrl != null
+                    ? NetworkImage(_clients[index].photoUrl!)
+                    : null,
               ),
             )),
         separatorBuilder: ((context, index) => const SizedBox(height: 15)),

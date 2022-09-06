@@ -83,8 +83,7 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => PicCard(
-            imagePath:
-                "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
+            image: const AssetImage("assets/images/breakfast.jpg"),
             title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
@@ -104,8 +103,7 @@ class HotReload extends StatelessWidget {
         WidgetbookUseCase(
           name: 'Default',
           builder: (context) => ArrowPicCard(
-            imagePath:
-                "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
+            defaultUserPic: const AssetImage("assets/images/breakfast.jpg"),
             title: Text(context.knobs.text(
               label: 'title',
               initialValue: "Déjeuner",
@@ -194,8 +192,7 @@ class HotReload extends StatelessWidget {
           builder: (context) {
             return Diary(
               defaultUserPic: 'assets/images/default_user_pic.png',
-              defaultMealPic:
-                  "https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/images%2Fdiary%2Fbreakfast.jpg?alt=media&token=c8e56e6d-a303-4c31-9ba1-1de5a3ebb013",
+              defaultMealPic: "assets/images/breakfast.jpg",
               getDiariesForDay: (datetime) {
                 return [
                   Meal(

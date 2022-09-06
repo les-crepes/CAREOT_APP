@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'left_element_card.dart';
 
 class PicCard extends StatelessWidget {
-  final String imagePath;
+  final ImageProvider image;
   final Widget title;
   final Widget? subtitle;
   final Icon? icon;
@@ -11,7 +11,7 @@ class PicCard extends StatelessWidget {
   const PicCard({
     required this.title,
     this.subtitle,
-    required this.imagePath,
+    required this.image,
     this.icon,
     Key? key,
   }) : super(key: key);
@@ -27,7 +27,7 @@ class PicCard extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: NetworkImage(imagePath),
+              image: image,
               fit: BoxFit.cover,
             ),
           ),

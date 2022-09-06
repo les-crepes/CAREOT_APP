@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/cards/pic_card.dart';
 
 class ArrowPicCard extends StatelessWidget {
-  final String imagePath;
+  final ImageProvider? image;
   final Widget title;
   final Widget? subtitle;
+  final ImageProvider defaultUserPic;
 
   const ArrowPicCard({
     required this.title,
     this.subtitle,
-    required this.imagePath,
+    this.image,
+    required this.defaultUserPic,
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,7 @@ class ArrowPicCard extends StatelessWidget {
     return PicCard(
       title: title,
       subtitle: subtitle,
-      imagePath: imagePath,
+      image: image ?? defaultUserPic,
       icon: const Icon(Icons.keyboard_arrow_right_sharp),
     );
   }

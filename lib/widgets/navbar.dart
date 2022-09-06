@@ -17,15 +17,14 @@ class _NavBarState extends State<NavBar> {
     final tabsRouter = AutoTabsRouter.of(context);
 
     return GNav(
-      rippleColor: Theme.of(context).colorScheme.secondary,
-      hoverColor: Theme.of(context).colorScheme.secondary,
       color: Theme.of(context).colorScheme.onSecondary,
       activeColor: Theme.of(context).colorScheme.onSecondary,
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 400),
       tabBackgroundColor: Theme.of(context).colorScheme.secondary,
-      gap: 8,
-      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
-      tabMargin: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+      gap: 6,
+      haptic: true,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      tabMargin: const EdgeInsets.symmetric(vertical: 13, horizontal: 25),
       backgroundColor: Theme.of(context).colorScheme.surface,
       tabs: const [
         GButton(

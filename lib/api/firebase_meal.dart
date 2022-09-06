@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_api.dart';
 
+/// Implementation of the [IUser] API interface for Firebase.
 class FirebaseMeal extends FirebaseAPI implements IMeal {
   FirebaseMeal(FirebaseFirestore db) : super(db, 'meal');
 
@@ -59,8 +60,8 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
 
   @override
   Future<List<Meal>> getUsersMealForDay(String userId, DateTime day) async {
-    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
-    DateTime endD = newD.add(const Duration(days: 1));
+    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0); /// Start of the day
+    DateTime endD = newD.add(const Duration(days: 1)); /// End of the day
     final m = await collectionReference
         .where("owner", isEqualTo: userId)
         .where("startTime", isGreaterThanOrEqualTo: newD)

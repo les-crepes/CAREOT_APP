@@ -38,11 +38,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
   IFile fileApi = FirebaseFile(FirebaseStorage.instance);
   final LoadingOverlayController _loadingOverlayController =
       LoadingOverlayController();
+  late MealProvider mealProvider;
 
   @override
   void dispose() {
     if (GetIt.I.get<AuthProvider>().isAdmin) {
-      context.read<MealProvider>().stopNewDiaryListener();
+      mealProvider.stopNewDiaryListener();
     }
     super.dispose();
   }
@@ -63,7 +64,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         builder: (context, child) {
           context.watch<MealProvider>().meals;
 
-          MealProvider mealProvider = context.read<MealProvider>();
+          mealProvider = context.read<MealProvider>();
           AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
           if (isAdmin) {

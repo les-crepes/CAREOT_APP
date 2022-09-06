@@ -52,53 +52,57 @@ class _DiaryScreenState extends State<DiaryScreen> {
     final uid = context.read<AuthProvider>().userUid;
     final isAdmin = context.read<AuthProvider>().isAdmin;
 
-    return ChangeNotifierProvider(
-      create: (context) => MealProvider(!isAdmin ? uid : widget._client!.uid),
-      builder: (context, child) {
-        context.watch<MealProvider>().meals;
+    return Container(
+      color: Colors.white,
+      child: ChangeNotifierProvider(
+        create: (context) => MealProvider(!isAdmin ? uid : widget._client!.uid),
+        builder: (context, child) {
+          context.watch<MealProvider>().meals;
 
-        MealProvider mealProvider = context.read<MealProvider>();
-        AuthProvider authProvider = GetIt.I.get<AuthProvider>();
+          MealProvider mealProvider = context.read<MealProvider>();
+          AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
-        return LoadingOverlay(
-          controller: _loadingOverlayController,
-          child: Diary(
-              onDaySelected: _onDaySelected,
-              getDiariesForDay: (day) {
-                return _getEventsForDay(context, day);
-              },
-              clientName: !isAdmin
-                  ? GetIt.I.get<AuthProvider>().user!.firstName
-                  : widget._client!.firstName,
-              clientPicturePath: authProvider.user!.photoUrl,
-              defaultUserPic: "assets/images/default_user_pic.png",
-              showActionButton: !isAdmin,
-              defaultMealPic: "assets/images/breakfast.jpg",
-              onAddPressed: () async {
-                final addedMeal = await AutoRouter.of(context)
-                    .push<Tuple2<Meal?, XFile?>>(
-                        AddMealScreenRoute(day: _selectedDate));
-                _loadingOverlayController.showLoadingOverlay();
-                if (addedMeal != null) {
-                  await mealProvider.addMeal(addedMeal.item1!, addedMeal.item2);
-                  mealProvider.fetchMeals();
-                }
-                _loadingOverlayController.hideLoadingOverlay();
-              },
-              onMealBlocPressed: (Meal meal) async {
-                final changedMeal = await AutoRouter.of(context)
-                    .push<Tuple2<Meal?, XFile?>>(
-                        AddMealScreenRoute(day: _selectedDate, meal: meal));
-                _loadingOverlayController.showLoadingOverlay();
-                if (changedMeal != null) {
-                  await mealProvider.updateMeal(
-                      changedMeal.item1!, changedMeal.item2);
-                  mealProvider.fetchMeals();
-                }
-                _loadingOverlayController.hideLoadingOverlay();
-              }),
-        );
-      },
+          return LoadingOverlay(
+            controller: _loadingOverlayController,
+            child: Diary(
+                onDaySelected: _onDaySelected,
+                getDiariesForDay: (day) {
+                  return _getEventsForDay(context, day);
+                },
+                clientName: !isAdmin
+                    ? GetIt.I.get<AuthProvider>().user!.firstName
+                    : widget._client!.firstName,
+                clientPicturePath: authProvider.user!.photoUrl,
+                defaultUserPic: "assets/images/default_user_pic.png",
+                showActionButton: !isAdmin,
+                defaultMealPic: "assets/images/breakfast.jpg",
+                onAddPressed: () async {
+                  final addedMeal = await AutoRouter.of(context)
+                      .push<Tuple2<Meal?, XFile?>>(
+                          AddMealScreenRoute(day: _selectedDate));
+                  _loadingOverlayController.showLoadingOverlay();
+                  if (addedMeal != null) {
+                    await mealProvider.addMeal(
+                        addedMeal.item1!, addedMeal.item2);
+                    mealProvider.fetchMeals();
+                  }
+                  _loadingOverlayController.hideLoadingOverlay();
+                },
+                onMealBlocPressed: (Meal meal) async {
+                  final changedMeal = await AutoRouter.of(context)
+                      .push<Tuple2<Meal?, XFile?>>(
+                          AddMealScreenRoute(day: _selectedDate, meal: meal));
+                  _loadingOverlayController.showLoadingOverlay();
+                  if (changedMeal != null) {
+                    await mealProvider.updateMeal(
+                        changedMeal.item1!, changedMeal.item2);
+                    mealProvider.fetchMeals();
+                  }
+                  _loadingOverlayController.hideLoadingOverlay();
+                }),
+          );
+        },
+      ),
     );
   }
 }

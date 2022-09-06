@@ -13,7 +13,6 @@ import 'package:tuple/tuple.dart';
 
 import '../model/meal.dart';
 import '../widgets/buttons/custom_icon_button.dart';
-import '../widgets/loading_overlay.dart';
 import '../widgets/slider_with_text.dart';
 
 class AddMealScreen extends StatefulWidget {
@@ -84,7 +83,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ImageProvider image = AssetImage("assets/images/placeholderfood.png");
+    ImageProvider image = const AssetImage("assets/images/placeholderfood.png");
 
     if (widget._meal != null && widget._meal!.photo != null) {
       if (_image != null) {

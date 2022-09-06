@@ -10,6 +10,7 @@ import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../model/user.dart';
 import '../api/firebase_file.dart';
@@ -146,12 +147,16 @@ class _DiaryState extends State<Diary> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
     _selectedDay = _focusedDay;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < 0) _scrollController.jumpTo(0);
+    });
   }
 
   @override
@@ -171,7 +176,9 @@ class _DiaryState extends State<Diary> {
     final DateFormat hourFormatter = DateFormat('HH:mm');
 
     return Stack(children: [
-      Column(
+      ListView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
         children: [
           DiaryTopBar(
             background: background,
@@ -180,47 +187,51 @@ class _DiaryState extends State<Diary> {
             clientPicturePath: widget.clientPicturePath,
             defaultUserPic: widget._defaultUserPic,
           ),
-          TableCalendar(
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2050, 12, 31),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // update `_focusedDay` here as well
-              });
-              if (widget._onDaySelected != null) {
-                widget._onDaySelected!(selectedDay);
-              }
-            },
-            calendarFormat: _calendarFormat,
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-            eventLoader: context.read<MealProvider>().getMealsByDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
-              todayDecoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  shape: BoxShape.circle),
-              todayTextStyle:
-                  TextStyle(color: Theme.of(context).colorScheme.onSurface),
-              selectedDecoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  shape: BoxShape.circle),
+          StickyHeader(
+            header: Container(
+              color: Colors.white,
+              child: TableCalendar(
+                firstDay: DateTime.utc(2020, 1, 1),
+                lastDay: DateTime.utc(2050, 12, 31),
+                focusedDay: _focusedDay,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay =
+                        focusedDay; // update `_focusedDay` here as well
+                  });
+                  if (widget._onDaySelected != null) {
+                    widget._onDaySelected!(selectedDay);
+                  }
+                },
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+                eventLoader: context.read<MealProvider>().getMealsByDay,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                calendarStyle: CalendarStyle(
+                  todayDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      shape: BoxShape.circle),
+                  todayTextStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  selectedDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 13),
-          Expanded(
-            child: _CalendarBody(
+            content: _CalendarBody(
+              topBarHeight: height,
               defaultMealPic: widget._defaultMealPic,
               hourFormatter: hourFormatter,
               meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
@@ -242,6 +253,7 @@ class _CalendarBody extends StatelessWidget {
   final List<Meal> meals;
   final void Function(Meal)? onMealBlocPressed;
   final String defaultMealPic;
+  final double topBarHeight;
 
   const _CalendarBody({
     required this.meals,
@@ -249,17 +261,15 @@ class _CalendarBody extends StatelessWidget {
     required this.hourFormatter,
     required this.defaultMealPic,
     this.onMealBlocPressed,
+    required this.topBarHeight,
   }) : super(key: key);
 
   final DateFormat hourFormatter;
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: meals.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return GestureDetector(
+  List<Widget> buildList() {
+    return <Widget>[
+      for (int index = 0; index < meals.length; index++)
+        GestureDetector(
           onTap: onMealBlocPressed != null
               ? (() => onMealBlocPressed!(meals[index]))
               : () {},
@@ -281,8 +291,17 @@ class _CalendarBody extends StatelessWidget {
               ),
             ),
           ),
-        );
-      },
+        )
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...buildList(),
+        SizedBox(height: topBarHeight - 10),
+      ],
     );
   }
 }

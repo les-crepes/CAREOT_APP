@@ -3,16 +3,20 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
+/// Implementation of the [IModel] model interface for Firebase.
 class User implements IModel {
-  String uid;
+  String uid; // Unique identifier
   String firstName;
   String lastName;
   DateTime birthDate;
   String phoneNumber;
-  String avs;
+  String avs; // Swiss social security number
   String email;
-  String? photoUrl;
-  List? clientList;
+  String? photoUrl; // URL of the user's profile picture
+  List? clientList; // List of clients of the user, if the user is a dietitian
+
+  /// Instantiates a new [User].
+  /// If [uid] is not provided, a new one is generated.
   User(
       {String? uid,
       required this.firstName,
@@ -25,6 +29,7 @@ class User implements IModel {
       this.photoUrl})
       : uid = uid ?? const Uuid().v1();
 
+  /// Instantiates a new [User] from a Firebase [Map].
   factory User.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
@@ -63,10 +68,12 @@ class User implements IModel {
     return 'User{$firstName $lastName $birthDate $phoneNumber $avs $email}';
   }
 
+  /// Change the user's firstname to [name].
   void setFirstName(String name) {
     firstName = name;
   }
 
+  /// Two [User]s are equal if they have the same [uid].
   @override
   bool operator ==(Object other) {
     if (other is User && other.uid == uid) return true;
@@ -76,6 +83,7 @@ class User implements IModel {
   @override
   int get hashCode => Object.hash(uid, null);
 
+  /// Add a client to the user's client list if [this] is a dietitian.
   void addUser(String userId) {
     if (clientList == null) {
       throw Exception("Client list is null");

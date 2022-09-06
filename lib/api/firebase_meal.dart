@@ -66,6 +66,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     DateTime endD = newD.add(const Duration(days: 1));
 
     /// End of the day
+
     final m = await collectionReference
         .where("owner", isEqualTo: userId)
         .where("startTime", isGreaterThanOrEqualTo: newD)
@@ -86,6 +87,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     DateTime endD = newD.add(const Duration(days: 1));
 
     /// End of the day
+
     Stream<QuerySnapshot<Meal>> mealStream = collectionReference
         .where("owner", isEqualTo: userId)
         .where("startTime", isGreaterThanOrEqualTo: newD)

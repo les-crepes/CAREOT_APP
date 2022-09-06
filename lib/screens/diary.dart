@@ -39,8 +39,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
   final LoadingOverlayController _loadingOverlayController =
       LoadingOverlayController();
 
-  _onDaySelected(DateTime day) async {
-    _selectedDate = day;
+  @override
+  void dispose() {
+    if (GetIt.I.get<AuthProvider>().isAdmin) {
+      context.read<MealProvider>().stopNewDiaryListener();
+    }
+    super.dispose();
   }
 
   List<Meal> _getEventsForDay(BuildContext context, DateTime day) {
@@ -62,17 +66,31 @@ class _DiaryScreenState extends State<DiaryScreen> {
           MealProvider mealProvider = context.read<MealProvider>();
           AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
+          if (isAdmin) {
+            mealProvider.startNewDiaryListener(
+                widget._client!.uid, _selectedDate);
+          }
+
           return LoadingOverlay(
             controller: _loadingOverlayController,
             child: Diary(
-                onDaySelected: _onDaySelected,
+                onDaySelected: (date) {
+                  _selectedDate = date;
+                  if (isAdmin) {
+                    mealProvider.stopNewDiaryListener();
+                    mealProvider.startNewDiaryListener(
+                        widget._client!.uid, date);
+                  }
+                },
                 getDiariesForDay: (day) {
                   return _getEventsForDay(context, day);
                 },
                 clientName: !isAdmin
                     ? GetIt.I.get<AuthProvider>().user!.firstName
                     : widget._client!.firstName,
-                clientPicturePath: authProvider.user!.photoUrl,
+                clientPicturePath: !isAdmin
+                    ? authProvider.user!.photoUrl
+                    : widget._client!.photoUrl,
                 defaultUserPic: "assets/images/default_user_pic.png",
                 showActionButton: !isAdmin,
                 defaultMealPic: "assets/images/breakfast.jpg",

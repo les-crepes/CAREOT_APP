@@ -1,14 +1,21 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:pdg_app/api/firebase_file.dart';
 import 'package:pdg_app/api/firebase_meal.dart';
 import 'package:pdg_app/api/imeal.dart';
 
+import '../api/ifile.dart';
 import '../model/meal.dart';
 
 class MealProvider extends ChangeNotifier {
   final IMeal _mealApi = FirebaseMeal(FirebaseFirestore.instance);
   final String _uid;
   bool _isFetching = false;
+  final IFile _fileApi = FirebaseFile(FirebaseStorage.instance);
 
   MealProvider(this._uid) {
     fetchMeals();
@@ -37,13 +44,31 @@ class MealProvider extends ChangeNotifier {
     }).toList();
   }
 
-  Future<void> addMeal(Meal meal) async {
+  Future<void> addMeal(Meal meal, XFile? pic) async {
+    String? picUrl = await uploadMealPic(pic, meal.uid);
+    meal.photo = picUrl;
     await _mealApi.createMeal(meal);
     notifyListeners();
   }
 
-  Future<void> updateMeal(Meal meal) async {
+  Future<void> updateMeal(Meal meal, XFile? pic) async {
+    // Not really optimized to reload each time but is working
+    String? picUrl = await uploadMealPic(pic, meal.uid);
+    meal.photo = picUrl;
     await _mealApi.updateMeal(meal);
     notifyListeners();
+  }
+
+  // Return the meal pic URL
+  Future<String?> uploadMealPic(XFile? pic, String mealUid) async {
+    String? picUrl;
+    if (pic != null) {
+      String path = "images/diary/$mealUid.jpg";
+      picUrl = await _fileApi.uploadFile(pic.path, path);
+      log(picUrl);
+      log(pic.path);
+    }
+
+    return picUrl;
   }
 }

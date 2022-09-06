@@ -235,10 +235,17 @@ class TopBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: 35,
-              foregroundImage: _image,
-            ),
+                backgroundColor: Colors.white,
+                radius: 35,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: _image!,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )),
           ),
           Text(
             name,

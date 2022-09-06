@@ -6,15 +6,24 @@ class DatePicker extends StatefulWidget {
   final String _name;
   final void Function(DateTime?)? _onSelected;
   final DateTime? _initialDate;
+  final Icon _icon;
+  final DateTime? _firstDate;
+  final DateTime? _lastDate;
 
   const DatePicker({
     required String name,
     void Function(DateTime?)? onSelected,
     DateTime? initialDate,
+    required Icon icon,
+    DateTime? firstDate,
+    DateTime? lastDate,
     Key? key,
   })  : _name = name,
         _onSelected = onSelected,
         _initialDate = initialDate,
+        _icon = icon,
+        _firstDate = firstDate,
+        _lastDate = lastDate,
         super(key: key);
 
   @override
@@ -32,8 +41,8 @@ class _DatePickerState extends State<DatePicker> {
         DateTime? selected = await showDatePicker(
           context: context,
           initialDate: picked ?? widget._initialDate ?? DateTime.now(),
-          firstDate: DateTime(2020, 01, 01),
-          lastDate: DateTime(2050, 12, 31),
+          firstDate: widget._firstDate ?? DateTime(2020, 01, 01),
+          lastDate: widget._lastDate ?? DateTime(2050, 12, 31),
         );
         setState(() {
           picked = selected;
@@ -49,7 +58,7 @@ class _DatePickerState extends State<DatePicker> {
             : widget._initialDate != null
                 ? hourFormatter.format(widget._initialDate!)
                 : widget._name,
-        icon: const Icon(Icons.date_range),
+        icon: widget._icon,
         enabled: false,
       ),
     );

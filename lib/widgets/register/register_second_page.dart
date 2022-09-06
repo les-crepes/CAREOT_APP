@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pdg_app/widgets/forms/date_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/register_provider.dart';
@@ -21,6 +22,7 @@ class RegisterSecondPage extends StatelessWidget {
 
   List<Widget> buildInputs(BuildContext context) {
     final registerProvider = context.watch<RegisterProvider>();
+
     return [
       InkWell(
         onTap: () async {
@@ -59,10 +61,17 @@ class RegisterSecondPage extends StatelessWidget {
         controller: registerProvider.lastnameController,
         validator: validateString,
       ),
-      const MainTextField(
-        name: 'Birthdate',
-        icon: Icon(Icons.cake_outlined),
-        keyboardType: TextInputType.datetime,
+      DatePicker(
+        name: "Birthday",
+        icon: const Icon(Icons.cake_outlined),
+        initialDate: registerProvider.birthDay,
+        firstDate: DateTime(1920, 01, 01),
+        lastDate: DateTime.now(),
+        onSelected: (date) {
+          if (date != null) {
+            registerProvider.birthday = date;
+          }
+        },
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.end,

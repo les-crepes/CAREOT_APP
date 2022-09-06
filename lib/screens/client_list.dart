@@ -149,8 +149,11 @@ class ScrollableClientList extends StatelessWidget {
               child: ArrowPicCard(
                 title: Text(
                     "${_clients[index].firstName} ${_clients[index].lastName}"),
-                imagePath:
-                    'assets/images/default_user_pic.png', //TODO à changer quand on aura  les photos
+                defaultUserPic:
+                    const AssetImage("assets/images/default_user_pic.png"),
+                image: _clients[index].photoUrl != null
+                    ? NetworkImage(_clients[index].photoUrl!)
+                    : null,
               ),
             )),
         separatorBuilder: ((context, index) => const SizedBox(height: 15)),

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 class ProfileTemplate extends StatelessWidget {
   final double _screenWidth;
-  final String _clientPicturePath;
+  final String? _clientPicturePath;
   final String _clientFirstName;
   final String _clientLastName;
   final String _clientEmail;
@@ -17,10 +17,11 @@ class ProfileTemplate extends StatelessWidget {
   final IconData? _buttonIcon;
   final Widget? _firstBloc;
   final Widget? _lastBloc;
+  final String _defaultUserPic;
 
   const ProfileTemplate(
       {double screenWidth = 0.0,
-      String clientPicturePath = 'assets/images/default_user_pic.png',
+      String? clientPicturePath,
       required String clientFirstName,
       required String clientLastName,
       required String clientEmail,
@@ -31,6 +32,7 @@ class ProfileTemplate extends StatelessWidget {
       IconData? buttonIcon,
       Widget? firstBloc,
       Widget? lastBloc,
+      required String defaultUserPic,
       Key? key})
       : _screenWidth = screenWidth,
         _clientPicturePath = clientPicturePath,
@@ -44,6 +46,7 @@ class ProfileTemplate extends StatelessWidget {
         _buttonIcon = buttonIcon,
         _firstBloc = firstBloc,
         _lastBloc = lastBloc,
+        _defaultUserPic = defaultUserPic,
         super(key: key);
 
   @override
@@ -65,6 +68,7 @@ class ProfileTemplate extends StatelessWidget {
           clientLastName: _clientLastName,
           onIconButtonPress: _onIconButtonPressed,
           buttonIcon: _buttonIcon,
+          defaultUserPic: _defaultUserPic,
         ),
         const SizedBox(height: 15),
         Expanded(

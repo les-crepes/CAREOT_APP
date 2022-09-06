@@ -13,11 +13,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i18;
 import 'package:auto_route/empty_router_widgets.dart' as _i5;
+import 'package:flutter/foundation.dart' as _i27;
 import 'package:flutter/material.dart' as _i19;
+import 'package:image_picker/image_picker.dart' as _i26;
+import 'package:tuple/tuple.dart' as _i24;
 
 import '../model/aftercare.dart' as _i23;
-import '../model/meal.dart' as _i24;
-import '../model/user.dart' as _i25;
+import '../model/meal.dart' as _i25;
+import '../model/user.dart' as _i28;
 import '../screens/add_meal.dart' as _i14;
 import '../screens/chat.dart' as _i7;
 import '../screens/client_list.dart' as _i10;
@@ -129,7 +132,7 @@ class AppRouter extends _i18.RootStackRouter {
     },
     AddMealScreenRoute.name: (routeData) {
       final args = routeData.argsAs<AddMealScreenRouteArgs>();
-      return _i18.MaterialPageX<_i24.Meal?>(
+      return _i18.MaterialPageX<_i24.Tuple2<_i25.Meal?, _i26.XFile?>>(
           routeData: routeData,
           child: _i14.AddMealScreen(
               day: args.day, meal: args.meal, key: args.key));
@@ -289,7 +292,7 @@ class ProfileScreenRoute extends _i18.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.ChatScreen]
 class ChatScreenRoute extends _i18.PageRouteInfo<ChatScreenRouteArgs> {
-  ChatScreenRoute({_i19.Key? key, _i25.User? otherUser})
+  ChatScreenRoute({_i27.Key? key, _i28.User? otherUser})
       : super(ChatScreenRoute.name,
             path: 'onechat',
             args: ChatScreenRouteArgs(key: key, otherUser: otherUser));
@@ -300,9 +303,9 @@ class ChatScreenRoute extends _i18.PageRouteInfo<ChatScreenRouteArgs> {
 class ChatScreenRouteArgs {
   const ChatScreenRouteArgs({this.key, this.otherUser});
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
-  final _i25.User? otherUser;
+  final _i28.User? otherUser;
 
   @override
   String toString() {
@@ -323,7 +326,7 @@ class DiscussionListScreenRoute extends _i18.PageRouteInfo<void> {
 /// [_i9.DocumentListScreen]
 class DocumentListScreenRoute
     extends _i18.PageRouteInfo<DocumentListScreenRouteArgs> {
-  DocumentListScreenRoute({_i19.Key? key, required _i25.User user})
+  DocumentListScreenRoute({_i27.Key? key, required _i28.User user})
       : super(DocumentListScreenRoute.name,
             path: 'documents',
             args: DocumentListScreenRouteArgs(key: key, user: user));
@@ -334,9 +337,9 @@ class DocumentListScreenRoute
 class DocumentListScreenRouteArgs {
   const DocumentListScreenRouteArgs({this.key, required this.user});
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
-  final _i25.User user;
+  final _i28.User user;
 
   @override
   String toString() {
@@ -375,7 +378,7 @@ class ClientListScreenRoute extends _i18.PageRouteInfo<void> {
 /// [_i11.ClientRecordScreen]
 class ClientRecordScreenRoute
     extends _i18.PageRouteInfo<ClientRecordScreenRouteArgs> {
-  ClientRecordScreenRoute({required _i25.User user, _i19.Key? key})
+  ClientRecordScreenRoute({required _i28.User user, _i27.Key? key})
       : super(ClientRecordScreenRoute.name,
             path: 'record',
             args: ClientRecordScreenRouteArgs(user: user, key: key));
@@ -386,9 +389,9 @@ class ClientRecordScreenRoute
 class ClientRecordScreenRouteArgs {
   const ClientRecordScreenRouteArgs({required this.user, this.key});
 
-  final _i25.User user;
+  final _i28.User user;
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -401,7 +404,7 @@ class ClientRecordScreenRouteArgs {
 class UpdateClientRecordScreenRoute
     extends _i18.PageRouteInfo<UpdateClientRecordScreenRouteArgs> {
   UpdateClientRecordScreenRoute(
-      {required dynamic user, _i23.Aftercare? aftercare, _i19.Key? key})
+      {required dynamic user, _i23.Aftercare? aftercare, _i27.Key? key})
       : super(UpdateClientRecordScreenRoute.name,
             path: 'update',
             args: UpdateClientRecordScreenRouteArgs(
@@ -418,7 +421,7 @@ class UpdateClientRecordScreenRouteArgs {
 
   final _i23.Aftercare? aftercare;
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -429,7 +432,7 @@ class UpdateClientRecordScreenRouteArgs {
 /// generated route for
 /// [_i13.DiaryScreen]
 class DiaryScreenRoute extends _i18.PageRouteInfo<DiaryScreenRouteArgs> {
-  DiaryScreenRoute({_i25.User? client, _i19.Key? key})
+  DiaryScreenRoute({_i28.User? client, _i27.Key? key})
       : super(DiaryScreenRoute.name,
             path: '', args: DiaryScreenRouteArgs(client: client, key: key));
 
@@ -439,9 +442,9 @@ class DiaryScreenRoute extends _i18.PageRouteInfo<DiaryScreenRouteArgs> {
 class DiaryScreenRouteArgs {
   const DiaryScreenRouteArgs({this.client, this.key});
 
-  final _i25.User? client;
+  final _i28.User? client;
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -452,7 +455,7 @@ class DiaryScreenRouteArgs {
 /// generated route for
 /// [_i14.AddMealScreen]
 class AddMealScreenRoute extends _i18.PageRouteInfo<AddMealScreenRouteArgs> {
-  AddMealScreenRoute({required DateTime day, _i24.Meal? meal, _i19.Key? key})
+  AddMealScreenRoute({required DateTime day, _i25.Meal? meal, _i27.Key? key})
       : super(AddMealScreenRoute.name,
             path: 'add',
             args: AddMealScreenRouteArgs(day: day, meal: meal, key: key));
@@ -465,9 +468,9 @@ class AddMealScreenRouteArgs {
 
   final DateTime day;
 
-  final _i24.Meal? meal;
+  final _i25.Meal? meal;
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {
@@ -487,7 +490,7 @@ class RegisterFirstPageRoute extends _i18.PageRouteInfo<void> {
 /// [_i16.RegisterSecondPage]
 class RegisterSecondPageRoute
     extends _i18.PageRouteInfo<RegisterSecondPageRouteArgs> {
-  RegisterSecondPageRoute({_i19.Key? key})
+  RegisterSecondPageRoute({_i27.Key? key})
       : super(RegisterSecondPageRoute.name,
             path: '1', args: RegisterSecondPageRouteArgs(key: key));
 
@@ -497,7 +500,7 @@ class RegisterSecondPageRoute
 class RegisterSecondPageRouteArgs {
   const RegisterSecondPageRouteArgs({this.key});
 
-  final _i19.Key? key;
+  final _i27.Key? key;
 
   @override
   String toString() {

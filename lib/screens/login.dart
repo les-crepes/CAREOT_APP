@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/provider/auth_provider.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
@@ -124,17 +125,24 @@ class Login extends StatelessWidget {
     return Stack(
       children: [
         background,
-        Column(
-          children: [
-            SizedBox(height: width * 0.2),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 60.0),
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.orange,
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, width * 0.07, 0, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/images/title.svg',
+                width: width * 0.5,
               ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SvgPicture.asset(
+              'assets/images/mascotte.svg',
+              width: width * 0.2,
             ),
           ],
         ),

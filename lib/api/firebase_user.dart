@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pdg_app/api/firebase_api.dart';
 import 'package:pdg_app/api/iuser.dart';
 import 'package:pdg_app/model/user.dart';
 
+/// Implementation of the user API for Firebase
 class FirebaseUser extends FirebaseAPI implements IUser {
   FirebaseUser(FirebaseFirestore db) : super(db, 'user');
 
@@ -28,10 +28,8 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     final user = docSnapshot.data();
     if (user != null) {
       return user;
-    } else {
-      log("Doc does not exist");
-      throw Error();
     }
+    throw ArgumentError("User does not exist", userId);
   }
 
   @override
@@ -61,16 +59,14 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     final d = docSnapshot.data();
     final m =
         await collectionReference.where("uid", whereIn: d?.clientList).get();
-    List<User> clients = m.docs
-        .map((doc) => User(
+    List<User> clients = m.docs.map((doc) => User(
             birthDate: doc['birthDate'].toDate(),
             firstName: doc['firstName'],
             avs: doc['avs'],
             lastName: doc['lastName'],
             phoneNumber: doc['phoneNumber'],
             email: doc['email'],
-            uid: doc['uid']))
-        .toList();
+            uid: doc['uid'])).toList();
     return clients;
   }
 

@@ -50,6 +50,7 @@ class RegisterFirstPage extends StatelessWidget {
             child: RightArrowButton(
                 text: 'Next',
                 onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   if (registerProvider.formPage1.currentState!.validate()) {
                     registerProvider.loadingController.showLoadingOverlay();
                     if (await registerProvider.checkEmailValidity()) {

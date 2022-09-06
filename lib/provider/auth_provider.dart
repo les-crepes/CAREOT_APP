@@ -94,12 +94,16 @@ class AuthProvider extends ChangeNotifier {
     String? picUrl = await uploadProfilePic(pic, user.uid);
 
     await _auth.register(email: email, password: password);
-    user.uid = _auth.uid;
 
+    user.uid = _auth.uid;
     user.photoUrl = picUrl;
 
     await _userApi.createUser(user);
     _client = user;
+
+    await _userApi.addClient(user.uid, "5XpYznRM6vaFhrm3UOSdzBunMQa2");
+    await fetchClientDietitian();
+
     notifyListeners();
   }
 

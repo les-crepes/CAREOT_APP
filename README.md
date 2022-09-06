@@ -24,7 +24,7 @@ Si vous voulez télécharger notre dernière release, vous pouvez la trouver dan
 2.  Autorisez votre explorateur de fichier à utiliser des fichiers `.apk`
 3.  Installez l'application depuis là où vous l'avez téléchargé
 
-## Développement
+## Guides de démarrage rapide
 
 Si vous voulez directement construire l'application, il vous faudra installer la dernière version de Flutter.
 
@@ -42,6 +42,23 @@ Afin de respecter nos conventions de codage il faudra passer les commandes:
 
 -   `flutter analyze`
 -   `flutter test`
+
+### Contribution
+
+Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre repository et suivre les étapes ci-dessous:
+
+1. Sélection le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
+2. Créer un issue dans le repository correspondant
+3. S'assigner à l'issue et ajouter les tags nécessaires (frontend, backend, bug, ehancement etc...)
+4. Créer une branche associée à l'issue (petit bouton dans issue: create branch)
+5. Charger la branche en local (copier la commande fournie par l'utilitaire)
+6. Réaliser les modifications
+7. Lancer les tests en local
+8. Après validation, push sur la nouvelle branche dans la remote origin.
+9. Créer une Pull Request et attendre un review d'un pair
+10. Supprimer la branche après la fusion avec la branche principale (main)
+
+Pour plus d'informations, vous pouvez consulter notre [cahier des charge](https://github.com/les-crepes/.github/blob/main/cahier_charge.md)
 
 ### Documentation
 

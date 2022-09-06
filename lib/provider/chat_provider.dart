@@ -39,6 +39,15 @@ class ChatProvider extends ChangeNotifier {
     return UnmodifiableListView([]);
   }
 
+  UnmodifiableListView<Message> getAllFilesOfConversation(User user) {
+    final messages = _messages[user];
+    if (messages != null) {
+      return UnmodifiableListView(
+          messages.where((element) => element.fileUrl != null));
+    }
+    return UnmodifiableListView([]);
+  }
+
   /// It filters the messages to get all last messages of every users.
   UnmodifiableListView<MapEntry<User, Message>> getLastMessageOfEachUser() {
     final result =

@@ -90,8 +90,10 @@ class AppRouter extends _i18.RootStackRouter {
           routeData: routeData, child: const _i8.DiscussionListScreen());
     },
     DocumentListScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<DocumentListScreenRouteArgs>();
       return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i9.DocumentListScreen());
+          routeData: routeData,
+          child: _i9.DocumentListScreen(key: args.key, user: args.user));
     },
     ClientListRouter.name: (routeData) {
       return _i18.MaterialPageX<dynamic>(
@@ -319,11 +321,27 @@ class DiscussionListScreenRoute extends _i18.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.DocumentListScreen]
-class DocumentListScreenRoute extends _i18.PageRouteInfo<void> {
-  const DocumentListScreenRoute()
-      : super(DocumentListScreenRoute.name, path: 'documents');
+class DocumentListScreenRoute
+    extends _i18.PageRouteInfo<DocumentListScreenRouteArgs> {
+  DocumentListScreenRoute({_i19.Key? key, required _i25.User user})
+      : super(DocumentListScreenRoute.name,
+            path: 'documents',
+            args: DocumentListScreenRouteArgs(key: key, user: user));
 
   static const String name = 'DocumentListScreenRoute';
+}
+
+class DocumentListScreenRouteArgs {
+  const DocumentListScreenRouteArgs({this.key, required this.user});
+
+  final _i19.Key? key;
+
+  final _i25.User user;
+
+  @override
+  String toString() {
+    return 'DocumentListScreenRouteArgs{key: $key, user: $user}';
+  }
 }
 
 /// generated route for

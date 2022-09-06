@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_api.dart';
 
+/// Implementation of the [Aftercare] API interface for Firebase.
 class FirebaseAftercare extends FirebaseAPI implements IAftercare {
   FirebaseAftercare(FirebaseFirestore db) : super(db, 'aftercare');
 

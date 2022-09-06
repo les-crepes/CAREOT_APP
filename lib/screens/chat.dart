@@ -24,6 +24,8 @@ import '../model/message.dart' as model;
 import '../provider/auth_provider.dart';
 import '../provider/chat_provider.dart';
 
+const double _topBarHeight = 80;
+
 String randomString() {
   final random = math.Random.secure();
   final values = List<int>.generate(16, (i) => random.nextInt(255));
@@ -166,30 +168,35 @@ class _ChatInterfaceState extends State<ChatInterface> {
     return Column(
       children: [
         Expanded(
-          child: Column(
+          child: Stack(
             children: [
+              Column(
+                children: [
+                  const SizedBox(height: _topBarHeight),
+                  Expanded(
+                    child: Chat(
+                      onMessageTap: widget.onMessageTap,
+                      messages: widget.messages,
+                      user: widget.currentUser,
+                      onSendPressed: widget.onSendPressed,
+                      onAttachmentPressed: widget.onAttachementPressed,
+                      theme: DefaultChatTheme(
+                        inputTextColor: Colors.black,
+                        inputBackgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Colors.white,
+                        primaryColor: Theme.of(context).colorScheme.primary,
+                        secondaryColor: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               TopBar(
                 name: widget.name,
                 theme: theme,
                 onDocumentPressed: widget._onDocumentPressed,
                 image: widget._image,
-              ),
-              Expanded(
-                child: Chat(
-                  onMessageTap: widget.onMessageTap,
-                  messages: widget.messages,
-                  user: widget.currentUser,
-                  onSendPressed: widget.onSendPressed,
-                  onAttachmentPressed: widget.onAttachementPressed,
-                  theme: DefaultChatTheme(
-                    inputTextColor: Colors.black,
-                    inputBackgroundColor:
-                        Theme.of(context).colorScheme.secondary,
-                    backgroundColor: Colors.white,
-                    primaryColor: Theme.of(context).colorScheme.primary,
-                    secondaryColor: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
               ),
             ],
           ),
@@ -217,7 +224,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: _topBarHeight,
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -228,6 +235,13 @@ class TopBar extends StatelessWidget {
             Color(0xFFFF9877),
           ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -236,7 +250,7 @@ class TopBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: CircleAvatar(
                 backgroundColor: Colors.white,
-                radius: 35,
+                radius: 30,
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,

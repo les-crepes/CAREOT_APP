@@ -69,7 +69,7 @@ class AppRouter extends _i18.RootStackRouter {
       return _i18.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.RegisterScreen());
     },
-    ChatRouterPageRoute.name: (routeData) {
+    ChatRouterPage.name: (routeData) {
       return _i18.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.ChatRouterPage());
     },
@@ -177,23 +177,23 @@ class AppRouter extends _i18.RootStackRouter {
               parent: HomeScreenRoute.name,
               redirectTo: 'main',
               fullMatch: true),
-          _i18.RouteConfig(ChatRouterPageRoute.name,
+          _i18.RouteConfig(ChatRouterPage.name,
               path: 'chat',
               parent: HomeScreenRoute.name,
               children: [
                 _i18.RouteConfig('#redirect',
                     path: '',
-                    parent: ChatRouterPageRoute.name,
+                    parent: ChatRouterPage.name,
                     redirectTo: 'chats',
                     fullMatch: true),
                 _i18.RouteConfig(ChatScreenRoute.name,
-                    path: 'onechat', parent: ChatRouterPageRoute.name),
+                    path: 'onechat', parent: ChatRouterPage.name),
                 _i18.RouteConfig(DiscussionListScreenRoute.name,
                     path: 'chats',
-                    parent: ChatRouterPageRoute.name,
+                    parent: ChatRouterPage.name,
                     guards: [chatGuard]),
                 _i18.RouteConfig(DocumentListScreenRoute.name,
-                    path: 'documents', parent: ChatRouterPageRoute.name)
+                    path: 'documents', parent: ChatRouterPage.name)
               ]),
           _i18.RouteConfig(MainRouterPage.name,
               path: 'main',
@@ -276,12 +276,11 @@ class RegisterScreenRoute extends _i18.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ChatRouterPage]
-class ChatRouterPageRoute extends _i18.PageRouteInfo<void> {
-  const ChatRouterPageRoute({List<_i18.PageRouteInfo>? children})
-      : super(ChatRouterPageRoute.name,
-            path: 'chat', initialChildren: children);
+class ChatRouterPage extends _i18.PageRouteInfo<void> {
+  const ChatRouterPage({List<_i18.PageRouteInfo>? children})
+      : super(ChatRouterPage.name, path: 'chat', initialChildren: children);
 
-  static const String name = 'ChatRouterPageRoute';
+  static const String name = 'ChatRouterPage';
 }
 
 /// generated route for

@@ -68,9 +68,9 @@ Afin de débuter avec le développement de flutter il faut se référer à la [d
 
 #### Firebase
 
-Afin de travailler avec la base de donnée noSql: [Documentation FireStore](https://firebase.google.com/docs/firestore/)
-Afin de travailler avec le service d'identification: [Documentation Authentication](https://firebase.google.com/docs/auth/flutter/start)
-Afin de travailler avec les fichiers: [Documentation Storage](https://firebase.google.com/docs/storage/flutter/start
+- Afin de travailler avec la base de donnée noSql: [Documentation FireStore](https://firebase.google.com/docs/firestore/)
+- Afin de travailler avec le service d'identification: [Documentation Authentication](https://firebase.google.com/docs/auth/flutter/start)
+- Afin de travailler avec les fichiers: [Documentation Storage](https://firebase.google.com/docs/storage/flutter/start)
 
 ### Structures
 

@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
-/// Implementation of the [IModel] model interface for Firebase.
+/// Implementation of the [IModel] model interface for the User document in Firebase.
 class User implements IModel {
   String uid; // Unique identifier
   String firstName;

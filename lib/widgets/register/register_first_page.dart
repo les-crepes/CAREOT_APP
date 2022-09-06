@@ -51,9 +51,12 @@ class RegisterFirstPage extends StatelessWidget {
                 text: 'Next',
                 onPressed: () async {
                   if (registerProvider.formPage1.currentState!.validate()) {
+                    registerProvider.loadingController.showLoadingOverlay();
                     if (await registerProvider.checkEmailValidity()) {
+                      registerProvider.loadingController.hideLoadingOverlay();
                       AutoRouter.of(context).push(RegisterSecondPageRoute());
                     } else {
+                      registerProvider.loadingController.hideLoadingOverlay();
                       final snackBar = SnackBar(
                           behavior: SnackBarBehavior.floating,
                           backgroundColor: Colors.transparent,

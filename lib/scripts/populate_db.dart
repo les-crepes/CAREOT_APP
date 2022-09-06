@@ -60,13 +60,13 @@ User u4 = User(
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/crepe_nelson.jpeg?alt=media&token=a5af4d67-1522-4355-a647-d29496809463');
 User d1 = User(
     firstName: 'Claire',
-    lastName: 'Emery',
+    lastName: 'Diet',
     birthDate: DateTime.now(),
     avs: '7561352485592',
     clientList: [u1.uid, u2.uid, u3.uid, u4.uid],
     phoneNumber: '0266634556',
-    email: 'claire.emery@heig-vd.ch',
-    uid: 'bZB6G7LbLSfp8lTPsh00fWxiHb03',
+    email: 'claire.diet@heig-vd.ch',
+    uid: '5XpYznRM6vaFhrm3UOSdzBunMQa2',
     photoUrl:
         'https://firebasestorage.googleapis.com/v0/b/pdg-otcare-72f5c.appspot.com/o/claire.jpg?alt=media&token=f03c1b9a-b851-40dc-a3c5-a8b4b2afdb02');
 
@@ -91,7 +91,7 @@ Meal m1 = Meal(
     satiety: 5,
     comment:
         'Hey les gars vous êtes prêt pour votre sandwich à la saucisse? Non? Faudrait bien que ça vous vienne car c\'est tout un gros sandwich qui vous attends',
-    title: 'Le gros sandwich',
+    title: 'Sandwich Bratwurst',
     photo:
         'https://st.depositphotos.com/1044737/1853/i/450/depositphotos_18533723-stock-photo-baguette-with-ham.jpg');
 

@@ -138,18 +138,30 @@ class AppRouter extends _i18.RootStackRouter {
               day: args.day, meal: args.meal, key: args.key));
     },
     RegisterFirstPageRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i15.RegisterFirstPage());
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i15.RegisterFirstPage(),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     },
     RegisterSecondPageRoute.name: (routeData) {
       final args = routeData.argsAs<RegisterSecondPageRouteArgs>(
           orElse: () => const RegisterSecondPageRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i16.RegisterSecondPage(key: args.key));
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: _i16.RegisterSecondPage(key: args.key),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     },
     RegisterThirdPageRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i17.RegisterThirdPage());
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i17.RegisterThirdPage(),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 

@@ -17,27 +17,30 @@ class DocumentListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final chatProvider = context.read<ChatProvider>();
 
-    return CustomList(
-      title: "Documents",
-      conversationsTileData: chatProvider
-          .getAllFilesOfConversation(_user)
-          .map(
-            (m) => CustomListTileData(
-              avatar: const Icon(
-                Icons.description_outlined,
-                size: 40,
+    return Container(
+      color: Colors.white,
+      child: CustomList(
+        title: "Documents",
+        conversationsTileData: chatProvider
+            .getAllFilesOfConversation(_user)
+            .map(
+              (m) => CustomListTileData(
+                avatar: const Icon(
+                  Icons.description_outlined,
+                  size: 40,
+                ),
+                // Le contenu du message est raccourci car sinon il ne rentre pas dans la liste
+                title: m.content.substring(
+                    0, m.content.length < 15 ? m.content.length : 15),
+                date: m.time,
+                onTap: () {
+                  final Uri url = Uri.parse(m.fileUrl!);
+                  launchUrl(url, mode: LaunchMode.externalApplication);
+                },
               ),
-              // Le contenu du message est raccourci car sinon il ne rentre pas dans la liste
-              title: m.content
-                  .substring(0, m.content.length < 15 ? m.content.length : 15),
-              date: m.time,
-              onTap: () {
-                final Uri url = Uri.parse(m.fileUrl!);
-                launchUrl(url, mode: LaunchMode.externalApplication);
-              },
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }

@@ -75,28 +75,47 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return UpdateClientRecord(
-      clientFirstName: widget._user.firstName,
-      bmiController: _bmiController,
-      bmiInitial: widget._aftercare?.bmi,
-      weightController: _weightController,
-      diagnosticController: _diagnosticController,
-      commentsController: _commentsController,
-      motivationsController: _motivationsController,
-      foodObjectivesController: _foodObjectivesController,
-      onSelectedStartDate: (date) {
-        _selectedStartDate = date;
-      },
-      onSelectedEndDate: (date) {
-        _selectedEndTime = date;
-      },
-      initialStartTime: widget._aftercare?.startDate,
-      initialEndTime: widget._aftercare?.endDate,
-      onValidatePressed: () {
-        if (_selectedStartDate != null) {
-          if (widget._aftercare != null) {
+    return Container(
+      color: Colors.white,
+      child: UpdateClientRecord(
+        clientFirstName: widget._user.firstName,
+        bmiController: _bmiController,
+        bmiInitial: widget._aftercare?.bmi,
+        weightController: _weightController,
+        diagnosticController: _diagnosticController,
+        commentsController: _commentsController,
+        motivationsController: _motivationsController,
+        foodObjectivesController: _foodObjectivesController,
+        onSelectedStartDate: (date) {
+          _selectedStartDate = date;
+        },
+        onSelectedEndDate: (date) {
+          _selectedEndTime = date;
+        },
+        initialStartTime: widget._aftercare?.startDate,
+        initialEndTime: widget._aftercare?.endDate,
+        onValidatePressed: () {
+          if (_selectedStartDate != null) {
+            if (widget._aftercare != null) {
+              AutoRouter.of(context).pop(Aftercare(
+                uid: widget._aftercare?.uid,
+                clientId: widget._user.uid,
+                bmi: _bmiController.text.isNotEmpty
+                    ? int.parse(_bmiController.text)
+                    : null,
+                weight: _weightController.text.isNotEmpty
+                    ? double.parse(_weightController.text)
+                    : null,
+                diagnostic: _diagnosticController.text,
+                comments: _commentsController.text,
+                foodObjectives: _foodObjectivesController.text,
+                motivations: _motivationsController.text,
+                startDate: _selectedStartDate!,
+                endDate: _selectedEndTime,
+              ));
+              return;
+            }
             AutoRouter.of(context).pop(Aftercare(
-              uid: widget._aftercare?.uid,
               clientId: widget._user.uid,
               bmi: _bmiController.text.isNotEmpty
                   ? int.parse(_bmiController.text)
@@ -113,37 +132,21 @@ class _UpdateClientRecordScreenState extends State<UpdateClientRecordScreen> {
             ));
             return;
           }
-          AutoRouter.of(context).pop(Aftercare(
-            clientId: widget._user.uid,
-            bmi: _bmiController.text.isNotEmpty
-                ? int.parse(_bmiController.text)
-                : null,
-            weight: _weightController.text.isNotEmpty
-                ? double.parse(_weightController.text)
-                : null,
-            diagnostic: _diagnosticController.text,
-            comments: _commentsController.text,
-            foodObjectives: _foodObjectivesController.text,
-            motivations: _motivationsController.text,
-            startDate: _selectedStartDate!,
-            endDate: _selectedEndTime,
-          ));
-          return;
-        }
 
-        final snackBar = SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            margin: const EdgeInsets.only(top: 5),
-            elevation: 0,
-            content: AwesomeSnackbarContent(
-              title: "Missing data",
-              message: "You must enter an aftercare's start date.",
-              contentType: ContentType.failure,
-            ));
+          final snackBar = SnackBar(
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              margin: const EdgeInsets.only(top: 5),
+              elevation: 0,
+              content: AwesomeSnackbarContent(
+                title: "Missing data",
+                message: "You must enter an aftercare's start date.",
+                contentType: ContentType.failure,
+              ));
 
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+      ),
     );
   }
 }

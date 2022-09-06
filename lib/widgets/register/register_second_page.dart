@@ -103,16 +103,19 @@ class RegisterSecondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = buildInputs(context);
 
-    return Form(
-      key: context.read<RegisterProvider>().formPage2,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        separatorBuilder: (context, index) => const SizedBox(height: 30),
-        itemCount: content.length,
-        itemBuilder: (context, index) {
-          return content[index];
-        },
+    return Container(
+      color: Colors.white,
+      child: Form(
+        key: context.read<RegisterProvider>().formPage2,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          separatorBuilder: (context, index) => const SizedBox(height: 30),
+          itemCount: content.length,
+          itemBuilder: (context, index) {
+            return content[index];
+          },
+        ),
       ),
     );
   }

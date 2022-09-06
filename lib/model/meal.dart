@@ -3,19 +3,22 @@ import 'package:uuid/uuid.dart';
 
 import 'imodel.dart';
 
+/// Implementation of the [IModel] model interface for the Meal document in Firebase.
 class Meal implements IModel {
-  String uid;
-  DateTime startTime;
-  DateTime endTime;
-  String title;
-  String? photo;
-  int hunger;
-  int satiety;
-  String? setting;
-  String? comment;
-  String owner;
+  String uid; // Unique identifier
+  DateTime startTime; // Start time of the meal
+  DateTime endTime; // End time of the meal
+  String title; // Title of the meal
+  String? photo; // URL of the photo of the meal (if any)
+  int hunger; // Hunger level before the meal (0-5)
+  int satiety; // Satiety level after the meal (0-5)
+  String? setting; // Setting of the meal (e.g. home, restaurant, etc.)
+  String? comment; // Comment on the meal (if any)
+  String owner; // Id of the user who created the meal
   String? photoUrl;
 
+  /// Instantiates a new [Meal].
+  /// If [uid] is not provided, a new one is generated.
   Meal(
       {String? uid,
       required this.startTime,
@@ -30,6 +33,7 @@ class Meal implements IModel {
       required this.owner})
       : uid = uid ?? const Uuid().v1();
 
+  /// Instantiates a new [Meal] from a Firebase [Map].
   factory Meal.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
@@ -72,9 +76,10 @@ class Meal implements IModel {
     return 'Meal{$endTime $title $photo $satiety $hunger $owner}';
   }
 
+  /// Set the comment of the meal to the given [newComment]
   void setComment(String newComment) {
     comment = newComment;
   }
-
+  
   static fromQuery(QueryDocumentSnapshot<Object?> e) {}
 }

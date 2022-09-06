@@ -4,7 +4,7 @@ import 'package:pdg_app/api/firebase_api.dart';
 import 'package:pdg_app/api/iuser.dart';
 import 'package:pdg_app/model/user.dart';
 
-/// Implementation of the user API for Firebase
+/// Implementation of the [Iuser] API interface for Firebase.
 class FirebaseUser extends FirebaseAPI implements IUser {
   FirebaseUser(FirebaseFirestore db) : super(db, 'user');
 

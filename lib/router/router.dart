@@ -36,6 +36,7 @@ import 'home_guard.dart';
       children: [
         AutoRoute(
           page: ChatRouterPage,
+          name: 'ChatRouterPage',
           path: 'chat',
           children: [
             AutoRoute(

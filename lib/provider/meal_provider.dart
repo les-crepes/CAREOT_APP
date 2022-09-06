@@ -17,7 +17,7 @@ class MealProvider extends ChangeNotifier {
   final String _uid;
   bool _isFetching = false;
   final IFile _fileApi = FirebaseFile(FirebaseStorage.instance);
-  final List<StreamSubscription<Meal?>> subscriptions = [];
+  StreamSubscription<Meal?>? _subscription;
 
   MealProvider(this._uid) {
     fetchMeals();
@@ -75,17 +75,18 @@ class MealProvider extends ChangeNotifier {
   }
 
   void startNewDiaryListener(String userId, DateTime date) {
+    if (_subscription != null) return;
+
     final subscription = _mealApi.followMeals(userId, date).listen((event) {
+      log("notify");
       notifyListeners();
     });
 
-    subscriptions.add(subscription);
+    _subscription = subscription;
   }
 
   /// Stop listening to new incoming meal.
   void stopNewDiaryListener() {
-    for (final subscription in subscriptions) {
-      subscription.cancel();
-    }
+    _subscription?.cancel();
   }
 }

@@ -126,7 +126,7 @@ class Login extends StatelessWidget {
       children: [
         background,
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, width * 0.07, 0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

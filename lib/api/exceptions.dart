@@ -19,7 +19,8 @@ class AuthenticationException implements Exception {
     switch (exceptionType) {
       case AuthExceptionType.invalidEmail:
         return "Invalid email";
-      case AuthExceptionType.userDisabled:        return "User disabled";
+      case AuthExceptionType.userDisabled:
+        return "User disabled";
       case AuthExceptionType.userNotFound:
         return "User not found";
       case AuthExceptionType.wrongPassword:

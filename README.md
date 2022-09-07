@@ -19,7 +19,7 @@ Careot est une application mobile de suivi diététique basée sur Flutter et Fi
 
 Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentation de l'application
 
-![Our Tech Stack](.github/app_showcase.jpg)
+![Our Tech Stack](.github/careot_app_social_preview.png)
 
 ## 📕 Sommaire
 

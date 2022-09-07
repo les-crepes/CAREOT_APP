@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pdg_app/api/firebase_api.dart';
 import 'package:pdg_app/api/iuser.dart';
 import 'package:pdg_app/model/user.dart';
+import 'exceptions.dart';
 
 /// Implementation of the [Iuser] API interface for Firebase.
 class FirebaseUser extends FirebaseAPI implements IUser {
@@ -10,12 +11,17 @@ class FirebaseUser extends FirebaseAPI implements IUser {
 
   @override
   Future<void> createUser(User user) async {
-    await collectionReference
-        .withConverter(
-            fromFirestore: User.fromFirestore,
-            toFirestore: (User user, options) => user.toFirestore())
-        .doc(user.uid)
-        .set(user);
+    try {
+      await collectionReference
+          .withConverter(
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User user, options) => user.toFirestore())
+          .doc(user.uid)
+          .set(user);
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override
@@ -29,62 +35,79 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     if (user != null) {
       return user;
     }
-    throw ArgumentError("User does not exist", userId);
+    throw StorageException(StorageExceptionType.notFound);
   }
 
   @override
   Future<void> updateUser(User user) async {
-    collectionReference
-        .doc(user.uid)
-        .update(user.toFirestore())
-        .then((value) => log("User Updated"))
-        .catchError((error) {
-      log("Failed to update user: $error");
-      throw Exception(error);
-    });
+    try {
+      collectionReference
+          .doc(user.uid)
+          .update(user.toFirestore());
+      log('User updated');
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override
   void deleteUser(String clientId) {
-    collectionReference.doc(clientId).delete();
+    try {
+      collectionReference.doc(clientId).delete();
+      log('User deleted');
+    } on FirebaseException catch (e) {
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override
   Future<List<User>> getDietitianClient(String dietitianId) async {
-    final docRef = collectionReference.doc(dietitianId).withConverter(
-          fromFirestore: User.fromFirestore,
-          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
-        );
-    final docSnapshot = await docRef.get();
-    final d = docSnapshot.data();
-    final m =
-        await collectionReference.where("uid", whereIn: d?.clientList).get();
-    List<User> clients = m.docs.map((doc) => User(
-            birthDate: doc['birthDate'].toDate(),
-            firstName: doc['firstName'],
-            avs: doc['avs'],
-            lastName: doc['lastName'],
-            phoneNumber: doc['phoneNumber'],
-            email: doc['email'],
-            photoUrl: doc['photoUrl'],
-            uid: doc['uid']))
-        .toList();
-    return clients;
+    try {
+      final docRef = collectionReference.doc(dietitianId).withConverter(
+        fromFirestore: User.fromFirestore,
+        toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+      );
+      final docSnapshot = await docRef.get();
+      final d = docSnapshot.data();
+      final m =
+      await collectionReference.where("uid", whereIn: d?.clientList).get();
+      List<User> clients = m.docs.map((doc) =>
+          User(
+              birthDate: doc['birthDate'].toDate(),
+              firstName: doc['firstName'],
+              avs: doc['avs'],
+              lastName: doc['lastName'],
+              phoneNumber: doc['phoneNumber'],
+              email: doc['email'],
+              photoUrl: doc['photoUrl'],
+              uid: doc['uid']))
+          .toList();
+      return clients;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override
   Future<User?> readDietitianOfClient(String clientId) async {
-    final querySnapshot = await collectionReference
-        .where('clientList', arrayContains: clientId)
-        .withConverter(
-          fromFirestore: User.fromFirestore,
-          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
-        )
-        .get();
-    List<User> dietitians =
-        querySnapshot.docs.map((doc) => doc.data()).toList();
+    try {
+      final querySnapshot = await collectionReference
+          .where('clientList', arrayContains: clientId)
+          .withConverter(
+        fromFirestore: User.fromFirestore,
+        toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+      )
+          .get();
+      List<User> dietitians =
+      querySnapshot.docs.map((doc) => doc.data()).toList();
 
-    return dietitians.isNotEmpty ? dietitians.first : null;
+      return dietitians.isNotEmpty ? dietitians.first : null;
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override

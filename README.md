@@ -7,7 +7,7 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/les-crepes/CAREOT_APP/total?color=orange)
 
 <p align="center">
-  <img src=".github/logo.png" alt="Sublime's custom image"/>
+  <img src=".github/logo.png" alt="Careot logo"/>
 </p>
 
 # Careot
@@ -19,63 +19,81 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 ![Our Tech Stack](.github/app_showcase.jpg)
 
 <!-- TABLE OF CONTENTS -->
+<h2>Sommaire</h2>
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Développer</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#Télécharger l'application">Télécharger l'application</a>
+    </li>
+    <li>
+      <a href="#Build">Build</a>
+    </li>
+    <li>
+      <a href="#Contribution">Contribution</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+          <li><a href="#Méthode de travail">Méthode de travail</a></li>
+          <li><a href="#Méthode de travail">Cacher les fichiers générés <li>automatiquement</a></li>
+          <li><a href="#Méthode de travail">Infrastructure</a></li>
+          <li><a href="#Structure de dossiers">Structure de dossiers</a></li>
+          <li><a href="#Libraries & Outils utilisés">Libraries & Outils utilisés</a></li>
+          <li><a href="#Test">Test</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#roadmap">Documentations suplémentaires</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
+            <li><a href="#Flutter">Flutter</a></li>
+            <li><a href="#Firebase">Firebase</a></li>
+            <li><a href="#API">API</a></li>
+            <li><a href="#Frontend">Fronend</a></li>
+        </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
-## Infrastructure
+## Télécharger l'application
 
-Nous utilisons Flutter pour l'application et trois services Firebase:
+Vous trouverez la version Android de l'application dans la section [release](https://github.com/les-crepes/CAREOT_APP/releases) de Github.
 
--   Storage: afin de stocker les fichiers
--   Authentication: afin d'authentifier nos utilisateurs
--   Firestore: afin de stocker nos données au format NoSql
+Il est possible que dans le futur une version IOS soit disponible donc tenez vous au courant.
 
-![Our Tech Stack](.github/architecture.drawio.svg)
-
-## Installation
-
-Si vous voulez télécharger notre dernière release, vous pouvez la trouver dans l'[onglet release](https://github.com/les-crepes/CAREOT_APP/releases) sur GitHub.
-
-### Android
+**Guide d'installation Android**
 
 1.  Téléchargez le dernier APK sur votre téléphone.
 2.  Autorisez votre explorateur de fichier ou autre application à installer des `.apk` depuis une source externe.
-3.  Installez l'application depuis là où vous l'avez téléchargé.
+3.  Puis lancez l'installation. 😉
 
-## Guides de démarrage rapide
+## Build
 
-Si vous voulez directement construire l'application, il vous faudra installer la dernière version de Flutter.
-
-### Build
+Si vous souhaitez build l'application vous mêmes veuillez suivre les étapes ci-dessous:
 
 1.  Installez [Flutter](https://docs.flutter.dev/get-started/install)
 2.  Clonez notre repository
 3.  `cd CAREOT_APP/`
 4.  `flutter pub get` Installer les dépendances
 5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executé cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place `flutter packages pub run build_runner watch`
-6.  `flutter build apk --release`Build un apk en monde release
+6.  `flutter build apk --release` Build un apk en monde release
+
+## Contribution
+
+Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre repository et suivre les étapes ci-dessous:
+
+### Méthode de travail
+
+1. Sélectionner le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
+2. Créer un issue dans le repository correspondant
+3. S'assigner à l'issue et ajouter les tags nécessaires (frontend, backend, bug, ehancement etc...)
+4. Créer une branche associée à l'issue (petit bouton dans issue: create branch)
+5. Charger la branche en local (copier la commande fournie par l'utilitaire)
+6. Réaliser les modifications
+7. Lancer les tests en local -> `flutter test`
+8. Lancer le linter -> `flutter analyze`
+9. Après validation, push sur la nouvelle branche dans la remote origin.
+10. Créer une Pull Request et attendre un review d'un pair
+11. Supprimer la branche après la fusion avec la branche principale (main)
+
+Pour plus d'informations, vous pouvez consulter notre [cahier des charge](https://github.com/les-crepes/.github/blob/main/cahier_charge.md)
 
 ### Cacher les fichiers générés automatiquement
 
@@ -89,45 +107,21 @@ Pour cacher les fichiers générés, rendez-vous dans `Preferences` -> `Editor` 
 
 **Visual Studio Code**
 
-Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre de recherche `Files:Exclude`. Puis ajoutez ces lignes:
+Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre de recherche `Files:Exclude`. Puis ajoutez cette ligne:
 
 ```
-**/*.inject.summary
-**/*.inject.dart
 **/*.g.dart
 ```
 
-### Libraries & Outils utilisés
+### Infrastructure
 
--   [firebase_core](https://pub.dev/packages/firebase_core)
--   [auto_route](https://pub.dev/packages/auto_route)
--   [firebase_auth](https://pub.dev/packages/firebase_auth)
--   [firebase_storage](https://pub.dev/packages/firebase_storage)
--   [cloud_firestore](https://pub.dev/packages/cloud_firestore)
--   [firebase_database](https://pub.dev/packages/firebase_database)
--   [provider](https://pub.dev/packages/provider)
--   [flutter_chat_ui](https://pub.dev/packages/flutter_chat_ui)
--   [table_calendar](https://pub.dev/packages/table_calendar)
--   [intl](https://pub.dev/packages/intl)
--   [uuid](https://pub.dev/packages/uuid)
--   [image_picker](https://pub.dev/packages/image_picker)
--   [cross_file_image](https://pub.dev/packages/cross_file_image)
--   [day_night_time_picker](https://pub.dev/packages/day_night_time_picker)
--   [google_nav_bar](https://pub.dev/packages/google_nav_bar)
--   [path_provider](https://pub.dev/packages/path_provider)
--   [get_it](https://pub.dev/packages/get_it)
--   [firebase_auth_mocks](firebase_auth_mocks)
--   [firebase_storage_mocks](https://pub.dev/packages/firebase_storage_mocks)
--   [file_picker](https://pub.dev/packages/file_picker)
--   [file](https://pub.dev/packages/file)
--   [awesome_snackbar_content](https://pub.dev/packages)
--   [sorted_list](https://pub.dev/packages/sorted_list)
--   [async](https://pub.dev/packages/async)
--   [url_launcher](https://pub.dev/packages/url_launcher)
--   [tuple](https://pub.dev/packages/tuple)
--   [flutter_svg](https://pub.dev/packages/flutter_svg)
--   [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
--   [sticky_headers](https://pub.dev/packages/sticky_headers)
+Nous utilisons Flutter pour l'application et trois services Firebase:
+
+-   Storage: afin de stocker les fichiers
+-   Authentication: afin d'authentifier nos utilisateurs
+-   Firestore: afin de stocker nos données au format NoSql
+
+![Our Tech Stack](.github/architecture.drawio.svg)
 
 ### Structure de dossiers
 
@@ -181,6 +175,38 @@ Plongeons maintenant plus en détail dans le dossier /lib qui contient le code p
 8- main.dart - Le point d'entré de notre application.
 ```
 
+### Libraries & Outils utilisés
+
+-   [firebase_core](https://pub.dev/packages/firebase_core)
+-   [auto_route](https://pub.dev/packages/auto_route)
+-   [firebase_auth](https://pub.dev/packages/firebase_auth)
+-   [firebase_storage](https://pub.dev/packages/firebase_storage)
+-   [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+-   [firebase_database](https://pub.dev/packages/firebase_database)
+-   [provider](https://pub.dev/packages/provider)
+-   [flutter_chat_ui](https://pub.dev/packages/flutter_chat_ui)
+-   [table_calendar](https://pub.dev/packages/table_calendar)
+-   [intl](https://pub.dev/packages/intl)
+-   [uuid](https://pub.dev/packages/uuid)
+-   [image_picker](https://pub.dev/packages/image_picker)
+-   [cross_file_image](https://pub.dev/packages/cross_file_image)
+-   [day_night_time_picker](https://pub.dev/packages/day_night_time_picker)
+-   [google_nav_bar](https://pub.dev/packages/google_nav_bar)
+-   [path_provider](https://pub.dev/packages/path_provider)
+-   [get_it](https://pub.dev/packages/get_it)
+-   [firebase_auth_mocks](firebase_auth_mocks)
+-   [firebase_storage_mocks](https://pub.dev/packages/firebase_storage_mocks)
+-   [file_picker](https://pub.dev/packages/file_picker)
+-   [file](https://pub.dev/packages/file)
+-   [awesome_snackbar_content](https://pub.dev/packages)
+-   [sorted_list](https://pub.dev/packages/sorted_list)
+-   [async](https://pub.dev/packages/async)
+-   [url_launcher](https://pub.dev/packages/url_launcher)
+-   [tuple](https://pub.dev/packages/tuple)
+-   [flutter_svg](https://pub.dev/packages/flutter_svg)
+-   [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
+-   [sticky_headers](https://pub.dev/packages/sticky_headers)
+
 ### Test
 
 Afin de respecter nos conventions de codage il faudra que les commandes ci-dessous n'échouent pas:
@@ -188,38 +214,19 @@ Afin de respecter nos conventions de codage il faudra que les commandes ci-desso
 -   `flutter analyze`
 -   `flutter test`
 
-### Contribution
+## Documentations suplémentaires
 
-Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre repository et suivre les étapes ci-dessous:
-
-1. Sélectionner le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
-2. Créer un issue dans le repository correspondant
-3. S'assigner à l'issue et ajouter les tags nécessaires (frontend, backend, bug, ehancement etc...)
-4. Créer une branche associée à l'issue (petit bouton dans issue: create branch)
-5. Charger la branche en local (copier la commande fournie par l'utilitaire)
-6. Réaliser les modifications
-7. Lancer les tests en local
-8. Après validation, push sur la nouvelle branche dans la remote origin.
-9. Créer une Pull Request et attendre un review d'un pair
-10. Supprimer la branche après la fusion avec la branche principale (main)
-
-Pour plus d'informations, vous pouvez consulter notre [cahier des charge](https://github.com/les-crepes/.github/blob/main/cahier_charge.md)
-
-### Documentation
-
-#### Flutter
+### Flutter
 
 Afin de débuter avec le développement de flutter il faut se référer à la [documentation en ligne](https://docs.flutter.dev/), qui propose des conseils, les références API ainsi que des examples.
 
-#### Firebase
+### Firebase
 
 -   Afin de travailler avec la base de donnée noSql: [Documentation FireStore](https://firebase.google.com/docs/firestore/)
 -   Afin de travailler avec le service d'identification: [Documentation Authentication](https://firebase.google.com/docs/auth/flutter/start)
 -   Afin de travailler avec les fichiers: [Documentation Storage](https://firebase.google.com/docs/storage/flutter/start)
 
-### Structures
-
-#### API
+### API
 
 Comme nous utilisons Firebase, nous n'avons pas d'API. Cependant, nous avons une structure similaire qui permet de traiter les données.
 
@@ -241,6 +248,6 @@ messageApi.implementNewBadassFunctions(with, crazy, parameters);
 
 ![Our Tech Stack](.github/api_uml.png)
 
-#### Frontend
+### Frontend
 
 Nous utilisons les providers pour séparer la logique de l'interface.

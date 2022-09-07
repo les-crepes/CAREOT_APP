@@ -68,6 +68,10 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
 
   @override
   void deleteAftercare(String aftercareId) {
-    collectionReference.doc(aftercareId).delete();
+    try {
+      collectionReference.doc(aftercareId).delete();
+    } on FirebaseException catch (e) {
+      throw super.getStorageExceptionFromCode(e.code);
+    }
   }
 }

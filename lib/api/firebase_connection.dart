@@ -22,7 +22,7 @@ class FirebaseConnection implements Auth {
   String get uid {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      throw Exception("Not connected");
+      throw StateError("Not connected");
     }
     return user.uid;
   }
@@ -31,7 +31,7 @@ class FirebaseConnection implements Auth {
   bool get isVerified {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      throw Exception("Not connected");
+      throw StateError("Not connected");
     }
     user.reload();
     return user.emailVerified;
@@ -47,18 +47,7 @@ class FirebaseConnection implements Auth {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "user-not-found":
-          throw AuthenticationException(LoginExceptionType.userNotFound);
-        case "wrong-password":
-          throw AuthenticationException(LoginExceptionType.wrongPassword);
-        case "invalid-email":
-          throw AuthenticationException(LoginExceptionType.invalidEmail);
-        case "user-disabled":
-          throw AuthenticationException(LoginExceptionType.userDisabled);
-        default:
-          throw AuthenticationException(LoginExceptionType.unknown);
-      }
+      throw getAuthenticationExceptionFromCode(e.code);
     }
   }
 
@@ -70,15 +59,8 @@ class FirebaseConnection implements Auth {
           .createUserWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
-      }
-    } catch (e) {
-      log(e.toString());
+      throw getAuthenticationExceptionFromCode(e.code);
     }
-    return false;
   }
 
   @override
@@ -90,7 +72,7 @@ class FirebaseConnection implements Auth {
   Future<void> sendVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      throw Exception("Not connected");
+      throw StateError("Not connected");
     }
     user.sendEmailVerification();
   }
@@ -99,7 +81,7 @@ class FirebaseConnection implements Auth {
   String getUserEmail() {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      throw Exception("Not connected");
+      throw StateError("Not connected");
     }
     return user.email!;
   }
@@ -134,10 +116,24 @@ class FirebaseConnection implements Auth {
         // Return false because email address is not in use
         return false;
       }
-    } catch (error) {
-      // Handle error
-      // ...
-      return true;
+    } on FirebaseAuthException catch (e) {
+      throw getAuthenticationExceptionFromCode(e.code);
+    }
+  }
+  
+  /// Returns the correct [AuthenticationException] from the given [code].
+  static AuthenticationException getAuthenticationExceptionFromCode(String code) {
+    switch (code) {
+      case "user-not-found":
+        return AuthenticationException(AuthExceptionType.userNotFound);
+      case "wrong-password":
+        return AuthenticationException(AuthExceptionType.wrongPassword);
+      case "invalid-email":
+        return AuthenticationException(AuthExceptionType.invalidEmail);
+      case "user-disabled":
+        return AuthenticationException(AuthExceptionType.userDisabled);
+      default:
+        return AuthenticationException(AuthExceptionType.unknown);
     }
   }
 }

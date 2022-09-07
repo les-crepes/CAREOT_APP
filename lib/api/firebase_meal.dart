@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/imeal.dart';
 import 'package:pdg_app/model/meal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,9 +21,8 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
           .doc(meal.uid)
           .set(meal);
       log("Meal Added");
-    } catch (e) {
-      log("Failed to add meal: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -37,8 +37,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     if (meal != null) {
       return meal;
     } else {
-      log("Doc does not exist");
-      throw Error();
+      throw DatabaseException(DatabaseExceptionType.notFound);
     }
   }
 
@@ -47,15 +46,18 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     try {
       await collectionReference.doc(meal.uid).update(meal.toFirestore());
       log("Meal Updated");
-    } catch (e) {
-      log("Failed to update meal: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
   @override
   void deleteMeal(String mealId) {
-    collectionReference.doc(mealId).delete();
+    try {
+      collectionReference.doc(mealId).delete();
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 
   @override
@@ -66,17 +68,20 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     DateTime endD = newD.add(const Duration(days: 1));
 
     /// End of the day
-
-    final m = await collectionReference
-        .where("owner", isEqualTo: userId)
-        .where("startTime", isGreaterThanOrEqualTo: newD)
-        .where("startTime", isLessThanOrEqualTo: endD)
-        .withConverter(
-            fromFirestore: Meal.fromFirestore,
-            toFirestore: (Meal meal, options) => meal.toFirestore())
-        .get();
-    List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
-    return meals;
+    try {
+      final m = await collectionReference
+          .where("owner", isEqualTo: userId)
+          .where("startTime", isGreaterThanOrEqualTo: newD)
+          .where("startTime", isLessThanOrEqualTo: endD)
+          .withConverter(
+          fromFirestore: Meal.fromFirestore,
+          toFirestore: (Meal meal, options) => meal.toFirestore())
+          .get();
+      List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
+      return meals;
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 
   @override
@@ -96,14 +101,18 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
 
   @override
   Future<List<Meal>> getUserMeal(String userId) async {
-    final m = await collectionReference
-        .where("owner", isEqualTo: userId)
-        .withConverter(
-            fromFirestore: Meal.fromFirestore,
-            toFirestore: (Meal meal, options) => meal.toFirestore())
-        .get();
+    try {
+      final m = await collectionReference
+          .where("owner", isEqualTo: userId)
+          .withConverter(
+          fromFirestore: Meal.fromFirestore,
+          toFirestore: (Meal meal, options) => meal.toFirestore())
+          .get();
 
-    List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
-    return meals;
+      List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
+      return meals;
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 }

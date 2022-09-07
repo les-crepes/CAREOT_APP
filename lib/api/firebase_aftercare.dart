@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,9 +19,8 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
                   aftercare.toFirestore())
           .doc(aftercare.uid)
           .set(aftercare);
-    } catch (e) {
-      log("Failed to add aftercare: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -37,23 +35,25 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
     if (aftercare != null) {
       return aftercare;
     } else {
-      log("Doc does not exist");
-      throw Error();
+      throw DatabaseException(DatabaseExceptionType.notFound);
     }
   }
 
   @override
   Future<List<Aftercare>> readAftercareOfClient(String clientId) async {
-    final querySnapshot = await collectionReference
-        .where('clientId', isEqualTo: clientId)
-        .withConverter(
-          fromFirestore: Aftercare.fromFirestore,
-          toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
-        )
-        .get();
-    List<Aftercare> dietitians =
-        querySnapshot.docs.map((doc) => doc.data()).toList();
-    return dietitians;
+    try {
+      final querySnapshot = await collectionReference
+          .where('clientId', isEqualTo: clientId)
+          .withConverter(
+        fromFirestore: Aftercare.fromFirestore,
+        toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
+      ).get();
+      List<Aftercare> dietitians =
+      querySnapshot.docs.map((doc) => doc.data()).toList();
+      return dietitians;
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 
   @override
@@ -62,14 +62,17 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
       await collectionReference
           .doc(aftercare.uid)
           .update(aftercare.toFirestore());
-    } catch (e) {
-      log("Failed to update aftercare: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
   @override
   void deleteAftercare(String aftercareId) {
-    collectionReference.doc(aftercareId).delete();
+    try {
+      collectionReference.doc(aftercareId).delete();
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 }

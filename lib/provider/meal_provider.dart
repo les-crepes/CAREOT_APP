@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +17,7 @@ class MealProvider extends ChangeNotifier {
   final String _uid;
   bool _isFetching = false;
   final IFile _fileApi = FirebaseFile(FirebaseStorage.instance);
+  StreamSubscription<List<Meal>>? _subscription;
 
   MealProvider(this._uid) {
     fetchMeals();
@@ -70,5 +72,21 @@ class MealProvider extends ChangeNotifier {
     }
 
     return picUrl;
+  }
+
+  void startNewDiaryListener(String userId, DateTime date) {
+    if (_subscription != null) return;
+
+    final subscription = _mealApi.followMeals(userId, date).listen((event) {
+      _meals = event;
+      notifyListeners();
+    });
+
+    _subscription = subscription;
+  }
+
+  /// Stop listening to new incoming meal.
+  void stopNewDiaryListener() {
+    _subscription?.cancel();
   }
 }

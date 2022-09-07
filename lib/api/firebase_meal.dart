@@ -60,8 +60,13 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
 
   @override
   Future<List<Meal>> getUsersMealForDay(String userId, DateTime day) async {
-    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0); /// Start of the day
-    DateTime endD = newD.add(const Duration(days: 1)); /// End of the day
+    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
+
+    /// Start of the day
+    DateTime endD = newD.add(const Duration(days: 1));
+
+    /// End of the day
+
     final m = await collectionReference
         .where("owner", isEqualTo: userId)
         .where("startTime", isGreaterThanOrEqualTo: newD)
@@ -72,6 +77,30 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
         .get();
     List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
     return meals;
+  }
+
+  @override
+  Stream<List<Meal>> followMeals(String userId, DateTime day) {
+    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
+
+    /// Start of the day
+    DateTime endD = newD.add(const Duration(days: 1));
+
+    /// End of the day
+
+    Stream<QuerySnapshot<Meal>> mealStream = collectionReference
+        .where("owner", isEqualTo: userId)
+        .where("startTime", isGreaterThanOrEqualTo: newD)
+        .where("startTime", isLessThanOrEqualTo: endD)
+        .withConverter(
+            fromFirestore: Meal.fromFirestore,
+            toFirestore: (Meal meal, options) => meal.toFirestore())
+        .snapshots();
+
+    return mealStream
+        .map((querySnapshot) => querySnapshot.docs)
+        .map((doc) => doc.map((e) => e.data()))
+        .cast();
   }
 
   @override

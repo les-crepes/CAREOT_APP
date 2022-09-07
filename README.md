@@ -10,7 +10,7 @@
   <img src=".github/logo.png" alt="Careot logo"/>
 </p>
 
-# Careot
+# 🥕 Careot
 
 Careot est une application mobile de suivi diététique basée sur Flutter et Firebase.
 
@@ -18,26 +18,26 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 
 ![Our Tech Stack](.github/app_showcase.jpg)
 
-## Sommaire
+## 📕 Sommaire
 
--   [Careot](#careot)
-    -   [Sommaire](#sommaire)
-    -   [Télécharger l'application](#télécharger-lapplication)
-    -   [Build](#build)
-    -   [Contribution](#contribution)
-        -   [Méthode de travail](#méthode-de-travail)
-        -   [Cacher les fichiers générés automatiquement](#cacher-les-fichiers-générés-automatiquement)
-        -   [Infrastructure](#infrastructure)
-        -   [Structure de dossiers](#structure-de-dossiers)
-        -   [Libraries & Outils utilisés](#libraries--outils-utilisés)
-        -   [Test](#test)
-    -   [Documentations suplémentaires](#documentations-suplémentaires)
+-   [🥕 Careot](#-careot)
+    -   [📕 Sommaire](#-sommaire)
+    -   [🐣 Télécharger l'application](#-télécharger-lapplication)
+    -   [🔨 Build](#-build)
+    -   [🤝 Contribution](#-contribution)
+        -   [🤸‍♂️ Méthode de travail](#️-méthode-de-travail)
+        -   [🤖 Cacher les fichiers générés automatiquement](#-cacher-les-fichiers-générés-automatiquement)
+        -   [📶 Infrastructure](#-infrastructure)
+        -   [📂 Structure de dossiers](#-structure-de-dossiers)
+        -   [📚 Libraries & Outils utilisés](#-libraries--outils-utilisés)
+        -   [👀 Test](#-test)
+    -   [📖 Documentations suplémentaires](#-documentations-suplémentaires)
         -   [Flutter](#flutter)
         -   [Firebase](#firebase)
         -   [API](#api)
         -   [Frontend](#frontend)
 
-## Télécharger l'application
+## 🐣 Télécharger l'application
 
 Vous trouverez la version Android de l'application dans la section [release](https://github.com/les-crepes/CAREOT_APP/releases) de Github.
 
@@ -49,7 +49,7 @@ Il est possible que dans le futur une version IOS soit disponible donc tenez vou
 2.  Autorisez votre explorateur de fichier ou autre application à installer des `.apk` depuis une source externe.
 3.  Puis lancez l'installation. 😉
 
-## Build
+## 🔨 Build
 
 Si vous souhaitez build l'application vous mêmes veuillez suivre les étapes ci-dessous:
 
@@ -60,11 +60,11 @@ Si vous souhaitez build l'application vous mêmes veuillez suivre les étapes ci
 5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executé cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place `flutter packages pub run build_runner watch`
 6.  `flutter build apk --release` Build un apk en monde release
 
-## Contribution
+## 🤝 Contribution
 
 Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre repository et suivre les étapes ci-dessous:
 
-### Méthode de travail
+### 🤸‍♂️ Méthode de travail
 
 1. Sélectionner le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
 2. Créer un issue dans le repository correspondant
@@ -80,7 +80,7 @@ Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre 
 
 Pour plus d'informations, vous pouvez consulter notre [cahier des charge](https://github.com/les-crepes/.github/blob/main/cahier_charge.md)
 
-### Cacher les fichiers générés automatiquement
+### 🤖 Cacher les fichiers générés automatiquement
 
 **Android Studio**
 
@@ -98,7 +98,7 @@ Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre d
 **/*.g.dart
 ```
 
-### Infrastructure
+### 📶 Infrastructure
 
 Nous utilisons Flutter pour l'application et trois services Firebase:
 
@@ -108,7 +108,7 @@ Nous utilisons Flutter pour l'application et trois services Firebase:
 
 ![Our Tech Stack](.github/architecture.drawio.svg)
 
-### Structure de dossiers
+### 📂 Structure de dossiers
 
 Voici la structure de fichiers que fournit flutter.
 
@@ -160,7 +160,7 @@ Plongeons maintenant plus en détail dans le dossier /lib qui contient le code p
 8- main.dart - Le point d'entré de notre application.
 ```
 
-### Libraries & Outils utilisés
+### 📚 Libraries & Outils utilisés
 
 -   [firebase_core](https://pub.dev/packages/firebase_core)
 -   [auto_route](https://pub.dev/packages/auto_route)
@@ -192,14 +192,14 @@ Plongeons maintenant plus en détail dans le dossier /lib qui contient le code p
 -   [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
 -   [sticky_headers](https://pub.dev/packages/sticky_headers)
 
-### Test
+### 👀 Test
 
 Afin de respecter nos conventions de codage il faudra que les commandes ci-dessous n'échouent pas:
 
 -   `flutter analyze`
 -   `flutter test`
 
-## Documentations suplémentaires
+## 📖 Documentations suplémentaires
 
 ### Flutter
 

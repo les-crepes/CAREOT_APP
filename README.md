@@ -20,9 +20,9 @@ Si vous voulez télécharger notre dernière release, vous pouvez la trouver dan
 
 ### Android
 
-1.  Téléchargez le dernier APK sur votre téléphone
-2.  Autorisez votre explorateur de fichier à utiliser des fichiers `.apk`
-3.  Installez l'application depuis là où vous l'avez téléchargé
+1.  Téléchargez le dernier APK sur votre téléphone.
+2.  Autorisez votre explorateur de fichier ou autre application à installer des `.apk` depuis une source externe.
+3.  Installez l'application depuis là où vous l'avez téléchargé.
 
 ## Guides de démarrage rapide
 
@@ -34,11 +34,12 @@ Si vous voulez directement construire l'application, il vous faudra installer la
 2.  Clonez notre repository
 3.  `cd CAREOT_APP/`
 4.  `flutter pub get`
-5.  `flutter build apk --release`
+5.  `flutter packages pub run build_runner watch`
+6.  `flutter build apk --release`
 
 ### Test
 
-Afin de respecter nos conventions de codage il faudra passer les commandes:
+Afin de respecter nos conventions de codage il faudra que les commandes ci-dessous n'échouent pas:
 
 -   `flutter analyze`
 -   `flutter test`
@@ -47,7 +48,7 @@ Afin de respecter nos conventions de codage il faudra passer les commandes:
 
 Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre repository et suivre les étapes ci-dessous:
 
-1. Sélection le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
+1. Sélectionner le projet Github, prendre ou ajouter une tâche dans l'onglet TODO.
 2. Créer un issue dans le repository correspondant
 3. S'assigner à l'issue et ajouter les tags nécessaires (frontend, backend, bug, ehancement etc...)
 4. Créer une branche associée à l'issue (petit bouton dans issue: create branch)

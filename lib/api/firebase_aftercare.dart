@@ -62,9 +62,8 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
       await collectionReference
           .doc(aftercare.uid)
           .update(aftercare.toFirestore());
-    } catch (e) {
-      log("Failed to update aftercare: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw super.getStorageExceptionFromCode(e.code);
     }
   }
 

@@ -1,9 +1,10 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+![GitHub](https://img.shields.io/github/license/les-crepes/CAREOT_APP)
+[![GitHub Super-Linter](https://github.com/les-crepes/CAREOT_APP/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![GitHub Release Date](https://img.shields.io/github/release-date/les-crepes/CAREOT_APP)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/les-crepes/CAREOT_APP?display_name=tag&color=orange)
+![GitHub repo size](https://img.shields.io/github/repo-size/les-crepes/CAREOT_APP?color=orange)
+![GitHub issues](https://img.shields.io/github/issues-raw/les-crepes/CAREOT_APP?color=orange)
+![GitHub all releases](https://img.shields.io/github/downloads/les-crepes/CAREOT_APP/total?color=orange)
 
 <p align="center">
   <img src=".github/logo.png" alt="Sublime's custom image"/>
@@ -17,11 +18,31 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 
 ![Our Tech Stack](.github/app_showcase.jpg)
 
-## Sommaire
-
--   [General info](#general-info)
--   [Technologies](#technologies)
--   [Setup](#setup)
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
 ## Infrastructure
 

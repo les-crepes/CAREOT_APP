@@ -22,7 +22,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
           .set(meal);
       log("Meal Added");
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -47,7 +47,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
       await collectionReference.doc(meal.uid).update(meal.toFirestore());
       log("Meal Updated");
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -56,7 +56,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     try {
       collectionReference.doc(mealId).delete();
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -80,7 +80,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
       List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
       return meals;
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -112,7 +112,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
       List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
       return meals;
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 }

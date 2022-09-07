@@ -20,7 +20,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
           .set(user);
     } on FirebaseException catch (e) {
       log(e.toString());
-      throw getStorageExceptionFromCode(e.code);
+      throw getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -47,7 +47,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
       log('User updated');
     } on FirebaseException catch (e) {
       log(e.toString());
-      throw getStorageExceptionFromCode(e.code);
+      throw getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -57,7 +57,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
       collectionReference.doc(clientId).delete();
       log('User deleted');
     } on FirebaseException catch (e) {
-      throw getStorageExceptionFromCode(e.code);
+      throw getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -86,7 +86,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
           .toList();
       return clients;
     } on FirebaseException catch (e) {
-      throw getStorageExceptionFromCode(e.code);
+      throw getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -106,7 +106,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
       return dietitians.isNotEmpty ? dietitians.first : null;
     } on FirebaseException catch (e) {
       log(e.toString());
-      throw getStorageExceptionFromCode(e.code);
+      throw getDatabaseExceptionFromCode(e.code);
     }
   }
 

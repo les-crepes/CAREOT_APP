@@ -23,7 +23,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
           .set(message);
       log("Message Added");
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -73,7 +73,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
 
       return messages;
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -108,7 +108,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
         .map((doc) => doc.isNotEmpty ? doc.first.data() : null)
         .cast();
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -119,7 +119,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
           .doc(message.uid)
           .update(message.toFirestore());
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -128,7 +128,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
     try {
       collectionReference.doc(messageId).delete();
     } on FirebaseException catch (e) {
-      throw super.getStorageExceptionFromCode(e.code);
+      throw super.getDatabaseExceptionFromCode(e.code);
     }
   }
 }

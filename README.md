@@ -18,39 +18,21 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 
 ![Our Tech Stack](.github/app_showcase.jpg)
 
-<!-- TABLE OF CONTENTS -->
-<h2>Sommaire</h2>
-<details>
-  <summary>Développer</summary>
-  <ol>
-    <li>
-      <a href="#Télécharger l'application">Télécharger l'application</a>
-    </li>
-    <li>
-      <a href="#Build">Build</a>
-    </li>
-    <li>
-      <a href="#Contribution">Contribution</a>
-      <ul>
-          <li><a href="#Méthode de travail">Méthode de travail</a></li>
-          <li><a href="#Méthode de travail">Cacher les fichiers générés <li>automatiquement</a></li>
-          <li><a href="#Méthode de travail">Infrastructure</a></li>
-          <li><a href="#Structure de dossiers">Structure de dossiers</a></li>
-          <li><a href="#Libraries & Outils utilisés">Libraries & Outils utilisés</a></li>
-          <li><a href="#Test">Test</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#roadmap">Documentations suplémentaires</a>
-      <ul>
-            <li><a href="#Flutter">Flutter</a></li>
-            <li><a href="#Firebase">Firebase</a></li>
-            <li><a href="#API">API</a></li>
-            <li><a href="#Frontend">Fronend</a></li>
-        </ul>
-    </li>
-  </ol>
-</details>
+-   [Careot](#careot)
+    -   [Télécharger l'application](#télécharger-lapplication)
+    -   [Build](#build)
+    -   [Contribution](#contribution)
+        -   [Méthode de travail](#méthode-de-travail)
+        -   [Cacher les fichiers générés automatiquement](#cacher-les-fichiers-générés-automatiquement)
+        -   [Infrastructure](#infrastructure)
+        -   [Structure de dossiers](#structure-de-dossiers)
+        -   [Libraries & Outils utilisés](#libraries--outils-utilisés)
+        -   [Test](#test)
+    -   [Documentations suplémentaires](#documentations-suplémentaires)
+        -   [Flutter](#flutter)
+        -   [Firebase](#firebase)
+        -   [API](#api)
+        -   [Frontend](#frontend)
 
 ## Télécharger l'application
 

@@ -95,111 +95,114 @@ class _AddMealScreenState extends State<AddMealScreen> {
       image = XFileImage(_image!);
     }
 
-    return AddMeal(
-      nameTextController: _nameTextController,
-      settingsController: _settingsController,
-      commentController: _commentController,
-      hungerBeforeValue: _hungerBeforeValue,
-      hungerAfterValue: _hungerAfterValue,
-      isAdmin: GetIt.I.get<AuthProvider>().isAdmin,
-      onHungerAfterChanged: (value) => setState(() {
-        _hungerAfterValue = value;
-      }),
-      onHungerBeforeChanged: (value) => setState(() {
-        _hungerBeforeValue = value;
-      }),
-      image: image,
-      onCameraPressed: () async {
-        _image = await _takePicture();
-        setState(() {});
-      },
-      onGalleryPressed: () async {
-        _image = await _getPicture();
-        setState(() {});
-      },
-      onTimeSelected: (time) {
-        setState(() {
-          switch (_timeValueToChange) {
-            case _TimeButtonEnum.start:
-              _startTime = time;
-              break;
-            case _TimeButtonEnum.end:
-              _endTime = time;
-              break;
-            default:
-              break;
+    return Container(
+      color: Colors.white,
+      child: AddMeal(
+        nameTextController: _nameTextController,
+        settingsController: _settingsController,
+        commentController: _commentController,
+        hungerBeforeValue: _hungerBeforeValue,
+        hungerAfterValue: _hungerAfterValue,
+        isAdmin: GetIt.I.get<AuthProvider>().isAdmin,
+        onHungerAfterChanged: (value) => setState(() {
+          _hungerAfterValue = value;
+        }),
+        onHungerBeforeChanged: (value) => setState(() {
+          _hungerBeforeValue = value;
+        }),
+        image: image,
+        onCameraPressed: () async {
+          _image = await _takePicture();
+          setState(() {});
+        },
+        onGalleryPressed: () async {
+          _image = await _getPicture();
+          setState(() {});
+        },
+        onTimeSelected: (time) {
+          setState(() {
+            switch (_timeValueToChange) {
+              case _TimeButtonEnum.start:
+                _startTime = time;
+                break;
+              case _TimeButtonEnum.end:
+                _endTime = time;
+                break;
+              default:
+                break;
+            }
+
+            _showModal = false;
+            _timeValueToChange = _TimeButtonEnum.none;
+          });
+        },
+        onTimeSelectCanceled: () {
+          setState(() {
+            _showModal = false;
+            _timeValueToChange = _TimeButtonEnum.none;
+          });
+        },
+        onStartTimeSelected: () {
+          setState(() {
+            _timeValueToChange = _TimeButtonEnum.start;
+            _showModal = true;
+          });
+        },
+        onEndTimeSelected: () {
+          setState(() {
+            _timeValueToChange = _TimeButtonEnum.end;
+            _showModal = true;
+          });
+        },
+        showTimePicker: _showModal,
+        startTimeText: _startTime?.format(context) ?? 'Start Time',
+        endTimeText: _endTime?.format(context) ?? 'End Time',
+        onValidatePressed: () {
+          final DateTime selectedStartDate = DateTime(
+            widget._day.year,
+            widget._day.month,
+            widget._day.day,
+            _startTime?.hour ?? 0,
+            _startTime?.minute ?? 0,
+          );
+
+          final DateTime selectedEndDate = DateTime(
+            widget._day.year,
+            widget._day.month,
+            widget._day.day,
+            _endTime?.hour ?? 0,
+            _endTime?.minute ?? 0,
+          );
+          if (widget._meal == null) {
+            AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
+                Meal(
+                  title: _nameTextController.text,
+                  startTime: selectedStartDate,
+                  endTime: selectedEndDate,
+                  hunger: _hungerBeforeValue.toInt(),
+                  satiety: _hungerAfterValue.toInt(),
+                  setting: _settingsController.text,
+                  comment: _commentController.text,
+                  owner: context.read<AuthProvider>().userUid,
+                ),
+                _image));
+            return;
           }
-
-          _showModal = false;
-          _timeValueToChange = _TimeButtonEnum.none;
-        });
-      },
-      onTimeSelectCanceled: () {
-        setState(() {
-          _showModal = false;
-          _timeValueToChange = _TimeButtonEnum.none;
-        });
-      },
-      onStartTimeSelected: () {
-        setState(() {
-          _timeValueToChange = _TimeButtonEnum.start;
-          _showModal = true;
-        });
-      },
-      onEndTimeSelected: () {
-        setState(() {
-          _timeValueToChange = _TimeButtonEnum.end;
-          _showModal = true;
-        });
-      },
-      showTimePicker: _showModal,
-      startTimeText: _startTime?.format(context) ?? 'Start Time',
-      endTimeText: _endTime?.format(context) ?? 'End Time',
-      onValidatePressed: () {
-        final DateTime selectedStartDate = DateTime(
-          widget._day.year,
-          widget._day.month,
-          widget._day.day,
-          _startTime?.hour ?? 0,
-          _startTime?.minute ?? 0,
-        );
-
-        final DateTime selectedEndDate = DateTime(
-          widget._day.year,
-          widget._day.month,
-          widget._day.day,
-          _endTime?.hour ?? 0,
-          _endTime?.minute ?? 0,
-        );
-        if (widget._meal == null) {
           AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
               Meal(
-                title: _nameTextController.text,
-                startTime: selectedStartDate,
-                endTime: selectedEndDate,
-                hunger: _hungerBeforeValue.toInt(),
-                satiety: _hungerAfterValue.toInt(),
-                setting: _settingsController.text,
-                comment: _commentController.text,
-                owner: context.read<AuthProvider>().userUid,
-              ),
+                  uid: widget._meal!.uid,
+                  title: _nameTextController.text,
+                  startTime: selectedStartDate,
+                  endTime: selectedEndDate,
+                  hunger: _hungerBeforeValue.toInt(),
+                  satiety: _hungerAfterValue.toInt(),
+                  setting: _settingsController.text,
+                  comment: _commentController.text,
+                  owner: context.read<AuthProvider>().userUid,
+                  photo: widget._meal!.photo),
               _image));
-          return;
-        }
-        AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
-            Meal(
-              uid: widget._meal!.uid,
-              title: _nameTextController.text,
-              startTime: selectedStartDate,
-              endTime: selectedEndDate,
-              hunger: _hungerBeforeValue.toInt(),
-              satiety: _hungerAfterValue.toInt(),
-              setting: _settingsController.text,
-              comment: _commentController.text,
-              owner: context.read<AuthProvider>().userUid,
-            ),
-            _image));
-      },
+        },
+      ),
     );
   }
 }

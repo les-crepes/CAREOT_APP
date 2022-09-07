@@ -62,8 +62,12 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
 
   @override
   Future<List<Meal>> getUsersMealForDay(String userId, DateTime day) async {
-    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0); /// Start of the day
-    DateTime endD = newD.add(const Duration(days: 1)); /// End of the day
+    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
+
+    /// Start of the day
+    DateTime endD = newD.add(const Duration(days: 1));
+
+    /// End of the day
     try {
       final m = await collectionReference
           .where("owner", isEqualTo: userId)
@@ -73,11 +77,26 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
           fromFirestore: Meal.fromFirestore,
           toFirestore: (Meal meal, options) => meal.toFirestore())
           .get();
-          List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
-          return meals;
+      List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
+      return meals;
     } on FirebaseException catch (e) {
       throw super.getStorageExceptionFromCode(e.code);
     }
+  }
+
+  @override
+  Stream<List<Meal>> followMeals(String userId) {
+    Stream<QuerySnapshot<Meal>> mealStream = collectionReference
+        .where("owner", isEqualTo: userId)
+        .withConverter(
+            fromFirestore: Meal.fromFirestore,
+            toFirestore: (Meal meal, options) => meal.toFirestore())
+        .snapshots(includeMetadataChanges: true);
+
+    final mealList = mealStream
+        .map((query) => query.docs)
+        .map((doc) => doc.map((querydoc) => querydoc.data()).toList());
+    return mealList;
   }
 
   @override
@@ -89,6 +108,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
           fromFirestore: Meal.fromFirestore,
           toFirestore: (Meal meal, options) => meal.toFirestore())
           .get();
+
       List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
       return meals;
     } on FirebaseException catch (e) {

@@ -36,6 +36,7 @@ import 'home_guard.dart';
       children: [
         AutoRoute(
           page: ChatRouterPage,
+          name: 'ChatRouterPage',
           path: 'chat',
           children: [
             AutoRoute(
@@ -114,17 +115,20 @@ import 'home_guard.dart';
       page: RegisterScreen,
       path: '/register',
       children: [
-        AutoRoute(
+        CustomRoute(
           page: RegisterFirstPage,
           path: '',
+          transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
-        AutoRoute(
+        CustomRoute(
           page: RegisterSecondPage,
           path: '1',
+          transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
-        AutoRoute(
+        CustomRoute(
           page: RegisterThirdPage,
           path: '2',
+          transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
       ],
     ),

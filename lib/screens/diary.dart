@@ -10,6 +10,7 @@ import 'package:pdg_app/router/router.gr.dart';
 import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/loading_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../model/user.dart';
 import '../api/firebase_file.dart';
@@ -38,13 +39,18 @@ class _DiaryScreenState extends State<DiaryScreen> {
   IFile fileApi = FirebaseFile(FirebaseStorage.instance);
   final LoadingOverlayController _loadingOverlayController =
       LoadingOverlayController();
+  late MealProvider mealProvider;
 
-  _onDaySelected(DateTime day) async {
-    _selectedDate = day;
+  @override
+  void dispose() {
+    if (GetIt.I.get<AuthProvider>().isAdmin) {
+      mealProvider.stopNewDiaryListener();
+    }
+    super.dispose();
   }
 
   List<Meal> _getEventsForDay(BuildContext context, DateTime day) {
-    return context.read<MealProvider>().meals;
+    return context.watch<MealProvider>().meals;
   }
 
   @override
@@ -52,53 +58,65 @@ class _DiaryScreenState extends State<DiaryScreen> {
     final uid = context.read<AuthProvider>().userUid;
     final isAdmin = context.read<AuthProvider>().isAdmin;
 
-    return ChangeNotifierProvider(
-      create: (context) => MealProvider(!isAdmin ? uid : widget._client!.uid),
-      builder: (context, child) {
-        context.watch<MealProvider>().meals;
+    return Container(
+      color: Colors.white,
+      child: ChangeNotifierProvider(
+        create: (context) => MealProvider(!isAdmin ? uid : widget._client!.uid),
+        builder: (context, child) {
+          context.watch<MealProvider>().meals;
 
-        MealProvider mealProvider = context.read<MealProvider>();
-        AuthProvider authProvider = GetIt.I.get<AuthProvider>();
+          mealProvider = context.watch<MealProvider>();
+          AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
-        return LoadingOverlay(
-          controller: _loadingOverlayController,
-          child: Diary(
-              onDaySelected: _onDaySelected,
-              getDiariesForDay: (day) {
-                return _getEventsForDay(context, day);
-              },
-              clientName: !isAdmin
-                  ? GetIt.I.get<AuthProvider>().user!.firstName
-                  : widget._client!.firstName,
-              clientPicturePath: authProvider.user!.photoUrl,
-              defaultUserPic: "assets/images/default_user_pic.png",
-              showActionButton: !isAdmin,
-              defaultMealPic: "assets/images/breakfast.jpg",
-              onAddPressed: () async {
-                final addedMeal = await AutoRouter.of(context)
-                    .push<Tuple2<Meal?, XFile?>>(
-                        AddMealScreenRoute(day: _selectedDate));
-                _loadingOverlayController.showLoadingOverlay();
-                if (addedMeal != null) {
-                  await mealProvider.addMeal(addedMeal.item1!, addedMeal.item2);
-                  mealProvider.fetchMeals();
-                }
-                _loadingOverlayController.hideLoadingOverlay();
-              },
-              onMealBlocPressed: (Meal meal) async {
-                final changedMeal = await AutoRouter.of(context)
-                    .push<Tuple2<Meal?, XFile?>>(
-                        AddMealScreenRoute(day: _selectedDate, meal: meal));
-                _loadingOverlayController.showLoadingOverlay();
-                if (changedMeal != null) {
-                  await mealProvider.updateMeal(
-                      changedMeal.item1!, changedMeal.item2);
-                  mealProvider.fetchMeals();
-                }
-                _loadingOverlayController.hideLoadingOverlay();
-              }),
-        );
-      },
+          if (isAdmin) {
+            mealProvider.startNewDiaryListener(widget._client!.uid);
+          }
+
+          return LoadingOverlay(
+            controller: _loadingOverlayController,
+            child: Diary(
+                onDaySelected: (date) {
+                  _selectedDate = date;
+                },
+                getDiariesForDay: (day) {
+                  return _getEventsForDay(context, day);
+                },
+                clientName: !isAdmin
+                    ? GetIt.I.get<AuthProvider>().user!.firstName
+                    : widget._client!.firstName,
+                clientPicturePath: !isAdmin
+                    ? authProvider.user!.photoUrl
+                    : widget._client!.photoUrl,
+                defaultUserPic: "assets/images/default_user_pic.png",
+                showActionButton: !isAdmin,
+                defaultMealPic: "assets/images/breakfast.jpg",
+                onAddPressed: () async {
+                  final addedMeal = await AutoRouter.of(context)
+                      .push<Tuple2<Meal?, XFile?>>(
+                          AddMealScreenRoute(day: _selectedDate));
+                  _loadingOverlayController.showLoadingOverlay();
+                  if (addedMeal != null) {
+                    await mealProvider.addMeal(
+                        addedMeal.item1!, addedMeal.item2);
+                    mealProvider.fetchMeals();
+                  }
+                  _loadingOverlayController.hideLoadingOverlay();
+                },
+                onMealBlocPressed: (Meal meal) async {
+                  final changedMeal = await AutoRouter.of(context)
+                      .push<Tuple2<Meal?, XFile?>>(
+                          AddMealScreenRoute(day: _selectedDate, meal: meal));
+                  _loadingOverlayController.showLoadingOverlay();
+                  if (changedMeal != null) {
+                    await mealProvider.updateMeal(
+                        changedMeal.item1!, changedMeal.item2);
+                    mealProvider.fetchMeals();
+                  }
+                  _loadingOverlayController.hideLoadingOverlay();
+                }),
+          );
+        },
+      ),
     );
   }
 }
@@ -142,12 +160,16 @@ class _DiaryState extends State<Diary> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
     _selectedDay = _focusedDay;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels < 0) _scrollController.jumpTo(0);
+    });
   }
 
   @override
@@ -167,7 +189,9 @@ class _DiaryState extends State<Diary> {
     final DateFormat hourFormatter = DateFormat('HH:mm');
 
     return Stack(children: [
-      Column(
+      ListView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
         children: [
           DiaryTopBar(
             background: background,
@@ -176,47 +200,51 @@ class _DiaryState extends State<Diary> {
             clientPicturePath: widget.clientPicturePath,
             defaultUserPic: widget._defaultUserPic,
           ),
-          TableCalendar(
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2050, 12, 31),
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // update `_focusedDay` here as well
-              });
-              if (widget._onDaySelected != null) {
-                widget._onDaySelected!(selectedDay);
-              }
-            },
-            calendarFormat: _calendarFormat,
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
-            },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
-            },
-            eventLoader: context.read<MealProvider>().getMealsByDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
-              todayDecoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  shape: BoxShape.circle),
-              todayTextStyle:
-                  TextStyle(color: Theme.of(context).colorScheme.onSurface),
-              selectedDecoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  shape: BoxShape.circle),
+          StickyHeader(
+            header: Container(
+              color: Colors.white,
+              child: TableCalendar(
+                firstDay: DateTime.utc(2020, 1, 1),
+                lastDay: DateTime.utc(2050, 12, 31),
+                focusedDay: _focusedDay,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay =
+                        focusedDay; // update `_focusedDay` here as well
+                  });
+                  if (widget._onDaySelected != null) {
+                    widget._onDaySelected!(selectedDay);
+                  }
+                },
+                calendarFormat: _calendarFormat,
+                onFormatChanged: (format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+                eventLoader: context.read<MealProvider>().getMealsByDay,
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                calendarStyle: CalendarStyle(
+                  todayDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      shape: BoxShape.circle),
+                  todayTextStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  selectedDecoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 13),
-          Expanded(
-            child: _CalendarBody(
+            content: _CalendarBody(
+              topBarHeight: height,
               defaultMealPic: widget._defaultMealPic,
               hourFormatter: hourFormatter,
               meals: context.read<MealProvider>().getMealsByDay(_selectedDay),
@@ -238,6 +266,7 @@ class _CalendarBody extends StatelessWidget {
   final List<Meal> meals;
   final void Function(Meal)? onMealBlocPressed;
   final String defaultMealPic;
+  final double topBarHeight;
 
   const _CalendarBody({
     required this.meals,
@@ -245,17 +274,15 @@ class _CalendarBody extends StatelessWidget {
     required this.hourFormatter,
     required this.defaultMealPic,
     this.onMealBlocPressed,
+    required this.topBarHeight,
   }) : super(key: key);
 
   final DateFormat hourFormatter;
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: meals.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return GestureDetector(
+  List<Widget> buildList() {
+    return <Widget>[
+      for (int index = 0; index < meals.length; index++)
+        GestureDetector(
           onTap: onMealBlocPressed != null
               ? (() => onMealBlocPressed!(meals[index]))
               : () {},
@@ -277,8 +304,17 @@ class _CalendarBody extends StatelessWidget {
               ),
             ),
           ),
-        );
-      },
+        )
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...buildList(),
+        SizedBox(height: topBarHeight - 10),
+      ],
     );
   }
 }

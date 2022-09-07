@@ -69,7 +69,7 @@ class AppRouter extends _i18.RootStackRouter {
       return _i18.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i3.RegisterScreen());
     },
-    ChatRouterPageRoute.name: (routeData) {
+    ChatRouterPage.name: (routeData) {
       return _i18.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i4.ChatRouterPage());
     },
@@ -138,18 +138,30 @@ class AppRouter extends _i18.RootStackRouter {
               day: args.day, meal: args.meal, key: args.key));
     },
     RegisterFirstPageRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i15.RegisterFirstPage());
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i15.RegisterFirstPage(),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     },
     RegisterSecondPageRoute.name: (routeData) {
       final args = routeData.argsAs<RegisterSecondPageRouteArgs>(
           orElse: () => const RegisterSecondPageRouteArgs());
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i16.RegisterSecondPage(key: args.key));
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: _i16.RegisterSecondPage(key: args.key),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     },
     RegisterThirdPageRoute.name: (routeData) {
-      return _i18.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i17.RegisterThirdPage());
+      return _i18.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i17.RegisterThirdPage(),
+          transitionsBuilder: _i18.TransitionsBuilders.fadeIn,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -165,23 +177,23 @@ class AppRouter extends _i18.RootStackRouter {
               parent: HomeScreenRoute.name,
               redirectTo: 'main',
               fullMatch: true),
-          _i18.RouteConfig(ChatRouterPageRoute.name,
+          _i18.RouteConfig(ChatRouterPage.name,
               path: 'chat',
               parent: HomeScreenRoute.name,
               children: [
                 _i18.RouteConfig('#redirect',
                     path: '',
-                    parent: ChatRouterPageRoute.name,
+                    parent: ChatRouterPage.name,
                     redirectTo: 'chats',
                     fullMatch: true),
                 _i18.RouteConfig(ChatScreenRoute.name,
-                    path: 'onechat', parent: ChatRouterPageRoute.name),
+                    path: 'onechat', parent: ChatRouterPage.name),
                 _i18.RouteConfig(DiscussionListScreenRoute.name,
                     path: 'chats',
-                    parent: ChatRouterPageRoute.name,
+                    parent: ChatRouterPage.name,
                     guards: [chatGuard]),
                 _i18.RouteConfig(DocumentListScreenRoute.name,
-                    path: 'documents', parent: ChatRouterPageRoute.name)
+                    path: 'documents', parent: ChatRouterPage.name)
               ]),
           _i18.RouteConfig(MainRouterPage.name,
               path: 'main',
@@ -264,12 +276,11 @@ class RegisterScreenRoute extends _i18.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ChatRouterPage]
-class ChatRouterPageRoute extends _i18.PageRouteInfo<void> {
-  const ChatRouterPageRoute({List<_i18.PageRouteInfo>? children})
-      : super(ChatRouterPageRoute.name,
-            path: 'chat', initialChildren: children);
+class ChatRouterPage extends _i18.PageRouteInfo<void> {
+  const ChatRouterPage({List<_i18.PageRouteInfo>? children})
+      : super(ChatRouterPage.name, path: 'chat', initialChildren: children);
 
-  static const String name = 'ChatRouterPageRoute';
+  static const String name = 'ChatRouterPage';
 }
 
 /// generated route for

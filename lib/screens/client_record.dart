@@ -23,51 +23,58 @@ class ClientRecordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AftercareProvider(clientUid: _user.uid),
-      builder: (context, child) {
-        final afterCareProvider = context.watch<AftercareProvider>();
-        log(afterCareProvider.aftercare.toString());
-        final aftercareProvider = context.read<AftercareProvider>();
-        return ClientRecord(
-          defaultUserPic: 'assets/images/default_user_pic.png',
-          clientPicturePath: _user.photoUrl,
-          clientFirstName: _user.firstName,
-          clientLastName: _user.lastName,
-          clientEmail: _user.email,
-          clientBirthday: _user.birthDate,
-          clientPhone: _user.phoneNumber,
-          clientInsurance: _user.avs,
-          clientBmi: afterCareProvider.aftercare?.bmi ?? 0,
-          clientWeight: afterCareProvider.aftercare?.weight ?? 0.0,
-          clientComments: afterCareProvider.aftercare?.comments ?? '-',
-          clientDiagnostic: afterCareProvider.aftercare?.diagnostic ?? '-',
-          clientFoodObjectives:
-              afterCareProvider.aftercare?.foodObjectives ?? '-',
-          clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
-          clientStartDate: afterCareProvider.aftercare?.startDate,
-          clientEndDate: afterCareProvider.aftercare?.endDate,
-          onIconButtonPressed: () async {
-            final Aftercare? aftercare = await AutoRouter.of(context)
-                .push<Aftercare?>(UpdateClientRecordScreenRoute(
-                    user: _user, aftercare: afterCareProvider.aftercare));
+    return Container(
+      color: Colors.white,
+      child: ChangeNotifierProvider(
+        create: (context) => AftercareProvider(clientUid: _user.uid),
+        builder: (context, child) {
+          final afterCareProvider = context.watch<AftercareProvider>();
+          log(afterCareProvider.aftercare.toString());
+          final aftercareProvider = context.read<AftercareProvider>();
+          return ClientRecord(
+            defaultUserPic: 'assets/images/default_user_pic.png',
+            clientPicturePath: _user.photoUrl,
+            clientFirstName: _user.firstName,
+            clientLastName: _user.lastName,
+            clientEmail: _user.email,
+            clientBirthday: _user.birthDate,
+            clientPhone: _user.phoneNumber,
+            clientInsurance: _user.avs,
+            clientBmi: afterCareProvider.aftercare?.bmi ?? 0,
+            clientWeight: afterCareProvider.aftercare?.weight ?? 0.0,
+            clientComments: afterCareProvider.aftercare?.comments ?? '-',
+            clientDiagnostic: afterCareProvider.aftercare?.diagnostic ?? '-',
+            clientFoodObjectives:
+                afterCareProvider.aftercare?.foodObjectives ?? '-',
+            clientMotivations: afterCareProvider.aftercare?.motivations ?? '-',
+            clientStartDate: afterCareProvider.aftercare?.startDate,
+            clientEndDate: afterCareProvider.aftercare?.endDate,
+            onIconButtonPressed: () async {
+              final Aftercare? aftercare = await AutoRouter.of(context)
+                  .push<Aftercare?>(UpdateClientRecordScreenRoute(
+                      user: _user, aftercare: afterCareProvider.aftercare));
 
-            if (aftercare != null) {
-              if (aftercareProvider.aftercare != null) {
-                aftercareProvider.updateAftercare(aftercare);
-              } else {
-                afterCareProvider.createAftercare(aftercare);
+              if (aftercare != null) {
+                if (aftercareProvider.aftercare != null) {
+                  aftercareProvider.updateAftercare(aftercare);
+                } else {
+                  afterCareProvider.createAftercare(aftercare);
+                }
               }
-            }
-          },
-          onDiariesButtonPressed: () {
-            context.pushRoute(DiaryRouterPage(children: [
-              DiaryScreenRoute(client: _user),
-            ]));
-          },
-          onChatButtonPressed: () {},
-        );
-      },
+            },
+            onDiariesButtonPressed: () {
+              context.pushRoute(DiaryRouterPage(children: [
+                DiaryScreenRoute(client: _user),
+              ]));
+            },
+            onChatButtonPressed: () {
+              AutoRouter.of(context).push(HomeScreenRoute(children: [
+                ChatRouterPage(children: [ChatScreenRoute(otherUser: _user)])
+              ]));
+            },
+          );
+        },
+      ),
     );
   }
 }

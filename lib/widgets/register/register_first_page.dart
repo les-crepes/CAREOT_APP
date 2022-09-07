@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/router/router.gr.dart';
 import 'package:provider/provider.dart';
@@ -48,9 +49,28 @@ class RegisterFirstPage extends StatelessWidget {
             width: 200,
             child: RightArrowButton(
                 text: 'Next',
-                onPressed: () {
+                onPressed: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   if (registerProvider.formPage1.currentState!.validate()) {
-                    AutoRouter.of(context).push(RegisterSecondPageRoute());
+                    registerProvider.loadingController.showLoadingOverlay();
+                    if (await registerProvider.checkEmailValidity()) {
+                      registerProvider.loadingController.hideLoadingOverlay();
+                      AutoRouter.of(context).push(RegisterSecondPageRoute());
+                    } else {
+                      registerProvider.loadingController.hideLoadingOverlay();
+                      final snackBar = SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          margin: const EdgeInsets.only(top: 5),
+                          elevation: 0,
+                          content: AwesomeSnackbarContent(
+                            title: "Email already used",
+                            message: "Sorry, this email is already in use...",
+                            contentType: ContentType.failure,
+                          ));
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   }
                 }),
           ),

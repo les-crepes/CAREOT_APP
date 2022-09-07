@@ -15,8 +15,11 @@ import 'package:provider/provider.dart';
 import 'api/firebase_connection.dart';
 import 'api/firebase_user.dart';
 import 'firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> setup() async {
+  await dotenv.load(fileName: ".env");
+
   final getIt = GetIt.instance;
 
   getIt.registerSingleton<AuthProvider>(

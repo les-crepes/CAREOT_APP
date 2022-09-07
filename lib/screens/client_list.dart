@@ -9,7 +9,7 @@ import 'package:pdg_app/widgets/cards/arrow_pic_card.dart';
 import 'package:pdg_app/widgets/forms/main_text_field.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/client_list.dart/top_shape.dart';
+import '../widgets/client_list/top_shape.dart';
 
 class ClientListScreen extends StatefulWidget {
   const ClientListScreen({Key? key}) : super(key: key);
@@ -22,18 +22,29 @@ class _ClientListScreenState extends State<ClientListScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void dispose() {
+    if (GetIt.I.get<AuthProvider>().isAdmin) {
+      context.read<ClientProvider>().stopNewClientListener();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          ClientProvider(dietitianUid: GetIt.I.get<AuthProvider>().userUid),
-      builder: ((context, child) => ClientList(
+        create: (context) =>
+            ClientProvider(dietitianUid: GetIt.I.get<AuthProvider>().userUid),
+        builder: (context, child) {
+          context.read<ClientProvider>().startNewClientListener();
+
+          return ClientList(
             searchController: _searchController,
             onSearchBarUpdate: () {
               Provider.of<ClientProvider>(context, listen: false)
                   .filterClients(_searchController.text);
             },
-          )),
-    );
+          );
+        });
   }
 }
 

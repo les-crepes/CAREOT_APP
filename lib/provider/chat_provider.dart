@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class ChatProvider extends ChangeNotifier {
   UnmodifiableListView<MapEntry<User, Message>> getLastMessageOfEachUser() {
     final result =
         _messages.entries.where((element) => element.value.isNotEmpty).map((e) {
-      MapEntry<User, Message> entry = MapEntry(e.key, e.value.last);
+      MapEntry<User, Message> entry = MapEntry(e.key, e.value.first);
       return entry;
     }).toList();
     return UnmodifiableListView(result);
@@ -105,8 +104,6 @@ class ChatProvider extends ChangeNotifier {
       final subscription = _messageApi
           .followConversation(currentUserUid, user.uid)
           .listen((event) {
-        log('FOLLOW: $event');
-
         /// Be sure that the last received message isn't already in the list.
         if (event != null && !_messages[user]!.any((m) => m.uid == event.uid)) {
           _messages[user]!.add(event);

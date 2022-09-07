@@ -1,8 +1,27 @@
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
+<p align="center">
+  <img src=".github/logo.png" alt="Sublime's custom image"/>
+</p>
+
 # Careot
 
 Careot est une application mobile de suivi diététique basée sur Flutter et Firebase.
 
 Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentation de l'application
+
+![Our Tech Stack](.github/app_showcase.jpg)
+
+## Sommaire
+
+-   [General info](#general-info)
+-   [Technologies](#technologies)
+-   [Setup](#setup)
 
 ## Infrastructure
 

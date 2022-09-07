@@ -20,7 +20,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
           .doc(aftercare.uid)
           .set(aftercare);
     } on FirebaseException catch (e) {
-      throw super.getDatabaseExceptionFromCode(e.code);
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -59,7 +59,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
           .doc(aftercare.uid)
           .update(aftercare.toFirestore());
     } on FirebaseException catch (e) {
-      throw super.getDatabaseExceptionFromCode(e.code);
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 
@@ -68,7 +68,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
     try {
       collectionReference.doc(aftercareId).delete();
     } on FirebaseException catch (e) {
-      throw super.getDatabaseExceptionFromCode(e.code);
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }
   }
 }

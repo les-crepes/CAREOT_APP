@@ -14,7 +14,7 @@ class FirebaseAPI {
     return firestore;
   }
 
-  DatabaseException getDatabaseExceptionFromCode(String code) {
+  static DatabaseException getDatabaseExceptionFromCode(String code) {
     switch (code) {
       case 'cloud_firestore/not-found':
         return DatabaseException(DatabaseExceptionType.notFound);

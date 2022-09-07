@@ -13,9 +13,9 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   FirebaseMessage(FirebaseFirestore db) : super(db, 'message');
 
   @override
-  void createMessage(Message message) {
+  Future<void> createMessage(Message message) async {
     try {
-      collectionReference
+      await collectionReference
           .withConverter(
           fromFirestore: Message.fromFirestore,
           toFirestore: (Message message, options) => message.toFirestore())
@@ -113,9 +113,9 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
-  void updateMessage(Message message) {
+  Future<void> updateMessage(Message message) async {
     try {
-      collectionReference
+      await collectionReference
           .doc(message.uid)
           .update(message.toFirestore());
     } on FirebaseException catch (e) {
@@ -124,9 +124,9 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
   }
 
   @override
-  void deleteMessage(String messageId) {
+  Future<void> deleteMessage(String messageId) async {
     try {
-      collectionReference.doc(messageId).delete();
+      await collectionReference.doc(messageId).delete();
     } on FirebaseException catch (e) {
       throw super.getDatabaseExceptionFromCode(e.code);
     }

@@ -41,7 +41,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   @override
   Future<void> updateUser(User user) async {
     try {
-      collectionReference
+      await collectionReference
           .doc(user.uid)
           .update(user.toFirestore());
       log('User updated');
@@ -52,9 +52,9 @@ class FirebaseUser extends FirebaseAPI implements IUser {
   }
 
   @override
-  void deleteUser(String clientId) {
+  Future<void> deleteUser(String clientId) async {
     try {
-      collectionReference.doc(clientId).delete();
+      await collectionReference.doc(clientId).delete();
       log('User deleted');
     } on FirebaseException catch (e) {
       throw getDatabaseExceptionFromCode(e.code);

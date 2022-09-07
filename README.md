@@ -57,7 +57,7 @@ Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre d
 **/*.g.dart
 ```
 
-### Libraries & Tools Used
+### Libraries & Outils utilisés
 
 -   [firebase_core](https://pub.dev/packages/firebase_core)
 -   [auto_route](https://pub.dev/packages/auto_route)
@@ -89,7 +89,7 @@ Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre d
 -   [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
 -   [sticky_headers](https://pub.dev/packages/sticky_headers)
 
-### Folder Structure
+### Structure de dossiers
 
 Voici la structure de fichiers que fournit flutter.
 

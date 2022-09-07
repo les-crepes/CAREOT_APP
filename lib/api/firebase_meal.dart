@@ -80,18 +80,9 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   }
 
   @override
-  Stream<List<Meal>> followMeals(String userId, DateTime day) {
-    DateTime newD = DateTime(day.year, day.month, day.day, 0, 0);
-
-    /// Start of the day
-    DateTime endD = newD.add(const Duration(days: 1));
-
-    /// End of the day
-
+  Stream<List<Meal>> followMeals(String userId) {
     Stream<QuerySnapshot<Meal>> mealStream = collectionReference
         .where("owner", isEqualTo: userId)
-        .where("startTime", isGreaterThanOrEqualTo: newD)
-        .where("startTime", isLessThanOrEqualTo: endD)
         .withConverter(
             fromFirestore: Meal.fromFirestore,
             toFirestore: (Meal meal, options) => meal.toFirestore())

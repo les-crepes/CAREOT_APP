@@ -120,20 +120,20 @@ class FirebaseConnection implements Auth {
       throw getAuthenticationExceptionFromCode(e.code);
     }
   }
-}
-
-/// Returns the correct [AuthenticationException] from the given [code].
-AuthenticationException getAuthenticationExceptionFromCode(String code) {
-  switch (code) {
-    case "user-not-found":
-      return AuthenticationException(AuthExceptionType.userNotFound);
-    case "wrong-password":
-      return AuthenticationException(AuthExceptionType.wrongPassword);
-    case "invalid-email":
-      return AuthenticationException(AuthExceptionType.invalidEmail);
-    case "user-disabled":
-      return AuthenticationException(AuthExceptionType.userDisabled);
-    default:
-      return AuthenticationException(AuthExceptionType.unknown);
+  
+  /// Returns the correct [AuthenticationException] from the given [code].
+  static AuthenticationException getAuthenticationExceptionFromCode(String code) {
+    switch (code) {
+      case "user-not-found":
+        return AuthenticationException(AuthExceptionType.userNotFound);
+      case "wrong-password":
+        return AuthenticationException(AuthExceptionType.wrongPassword);
+      case "invalid-email":
+        return AuthenticationException(AuthExceptionType.invalidEmail);
+      case "user-disabled":
+        return AuthenticationException(AuthExceptionType.userDisabled);
+      default:
+        return AuthenticationException(AuthExceptionType.unknown);
+    }
   }
 }

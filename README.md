@@ -37,6 +37,21 @@ Si vous voulez directement construire l'application, il vous faudra installer la
 5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executé cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place  `flutter packages pub run build_runner watch`
 6.  `flutter build apk --release`Build un apk en monde release
 
+### Hide Generated Files
+
+In-order to hide generated files, navigate to `Android Studio` -> `Preferences` -> `Editor` -> `File Types` and paste the below lines under `ignore files and folders` section:
+
+```
+*.inject.summary;*.inject.dart;*.g.dart;
+```
+
+In Visual Studio Code, navigate to `Preferences` -> `Settings` and search for `Files:Exclude`. Add the following patterns:
+```
+**/*.inject.summary
+**/*.inject.dart
+**/*.g.dart
+```
+
 ### Test
 
 Afin de respecter nos conventions de codage il faudra que les commandes ci-dessous n'échouent pas:

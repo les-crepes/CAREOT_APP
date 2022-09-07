@@ -89,7 +89,7 @@ Rendez-vous dans `Preferences` -> `Settings` et chercher à l'aide de la barre d
 -   [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
 -   [sticky_headers](https://pub.dev/packages/sticky_headers)
 
-### Folder Structure
+### Structure de dossiers
 
 Voici la structure de fichiers que fournit flutter.
 

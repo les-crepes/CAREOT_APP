@@ -25,8 +25,8 @@ import './auth_gard.dart';
 import 'chat_router_page.dart';
 import 'home_guard.dart';
 
+// This file is used to generate the router.gr.dart file.
 @MaterialAutoRouter(
-  // replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(
       path: '/home',

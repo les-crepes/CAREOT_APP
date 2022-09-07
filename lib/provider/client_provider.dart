@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/model/user.dart';
 
+/// This class manage dietitian's clients datas.
 class ClientProvider extends ChangeNotifier {
   late FirebaseUser firebaseClient;
   List<User>? _clients;
@@ -18,12 +19,16 @@ class ClientProvider extends ChangeNotifier {
     fetchAllClients(dietitianUid);
   }
 
+  /// returns the current clients list
   List<User>? get clients => _clients;
 
+  /// returns the current filtered clients list
   List<User>? get filteredClients => _filteredClients;
 
+  /// returns the current loading state
   bool get isLoading => _loading;
 
+  /// Fetches the clients data from the database.
   void fetchAllClients(String dietitianUid) async {
     _loading = true;
     _clients = await firebaseClient.getDietitianClient(dietitianUid);
@@ -33,6 +38,7 @@ class ClientProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Filters the clients list by the given [query]
   void filterClients(String query) {
     if (_clients == null || _filteredClients == null) return;
 
@@ -47,6 +53,7 @@ class ClientProvider extends ChangeNotifier {
     }
   }
 
+  /// Start listening for new clients.
   void startNewClientListener() {
     String dietId = dotenv.env['DIET_UID'] as String;
 
@@ -60,6 +67,7 @@ class ClientProvider extends ChangeNotifier {
     });
   }
 
+  /// Stop listening for new clients.
   void stopNewClientListener() {
     _subscription?.cancel();
   }

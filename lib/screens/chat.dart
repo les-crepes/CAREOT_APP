@@ -80,6 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
       content: result.files.single.name,
       time: DateTime.now(),
       fileUrl: url,
+      fileSize: result.files.single.size,
     );
 
     _messageApi.createMessage(newMessage);
@@ -112,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 : types.FileMessage(
                     id: m.uid,
                     name: m.content,
-                    size: 0,
+                    size: m.fileSize ?? 0,
                     author: types.User(id: m.fromId),
                     uri: m.fileUrl!,
                     type: types.MessageType.file,

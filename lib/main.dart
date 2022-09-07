@@ -17,6 +17,7 @@ import 'api/firebase_user.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+/// Setups everything before the app shows
 Future<void> setup() async {
   await dotenv.load(fileName: ".env");
 

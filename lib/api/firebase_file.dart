@@ -25,7 +25,7 @@ class FirebaseFile implements IFile {
     try {
       await fileRef.putFile(file);
       log("File uploaded successfully");
-      return fileRef.getDownloadURL();
+      return await fileRef.getDownloadURL();
     } on FirebaseException catch (e) {
       log(e.toString());
       throw getStorageExceptionFromCode(e.code);

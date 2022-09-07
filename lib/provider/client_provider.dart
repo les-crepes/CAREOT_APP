@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pdg_app/api/firebase_user.dart';
 import 'package:pdg_app/model/user.dart';
 
@@ -8,6 +12,7 @@ class ClientProvider extends ChangeNotifier {
   List<User>? _clients;
   List<User>? _filteredClients;
   bool _loading = false;
+  StreamSubscription<List<User>>? _subscription;
 
   ClientProvider({required dietitianUid})
       : firebaseClient = FirebaseUser(FirebaseFirestore.instance) {
@@ -41,5 +46,20 @@ class ClientProvider extends ChangeNotifier {
         _filteredClients!.add(client);
       }
     }
+  }
+
+  void startNewClientListener() {
+    String dietId = dotenv.env['DIET_UID'] as String;
+
+    if (_subscription != null) return;
+
+    _subscription =
+        firebaseClient.followDietitianClientList(dietId).listen((event) {
+      notifyListeners();
+    });
+  }
+
+  void stopNewClientListener() {
+    _subscription?.cancel();
   }
 }

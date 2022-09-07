@@ -199,6 +199,8 @@ messageApi.implementNewBadassFunctions(with, crazy, parameters);
 
 ```
 
+![Our Tech Stack](.github/api_uml.png)
+
 #### Frontend
 
 Nous utilisons les providers pour séparer la logique de l'interface.

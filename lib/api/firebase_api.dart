@@ -10,7 +10,6 @@ class FirebaseAPI {
       : firestore = db,
         collectionReference = db.collection(collectionName);
 
-
   FirebaseFirestore getDb() {
     return firestore;
   }

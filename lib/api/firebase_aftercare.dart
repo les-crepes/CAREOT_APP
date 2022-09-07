@@ -46,8 +46,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
         .withConverter(
           fromFirestore: Aftercare.fromFirestore,
           toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
-        )
-        .get();
+        ).get();
     List<Aftercare> dietitians =
         querySnapshot.docs.map((doc) => doc.data()).toList();
     return dietitians;

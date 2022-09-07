@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';

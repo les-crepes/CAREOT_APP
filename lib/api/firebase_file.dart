@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/ifile.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -26,17 +27,23 @@ class FirebaseFile implements IFile {
       log("File uploaded successfully");
       return fileRef.getDownloadURL();
     } on FirebaseException catch (e) {
-      log("Failed to upload file: $e");
-      throw Exception(e);
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
     }
   }
 
   @override
   void deleteFile(String fileURL) async {
-    log('deleteFile: $fileURL');
-    final fileId = bucket.refFromURL(fileURL).name;
-    final ref = storageRef.child(fileId);
-    await ref.delete();
+    try {
+      log('deleteFile: $fileURL');
+      final fileId = bucket.refFromURL(fileURL).name;
+      final ref = storageRef.child(fileId);
+      await ref.delete();
+      log('File deleted');
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
   }
 
   @override
@@ -46,8 +53,46 @@ class FirebaseFile implements IFile {
     try {
       return await ref.getData(maxFileSize);
     } on FirebaseException catch (e) {
-      log("Failed to download file: $e");
-      throw Exception(e);
+      log(e.toString());
+      throw getStorageExceptionFromCode(e.code);
+    }
+  }
+
+  /// Convert a [FirebaseException] to a [FileStorageException].
+  FileStorageException getStorageExceptionFromCode(String code) {
+    switch (code) {
+      case 'storage/object-not-found':
+        return FileStorageException(FileStorageExceptionType.objectNotFound);
+      case 'storage/bucket-not-found':
+        return FileStorageException(FileStorageExceptionType.bucketNotFound);
+      case 'storage/project-not-found':
+        return FileStorageException(FileStorageExceptionType.projectNotFound);
+      case 'storage/quota-exceeded':
+        return FileStorageException(FileStorageExceptionType.quotaExceeded);
+      case 'storage/unauthenticated':
+        return FileStorageException(FileStorageExceptionType.unauthenticated);
+      case 'storage/unauthorized':
+        return FileStorageException(FileStorageExceptionType.unauthorized);
+      case 'storage/retry-limit-exceeded':
+        return FileStorageException(FileStorageExceptionType.retryLimitExceeded);
+      case 'storage/invalid-checksum':
+        return FileStorageException(FileStorageExceptionType.invalidChecksum);
+      case 'storage/canceled':
+        return FileStorageException(FileStorageExceptionType.canceled);
+      case 'storage/invalid-event-name':
+        return FileStorageException(FileStorageExceptionType.invalidEventName);
+      case 'storage/invalid-url':
+        return FileStorageException(FileStorageExceptionType.invalidUrl);
+      case 'storage/invalid-argument':
+        return FileStorageException(FileStorageExceptionType.invalidArgument);
+      case 'storage/no-default-bucket':
+        return FileStorageException(FileStorageExceptionType.noDefaultBucket);
+      case 'storage/cannot-slice-blob':
+        return FileStorageException(FileStorageExceptionType.cannotSliceBlob);
+      case 'storage/server-file-wrong-size':
+        return FileStorageException(FileStorageExceptionType.serverFileWrongSize);
+      default:
+        return FileStorageException(FileStorageExceptionType.unknown);
     }
   }
 }

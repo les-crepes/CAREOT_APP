@@ -75,3 +75,65 @@ class DatabaseException implements Exception {
   }
 }
 
+enum FileStorageExceptionType {
+  unknown,
+  objectNotFound,
+  bucketNotFound,
+  projectNotFound,
+  quotaExceeded,
+  unauthenticated,
+  unauthorized,
+  retryLimitExceeded,
+  invalidChecksum,
+  canceled,
+  invalidEventName,
+  invalidUrl,
+  invalidArgument,
+  noDefaultBucket,
+  cannotSliceBlob,
+  serverFileWrongSize,
+}
+
+/// Generic exception related to Storage. Check the error message for more details.
+class FileStorageException implements Exception {
+  FileStorageExceptionType exceptionType;
+  FileStorageException(this.exceptionType);
+
+  @override
+  String toString() {
+    switch (exceptionType) {
+      case FileStorageExceptionType.objectNotFound:
+        return "Object not found";
+      case FileStorageExceptionType.bucketNotFound:
+        return "Bucket not found";
+      case FileStorageExceptionType.projectNotFound:
+        return "Project not found";
+      case FileStorageExceptionType.quotaExceeded:
+        return "Quota exceeded";
+      case FileStorageExceptionType.unauthenticated:
+        return "Unauthenticated";
+      case FileStorageExceptionType.unauthorized:
+        return "Unauthorized";
+      case FileStorageExceptionType.retryLimitExceeded:
+        return "Retry limit exceeded";
+      case FileStorageExceptionType.invalidChecksum:
+        return "Invalid checksum";
+      case FileStorageExceptionType.canceled:
+        return "Canceled";
+      case FileStorageExceptionType.invalidEventName:
+        return "Invalid event name";
+      case FileStorageExceptionType.invalidUrl:
+        return "Invalid URL";
+      case FileStorageExceptionType.invalidArgument:
+        return "Invalid argument";
+      case FileStorageExceptionType.noDefaultBucket:
+        return "No default bucket";
+      case FileStorageExceptionType.cannotSliceBlob:
+        return "Cannot slice blob";
+      case FileStorageExceptionType.serverFileWrongSize:
+        return "Server file wrong size";
+      default:
+        return "Unknown error";
+    }
+  }
+}

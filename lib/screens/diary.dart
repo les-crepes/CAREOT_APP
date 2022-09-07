@@ -65,7 +65,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         builder: (context, child) {
           context.watch<MealProvider>().meals;
 
-          mealProvider = context.read<MealProvider>();
+          mealProvider = context.watch<MealProvider>();
           AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
           if (isAdmin) {

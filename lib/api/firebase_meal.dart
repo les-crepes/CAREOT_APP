@@ -95,12 +95,12 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
         .withConverter(
             fromFirestore: Meal.fromFirestore,
             toFirestore: (Meal meal, options) => meal.toFirestore())
-        .snapshots();
+        .snapshots(includeMetadataChanges: true);
 
-    return mealStream
-        .map((querySnapshot) => querySnapshot.docs)
-        .map((doc) => doc.map((e) => e.data()))
-        .cast();
+    final mealList = mealStream
+        .map((query) => query.docs)
+        .map((doc) => doc.map((querydoc) => querydoc.data()).toList());
+    return mealList;
   }
 
   @override
@@ -111,6 +111,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
             fromFirestore: Meal.fromFirestore,
             toFirestore: (Meal meal, options) => meal.toFirestore())
         .get();
+
     List<Meal> meals = m.docs.map((doc) => doc.data()).toList();
     return meals;
   }

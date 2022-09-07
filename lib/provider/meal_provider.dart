@@ -78,6 +78,7 @@ class MealProvider extends ChangeNotifier {
     if (_subscription != null) return;
 
     final subscription = _mealApi.followMeals(userId, date).listen((event) {
+      log(event.toString());
       _meals = event;
       notifyListeners();
     });

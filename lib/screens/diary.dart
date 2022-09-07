@@ -50,7 +50,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 
   List<Meal> _getEventsForDay(BuildContext context, DateTime day) {
-    return context.read<MealProvider>().meals;
+    return context.watch<MealProvider>().meals;
   }
 
   @override
@@ -65,12 +65,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
         builder: (context, child) {
           context.watch<MealProvider>().meals;
 
-          mealProvider = context.read<MealProvider>();
+          mealProvider = context.watch<MealProvider>();
           AuthProvider authProvider = GetIt.I.get<AuthProvider>();
 
           if (isAdmin) {
-            mealProvider.startNewDiaryListener(
-                widget._client!.uid, _selectedDate);
+            mealProvider.startNewDiaryListener(widget._client!.uid);
           }
 
           return LoadingOverlay(
@@ -78,11 +77,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
             child: Diary(
                 onDaySelected: (date) {
                   _selectedDate = date;
-                  if (isAdmin) {
-                    mealProvider.stopNewDiaryListener();
-                    mealProvider.startNewDiaryListener(
-                        widget._client!.uid, date);
-                  }
                 },
                 getDiariesForDay: (day) {
                   return _getEventsForDay(context, day);

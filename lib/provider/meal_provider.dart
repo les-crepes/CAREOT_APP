@@ -76,10 +76,10 @@ class MealProvider extends ChangeNotifier {
     return picUrl;
   }
 
-  void startNewDiaryListener(String userId, DateTime date) {
+  void startNewDiaryListener(String userId) {
     if (_subscription != null) return;
 
-    final subscription = _mealApi.followMeals(userId, date).listen((event) {
+    final subscription = _mealApi.followMeals(userId).listen((event) {
       _meals = event;
       notifyListeners();
     });

@@ -41,15 +41,19 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
 
   @override
   Future<List<Aftercare>> readAftercareOfClient(String clientId) async {
-    final querySnapshot = await collectionReference
-        .where('clientId', isEqualTo: clientId)
-        .withConverter(
-          fromFirestore: Aftercare.fromFirestore,
-          toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
-        ).get();
-    List<Aftercare> dietitians =
-        querySnapshot.docs.map((doc) => doc.data()).toList();
-    return dietitians;
+    try {
+      final querySnapshot = await collectionReference
+          .where('clientId', isEqualTo: clientId)
+          .withConverter(
+        fromFirestore: Aftercare.fromFirestore,
+        toFirestore: (Aftercare aftercare, _) => aftercare.toFirestore(),
+      ).get();
+      List<Aftercare> dietitians =
+      querySnapshot.docs.map((doc) => doc.data()).toList();
+      return dietitians;
+    } on FirebaseException catch (e) {
+      throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
+    }
   }
 
   @override

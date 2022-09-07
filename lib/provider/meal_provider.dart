@@ -54,9 +54,11 @@ class MealProvider extends ChangeNotifier {
   }
 
   Future<void> updateMeal(Meal meal, XFile? pic) async {
-    // Not really optimized to reload each time but is working
-    String? picUrl = await uploadMealPic(pic, meal.uid);
-    meal.photo = picUrl;
+    if (pic != null) {
+      String? picUrl = await uploadMealPic(pic, meal.uid);
+      meal.photo = picUrl;
+    }
+
     await _mealApi.updateMeal(meal);
     notifyListeners();
   }

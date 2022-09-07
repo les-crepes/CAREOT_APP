@@ -15,24 +15,24 @@ class FirebaseAPI {
     return firestore;
   }
 
-  StorageException getStorageExceptionFromCode(String code) {
+  DatabaseException getStorageExceptionFromCode(String code) {
     switch (code) {
       case 'cloud_firestore/not-found':
-        return StorageException(StorageExceptionType.notFound);
+        return DatabaseException(DatabaseExceptionType.notFound);
       case 'cloud_firestore/permission-denied':
-        return StorageException(StorageExceptionType.permissionDenied);
+        return DatabaseException(DatabaseExceptionType.permissionDenied);
       case 'cloud_firestore/aborted':
-        return StorageException(StorageExceptionType.aborted);
+        return DatabaseException(DatabaseExceptionType.aborted);
       case 'cloud_firestore/already-exists':
-        return StorageException(StorageExceptionType.alreadyExists);
+        return DatabaseException(DatabaseExceptionType.alreadyExists);
       case 'cloud_firestore/canceled':
-        return StorageException(StorageExceptionType.canceled);
+        return DatabaseException(DatabaseExceptionType.canceled);
       case 'cloud_firestore/deadline-exceeded':
-        return StorageException(StorageExceptionType.deadlineExceeded);
+        return DatabaseException(DatabaseExceptionType.deadlineExceeded);
       case 'cloud_firestore/unavailable':
-        return StorageException(StorageExceptionType.unavailable);
+        return DatabaseException(DatabaseExceptionType.unavailable);
       default:
-        return StorageException(StorageExceptionType.unknown);
+        return DatabaseException(DatabaseExceptionType.unknown);
     }
   }
 }

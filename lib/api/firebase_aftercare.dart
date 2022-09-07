@@ -37,7 +37,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
     if (aftercare != null) {
       return aftercare;
     } else {
-      throw StorageException(StorageExceptionType.notFound);
+      throw DatabaseException(DatabaseExceptionType.notFound);
     }
   }
 

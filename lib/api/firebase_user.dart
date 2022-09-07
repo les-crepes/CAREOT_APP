@@ -35,7 +35,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     if (user != null) {
       return user;
     }
-    throw StorageException(StorageExceptionType.notFound);
+    throw DatabaseException(DatabaseExceptionType.notFound);
   }
 
   @override

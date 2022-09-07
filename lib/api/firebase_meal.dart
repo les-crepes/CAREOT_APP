@@ -37,7 +37,7 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
     if (meal != null) {
       return meal;
     } else {
-      throw StorageException(StorageExceptionType.notFound);
+      throw DatabaseException(DatabaseExceptionType.notFound);
     }
   }
 

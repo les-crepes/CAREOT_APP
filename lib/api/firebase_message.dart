@@ -38,7 +38,7 @@ class FirebaseMessage extends FirebaseAPI implements IMessage {
     if (message != null) {
       return message;
     } else {
-      throw StorageException(StorageExceptionType.notFound);
+      throw DatabaseException(DatabaseExceptionType.notFound);
     }
   }
 

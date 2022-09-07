@@ -36,7 +36,7 @@ class AuthenticationException implements Exception {
   }
 }
 
-enum StorageExceptionType {
+enum DatabaseExceptionType {
   unknown,
   notFound,
   permissionDenied,
@@ -48,29 +48,30 @@ enum StorageExceptionType {
 }
 
 /// Generic exception related to Storage. Check the error message for more details.
-class StorageException implements Exception {
-  StorageExceptionType exceptionType;
-  StorageException(this.exceptionType);
+class DatabaseException implements Exception {
+  DatabaseExceptionType exceptionType;
+  DatabaseException(this.exceptionType);
 
   @override
   String toString() {
     switch (exceptionType) {
-      case StorageExceptionType.notFound:
+      case DatabaseExceptionType.notFound:
         return "Not found";
-      case StorageExceptionType.permissionDenied:
+      case DatabaseExceptionType.permissionDenied:
         return "Permission denied";
-      case StorageExceptionType.aborted:
+      case DatabaseExceptionType.aborted:
         return "Aborted";
-      case StorageExceptionType.alreadyExists:
+      case DatabaseExceptionType.alreadyExists:
         return "Already exists";
-      case StorageExceptionType.canceled:
+      case DatabaseExceptionType.canceled:
         return "Canceled";
-      case StorageExceptionType.deadlineExceeded:
+      case DatabaseExceptionType.deadlineExceeded:
         return "Deadline exceeded";
-      case StorageExceptionType.unavailable:
+      case DatabaseExceptionType.unavailable:
         return "Unavailable";
       default:
         return "Unknown error";
     }
   }
 }
+

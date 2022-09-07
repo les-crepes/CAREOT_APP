@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -55,7 +55,11 @@ class ClientProvider extends ChangeNotifier {
 
     _subscription =
         firebaseClient.followDietitianClientList(dietId).listen((event) {
+      log(event.toString());
+      _clients = event;
+      _filteredClients = event;
       notifyListeners();
+      log("notify");
     });
   }
 

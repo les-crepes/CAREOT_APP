@@ -97,7 +97,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
 
   @override
   Stream<List<User>> followDietitianClientList(String dietitianId) {
-    Future<List<User>> _lookForUser(List<dynamic> userIds) async {
+    Future<List<User>> lookForUser(List<dynamic> userIds) async {
       final futures = userIds.map((e) => readUser(e as String));
 
       return Future.wait(futures);
@@ -114,7 +114,7 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     final clientList = docSnapshot
         .map((doc) => doc.data())
         .map((user) => user!.clientList!)
-        .asyncMap(_lookForUser);
+        .asyncMap(lookForUser);
 
     return clientList;
   }

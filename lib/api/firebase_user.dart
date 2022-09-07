@@ -59,7 +59,8 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     final d = docSnapshot.data();
     final m =
         await collectionReference.where("uid", whereIn: d?.clientList).get();
-    List<User> clients = m.docs.map((doc) => User(
+    List<User> clients = m.docs
+        .map((doc) => User(
             birthDate: doc['birthDate'].toDate(),
             firstName: doc['firstName'],
             avs: doc['avs'],
@@ -92,5 +93,29 @@ class FirebaseUser extends FirebaseAPI implements IUser {
     final dietitian = await readUser(dietitianId);
     dietitian.addUser(userId);
     await updateUser(dietitian);
+  }
+
+  @override
+  Stream<List<User>> followDietitianClientList(String dietitianId) {
+    Future<List<User>> lookForUser(List<dynamic> userIds) async {
+      final futures = userIds.map((e) => readUser(e as String));
+
+      return Future.wait(futures);
+    }
+
+    Stream<DocumentSnapshot<User>> docSnapshot = collectionReference
+        .doc(dietitianId)
+        .withConverter(
+          fromFirestore: User.fromFirestore,
+          toFirestore: (User dietitian, _) => dietitian.toFirestore(),
+        )
+        .snapshots(includeMetadataChanges: true);
+    // final docSnapshot = docRef.snapshots();
+    final clientList = docSnapshot
+        .map((doc) => doc.data())
+        .map((user) => user!.clientList!)
+        .asyncMap(lookForUser);
+
+    return clientList;
   }
 }

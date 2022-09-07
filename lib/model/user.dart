@@ -13,8 +13,7 @@ class User implements IModel {
   String avs; // Swiss social security number
   String email;
   String? photoUrl; // URL of the user's profile picture
-  List<String>?
-      clientList; // List of clients of the user, if the user is a dietitian
+  List? clientList; // List of clients of the user, if the user is a dietitian
 
   /// Instantiates a new [User].
   /// If [uid] is not provided, a new one is generated.

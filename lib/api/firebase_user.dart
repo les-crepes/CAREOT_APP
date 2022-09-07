@@ -97,8 +97,8 @@ class FirebaseUser extends FirebaseAPI implements IUser {
 
   @override
   Stream<List<User>> followDietitianClientList(String dietitianId) {
-    Future<List<User>> _lookForUser(List<String> userIds) async {
-      final futures = userIds.map((e) => readUser(e));
+    Future<List<User>> _lookForUser(List<dynamic> userIds) async {
+      final futures = userIds.map((e) => readUser(e as String));
 
       return Future.wait(futures);
     }

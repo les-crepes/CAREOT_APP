@@ -77,10 +77,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
             child: Diary(
                 onDaySelected: (date) {
                   _selectedDate = date;
-                  // if (isAdmin) {
-                  //   mealProvider.stopNewDiaryListener();
-                  //   mealProvider.startNewDiaryListener(widget._client!.uid);
-                  // }
                 },
                 getDiariesForDay: (day) {
                   return _getEventsForDay(context, day);

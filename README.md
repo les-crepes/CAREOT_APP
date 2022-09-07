@@ -18,7 +18,10 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 
 ![Our Tech Stack](.github/app_showcase.jpg)
 
+## Sommaire
+
 -   [Careot](#careot)
+    -   [Sommaire](#sommaire)
     -   [Télécharger l'application](#télécharger-lapplication)
     -   [Build](#build)
     -   [Contribution](#contribution)

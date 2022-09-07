@@ -54,13 +54,13 @@ Il est possible que dans le futur une version IOS soit disponible donc tenez vou
 
 ## 🔨 Build
 
-Si vous souhaitez build l'application vous mêmes veuillez suivre les étapes ci-dessous:
+Si vous souhaitez build l'application vous-mêmes, veuillez suivre les étapes ci-dessous:
 
 1.  Installez [Flutter](https://docs.flutter.dev/get-started/install)
 2.  Clonez notre repository
 3.  `cd CAREOT_APP/`
 4.  `flutter pub get` Installer les dépendances
-5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executé cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place `flutter packages pub run build_runner watch`
+5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executer cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place `flutter packages pub run build_runner watch`
 6.  `flutter build apk --release` Build un apk en monde release
 
 ## 🤝 Contribution
@@ -154,13 +154,13 @@ Plongeons maintenant plus en détail dans le dossier /lib qui contient le code p
 
 ```
 1- api — Ce dossier contient les classes permettant de récupérer les données venant de l'éxtérieur(firebase).
-2- model — Ce dossier contient les différents models que nous utilisons.
+2- model — Ce dossier contient les différents modèles que nous utilisons.
 3- provider — Ce dossier contient nos provider. Ils contiennent la partie logique de l'app.
-4- router — Ce dossier contient l'arboressence de nos différent screens.
+4- router — Ce dossier contient l'arboressence de nos différents screens.
 5- screens — Ce dossier contient les classes qui assemblent nos différents éléments graphique.
 6- scripts — 
 7- widgets — Ce dossier contient tous les éléments graphiques.
-8- main.dart - Le point d'entré de notre application.
+8- main.dart - Le point d'entrée de notre application.
 ```
 
 ### 📚 Libraries & Outils utilisés

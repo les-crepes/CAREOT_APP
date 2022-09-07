@@ -12,6 +12,7 @@ import 'package:pdg_app/api/imeal.dart';
 import '../api/ifile.dart';
 import '../model/meal.dart';
 
+/// This class is used to manage meals.
 class MealProvider extends ChangeNotifier {
   final IMeal _mealApi = FirebaseMeal(FirebaseFirestore.instance);
   final String _uid;
@@ -25,10 +26,13 @@ class MealProvider extends ChangeNotifier {
 
   List<Meal> _meals = [];
 
+  /// Returns the list of meals.
   List<Meal> get meals => _meals;
 
+  /// Returns true if the meals are being fetched.
   bool get isFetching => _isFetching;
 
+  /// Fetches the meals from the database.
   Future<List<Meal>> fetchMeals() async {
     _isFetching = true;
     IMeal mealApi = FirebaseMeal(FirebaseFirestore.instance);
@@ -38,6 +42,7 @@ class MealProvider extends ChangeNotifier {
     return _meals;
   }
 
+  /// Get meals of a [date].
   List<Meal> getMealsByDay(DateTime date) {
     return meals.where((element) {
       return element.startTime.day == date.day &&
@@ -46,6 +51,7 @@ class MealProvider extends ChangeNotifier {
     }).toList();
   }
 
+  /// Adds a [meal] to the database with a [pic].
   Future<void> addMeal(Meal meal, XFile? pic) async {
     String? picUrl = await uploadMealPic(pic, meal.uid);
     meal.photo = picUrl;
@@ -53,6 +59,7 @@ class MealProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// updates a [meal] to the database with a [pic].
   Future<void> updateMeal(Meal meal, XFile? pic) async {
     if (pic != null) {
       String? picUrl = await uploadMealPic(pic, meal.uid);
@@ -63,7 +70,9 @@ class MealProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Return the meal pic URL
+  /// Upload a [pic] to the database for a [mealUid].
+  ///
+  /// Return the url of the picture.
   Future<String?> uploadMealPic(XFile? pic, String mealUid) async {
     String? picUrl;
     if (pic != null) {
@@ -76,6 +85,7 @@ class MealProvider extends ChangeNotifier {
     return picUrl;
   }
 
+  /// Listen for new Diary entries for a [userId].
   void startNewDiaryListener(String userId) {
     if (_subscription != null) return;
 

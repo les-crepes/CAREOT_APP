@@ -33,9 +33,9 @@ Si vous voulez directement construire l'application, il vous faudra installer la
 1.  Installez [Flutter](https://docs.flutter.dev/get-started/install)
 2.  Clonez notre repository
 3.  `cd CAREOT_APP/`
-4.  `flutter pub get`
-5.  `flutter packages pub run build_runner watch`
-6.  `flutter build apk --release`
+4.  `flutter pub get` Installer les dépendances
+5.  `flutter packages pub run build_runner build --delete-conflicting-outputs` Nous utilisons le package Auto_route qui génère automatiquement des fichiers. Si vous souhaitez ne pas executé cette commande à chaque modification du code source, vous pouvez alors utiliser cette commande à la place  `flutter packages pub run build_runner watch`
+6.  `flutter build apk --release`Build un apk en monde release
 
 ### Test
 

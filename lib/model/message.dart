@@ -11,6 +11,7 @@ class Message implements IModel {
   String toId; // Id of the receiver
   String content; // Content of the message
   String? fileUrl; // URL of the file attached to the message (if any)
+  int? fileSize; // Size of the file (in bytes) attached to the message (if any)
 
   /// Instantiates a new [Message].
   /// If [uid] is not provided, a new one is generated.
@@ -21,6 +22,7 @@ class Message implements IModel {
     required this.toId,
     required this.content,
     this.fileUrl,
+    this.fileSize,
   }) : uid = uid ?? const Uuid().v1();
 
   /// Instantiates a new [Message] from a Firebase [Map].
@@ -36,6 +38,7 @@ class Message implements IModel {
       toId: data?['toId'],
       content: data?['content'],
       fileUrl: data?['fileUrl'],
+      fileSize: data?['fileSize'],
     );
   }
 
@@ -48,12 +51,13 @@ class Message implements IModel {
       'toId': toId,
       'content': content,
       'fileUrl': fileUrl,
+      'fileSize': fileSize,
     };
   }
 
   @override
   String toString() {
-    return 'Message{$fromId $toId $content $fileUrl}';
+    return 'Message{$fromId $toId $content $fileUrl $fileSize}';
   }
 
   /// Set the [content] of the message to the given [newContent]

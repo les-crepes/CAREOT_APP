@@ -52,9 +52,9 @@ class FirebaseMeal extends FirebaseAPI implements IMeal {
   }
 
   @override
-  void deleteMeal(String mealId) {
+  Future<void> deleteMeal(String mealId) async {
     try {
-      collectionReference.doc(mealId).delete();
+      await collectionReference.doc(mealId).delete();
     } on FirebaseException catch (e) {
       throw FirebaseAPI.getDatabaseExceptionFromCode(e.code);
     }

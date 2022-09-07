@@ -55,11 +55,9 @@ class ClientProvider extends ChangeNotifier {
 
     _subscription =
         firebaseClient.followDietitianClientList(dietId).listen((event) {
-      log(event.toString());
       _clients = event;
       _filteredClients = event;
       notifyListeners();
-      log("notify");
     });
   }
 

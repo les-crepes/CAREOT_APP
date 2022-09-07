@@ -61,7 +61,6 @@ void main() {
 
   test("Update aftercare", () async {
     a1.setBmi(18);
-    aftercareApi.deleteAftercare(a1.uid);
     aftercareApi.updateAftercare(a1);
     final docSnapshot = await aftercares
         .doc(a1.uid)

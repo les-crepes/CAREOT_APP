@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:pdg_app/api/exceptions.dart';
 import 'package:pdg_app/api/iaftercare.dart';
 import 'package:pdg_app/model/aftercare.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,9 +21,8 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
                   aftercare.toFirestore())
           .doc(aftercare.uid)
           .set(aftercare);
-    } catch (e) {
-      log("Failed to add aftercare: $e");
-      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw super.getStorageExceptionFromCode(e.code);
     }
   }
 
@@ -37,8 +37,7 @@ class FirebaseAftercare extends FirebaseAPI implements IAftercare {
     if (aftercare != null) {
       return aftercare;
     } else {
-      log("Doc does not exist");
-      throw Error();
+      throw StorageException(StorageExceptionType.notFound);
     }
   }
 

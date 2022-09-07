@@ -5,6 +5,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/les-crepes/CAREOT_APP?color=orange)
 ![GitHub issues](https://img.shields.io/github/issues-raw/les-crepes/CAREOT_APP?color=orange)
 ![GitHub all releases](https://img.shields.io/github/downloads/les-crepes/CAREOT_APP/total?color=orange)
+<br />
+<br />
+<br />
 
 <p align="center">
   <img src=".github/logo.png" alt="Careot logo"/>

@@ -19,7 +19,7 @@ class CustomList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat format = DateFormat('d/m/yy');
+    DateFormat format = DateFormat('d/MM/yy');
     return Column(
       children: [
         StraightTopBar(title: _title),

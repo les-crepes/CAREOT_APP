@@ -51,7 +51,7 @@ class ChatProvider extends ChangeNotifier {
   UnmodifiableListView<MapEntry<User, Message>> getLastMessageOfEachUser() {
     final result =
         _messages.entries.where((element) => element.value.isNotEmpty).map((e) {
-      MapEntry<User, Message> entry = MapEntry(e.key, e.value.last);
+      MapEntry<User, Message> entry = MapEntry(e.key, e.value.first);
       return entry;
     }).toList();
     return UnmodifiableListView(result);

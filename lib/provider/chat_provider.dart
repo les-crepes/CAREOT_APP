@@ -15,8 +15,8 @@ import 'auth_provider.dart';
 
 typedef Uid = String;
 
+/// This class manage the chat data.
 class ChatProvider extends ChangeNotifier {
-  /// Getting the instance of the AuthProvider class.
   final AuthProvider _auth;
   final IMessage _messageApi = FirebaseMessage(FirebaseFirestore.instance);
   final IUser _userApi = FirebaseUser(FirebaseFirestore.instance);
@@ -38,6 +38,7 @@ class ChatProvider extends ChangeNotifier {
     return UnmodifiableListView([]);
   }
 
+  /// Fetch all messages containing files in a conversation with an [user]
   UnmodifiableListView<Message> getAllFilesOfConversation(User user) {
     final messages = _messages[user];
     if (messages != null) {

@@ -9,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../model/user.dart';
 
+/// This class is used to manage the Authentification.
 class AuthProvider extends ChangeNotifier {
   final Auth _auth;
   final IUser _userApi;
@@ -24,6 +25,9 @@ class AuthProvider extends ChangeNotifier {
         _userApi = clientApi,
         _fileApi = fileApi;
 
+  /// Fetched the initial values from database.
+  ///
+  /// It needs to be run at startup.
   Future<void> init() async {
     if (isConnected()) {
       final values = await Future.wait([

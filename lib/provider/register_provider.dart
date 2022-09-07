@@ -5,6 +5,7 @@ import 'package:pdg_app/widgets/loading_overlay.dart';
 
 import '../model/user.dart';
 
+/// This class manage the registration of a new user.
 class RegisterProvider extends ChangeNotifier {
   XFile? _profilePicture;
   final TextEditingController _firstnameController = TextEditingController();
@@ -40,6 +41,7 @@ class RegisterProvider extends ChangeNotifier {
   GlobalKey<FormState> get formPage2 => _formPage2;
   GlobalKey<FormState> get formPage3 => _formPage3;
 
+  /// Returns an [User] object with the data from the form.
   User createUser() {
     return User(
       firstName: _firstnameController.text,
@@ -65,10 +67,12 @@ class RegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Checks if the password and the confirm password are the same
   bool verifyPassword() {
     return _passwordController.text == _confirmPasswordController.text;
   }
 
+  /// Checks if the email is not used by another user.
   Future<bool> checkEmailValidity() async {
     return !(await connectionApi.checkIfEmailInUse(_emailController.text));
   }

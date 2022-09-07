@@ -54,9 +54,11 @@ class MealProvider extends ChangeNotifier {
   }
 
   Future<void> updateMeal(Meal meal, XFile? pic) async {
-    // Not really optimized to reload each time but is working
-    String? picUrl = await uploadMealPic(pic, meal.uid);
-    meal.photo = picUrl;
+    if (pic != null) {
+      String? picUrl = await uploadMealPic(pic, meal.uid);
+      meal.photo = picUrl;
+    }
+
     await _mealApi.updateMeal(meal);
     notifyListeners();
   }
@@ -74,10 +76,10 @@ class MealProvider extends ChangeNotifier {
     return picUrl;
   }
 
-  void startNewDiaryListener(String userId, DateTime date) {
+  void startNewDiaryListener(String userId) {
     if (_subscription != null) return;
 
-    final subscription = _mealApi.followMeals(userId, date).listen((event) {
+    final subscription = _mealApi.followMeals(userId).listen((event) {
       _meals = event;
       notifyListeners();
     });

@@ -59,7 +59,7 @@ class FirebaseFile implements IFile {
   }
 
   /// Convert a [FirebaseException] to a [FileStorageException].
-  FileStorageException getStorageExceptionFromCode(String code) {
+  static FileStorageException getStorageExceptionFromCode(String code) {
     switch (code) {
       case 'storage/object-not-found':
         return FileStorageException(FileStorageExceptionType.objectNotFound);

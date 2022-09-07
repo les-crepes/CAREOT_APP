@@ -190,16 +190,16 @@ class _AddMealScreenState extends State<AddMealScreen> {
           }
           AutoRouter.of(context).pop(Tuple2<Meal?, XFile?>(
               Meal(
-                uid: widget._meal!.uid,
-                title: _nameTextController.text,
-                startTime: selectedStartDate,
-                endTime: selectedEndDate,
-                hunger: _hungerBeforeValue.toInt(),
-                satiety: _hungerAfterValue.toInt(),
-                setting: _settingsController.text,
-                comment: _commentController.text,
-                owner: context.read<AuthProvider>().userUid,
-              ),
+                  uid: widget._meal!.uid,
+                  title: _nameTextController.text,
+                  startTime: selectedStartDate,
+                  endTime: selectedEndDate,
+                  hunger: _hungerBeforeValue.toInt(),
+                  satiety: _hungerAfterValue.toInt(),
+                  setting: _settingsController.text,
+                  comment: _commentController.text,
+                  owner: context.read<AuthProvider>().userUid,
+                  photo: widget._meal!.photo),
               _image));
         },
       ),

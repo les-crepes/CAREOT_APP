@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
       if (_image != null) {
         image = XFileImage(_image!);
       } else {
-        image = NetworkImage(widget._meal!.photo!);
+        image = CachedNetworkImageProvider(widget._meal!.photo!);
       }
     } else if (_image != null) {
       image = XFileImage(_image!);

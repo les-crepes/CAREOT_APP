@@ -92,7 +92,7 @@ Si vous voulez contribuer à notre projet, il faudra effectuer un fork de notre 
 7. Lancer les tests en local -> `flutter test`
 8. Lancer le linter -> `flutter analyze`
 9. Après validation, push sur la nouvelle branche dans la remote origin.
-10. Créer une Pull Request et attendre un review d'un pair
+10. Créer une Pull Request et attendre un review d'un pair. Dans le cas ou vous avez oublié de procéder à l'étape 7 et/ou 8, la pull request sera impossible si les vérifications échouent.
 11. Supprimer la branche après la fusion avec la branche principale (main)
 
 Pour plus d'informations, vous pouvez consulter notre [cahier des charge](https://github.com/les-crepes/.github/blob/main/cahier_charge.md)

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -293,7 +294,7 @@ class _CalendarBody extends StatelessWidget {
             ),
             child: ArrowPicCard(
               image: meals[index].photo != null
-                  ? NetworkImage(meals[index].photo!)
+                  ? CachedNetworkImageProvider(meals[index].photo!)
                   : null,
               defaultUserPic: AssetImage(defaultMealPic),
               title: Text(meals[index].title,

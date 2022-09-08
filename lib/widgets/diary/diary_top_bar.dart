@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/profile_avatar.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,8 @@ class DiaryTopBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             clientPicturePath != null
-                ? ProfileAvatar(image: NetworkImage(clientPicturePath!))
+                ? ProfileAvatar(
+                    image: CachedNetworkImageProvider(clientPicturePath!))
                 : ProfileAvatar(image: AssetImage(defaultUserPic)),
             const SizedBox(height: 15),
             Text(

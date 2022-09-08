@@ -11,7 +11,8 @@ class CustomCachedNetworkImage extends StatelessWidget {
       imageUrl: imageUrl,
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(value: downloadProgress.progress),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) =>
+          Image.asset('assets/images/default_user_pic.png'),
       imageBuilder: ((context, imageProvider) => Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,

@@ -40,6 +40,18 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
         -   [API](#api)
         -   [Frontend](#frontend)
 
+## Contexte
+Nous sommes une équipe motivées de 4 étudiants en dernière année de Bachelor. Nous sommes répartis en deux équipes:
+
+* Team Frontend: Chloé & Luca
+* Team Backend: Nelson & Olivier
+
+Ce projet s'inscrit dans le cadre de la HES d'été à la HEIG-VD d'Yverdon en 2022, durant laquelle nous devons développer une application pendant une durée de 3 semaines.
+
+Nous sommes en orientation logiciel sauf Olivier qui a opté pour la science des données. Mais nous avons tous une chose en commun, nous aimons les crêpes.
+
+La nourriture occupe une place importante dans notre processus de développement. L'idée de cette application a vu le jour à une crêpe party L'aventure a ensuite commencé autour d'une Babka. Il sera nécessaire de terminer avec une soirée crêpe!
+
 ## 🐣 Télécharger l'application
 
 Vous trouverez la version Android de l'application dans la section [release](https://github.com/les-crepes/CAREOT_APP/releases) de Github.

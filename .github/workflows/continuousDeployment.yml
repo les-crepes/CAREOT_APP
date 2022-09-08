@@ -33,7 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Careot release $${{ github.ref_name }}
+          name: Careot release ${{ github.ref_name }}
           files: | 
             build/app/outputs/apk/release/*.apk
       

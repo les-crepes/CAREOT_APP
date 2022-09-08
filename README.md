@@ -23,28 +23,30 @@ Jetez un oeil à [notre site](https://les-crepes.github.io/) pour une présentat
 
 ## 📕 Sommaire
 
--   [🥕 Careot](#-careot)
-    -   [📕 Sommaire](#-sommaire)
-    -   [🐣 Télécharger l'application](#-télécharger-lapplication)
-    -   [🔨 Build](#-build)
-    -   [🤝 Contribution](#-contribution)
-        -   [🤸‍♂️ Méthode de travail](#️-méthode-de-travail)
-        -   [🤖 Cacher les fichiers générés automatiquement](#-cacher-les-fichiers-générés-automatiquement)
-        -   [📶 Infrastructure](#-infrastructure)
-        -   [📂 Structure de dossiers](#-structure-de-dossiers)
-        -   [📚 Libraries & Outils utilisés](#-libraries--outils-utilisés)
-        -   [👀 Test](#-test)
-    -   [📖 Documentations suplémentaires](#-documentations-suplémentaires)
-        -   [Flutter](#flutter)
-        -   [Firebase](#firebase)
-        -   [API](#api)
-        -   [Frontend](#frontend)
+- [🥕 Careot](#-careot)
+  - [📕 Sommaire](#-sommaire)
+  - [💬 Contexte](#-contexte)
+  - [🐣 Télécharger l'application](#-télécharger-lapplication)
+  - [🔨 Build](#-build)
+  - [🤝 Contribution](#-contribution)
+    - [🤸‍♂️ Méthode de travail](#️-méthode-de-travail)
+    - [🤖 Cacher les fichiers générés automatiquement](#-cacher-les-fichiers-générés-automatiquement)
+    - [📶 Infrastructure](#-infrastructure)
+    - [📂 Structure de dossiers](#-structure-de-dossiers)
+    - [📚 Libraries & Outils utilisés](#-libraries--outils-utilisés)
+    - [👀 Test](#-test)
+  - [📖 Documentations suplémentaires](#-documentations-suplémentaires)
+    - [Flutter](#flutter)
+    - [Firebase](#firebase)
+    - [API](#api)
+    - [Frontend](#frontend)
 
-## Contexte
+## 💬 Contexte
+
 Nous sommes une équipe motivées de 4 étudiants en dernière année de Bachelor. Nous sommes répartis en deux équipes:
 
-* Team Frontend: Chloé & Luca
-* Team Backend: Nelson & Olivier
+-   Team Frontend: Chloé & Luca
+-   Team Backend: Nelson & Olivier
 
 Ce projet s'inscrit dans le cadre de la HES d'été à la HEIG-VD d'Yverdon en 2022, durant laquelle nous devons développer une application pendant une durée de 3 semaines.
 

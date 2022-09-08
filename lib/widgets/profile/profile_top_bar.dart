@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pdg_app/widgets/buttons/custom_icon_button.dart';
 import 'package:pdg_app/widgets/profile/top_shape.dart';
@@ -49,7 +50,8 @@ class ProfileTopBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               _clientPicturePath != null
-                  ? ProfileAvatar(image: NetworkImage(_clientPicturePath!))
+                  ? ProfileAvatar(
+                      image: CachedNetworkImageProvider(_clientPicturePath!))
                   : ProfileAvatar(image: AssetImage(_defaultUserPic)),
               const SizedBox(height: 8),
               Text(

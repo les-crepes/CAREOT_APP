@@ -23,6 +23,7 @@ import '../model/user.dart';
 import '../model/message.dart' as model;
 import '../provider/auth_provider.dart';
 import '../provider/chat_provider.dart';
+import '../widgets/custom_cached_network_image.dart';
 
 const double _topBarHeight = 80;
 
@@ -126,15 +127,13 @@ class _ChatScreenState extends State<ChatScreen> {
         AutoRouter.of(context).push(DocumentListScreenRoute(user: _otherUser));
       },
       onAttachementPressed: _handleAttachementPressed,
-      image: _otherUser.photoUrl != null
-          ? NetworkImage(_otherUser.photoUrl!)
-          : null,
+      image: _otherUser.photoUrl != null ? _otherUser.photoUrl! : null,
     );
   }
 }
 
 class ChatInterface extends StatefulWidget {
-  final ImageProvider? _image;
+  final String? _image;
   final String name;
   final types.User currentUser;
   final List<types.Message> messages;
@@ -150,7 +149,7 @@ class ChatInterface extends StatefulWidget {
     required this.messages,
     required this.onSendPressed,
     required this.onAttachementPressed,
-    ImageProvider? image,
+    String? image,
     this.onMessageTap,
     void Function()? onDocumentPressed,
     Key? key,
@@ -212,12 +211,12 @@ class TopBar extends StatelessWidget {
     Key? key,
     required this.name,
     required this.theme,
-    ImageProvider? image,
+    String? image,
     void Function()? onDocumentPressed,
   })  : _onDocumentPressed = onDocumentPressed,
         _image = image,
         super(key: key);
-  final ImageProvider? _image;
+  final String? _image;
   final String name;
   final ThemeData theme;
   final void Function()? _onDocumentPressed;
@@ -250,17 +249,10 @@ class TopBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 30,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: _image!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                )),
+              backgroundColor: Colors.white,
+              radius: 30,
+              child: CustomCachedNetworkImage(imageUrl: _image ?? ''),
+            ),
           ),
           Text(
             name,

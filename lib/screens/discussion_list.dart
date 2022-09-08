@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/chat_provider.dart';
 import '../router/router.gr.dart';
+import '../widgets/custom_cached_network_image.dart';
 import '../widgets/custom_list.dart';
 
 class DiscussionListScreen extends StatelessWidget {
@@ -22,21 +23,11 @@ class DiscussionListScreen extends StatelessWidget {
                 subtitle: e.value.content,
                 date: e.value.time,
                 avatar: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 35,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: (e.key.photoUrl != null
-                                  ? NetworkImage(e.key.photoUrl!)
-                                  : const AssetImage(
-                                      "assets/images/default_user_pic.png"))
-                              as ImageProvider<Object>,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )),
+                  backgroundColor: Colors.white,
+                  radius: 35,
+                  child:
+                      CustomCachedNetworkImage(imageUrl: e.key.photoUrl ?? ''),
+                ),
                 onTap: () {
                   AutoRouter.of(context)
                       .push(ChatScreenRoute(otherUser: e.key));

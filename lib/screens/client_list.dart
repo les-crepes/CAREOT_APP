@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pdg_app/model/user.dart';
@@ -163,7 +164,7 @@ class ScrollableClientList extends StatelessWidget {
                 defaultUserPic:
                     const AssetImage("assets/images/default_user_pic.png"),
                 image: _clients[index].photoUrl != null
-                    ? NetworkImage(_clients[index].photoUrl!)
+                    ? CachedNetworkImageProvider(_clients[index].photoUrl!)
                     : null,
               ),
             )),
